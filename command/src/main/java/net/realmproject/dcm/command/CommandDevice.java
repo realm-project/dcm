@@ -181,19 +181,42 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
             throw new IllegalArgumentException("Command not found: " + command.action);
         }
 
-        // case where 2+ arg method
-        if (method.getParameterCount() > 1) { throw new IllegalArgumentException("Invalid command function: "
-                + command.action); }
-
         beforeCommand(command);
 
-        if (method.getParameterCount() == 0) {
+        int argCount = method.getParameterCount();
+
+        if (argCount == 0) {
+
             // case where zero-arg method
             method.invoke(this, new Object[] {});
             return;
-        } else {
+
+        } else if (argCount == 1) {
+
             // case where 1-arg method
             method.invoke(this, CommandSerialize.convertMessage(command.arguments, method.getParameterTypes()[0]));
+
+        } else {
+
+            // case where >1-arg method
+            Object[] args = new Object[argCount];
+
+            // look up named arguments from top-level map. Then examine the
+            // parameter types, and attempt to convert the data for each
+            // argument to that type
+            for (int count = 0; count < argCount; count++) {
+                String paramName = method.getParameters()[count].getName();
+                if (!command.arguments.containsKey(paramName)) {
+                    continue;
+                }
+
+                Object arg = command.arguments.get(paramName);
+                args[count] = CommandSerialize.convertMessage(arg, method.getParameterTypes()[count]);
+
+            }
+
+            method.invoke(this, args);
+
         }
 
         afterCommand(command);

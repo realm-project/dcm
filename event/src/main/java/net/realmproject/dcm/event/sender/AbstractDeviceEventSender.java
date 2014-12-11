@@ -1,5 +1,6 @@
 package net.realmproject.dcm.event.sender;
 
+
 import net.realmproject.dcm.event.IDeviceEvent;
 
 
@@ -26,8 +27,12 @@ public abstract class AbstractDeviceEventSender implements DeviceEventSender {
     protected boolean send(IDeviceEvent event) {
         if (event == null) { return false; }
         if (!isSending()) { return false; }
+
         boolean result = doSend(event);
-        incrementSentEvents();
+        if (result) {
+            incrementSentEvents();
+        }
+
         return result;
     }
 

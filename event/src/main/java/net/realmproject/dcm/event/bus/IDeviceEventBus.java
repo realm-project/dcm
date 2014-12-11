@@ -80,6 +80,10 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
 
     @Override
     public synchronized boolean broadcast(IDeviceEvent event) {
+        if (event.isPrivateEvent() && !getRegion().equals(event.getRegion())) {
+            // private events from other regions will not be propagated
+            return false;
+        }
         return send(event);
     }
 

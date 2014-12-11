@@ -57,8 +57,21 @@ public interface DeviceEvent {
      * */
     void setRegion(String region);
 
+    /**
+     * Private events are events which are not meant to be propagated beyond the
+     * region they were emitted in. {@link DeviceEventBus} implementations
+     * should not broadcast private events from other regions.
+     * 
+     * @return true if this event is private, false otherwise.
+     */
     boolean isPrivateEvent();
 
+    /**
+     * Sets this event as private.
+     * 
+     * @param privateEvent
+     *            indicates if this event is private.
+     */
     void setPrivateEvent(boolean privateEvent);
 
 }

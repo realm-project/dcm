@@ -10,7 +10,7 @@ import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
 
 /**
  * Forwards events from one DeviceEventBus to another, applying the optional
- * filter to control which messages are allowed through
+ * filter to control which messages are allowed through.
  * 
  * @author NAS
  *
