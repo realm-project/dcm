@@ -3,11 +3,11 @@ package net.realmproject.dcm.event.filter.devicemessagetype;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.messaging.DeviceMessageType;
 
 
-public class DeviceMessageTypeFilter implements Predicate<DeviceEvent> {
+public class DeviceMessageTypeFilter implements Predicate<IDeviceEvent> {
 
     private DeviceMessageType type;
 
@@ -16,7 +16,7 @@ public class DeviceMessageTypeFilter implements Predicate<DeviceEvent> {
     }
 
     @Override
-    public boolean test(DeviceEvent t) {
+    public boolean test(IDeviceEvent t) {
         return t.getDeviceMessageType() == type;
     }
 

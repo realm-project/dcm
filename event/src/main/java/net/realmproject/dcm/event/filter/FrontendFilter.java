@@ -3,7 +3,7 @@ package net.realmproject.dcm.event.filter;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.messaging.DeviceMessageType;
 
 
@@ -14,10 +14,10 @@ import net.realmproject.dcm.messaging.DeviceMessageType;
  * @author NAS
  *
  */
-public class FrontendFilter implements Predicate<DeviceEvent> {
+public class FrontendFilter implements Predicate<IDeviceEvent> {
 
     @Override
-    public boolean test(DeviceEvent e) {
+    public boolean test(IDeviceEvent e) {
         DeviceMessageType type = e.getDeviceMessageType();
         return type == DeviceMessageType.VALUE_CHANGED;
     }

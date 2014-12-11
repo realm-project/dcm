@@ -3,7 +3,7 @@ package net.realmproject.dcm.event.filter;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.IDeviceEvent;
 
 
 /**
@@ -13,16 +13,16 @@ import net.realmproject.dcm.event.DeviceEvent;
  *
  */
 
-public class NegationFilter implements Predicate<DeviceEvent> {
+public class NegationFilter implements Predicate<IDeviceEvent> {
 
-    private Predicate<DeviceEvent> backer;
+    private Predicate<IDeviceEvent> backer;
 
-    public NegationFilter(Predicate<DeviceEvent> backer) {
+    public NegationFilter(Predicate<IDeviceEvent> backer) {
         this.backer = backer;
     }
 
     @Override
-    public boolean test(DeviceEvent t) {
+    public boolean test(IDeviceEvent t) {
         return !backer.test(t);
     }
 

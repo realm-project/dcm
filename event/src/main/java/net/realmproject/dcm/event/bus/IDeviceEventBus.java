@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DCMThreadPool;
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
 
 import org.apache.commons.logging.Log;
@@ -26,8 +26,8 @@ import org.apache.commons.logging.LogFactory;
 
 public class IDeviceEventBus extends AbstractDeviceEventSender implements DeviceEventBus {
 
-    private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
-    private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
+    private List<Consumer<IDeviceEvent>> consumers = new ArrayList<>();
+    private BlockingQueue<IDeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
 
     private String region = "";
     protected final Log log = LogFactory.getLog(getClass());
@@ -43,7 +43,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
 
             @Override
             public void run() {
-                DeviceEvent event = null;
+                IDeviceEvent event = null;
                 while (true) {
                     try {
                         System.out.println("waiting...");
@@ -57,7 +57,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                             event.setRegion(getRegion());
                         }
 
-                        for (Consumer<DeviceEvent> consumer : consumers) {
+                        for (Consumer<IDeviceEvent> consumer : consumers) {
                             consumer.accept(event);
                         }
                     }
@@ -79,16 +79,16 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     }
 
     @Override
-    public synchronized boolean broadcast(DeviceEvent event) {
+    public synchronized boolean broadcast(IDeviceEvent event) {
         return send(event);
     }
 
     @Override
-    public synchronized void subscribe(Consumer<DeviceEvent> subscriber) {
+    public synchronized void subscribe(Consumer<IDeviceEvent> subscriber) {
         consumers.add(subscriber);
     }
 
-    public final void subscribe(Consumer<DeviceEvent> subscriber, Predicate<DeviceEvent> filter) {
+    public final void subscribe(Consumer<IDeviceEvent> subscriber, Predicate<IDeviceEvent> filter) {
         subscribe(event -> {
             if (filter.test(event)) {
                 subscriber.accept(event);
@@ -97,9 +97,9 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     }
 
     @SafeVarargs
-    public final void subscribe(Consumer<DeviceEvent> subscriber, Predicate<DeviceEvent>... filters) {
+    public final void subscribe(Consumer<IDeviceEvent> subscriber, Predicate<IDeviceEvent>... filters) {
         subscribe(event -> {
-            for (Predicate<DeviceEvent> filter : filters) {
+            for (Predicate<IDeviceEvent> filter : filters) {
                 if (!filter.test(event)) { return; }
             }
             subscriber.accept(event);
@@ -111,7 +111,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     }
 
     @Override
-    protected boolean doSend(DeviceEvent event) {
+    protected boolean doSend(IDeviceEvent event) {
         return eventqueue.offer(event);
     }
 

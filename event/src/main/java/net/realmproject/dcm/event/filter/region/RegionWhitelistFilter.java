@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
 
@@ -17,7 +17,7 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
  *
  */
 
-public class RegionWhitelistFilter implements Predicate<DeviceEvent> {
+public class RegionWhitelistFilter implements Predicate<IDeviceEvent> {
 
     private List<String> whitelist;
 
@@ -31,7 +31,7 @@ public class RegionWhitelistFilter implements Predicate<DeviceEvent> {
     }
 
     @Override
-    public boolean test(DeviceEvent e) {
+    public boolean test(IDeviceEvent e) {
         return whitelist.contains(e.getRegion());
     }
 }

@@ -3,7 +3,7 @@ package net.realmproject.dcm.event.filter;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.IDeviceEvent;
 
 
 /**
@@ -13,10 +13,10 @@ import net.realmproject.dcm.event.DeviceEvent;
  *
  */
 
-public class AcceptFilter implements Predicate<DeviceEvent> {
+public class AcceptFilter implements Predicate<IDeviceEvent> {
 
     @Override
-    public boolean test(DeviceEvent t) {
+    public boolean test(IDeviceEvent t) {
         return true;
     }
 

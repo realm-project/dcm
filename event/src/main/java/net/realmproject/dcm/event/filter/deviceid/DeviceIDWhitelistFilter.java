@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.IDeviceEvent;
 
 
 /**
@@ -15,7 +15,7 @@ import net.realmproject.dcm.event.DeviceEvent;
  *
  */
 
-public class DeviceIDWhitelistFilter implements Predicate<DeviceEvent> {
+public class DeviceIDWhitelistFilter implements Predicate<IDeviceEvent> {
 
     List<String> ids;
 
@@ -29,7 +29,7 @@ public class DeviceIDWhitelistFilter implements Predicate<DeviceEvent> {
     }
 
     @Override
-    public boolean test(DeviceEvent e) {
+    public boolean test(IDeviceEvent e) {
         return ids.contains(e.getDeviceId());
     }
 
