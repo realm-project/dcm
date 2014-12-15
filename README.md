@@ -32,6 +32,6 @@ To isolate your devices from the variable loads put on web servers, you can sepa
 
 A few things to note:
 
- * Busses access MQ through Encoders and Decoders (not shown) which publish and subscribe to event busses.
+ * MQ is accessed through Encoders and Decoders (not shown) which publish and subscribe to event busses like any other component.
  * The message queuing server can be on a dedicted server, or reside on either of the machines shown.
 
