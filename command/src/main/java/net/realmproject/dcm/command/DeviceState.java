@@ -10,7 +10,7 @@ package net.realmproject.dcm.command;
 public class DeviceState {
 
     public enum Mode {
-        IDLE, BUSY, ERROR
+        IDLE, BUSY, ERROR, DISCONNECTED, UNKNOWN;
     }
 
     public Mode mode = Mode.IDLE;
