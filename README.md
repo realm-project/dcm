@@ -5,6 +5,13 @@ The Device Control Module is an event handling system designed to facilitate int
 
  * Low-level API for getting/setting device values
  * High-level API for issuing commands to devices
- * Hub-and-spoke event bus design for loose coupling
+ * Hub-and-spoke event bus for loose coupling
  * Support for event systems spanning many machines with message queuing
  * Built-in event filtering and device isolation
+
+Basic Layout
+---
+
+![Basic Layout](documentation/images/basic-layout.png)
+
+
