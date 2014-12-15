@@ -12,6 +12,6 @@ The Device Control Module is an event handling system designed to facilitate int
 Basic Layout
 ---
 
-![Basic Layout](documentation/images/basic-layout.png)
+![Basic Layout](documentation/images/layout-basic.png)
 
 
