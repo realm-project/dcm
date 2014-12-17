@@ -52,6 +52,8 @@ When events are published, they contain a null region field. When an event is fi
 Command Driven Devices (High-Level API)
 ---
 
+### CommandDevice
+
 The CommandDevice class provides an annotation-driven approach to designing device controllers which respond to a many different commands. 
 
 Subclassing CommandDevice allows your device to respond to Commands by annotating public methods with the @CommandMethod annotation. If no name is given with the annotation, the name of the Command will be the name of the method.
@@ -63,7 +65,31 @@ public void do_foo(T bar, S baz) {
 }
 ```
 
-Note: At present, data types accepted by CommandMethods must be classes with public fields. Scalar values, such as primitives, or Strings are not accepted. This is a known limitation, and will hopefully be eliminated in the future"
+Note: At present, data types accepted by CommandMethods must be classes with public fields. Scalar values, such as primitives, or Strings are not accepted. This is a known limitation, and will hopefully be eliminated in the future.
+
+### ConnectedCommandDevice
+
+The ConnectedCommandDevice class is meant for device controllers which must maintain a persistent connection of some sort to the device it is controlling. It requires the implementation of the following methods:
+
+```java
+protected abstract void connect();
+protected abstract void onConnect();
+protected abstract void onDisconnect(Exception exception);
+```
+
+The connect method should create a new connection to the device. If this connection is terminated, the disconnected method should be called, which will in turn call onDisconnect, and then attempt to create a new connection.
+
+onConnect and onDisconnect notify the subclass when a (dis)connection occurs.
+
+### HeartbeatCommandDevice
+
+If you require polling in order to determine if your connection is still alive, HeartbeatCommandDevice will handle some of the internals automatically. It builds on ConnectedCommandDevice, and requires the implementation of the following methods:
+
+```java
+public abstract boolean isDisconnected();
+```
+
+Where isDisconnected should test if the connection is still alive. If it is not, HeartbeatCommandDevice will begin the process of creating a new connection.
 
 Simple Get/Set Devices (Low-Level API)
 ---
