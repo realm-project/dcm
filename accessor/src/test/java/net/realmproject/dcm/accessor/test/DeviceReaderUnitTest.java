@@ -50,7 +50,7 @@ public class DeviceReaderUnitTest {
         deviceReaderState = deviceReader.getState();
         System.out.println("deviceReaderState after write: " + deviceReaderState);
 
-        assertEquals(command.arguments.get("message"), deviceReader.getState().get("message"));
+        assertEquals(message, deviceReader.getState().get("message"));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class DeviceReaderUnitTest {
         String id = "DeviceID";
         String message = "This is a test message!";
         String anotherMessage = "This is ANOTHER test message!";
-        
+
         Command command = new Command();
 
         DeviceEventBus bus = new IDeviceEventBus();
@@ -73,7 +73,7 @@ public class DeviceReaderUnitTest {
 
         command.action = "setMessage";
         command.arguments.put("msg", message);
-        
+
         deviceWriter.write(command);
 
         try {
@@ -83,7 +83,7 @@ public class DeviceReaderUnitTest {
         catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         command.arguments.put("msg", anotherMessage);
 
         deviceWriter.write(command);
@@ -95,13 +95,13 @@ public class DeviceReaderUnitTest {
         catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         deviceReaderState = deviceReader.getState();
         System.out.println("deviceReaderState after write: " + deviceReaderState);
 
-        assertEquals(command.arguments.get("anotherMessage"), deviceReader.getState().get("message"));
+        assertEquals(anotherMessage, deviceReader.getState().get("message"));
     }
-    
+
     @Test
     public void testDeviceReader3() {
         System.out.println("testDeviceReader3");
@@ -109,7 +109,7 @@ public class DeviceReaderUnitTest {
         String id = "DeviceID";
         String firstMessage = "This is FIRST test message!";
         String secondMessage = "This is SECOND test message!";
-        
+
         Command command = new Command();
 
         DeviceEventBus bus = new IDeviceEventBus();
@@ -123,7 +123,7 @@ public class DeviceReaderUnitTest {
         command.action = "setTwoMessages";
         command.arguments.put("message", firstMessage);
         command.arguments.put("secondMessage", secondMessage);
-        
+
         deviceWriter.write(command);
 
         try {
@@ -133,12 +133,12 @@ public class DeviceReaderUnitTest {
         catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         deviceReaderState = deviceReader.getState();
         System.out.println("deviceReaderState after write: " + deviceReaderState);
-        
+
         assertEquals(command.arguments.get("message"), deviceReader.getState().get("message"));
         assertEquals(command.arguments.get("secondMessage"), deviceReader.getState().get("secondMessage"));
     }
-    
+
 }
