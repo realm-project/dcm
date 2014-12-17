@@ -25,7 +25,7 @@ A few things to note:
 
  * Readers cache the state of a device to prevent a high volume of queries from negatively impacting the performance of a device.
  * All events contain a Device ID. This is the id of the device sending or receiving the event.
- * A Framework exist to make creating a device object simple, but anything which subscribes to an event bus can be used to control a device
+ * A framework exists to make creating a device controller simple, but anything which subscribes to an event bus can be made to control a device
  * More than one bus can be used. Events can be selectively forwarded to other busses. Be careful not to create cycles.
 
 ### Tiered Layout
@@ -51,6 +51,15 @@ When events are published, they contain a null region field. When an event is fi
 
 Command Driven Devices (High-Level API)
 ---
+
+The CommandDevice class provides an annotation-driven approach to designing device controllers which respond to a many different commands. Subclassing CommandDevice allows your device to respond to Commands by annotating public methods with the @CommandMethod annotation. If no name is given with the annotation, the name of the Command will be the name of the method.
+
+```java
+@CommandMethod("foo")
+public void do_foo(String bar) {
+	// ...
+}
+```
 
 Simple Get/Set Devices (Low-Level API)
 ---
