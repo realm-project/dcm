@@ -65,9 +65,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                 IDeviceEvent event = null;
                 while (true) {
                     try {
-                        System.out.println("waiting...");
                         event = eventqueue.take();
-                        System.out.println(event);
 
                         // only label event with our region if it hasn't already
                         // been set. relabelling of events should be a conscious

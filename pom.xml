@@ -5,7 +5,7 @@
   <groupId>net.realmproject</groupId>
   <artifactId>realm-dcm</artifactId>
   <name>realm-dcm</name>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
   <url>http://maven.apache.org</url>
   
