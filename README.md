@@ -65,11 +65,15 @@ public void do_foo(T bar, S baz) {
 }
 ```
 
+Commands can be issued with a DeviceWriter, or by setting a Command object as the payload in a DeviceEvent manually.
+
 Note: At present, data types accepted by CommandMethods must be classes with public fields. Scalar values, such as primitives, or Strings are not accepted. This is a known limitation, and will hopefully be eliminated in the future.
 
 ### ConnectedCommandDevice
 
-The ConnectedCommandDevice class is meant for device controllers which must maintain a persistent connection of some sort to the device it is controlling. It requires the implementation of the following methods:
+The ConnectedCommandDevice class is meant for device controllers which must maintain a persistent connection of some sort to the controlled device. 
+
+It requires the implementation of the following methods:
 
 ```java
 protected abstract void connect();
@@ -83,7 +87,9 @@ onConnect and onDisconnect notify the subclass when a (dis)connection occurs.
 
 ### HeartbeatCommandDevice
 
-If you require polling in order to determine if your connection is still alive, HeartbeatCommandDevice will handle some of the internals automatically. It builds on ConnectedCommandDevice, and requires the implementation of the following methods:
+If you require polling in order to determine if your connection is still alive, HeartbeatCommandDevice will handle some of the internals automatically. 
+
+It builds on ConnectedCommandDevice, and requires the implementation of the following methods:
 
 ```java
 public abstract boolean isDisconnected();
@@ -96,7 +102,9 @@ Simple Get/Set Devices (Low-Level API)
 
 ### SimpleDevice
 
-If you want to create your own method of interacting with device controllers, you can use the low-level API. The SimpleDevice class provides a base implementation of a device with an ID. It automatically subscribes to get/set events for it's own ID. Subclassing SimpleDevice allows you to publish and consume Java objects in an unstructured way. It requires the implementation of the following methods:
+If you want to create your own method of interacting with device controllers, you can use the low-level API. The SimpleDevice class provides a base implementation of a device with an ID. It automatically subscribes to get/set events for it's own ID. Subclassing SimpleDevice allows you to publish and consume Java objects in an unstructured way. 
+
+It requires the implementation of the following methods:
 
 ```java
 public abstract Object getValue();
