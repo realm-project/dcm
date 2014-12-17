@@ -22,6 +22,7 @@ A few things to note:
  * Readers cache the state of a device to prevent a high volume of queries from negatively impacting the performance of a device.
  * All events contain a Device ID. This is the id of the device sending or receiving the event.
  * A Framework exist to make creating a device object simple, but anything which subscribes to an event bus can be used to control a device
+ * More than one bus can be used. Events can be selectively forwarded to other busses. Be careful not to create cycles.
 
 Tiered Layout
 ---
@@ -35,3 +36,8 @@ A few things to note:
  * MQ is accessed through Encoders and Decoders (not shown) which publish and subscribe to event busses like any other component.
  * The message queuing server can be on a dedicted server, or reside on either of the machines shown.
 
+
+Multi-device Layout
+---
+
+You may have several different devices which are logically related, but which may reside on different machines. To accommodate this, the Device Control Module supports the notion of Regions. A region is a property of an event bus, and more than one bus may share a region name. When events are published, they contain a null retion field. The bus that an event is first published to will set the region, after which, other busses the event passes through will not. This allows you to filter events coming in and out of any given bus by region, so that region-specific events can be forwarded to related busses.
