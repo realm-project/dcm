@@ -17,22 +17,32 @@
  * 
  */
 
-package net.realmproject.dcm.device.catalog;
+package net.realmproject.dcm.event.filter.composite;
 
 
-import java.util.Map;
+import java.util.function.Predicate;
 
-import net.realmproject.dcm.device.Device;
+import net.realmproject.dcm.event.IDeviceEvent;
 
 
 /**
- * @author maxweld
+ * DeviceEvent filter which returns the negation of a given filter
+ * 
+ * @author NAS
  *
  */
-public interface DeviceCatalogImpl {
 
-    public Device getDevice(String deviceId);
+public class BooleanNotFilter implements Predicate<IDeviceEvent> {
 
-    public Map<String, Device> getDevicesById();
+    private Predicate<IDeviceEvent> backer;
+
+    public BooleanNotFilter(Predicate<IDeviceEvent> backer) {
+        this.backer = backer;
+    }
+
+    @Override
+    public boolean test(IDeviceEvent t) {
+        return !backer.test(t);
+    }
 
 }
