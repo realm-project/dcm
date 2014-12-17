@@ -25,6 +25,15 @@ public abstract class Device extends IDeviceEventBusSender {
     }
 
     /**
+     * Gets the id of this device
+     * 
+     * @return the id of this device
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
      * Gets the current value of this device
      * 
      * @return the value of this device
@@ -46,15 +55,6 @@ public abstract class Device extends IDeviceEventBusSender {
      *            The value to set this device to
      */
     public abstract void setValue(Object val);
-
-    /**
-     * Gets the id of this device
-     * 
-     * @return the id of this device
-     */
-    public String getId() {
-        return id;
-    }
 
     /**
      * Publish the state of this Device as a {@link IDeviceEvent}
