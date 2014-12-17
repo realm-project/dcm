@@ -52,14 +52,18 @@ When events are published, they contain a null region field. When an event is fi
 Command Driven Devices (High-Level API)
 ---
 
-The CommandDevice class provides an annotation-driven approach to designing device controllers which respond to a many different commands. Subclassing CommandDevice allows your device to respond to Commands by annotating public methods with the @CommandMethod annotation. If no name is given with the annotation, the name of the Command will be the name of the method.
+The CommandDevice class provides an annotation-driven approach to designing device controllers which respond to a many different commands. 
+
+Subclassing CommandDevice allows your device to respond to Commands by annotating public methods with the @CommandMethod annotation. If no name is given with the annotation, the name of the Command will be the name of the method.
 
 ```java
 @CommandMethod("foo")
-public void do_foo(String bar) {
+public void do_foo(T bar, S baz) {
 	// ...
 }
 ```
+
+Note: At present, data types accepted by CommandMethods must be classes with public fields. Scalar values, such as primitives, or Strings are not accepted. This is a known limitation, and will hopefully be eliminated in the future"
 
 Simple Get/Set Devices (Low-Level API)
 ---
