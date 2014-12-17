@@ -94,3 +94,40 @@ Where isDisconnected should test if the connection is still alive. If it is not,
 Simple Get/Set Devices (Low-Level API)
 ---
 
+### SimpleDevice
+
+If you want to create your own method of interacting with device controllers, you can use the low-level API. The SimpleDevice class provides a base implementation of a device with an ID. It automatically subscribes to get/set events for it's own ID. Subclassing SimpleDevice allows you to publish and consume Java objects in an unstructured way. It requires the implementation of the following methods:
+
+```java
+public abstract Object getValue();
+public abstract void setValue(Object val);
+```
+
+### Starting From Scratch
+
+If you want to work at an even lower level, producing and consuming DeviceEvent objects directly, you can create your own class which interacts with a DeviceEventBus directly. A simple examine of such a class is shown below.
+
+```java
+
+public class CustomDevice {
+	
+	String id;
+	DeviceEventBus bus;
+
+	public CustomDevice(String id, DeviceEventBus bus) {
+		this.id = id;
+		this.bus = bus;
+		bus.subscribe(this::onEvent, new BooleanAndFilter(
+			new DeviceIDWhitelistFilter(getId()), 
+			new BackendFilter()
+		));
+	}
+
+	private void onEvent(DeviceEvent e) {
+		// process events here
+	};
+
+}
+
+```
+
