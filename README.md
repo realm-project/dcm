@@ -40,4 +40,8 @@ A few things to note:
 Multi-device Layout
 ---
 
-You may have several different devices which are logically related, but which may reside on different machines. To accommodate this, the Device Control Module supports the notion of Regions. A region is a property of an event bus, and more than one bus may share a region name. When events are published, they contain a null retion field. The bus that an event is first published to will set the region, after which, other busses the event passes through will not. This allows you to filter events coming in and out of any given bus by region, so that region-specific events can be forwarded to related busses.
+You may have several different devices which are logically related, but which may reside on different machines. To accommodate this, the Device Control Module supports the notion of Regions. A region is a property of an event bus, and more than one bus may share a region name. 
+
+![Network Layout](documentation/images/layout-network.png)
+
+When events are published, they contain a null retion field. The bus that an event is first published to will set the region, after which, other busses the event passes through will not. This allows you to filter events coming in and out of any given bus by region, so that region-specific events can be forwarded to related busses.
