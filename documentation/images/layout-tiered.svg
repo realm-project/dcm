@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="346.40221"
-     inkscape:cy="475.53185"
+     inkscape:zoom="0.7071068"
+     inkscape:cx="8.011557"
+     inkscape:cy="454.05279"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1016"
@@ -173,7 +173,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -196,7 +196,7 @@
        rx="15.000001"
        y="324.69553"
        x="0"
-       height="200.81833"
+       height="172.53406"
        width="410.12192"
        id="rect7506"
        style="color:#000000;fill:#d6b797;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
@@ -224,40 +224,31 @@
          style="fill:none;stroke:#80909a;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:url(#Arrow2Mend6)" />
     </g>
     <g
-       id="g7538"
-       transform="translate(0,-43)">
-      <path
-         inkscape:connector-curvature="0"
-         id="path7454"
-         d="m 184.436,43.979099 -1.6e-4,46.18439"
-         style="fill:none;stroke:#80909a;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:url(#Arrow2MendQ)"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:none;stroke:#80909a;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:url(#Arrow2MendQ)"
-         d="M 224.56415,94.210979 224.564,48.026589"
-         id="path7456"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="cc" />
-    </g>
-    <g
-       id="g7542"
-       transform="translate(0,-259.54909)">
-      <path
-         sodipodi:nodetypes="cc"
-         style="fill:none;stroke:#80909a;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:url(#Arrow2MendQ)"
-         d="m 184.436,43.979099 -1.6e-4,154.420991"
-         id="path7544"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
-       transform="translate(0,-151.31285)"
+       transform="translate(-19.503116,-151.31285)"
        id="g7548">
       <path
-         style="fill:none;stroke:#80909a;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:url(#Arrow2MendQ)"
-         d="M 224.56415,94.210979 224.564,-60.21015"
+         style="fill:none;stroke:#80909a;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:none"
+         d="M 224.56415,111.18154 224.564,-82.837566"
          id="path7552"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cc" />
+    </g>
+    <g
+       id="g12467"
+       transform="translate(-1.461377e-4,0)">
+      <path
+         sodipodi:nodetypes="cccc"
+         transform="translate(0,-400)"
+         inkscape:connector-curvature="0"
+         id="path12463"
+         d="m 47.73,442.96669 0,-46.66894 c 0,-18.2213 9.902569,-25.45575 26.790218,-25.45575 l 76.447072,0"
+         style="fill:none;stroke:#80909a;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         style="fill:none;stroke:#80909a;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 362.39221,42.96669 0,-46.66894 c 0,-18.2213 -9.90257,-25.45575 -26.79022,-25.45575 l -76.44707,0"
+         id="path12465"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccc" />
     </g>
   </g>
   <g
@@ -343,54 +334,6 @@
            sodipodi:role="line">Bus</tspan></text>
     </g>
     <g
-       transform="translate(-45.499992,-178.05741)"
-       id="g7458">
-      <rect
-         style="color:#000000;fill:#f1e1bd;fill-opacity:1;fill-rule:nonzero;stroke:#504b68;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect7460"
-         width="165.21428"
-         height="45.5"
-         x="167.39285"
-         y="879.61218"
-         rx="15.000001"
-         ry="14.999999" />
-      <text
-         xml:space="preserve"
-         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#35213e;fill-opacity:1;stroke:none;font-family:Helvetica Neue;-inkscape-font-specification:Helvetica Neue"
-         x="249.07581"
-         y="910.79816"
-         id="text7462"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           id="tspan7464"
-           x="249.07581"
-           y="910.79816">Bus</tspan></text>
-    </g>
-    <g
-       id="g7466"
-       transform="translate(-45.499992,-70.557398)">
-      <rect
-         ry="14.999999"
-         rx="15.000001"
-         y="879.61218"
-         x="167.39285"
-         height="45.5"
-         width="165.21428"
-         id="rect7468"
-         style="color:#000000;fill:#f1e1bd;fill-opacity:1;fill-rule:nonzero;stroke:#504b68;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <text
-         sodipodi:linespacing="125%"
-         id="text7470"
-         y="910.79816"
-         x="249.07581"
-         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#35213e;fill-opacity:1;stroke:none;font-family:Helvetica Neue;-inkscape-font-specification:Helvetica Neue"
-         xml:space="preserve"><tspan
-           y="910.79816"
-           x="249.07581"
-           id="tspan7472"
-           sodipodi:role="line">Device</tspan></text>
-    </g>
-    <g
        id="g7522"
        transform="translate(-45.499992,-286.37824)">
       <rect
@@ -423,6 +366,86 @@
        sodipodi:linespacing="125%"
        transform="translate(0,352.36218)"><tspan
          sodipodi:role="line"
-         id="tspan7705"></tspan></text>
+         id="tspan7705" /></text>
+    <g
+       id="g12448"
+       transform="translate(0,-1.2950152)">
+      <g
+         id="g7458"
+         transform="translate(-45.499992,-178.05741)">
+        <rect
+           ry="14.999999"
+           rx="15.000001"
+           y="879.61218"
+           x="167.39285"
+           height="45.5"
+           width="165.21428"
+           id="rect7460"
+           style="color:#000000;fill:#f1e1bd;fill-opacity:1;fill-rule:nonzero;stroke:#504b68;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+        <text
+           sodipodi:linespacing="125%"
+           id="text7462"
+           y="910.79816"
+           x="249.07581"
+           style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#35213e;fill-opacity:1;stroke:none;font-family:Helvetica Neue;-inkscape-font-specification:Helvetica Neue"
+           xml:space="preserve"><tspan
+             y="910.79816"
+             x="249.07581"
+             id="tspan7464"
+             sodipodi:role="line">Bus</tspan></text>
+      </g>
+      <g
+         transform="translate(2.560961,-26.870057)"
+         id="g12438">
+        <g
+           id="g7466"
+           transform="translate(-147.20205,-70.557398)">
+          <rect
+             ry="14.999999"
+             rx="15.000001"
+             y="879.61218"
+             x="167.39285"
+             height="45.5"
+             width="165.21428"
+             id="rect7468"
+             style="color:#000000;fill:#f1e1bd;fill-opacity:1;fill-rule:nonzero;stroke:#504b68;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+          <text
+             sodipodi:linespacing="125%"
+             id="text7470"
+             y="910.79816"
+             x="249.07581"
+             style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#35213e;fill-opacity:1;stroke:none;font-family:Helvetica Neue;-inkscape-font-specification:Helvetica Neue"
+             xml:space="preserve"><tspan
+               y="910.79816"
+               x="249.07581"
+               id="tspan7472"
+               sodipodi:role="line">Device</tspan></text>
+        </g>
+        <g
+           transform="translate(52.202061,-70.557398)"
+           id="g12430">
+          <rect
+             style="color:#000000;fill:#f1e1bd;fill-opacity:1;fill-rule:nonzero;stroke:#504b68;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+             id="rect12432"
+             width="165.21428"
+             height="45.5"
+             x="167.39285"
+             y="879.61218"
+             rx="15.000001"
+             ry="14.999999" />
+          <text
+             xml:space="preserve"
+             style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#35213e;fill-opacity:1;stroke:none;font-family:Helvetica Neue;-inkscape-font-specification:Helvetica Neue"
+             x="249.07581"
+             y="910.79816"
+             id="text12434"
+             sodipodi:linespacing="125%"><tspan
+               sodipodi:role="line"
+               id="tspan12436"
+               x="249.07581"
+               y="910.79816">Device</tspan></text>
+        </g>
+      </g>
+    </g>
   </g>
 </svg>
