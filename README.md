@@ -113,7 +113,7 @@ public abstract void setValue(Object val);
 
 ### Starting From Scratch
 
-If you want to work at an even lower level, producing and consuming DeviceEvent objects directly, you can create your own class which interacts with a DeviceEventBus directly. A simple examine of such a class is shown below.
+If you want to work at an even lower level, producing and consuming DeviceEvent objects directly, you can create your own class which interacts with a DeviceEventBus directly. A simple example of such a class is shown below.
 
 ```java
 
