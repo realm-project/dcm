@@ -31,6 +31,7 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.BackendFilter;
 import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
 import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
+import net.realmproject.dcm.util.DCMSerialize;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -138,14 +139,14 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
 
     @Override
     public final Map<String, Serializable> getValue() {
-        return CommandSerialize.structToMap(getState());
+        return DCMSerialize.structToMap(getState());
     }
 
     @Override
     public synchronized final void setValue(Object o) {
 
         try {
-            Command command = CommandSerialize.convertMessage(o, Command.class);
+            Command command = DCMSerialize.convertMessage(o, Command.class);
             onCommand(command);
         }
         catch (InterruptedException e) {
@@ -188,7 +189,7 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
     private final void onCommand(Command command) throws Exception {
 
         getLog().info("Device " + getId() + " received command: " + command.action);
-        getLog().debug(getId() + ":" + command.action + ":" + CommandSerialize.serialize(command.arguments));
+        getLog().debug(getId() + ":" + command.action + ":" + DCMSerialize.serialize(command.arguments));
 
         // Look up method for command
         Method method = findCommandMethod(command.action);
@@ -213,7 +214,7 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
         } else if (argCount == 1) {
 
             // case where 1-arg method
-            method.invoke(this, CommandSerialize.convertMessage(command.arguments, method.getParameterTypes()[0]));
+            method.invoke(this, DCMSerialize.convertMessage(command.arguments, method.getParameterTypes()[0]));
 
         } else {
 
@@ -230,7 +231,7 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
                 }
 
                 Object arg = command.arguments.get(paramName);
-                args[count] = CommandSerialize.convertMessage(arg, method.getParameterTypes()[count]);
+                args[count] = DCMSerialize.convertMessage(arg, method.getParameterTypes()[count]);
 
             }
 

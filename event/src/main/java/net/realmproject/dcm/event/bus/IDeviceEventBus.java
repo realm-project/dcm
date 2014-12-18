@@ -27,9 +27,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DCMThreadPool;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
+import net.realmproject.dcm.util.DCMThreadPool;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

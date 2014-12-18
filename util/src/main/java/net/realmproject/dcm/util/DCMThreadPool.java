@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.event;
+package net.realmproject.dcm.util;
 
 
 import java.util.concurrent.Executors;

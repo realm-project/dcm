@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import net.realmproject.dcm.accessor.impl.IDeviceWriter;
 import net.realmproject.dcm.command.Command;
-import net.realmproject.dcm.command.CommandSerialize;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
+import net.realmproject.dcm.util.DCMSerialize;
 import net.realmproject.util.RealmSerialize;
 
 public class DeviceWriterUnitTest {
@@ -26,7 +26,7 @@ public class DeviceWriterUnitTest {
 		bus.subscribe(event -> {
             Serializable value = event.getValue();
             // System.out.println("2 " + testDevice.getValue().toString());
-            System.out.println("1 " + CommandSerialize.serialize(value));
+            System.out.println("1 " + DCMSerialize.serialize(value));
         });
 		
 		String label = deviceWriter.write(command);
@@ -48,7 +48,7 @@ public class DeviceWriterUnitTest {
 		bus.subscribe(event -> {
             Serializable value = event.getValue();
             // System.out.println("2 " + testDevice.getValue().toString());
-            System.out.println("1 " + CommandSerialize.serialize(value));
+            System.out.println("1 " + DCMSerialize.serialize(value));
         });
 		
 		String label = deviceWriter.write(command);

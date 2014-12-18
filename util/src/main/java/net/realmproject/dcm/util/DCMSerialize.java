@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.command;
+package net.realmproject.dcm.util;
 
 
 import java.io.Serializable;
@@ -36,7 +36,7 @@ import flexjson.transformer.AbstractTransformer;
  * @author NAS
  *
  */
-public class CommandSerialize {
+public class DCMSerialize {
 
     public static Map<String, Serializable> structToMap(Object o) {
         Object o2 = deserialize(serialize(o));

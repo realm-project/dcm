@@ -27,5 +27,6 @@
     <module>accessor</module>
     <module>command</module>
     <module>event</module>
+    <module>util</module>
   </modules>
 </project>

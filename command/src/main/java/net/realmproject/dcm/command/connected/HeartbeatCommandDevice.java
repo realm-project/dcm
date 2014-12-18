@@ -24,8 +24,8 @@ import java.util.concurrent.TimeUnit;
 
 import net.realmproject.dcm.command.CommandDevice;
 import net.realmproject.dcm.command.DeviceState;
-import net.realmproject.dcm.event.DCMThreadPool;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.util.DCMThreadPool;
 
 
 /**

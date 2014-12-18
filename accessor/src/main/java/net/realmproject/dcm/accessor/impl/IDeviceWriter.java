@@ -25,10 +25,10 @@ import java.io.Serializable;
 import net.realmproject.dcm.accessor.DeviceRecorder;
 import net.realmproject.dcm.accessor.DeviceWriter;
 import net.realmproject.dcm.command.Command;
-import net.realmproject.dcm.command.CommandSerialize;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessageType;
+import net.realmproject.dcm.util.DCMSerialize;
 
 
 public class IDeviceWriter implements DeviceWriter {
@@ -72,7 +72,7 @@ public class IDeviceWriter implements DeviceWriter {
         IDeviceEvent event;
 
         if (type == DeviceMessageType.VALUE_SET) {
-            event = new IDeviceEvent(type, deviceId, (Serializable) CommandSerialize.structToMap(command));
+            event = new IDeviceEvent(type, deviceId, (Serializable) DCMSerialize.structToMap(command));
         } else {
             event = new IDeviceEvent(type, deviceId);
         }
