@@ -3,10 +3,10 @@ Device Control Module
 
 The Device Control Module is an event handling system designed to facilitate interaction with physical devices. Some of it's features include:
 
- * Distributed event bus for loose coupling
+ * Bus-based design for loose coupling
+ * Support for bus topology spanning many machines with message queuing 
  * High-level API for issuing commands to devices
  * Low-level API for getting/setting device values
- * Support for event systems spanning many machines with message queuing
  * Designed with web services in mind
  * Built-in event filtering and device isolation
 
