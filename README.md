@@ -3,10 +3,10 @@ Device Control Module
 
 The Device Control Module is an event handling system designed to facilitate interaction with physical devices. Some of it's features include:
 
- * Hub-and-spoke event bus for loose coupling
+ * Bus-based design for loose coupling
+ * Support for bus topology spanning many machines with message queuing 
  * High-level API for issuing commands to devices
  * Low-level API for getting/setting device values
- * Support for event systems spanning many machines with message queuing
  * Designed with web services in mind
  * Built-in event filtering and device isolation
 
@@ -113,7 +113,7 @@ public abstract void setValue(Object val);
 
 ### Starting From Scratch
 
-If you want to work at an even lower level, producing and consuming DeviceEvent objects directly, you can create your own class which interacts with a DeviceEventBus directly. A simple examine of such a class is shown below.
+If you want to work at an even lower level, producing and consuming DeviceEvent objects directly, you can create your own class which interacts with a DeviceEventBus directly. A simple example of such a class is shown below.
 
 ```java
 
