@@ -6,7 +6,7 @@
   <parent>
     <groupId>net.realmproject</groupId>
     <artifactId>realm-dcm</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <artifactId>realm-dcm-command</artifactId>
   <name>realm-dcm-command</name>
@@ -26,7 +26,7 @@
 	<dependency>
 		<groupId>net.realmproject</groupId>
 		<artifactId>realm-dcm-device</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0</version>
 	</dependency>
   </dependencies>
   <build>

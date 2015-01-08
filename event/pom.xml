@@ -6,13 +6,12 @@
   <parent>
     <groupId>net.realmproject</groupId>
     <artifactId>realm-dcm</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <artifactId>realm-dcm-event</artifactId>
   <name>realm-dcm-event</name>
   <groupId>net.realmproject</groupId>
   
-  <version>0.0.1-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,12 +31,12 @@
     <dependency>
     	<groupId>net.realmproject</groupId>
     	<artifactId>realm-dcm-messaging</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
+    	<version>1.0</version>
     </dependency>
     <dependency>
     	<groupId>net.realmproject</groupId>
     	<artifactId>realm-dcm-util</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
+    	<version>1.0</version>
     </dependency>
   </dependencies>
   <build>
