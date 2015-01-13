@@ -29,12 +29,12 @@ import net.realmproject.dcm.command.Command;
 public class DummyDeviceRecorder implements DeviceRecorder {
 
     @Override
-    public String recordCommand(String deviceId, Command command) {
+    public String recordCommand(Command command) {
         return null;
     }
 
     @Override
-    public String recordState(String deviceId, Serializable state) {
+    public String recordState(Serializable state) {
         return null;
     }
 

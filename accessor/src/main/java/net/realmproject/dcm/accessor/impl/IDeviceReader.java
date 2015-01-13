@@ -57,11 +57,6 @@ public class IDeviceReader extends LinkedHashMap<String, Serializable> implement
 
     public void handleEvent(DeviceEvent event) {
 
-        String targetId = event.getDeviceId();
-
-        // only accept on events for this device
-        // if (!id.equals(targetId)) return;
-
         // will we ever have the issue where messages arrive out of order? What
         // if they contain different key->value mappings?
         if (event.getTimestamp() != null && event.getTimestamp().after(timestamp)) {
@@ -74,7 +69,7 @@ public class IDeviceReader extends LinkedHashMap<String, Serializable> implement
         Map<String, Serializable> state = (Map<String, Serializable>) event.getValue();
         putAll(state);
 
-        recorder.recordState(id, this);
+        recorder.recordState(this);
     }
 
     @Override

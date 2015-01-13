@@ -56,7 +56,7 @@ public class IDeviceWriter implements DeviceWriter {
     public String write(Command command) {
         String label = null;
         if (command.record) {
-            label = recorder.recordCommand(id, command);
+            label = recorder.recordCommand(command);
         }
         send(getDeviceId(), bus, DeviceMessageType.VALUE_SET, command);
         return label;

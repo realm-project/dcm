@@ -27,8 +27,8 @@ import net.realmproject.dcm.command.Command;
 
 public interface DeviceRecorder {
 
-    String recordCommand(String deviceId, Command values);
+    String recordCommand(Command values);
 
-    String recordState(String deviceId, Serializable state);
+    String recordState(Serializable state);
 
 }
