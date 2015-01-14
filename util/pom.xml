@@ -5,13 +5,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>net.realmproject</groupId>
+		<groupId>net.realmproject.dcm</groupId>
 		<artifactId>realm-dcm</artifactId>
 		<version>1.0</version>
 	</parent>
 	<artifactId>realm-dcm-util</artifactId>
 	<name>realm-dcm-util</name>
-	<groupId>net.realmproject</groupId>
+	<groupId>net.realmproject.dcm</groupId>
 
 	<url>http://maven.apache.org</url>
 	<properties>

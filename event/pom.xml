@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>net.realmproject</groupId>
+    <groupId>net.realmproject.dcm</groupId>
     <artifactId>realm-dcm</artifactId>
     <version>1.0</version>
   </parent>
   <artifactId>realm-dcm-event</artifactId>
   <name>realm-dcm-event</name>
-  <groupId>net.realmproject</groupId>
+  <groupId>net.realmproject.dcm</groupId>
   
   <url>http://maven.apache.org</url>
   <properties>
@@ -29,12 +29,12 @@
     	<version>1.1.3</version>
     </dependency>
     <dependency>
-    	<groupId>net.realmproject</groupId>
+    	<groupId>net.realmproject.dcm</groupId>
     	<artifactId>realm-dcm-messaging</artifactId>
     	<version>1.0</version>
     </dependency>
     <dependency>
-    	<groupId>net.realmproject</groupId>
+    	<groupId>net.realmproject.dcm</groupId>
     	<artifactId>realm-dcm-util</artifactId>
     	<version>1.0</version>
     </dependency>

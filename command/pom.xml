@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>net.realmproject</groupId>
+    <groupId>net.realmproject.dcm</groupId>
     <artifactId>realm-dcm</artifactId>
     <version>1.0</version>
   </parent>
   <artifactId>realm-dcm-command</artifactId>
   <name>realm-dcm-command</name>
-  <groupId>net.realmproject</groupId>
+  <groupId>net.realmproject.dcm</groupId>
 
   <url>http://maven.apache.org</url>
   <properties>
@@ -24,7 +24,7 @@
 		<scope>test</scope>
 	</dependency>
 	<dependency>
-		<groupId>net.realmproject</groupId>
+		<groupId>net.realmproject.dcm</groupId>
 		<artifactId>realm-dcm-device</artifactId>
 		<version>1.0</version>
 	</dependency>

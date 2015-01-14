@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.realmproject</groupId>
+  <groupId>net.realmproject.dcm</groupId>
   <artifactId>realm-dcm</artifactId>
   <name>realm-dcm</name>
   <version>1.0</version>
@@ -22,11 +22,11 @@
     </dependency>
   </dependencies>
   <modules>
-    <module>device</module>
     <module>messaging</module>
+    <module>event</module>
+    <module>device</module>
     <module>accessor</module>
     <module>command</module>
-    <module>event</module>
     <module>util</module>
   </modules>
 </project>
