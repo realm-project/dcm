@@ -28,5 +28,6 @@
     <module>accessor</module>
     <module>command</module>
     <module>util</module>
+    <module>stock</module>
   </modules>
 </project>

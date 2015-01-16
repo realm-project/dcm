@@ -24,8 +24,8 @@ import net.realmproject.dcm.device.Device;
 
 
 /**
- * Common interface for any class/interface acting as a go-between from a
- * {@link Device} to
+ * Common interface for any class/interface acting as a go-between for a
+ * {@link Device}
  * 
  * @author NAS
  *
