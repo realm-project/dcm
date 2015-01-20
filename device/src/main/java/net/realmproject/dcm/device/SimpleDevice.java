@@ -23,13 +23,13 @@ package net.realmproject.dcm.device;
 import java.io.Serializable;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceMessageType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
 import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
 import net.realmproject.dcm.event.filter.devicemessagetype.ValueGetFilter;
 import net.realmproject.dcm.event.filter.devicemessagetype.ValueSetFilter;
-import net.realmproject.dcm.messaging.DeviceMessageType;
 
 
 public abstract class SimpleDevice extends Device {

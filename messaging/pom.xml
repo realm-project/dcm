@@ -10,8 +10,6 @@
   </parent>
   <artifactId>realm-dcm-messaging</artifactId>
   <name>realm-dcm-messaging</name>
-  <groupId>net.realmproject.dcm</groupId>
-
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,6 +30,11 @@
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-jms</artifactId>
     	<version>4.0.1.RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>net.realmproject.dcm</groupId>
+    	<artifactId>realm-dcm-event</artifactId>
+    	<version>1.0</version>
     </dependency>
   </dependencies>
   <build>

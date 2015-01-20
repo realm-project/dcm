@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.event.messaging;
+package net.realmproject.dcm.messaging.impl;
 
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;

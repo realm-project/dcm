@@ -16,7 +16,7 @@
  * DCM. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package net.realmproject.dcm.messaging;
+package net.realmproject.dcm.event;
 
 
 /**

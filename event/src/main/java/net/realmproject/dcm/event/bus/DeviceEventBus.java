@@ -24,8 +24,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.IDeviceEvent;
-import net.realmproject.dcm.event.messaging.AbstractDeviceMessageEncoder;
-import net.realmproject.dcm.event.messaging.DeviceMessageDecoder;
 import net.realmproject.dcm.event.sender.DeviceEventSender;
 
 

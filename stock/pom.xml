@@ -11,8 +11,6 @@
 	</parent>
 	<artifactId>realm-dcm-stock</artifactId>
 	<name>realm-dcm-stock</name>
-	<groupId>net.realmproject.dcm</groupId>
-
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

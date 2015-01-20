@@ -38,6 +38,7 @@ import flexjson.transformer.AbstractTransformer;
  */
 public class DCMSerialize {
 
+    @SuppressWarnings("unchecked")
     public static Map<String, Serializable> structToMap(Object o) {
         Object o2 = deserialize(serialize(o));
         if (!(o2 instanceof Map)) o = Collections.singletonMap("value", o);

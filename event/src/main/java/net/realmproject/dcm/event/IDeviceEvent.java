@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.messaging.DeviceMessageType;
 
 
 /**

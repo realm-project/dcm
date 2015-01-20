@@ -10,8 +10,6 @@
   </parent>
   <artifactId>realm-dcm-command</artifactId>
   <name>realm-dcm-command</name>
-  <groupId>net.realmproject.dcm</groupId>
-
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -10,8 +10,6 @@
   </parent>
   <artifactId>realm-dcm-accessor</artifactId>
   <name>realm-dcm-accessor</name>
-  <groupId>net.realmproject.dcm</groupId>
-  
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

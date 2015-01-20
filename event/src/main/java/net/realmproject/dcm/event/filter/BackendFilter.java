@@ -22,8 +22,8 @@ package net.realmproject.dcm.event.filter;
 
 import java.util.function.Predicate;
 
+import net.realmproject.dcm.event.DeviceMessageType;
 import net.realmproject.dcm.event.IDeviceEvent;
-import net.realmproject.dcm.messaging.DeviceMessageType;
 
 
 /**

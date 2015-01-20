@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.event.messaging;
+package net.realmproject.dcm.messaging.impl;
 
 
 import java.io.Serializable;
@@ -25,10 +25,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceMessageType;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageSender;
-import net.realmproject.dcm.messaging.DeviceMessageType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

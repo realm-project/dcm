@@ -22,10 +22,10 @@ package net.realmproject.dcm.device;
 
 import java.io.Serializable;
 
+import net.realmproject.dcm.event.DeviceMessageType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBusSender;
-import net.realmproject.dcm.messaging.DeviceMessageType;
 
 
 public abstract class Device extends IDeviceEventBusSender {

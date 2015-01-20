@@ -17,18 +17,18 @@
  * 
  */
 
-package net.realmproject.dcm.event.messaging;
+package net.realmproject.dcm.messaging.impl;
 
 
 import java.util.function.Predicate;
 
+import net.realmproject.dcm.event.DeviceMessageType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBusSender;
 import net.realmproject.dcm.event.filter.AcceptFilter;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageReceiver;
-import net.realmproject.dcm.messaging.DeviceMessageType;
 
 
 /**

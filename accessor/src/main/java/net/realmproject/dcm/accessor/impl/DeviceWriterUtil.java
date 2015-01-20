@@ -25,9 +25,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.realmproject.dcm.event.DeviceMessageType;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageSender;
-import net.realmproject.dcm.messaging.DeviceMessageType;
 
 
 public class DeviceWriterUtil {
