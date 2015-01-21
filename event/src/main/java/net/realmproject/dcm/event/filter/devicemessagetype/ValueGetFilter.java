@@ -20,13 +20,13 @@
 package net.realmproject.dcm.event.filter.devicemessagetype;
 
 
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 
 
 public class ValueGetFilter extends DeviceMessageTypeFilter {
 
     public ValueGetFilter() {
-        super(DeviceMessageType.VALUE_GET);
+        super(DeviceEventType.VALUE_GET);
     }
 
 }

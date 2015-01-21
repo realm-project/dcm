@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageSender;
@@ -53,7 +53,7 @@ public abstract class AbstractDeviceMessageEncoder implements DeviceMessageSende
     @SuppressWarnings("unchecked")
     public void transmit(DeviceEvent deviceEvent) {
 
-        if (deviceEvent.getDeviceMessageType() != DeviceMessageType.VALUE_CHANGED) {
+        if (deviceEvent.getDeviceMessageType() != DeviceEventType.VALUE_CHANGED) {
             log.warn("DeviceEvent type is not handled.");
             return;
         }
@@ -78,7 +78,7 @@ public abstract class AbstractDeviceMessageEncoder implements DeviceMessageSende
         deviceMessage.setValue(valueMap);
         deviceMessage.setDeviceId(deviceEvent.getDeviceId());
         deviceMessage.setTimestamp(deviceEvent.getTimestamp());
-        deviceMessage.setDeviceMessageType(DeviceMessageType.VALUE_CHANGED);
+        deviceMessage.setDeviceMessageType(DeviceEventType.VALUE_CHANGED);
 
         send(deviceMessage);
 

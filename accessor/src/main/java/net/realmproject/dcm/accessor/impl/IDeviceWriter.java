@@ -25,7 +25,7 @@ import java.io.Serializable;
 import net.realmproject.dcm.accessor.DeviceRecorder;
 import net.realmproject.dcm.accessor.DeviceWriter;
 import net.realmproject.dcm.command.Command;
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.util.DCMSerialize;
@@ -58,20 +58,20 @@ public class IDeviceWriter implements DeviceWriter {
         if (command.record) {
             label = recorder.recordCommand(command);
         }
-        send(getDeviceId(), bus, DeviceMessageType.VALUE_SET, command);
+        send(getDeviceId(), bus, DeviceEventType.VALUE_SET, command);
         return label;
     }
 
     static boolean query(String deviceId, DeviceEventBus bus) {
-        return send(deviceId, bus, DeviceMessageType.VALUE_GET, null);
+        return send(deviceId, bus, DeviceEventType.VALUE_GET, null);
     }
 
-    private static boolean send(String deviceId, DeviceEventBus bus, DeviceMessageType type, Command command) {
+    private static boolean send(String deviceId, DeviceEventBus bus, DeviceEventType type, Command command) {
         if (bus == null) return false;
 
         IDeviceEvent event;
 
-        if (type == DeviceMessageType.VALUE_SET) {
+        if (type == DeviceEventType.VALUE_SET) {
             event = new IDeviceEvent(type, deviceId, (Serializable) DCMSerialize.structToMap(command));
         } else {
             event = new IDeviceEvent(type, deviceId);

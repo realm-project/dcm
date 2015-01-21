@@ -22,15 +22,15 @@ package net.realmproject.dcm.event.filter.devicemessagetype;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 
 
 public class DeviceMessageTypeFilter implements Predicate<IDeviceEvent> {
 
-    private DeviceMessageType type;
+    private DeviceEventType type;
 
-    public DeviceMessageTypeFilter(DeviceMessageType type) {
+    public DeviceMessageTypeFilter(DeviceEventType type) {
         this.type = type;
     }
 

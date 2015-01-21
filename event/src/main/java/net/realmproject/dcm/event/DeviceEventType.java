@@ -23,6 +23,6 @@ package net.realmproject.dcm.event;
  * @author maxweld
  *
  */
-public enum DeviceMessageType {
+public enum DeviceEventType {
     VALUE_CHANGED, VALUE_GET, VALUE_SET
 }

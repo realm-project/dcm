@@ -25,18 +25,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageSender;
 
 
 public class DeviceWriterUtil {
 
-    public static boolean send(String deviceId, DeviceMessageSender sender, DeviceMessageType type) {
+    public static boolean send(String deviceId, DeviceMessageSender sender, DeviceEventType type) {
         return send(deviceId, sender, type, new HashMap<String, Serializable>());
     }
 
-    public static boolean send(String deviceId, DeviceMessageSender sender, DeviceMessageType type,
+    public static boolean send(String deviceId, DeviceMessageSender sender, DeviceEventType type,
             Map<? extends String, ? extends Serializable> values) {
         if (sender == null) return false;
 

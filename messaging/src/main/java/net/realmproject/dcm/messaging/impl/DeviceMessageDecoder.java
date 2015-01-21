@@ -22,7 +22,7 @@ package net.realmproject.dcm.messaging.impl;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBusSender;
@@ -54,7 +54,7 @@ public class DeviceMessageDecoder extends IDeviceEventBusSender implements Devic
     @Override
     public void receive(DeviceMessage<?> deviceMessage) {
 
-        DeviceMessageType type = deviceMessage.getDeviceMessageType();
+        DeviceEventType type = deviceMessage.getDeviceMessageType();
         IDeviceEvent deviceEvent = new IDeviceEvent(type, deviceMessage.getDeviceId(), deviceMessage.getValue());
 
         if (!filter.test(deviceEvent)) { return; }

@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 
 
 /**
@@ -40,7 +40,7 @@ public class DeviceMessage<T extends Serializable & Map<String, Serializable>> i
     private static final long serialVersionUID = 1L;
 
     private String deviceId;
-    private DeviceMessageType deviceMessageType;
+    private DeviceEventType deviceMessageType;
 
     private T value;
 
@@ -55,11 +55,11 @@ public class DeviceMessage<T extends Serializable & Map<String, Serializable>> i
         this.deviceId = deviceId;
     }
 
-    public DeviceMessageType getDeviceMessageType() {
+    public DeviceEventType getDeviceMessageType() {
         return deviceMessageType;
     }
 
-    public void setDeviceMessageType(DeviceMessageType deviceMessageType) {
+    public void setDeviceMessageType(DeviceEventType deviceMessageType) {
         this.deviceMessageType = deviceMessageType;
     }
 

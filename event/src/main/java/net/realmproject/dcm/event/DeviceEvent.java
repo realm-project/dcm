@@ -40,7 +40,7 @@ public interface DeviceEvent {
      * 
      * @return the type of this event
      */
-    DeviceMessageType getDeviceMessageType();
+    DeviceEventType getDeviceMessageType();
 
     /**
      * Gets the payload of this event

@@ -22,7 +22,7 @@ package net.realmproject.dcm.device;
 
 import java.io.Serializable;
 
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBusSender;
@@ -73,6 +73,6 @@ public abstract class Device extends IDeviceEventBusSender {
      * Publish the state of this Device as a {@link IDeviceEvent}
      */
     public void publish() {
-        send(new IDeviceEvent(DeviceMessageType.VALUE_CHANGED, id, (Serializable) getValue()));
+        send(new IDeviceEvent(DeviceEventType.VALUE_CHANGED, id, (Serializable) getValue()));
     }
 }

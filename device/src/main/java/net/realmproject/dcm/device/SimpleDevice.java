@@ -23,7 +23,7 @@ package net.realmproject.dcm.device;
 import java.io.Serializable;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
@@ -45,7 +45,7 @@ public abstract class SimpleDevice extends Device {
     }
 
     private void onGet(DeviceEvent e) {
-        send(new IDeviceEvent(DeviceMessageType.VALUE_CHANGED, getId(), (Serializable) getValue()));
+        send(new IDeviceEvent(DeviceEventType.VALUE_CHANGED, getId(), (Serializable) getValue()));
     }
 
 }

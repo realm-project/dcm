@@ -22,7 +22,7 @@ package net.realmproject.dcm.event.filter;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceMessageType;
+import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 
 
@@ -38,8 +38,8 @@ public class BackendFilter implements Predicate<IDeviceEvent> {
 
     @Override
     public boolean test(IDeviceEvent e) {
-        DeviceMessageType type = e.getDeviceMessageType();
-        return type == DeviceMessageType.VALUE_GET || type == DeviceMessageType.VALUE_SET;
+        DeviceEventType type = e.getDeviceMessageType();
+        return type == DeviceEventType.VALUE_GET || type == DeviceEventType.VALUE_SET;
     }
 
 }

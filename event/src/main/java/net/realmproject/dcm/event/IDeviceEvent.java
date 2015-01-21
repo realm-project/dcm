@@ -52,7 +52,7 @@ public class IDeviceEvent implements Serializable, DeviceEvent {
     /**
      * The type of event/message
      */
-    private DeviceMessageType type;
+    private DeviceEventType type;
 
     /**
      * The value or payload of this event
@@ -85,7 +85,7 @@ public class IDeviceEvent implements Serializable, DeviceEvent {
      * @param deviceId
      *            The id of the originating device
      */
-    public IDeviceEvent(DeviceMessageType type, String deviceId) {
+    public IDeviceEvent(DeviceEventType type, String deviceId) {
         this(type, deviceId, null, new Date());
     }
 
@@ -99,7 +99,7 @@ public class IDeviceEvent implements Serializable, DeviceEvent {
      * @param value
      *            the payload for this event
      */
-    public IDeviceEvent(DeviceMessageType type, String deviceId, Serializable value) {
+    public IDeviceEvent(DeviceEventType type, String deviceId, Serializable value) {
         this(type, deviceId, value, new Date());
     }
 
@@ -115,7 +115,7 @@ public class IDeviceEvent implements Serializable, DeviceEvent {
      * @param timestamp
      *            The timestamp this event was issued at
      */
-    public IDeviceEvent(DeviceMessageType type, String deviceId, Serializable value, Date timestamp) {
+    public IDeviceEvent(DeviceEventType type, String deviceId, Serializable value, Date timestamp) {
         this.deviceId = deviceId;
         this.type = type;
         this.value = value;
@@ -128,7 +128,7 @@ public class IDeviceEvent implements Serializable, DeviceEvent {
     }
 
     @Override
-    public DeviceMessageType getDeviceMessageType() {
+    public DeviceEventType getDeviceMessageType() {
         return type;
     }
 
