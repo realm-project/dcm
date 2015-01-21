@@ -19,22 +19,24 @@ public class IDeviceAutoPinger extends IDevicePinger {
     public IDeviceAutoPinger(String id, DeviceEventBus bus) {
         super(id, bus);
 
-        DCMThreadPool.getPool().scheduleAtFixedRate(this::logPing, 10, 10, TimeUnit.SECONDS);
+        DCMThreadPool.getPool().scheduleAtFixedRate(this::logPing, 2, 1, TimeUnit.SECONDS);
 
     }
 
     private void logPing() {
 
         try {
-            Future<Long> future = pingAndWait(10000);
+            Future<Long> future = pingAndWait(100000);
             Long response = future.get();
+            String msg;
             if (response == null) {
-                // There wasn't a response to ping
-                // TODO: Handle this better
-                return;
+                msg = "Failed to ping device " + getDeviceId();
+            } else {
+                msg = "Ping time for device " + getDeviceId() + " is " + response + " ms";
             }
 
-            log.debug("Ping time for device " + getDeviceId() + " is " + response + " ms");
+            log.debug(msg);
+            System.out.println(msg);
 
         }
         catch (InterruptedException | ExecutionException e) {

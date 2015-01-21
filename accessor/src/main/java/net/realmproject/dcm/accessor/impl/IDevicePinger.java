@@ -12,6 +12,8 @@ import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
+import net.realmproject.dcm.event.filter.deviceeventtype.PongFilter;
+import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
@@ -53,42 +55,53 @@ public class IDevicePinger implements DevicePinger {
     @Override
     public Future<Long> pingAndWait(long timeout) {
 
-        return DCMThreadPool.getPool().submit(() -> {
+        return DCMThreadPool.getPool().submit(
+                () -> {
 
-            /* Our very own monitor */
-            PingResponse response = new PingResponse();
-            long t1, t2;
+                    /* Our very own monitor */
+                    PingResponse response = new PingResponse();
+                    long t1, t2;
 
-            t1 = new Date().getTime();
+                    t1 = new Date().getTime();
 
-            /* grab the monitor */
-            synchronized (response) {
-
-                UUID uuid = UUID.randomUUID();
-                Predicate<DeviceEvent> filter = new BooleanAndFilter();
-
-                bus.subscribe(event -> {
-                    /* grab the monitor to make sure ping is waiting */
+                    /* grab the monitor */
                     synchronized (response) {
-                        response.responded = true;
-                        this.notifyAll();
+
+                        UUID uuid = UUID.randomUUID();
+                        Predicate<DeviceEvent> filter = new BooleanAndFilter(
+                                new DeviceIDWhitelistFilter(getDeviceId()), new PongFilter());
+
+                        /*
+                         * Set up the bus subscription to listen for the
+                         * response BEFORE we send the ping
+                         */
+                        bus.subscribe(event -> {
+                            /* Test to make sure the UUIDs match */
+                            if (!event.getValue().equals(uuid)) { return; }
+                            /* grab the monitor to make sure ping is waiting */
+                            synchronized (response) {
+                                response.responded = true;
+                                response.notifyAll();
+                            }
+
+                        }, filter);
+
+                        /* Send the ping after setting up the response listener */
+                        ping(uuid);
+
+                        /* release the monitor and wait to be notified */
+                        response.wait(timeout);
+
+                        if (response.responded) {
+                            t2 = new Date().getTime();
+                            return t2 - t1;
+                        } else {
+                            return null;
+                        }
+
                     }
 
-                }, filter);
-
-                ping(uuid);
-                /* release the monitor and wait to be signaled */
-                response.wait(timeout);
-                if (response.responded) {
-                    t2 = new Date().getTime();
-                    return t2 - t1;
-                } else {
-                    return null;
-                }
-
-            }
-
-        });
+                });
 
     }
 
