@@ -24,6 +24,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Thread pool for handling event transmission asynchronously
@@ -32,6 +35,8 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class DCMThreadPool {
+
+    private static Log log = LogFactory.getLog(DCMThreadPool.class);
 
     private static ScheduledExecutorService pool = Executors.newScheduledThreadPool(5);
 
@@ -42,21 +47,28 @@ public class DCMThreadPool {
     public static void stop() {
 
         pool.shutdown();
+        boolean success;
 
         try {
-            System.out.println(pool.awaitTermination(1, TimeUnit.SECONDS));
+            success = pool.awaitTermination(1, TimeUnit.SECONDS);
+            if (!success) {
+                log.warn("Orderly shutdown of threadpool failed");
+            }
         }
         catch (InterruptedException e) {
-            e.printStackTrace();
+            log.warn("Orderly shutdown of threadpool failed", e);
         }
 
         pool.shutdownNow();
 
         try {
-            System.out.println(pool.awaitTermination(10, TimeUnit.SECONDS));
+            success = pool.awaitTermination(10, TimeUnit.SECONDS);
+            if (!success) {
+                log.warn("Forced shutdown of threadpool failed");
+            }
         }
         catch (InterruptedException e) {
-            e.printStackTrace();
+            log.warn("Forced shutdown of threadpool failed", e);
         }
 
     }

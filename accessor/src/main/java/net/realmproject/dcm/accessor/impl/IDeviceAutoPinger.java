@@ -36,7 +36,6 @@ public class IDeviceAutoPinger extends IDevicePinger {
             }
 
             log.debug(msg);
-            System.out.println(msg);
 
         }
         catch (InterruptedException | ExecutionException e) {
