@@ -20,12 +20,12 @@
 package net.realmproject.dcm.event.bus;
 
 
-import net.realmproject.dcm.event.IDeviceEvent;
+import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
 
 
 /**
- * Abstract base class for anything which sends {@link IDeviceEvent}s onto a
+ * Abstract base class for anything which sends {@link DeviceEvent}s onto a
  * {@link DeviceEventBus}
  * 
  * @author NAS, maxweld
@@ -40,7 +40,7 @@ public abstract class IDeviceEventBusSender extends AbstractDeviceEventSender {
         startSending();
     }
 
-    protected boolean doSend(IDeviceEvent event) {
+    protected boolean doSend(DeviceEvent event) {
         return bus.broadcast(event);
     }
 

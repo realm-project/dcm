@@ -22,7 +22,7 @@ package net.realmproject.dcm.event.filter.composite;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.IDeviceEvent;
+import net.realmproject.dcm.event.DeviceEvent;
 
 
 /**
@@ -32,16 +32,16 @@ import net.realmproject.dcm.event.IDeviceEvent;
  *
  */
 
-public class BooleanNotFilter implements Predicate<IDeviceEvent> {
+public class BooleanNotFilter implements Predicate<DeviceEvent> {
 
-    private Predicate<IDeviceEvent> backer;
+    private Predicate<DeviceEvent> backer;
 
-    public BooleanNotFilter(Predicate<IDeviceEvent> backer) {
+    public BooleanNotFilter(Predicate<DeviceEvent> backer) {
         this.backer = backer;
     }
 
     @Override
-    public boolean test(IDeviceEvent t) {
+    public boolean test(DeviceEvent t) {
         return !backer.test(t);
     }
 

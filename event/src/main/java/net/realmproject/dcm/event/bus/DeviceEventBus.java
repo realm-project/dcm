@@ -23,16 +23,15 @@ package net.realmproject.dcm.event.bus;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.IDeviceEvent;
+import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.sender.DeviceEventSender;
 
 
 /**
- * A DeviceEventBus is a component which can have {@link IDeviceEvent}s
- * broadcast from any source to the components which subscribe to it. This
- * provides a looser coupling than a traditional direct listener-based model, as
- * consumers don't need to be aware of and registered with every producer of
- * events. <br>
+ * A DeviceEventBus is a component which can have {@link DeviceEvent}s broadcast
+ * from any source to the components which subscribe to it. This provides a
+ * looser coupling than a traditional direct listener-based model, as consumers
+ * don't need to be aware of and registered with every producer of events. <br>
  * <br>
  * It is also possible to split a larger collection of devices into regions by
  * using more than one DeviceEventBus. Events from one bus can be selectively
@@ -52,14 +51,14 @@ import net.realmproject.dcm.event.sender.DeviceEventSender;
 public interface DeviceEventBus extends DeviceEventSender {
 
     /**
-     * Send a {@link IDeviceEvent} to all subscribers of this bus. Broadcasting
+     * Send a {@link DeviceEvent} to all subscribers of this bus. Broadcasting
      * is done asynchronously.
      * 
      * @param event
      *            The event to broadcast
      * @return true if event is accepted for broadcast, false otherwise.
      */
-    boolean broadcast(IDeviceEvent event);
+    boolean broadcast(DeviceEvent event);
 
     /**
      * Listen for events broadcast on this event bus. All events will be sent to
@@ -68,7 +67,7 @@ public interface DeviceEventBus extends DeviceEventSender {
      * @param subscriber
      *            The consumer of events
      */
-    void subscribe(Consumer<IDeviceEvent> subscriber);
+    void subscribe(Consumer<DeviceEvent> subscriber);
 
     /**
      * Listen for events broadcast on this event bus. Only events accepted by
@@ -79,7 +78,7 @@ public interface DeviceEventBus extends DeviceEventSender {
      * @param filter
      *            rule for which events to listen for
      */
-    void subscribe(Consumer<IDeviceEvent> subscriber, Predicate<IDeviceEvent> filter);
+    void subscribe(Consumer<DeviceEvent> subscriber, Predicate<DeviceEvent> filter);
 
     /**
      * Gets the region for this this DeviceEventBus. Larger or more complex

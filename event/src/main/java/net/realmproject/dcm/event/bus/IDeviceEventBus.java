@@ -27,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.IDeviceEvent;
+import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
 import net.realmproject.dcm.util.DCMThreadPool;
 
@@ -45,8 +45,8 @@ import org.apache.commons.logging.LogFactory;
 
 public class IDeviceEventBus extends AbstractDeviceEventSender implements DeviceEventBus {
 
-    private List<Consumer<IDeviceEvent>> consumers = new ArrayList<>();
-    private BlockingQueue<IDeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
+    private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
+    private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
 
     private String region = "";
     protected final Log log = LogFactory.getLog(getClass());
@@ -62,7 +62,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
 
             @Override
             public void run() {
-                IDeviceEvent event = null;
+                DeviceEvent event = null;
                 while (true) {
                     try {
                         event = eventqueue.take();
@@ -74,7 +74,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                             event.setRegion(getRegion());
                         }
 
-                        for (Consumer<IDeviceEvent> consumer : consumers) {
+                        for (Consumer<DeviceEvent> consumer : consumers) {
                             consumer.accept(event);
                         }
                     }
@@ -96,7 +96,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     }
 
     @Override
-    public synchronized boolean broadcast(IDeviceEvent event) {
+    public synchronized boolean broadcast(DeviceEvent event) {
         if (event.isPrivateEvent() && !getRegion().equals(event.getRegion())) {
             // private events from other regions will not be propagated
             return false;
@@ -105,11 +105,11 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     }
 
     @Override
-    public synchronized void subscribe(Consumer<IDeviceEvent> subscriber) {
+    public synchronized void subscribe(Consumer<DeviceEvent> subscriber) {
         consumers.add(subscriber);
     }
 
-    public final void subscribe(Consumer<IDeviceEvent> subscriber, Predicate<IDeviceEvent> filter) {
+    public final void subscribe(Consumer<DeviceEvent> subscriber, Predicate<DeviceEvent> filter) {
         subscribe(event -> {
             if (filter.test(event)) {
                 subscriber.accept(event);
@@ -118,9 +118,9 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     }
 
     @SafeVarargs
-    public final void subscribe(Consumer<IDeviceEvent> subscriber, Predicate<IDeviceEvent>... filters) {
+    public final void subscribe(Consumer<DeviceEvent> subscriber, Predicate<DeviceEvent>... filters) {
         subscribe(event -> {
-            for (Predicate<IDeviceEvent> filter : filters) {
+            for (Predicate<DeviceEvent> filter : filters) {
                 if (!filter.test(event)) { return; }
             }
             subscriber.accept(event);
@@ -132,7 +132,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     }
 
     @Override
-    protected boolean doSend(IDeviceEvent event) {
+    protected boolean doSend(DeviceEvent event) {
         return eventqueue.offer(event);
     }
 

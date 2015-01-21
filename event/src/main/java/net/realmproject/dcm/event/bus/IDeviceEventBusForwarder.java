@@ -22,7 +22,7 @@ package net.realmproject.dcm.event.bus;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.IDeviceEvent;
+import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.filter.AcceptFilter;
 import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
 
@@ -43,13 +43,13 @@ public class IDeviceEventBusForwarder extends AbstractDeviceEventSender {
         startSending();
     }
 
-    public IDeviceEventBusForwarder(DeviceEventBus from, DeviceEventBus to, Predicate<IDeviceEvent> filter) {
+    public IDeviceEventBusForwarder(DeviceEventBus from, DeviceEventBus to, Predicate<DeviceEvent> filter) {
         this.to = to;
         from.subscribe(this::send, filter);
     }
 
     @Override
-    protected boolean doSend(IDeviceEvent event) {
+    protected boolean doSend(DeviceEvent event) {
         return to.broadcast(event);
     }
 }

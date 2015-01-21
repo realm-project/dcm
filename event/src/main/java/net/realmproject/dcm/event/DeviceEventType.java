@@ -24,5 +24,5 @@ package net.realmproject.dcm.event;
  *
  */
 public enum DeviceEventType {
-    VALUE_CHANGED, VALUE_GET, VALUE_SET
+    VALUE_CHANGED, VALUE_GET, VALUE_SET, PING, PONG
 }

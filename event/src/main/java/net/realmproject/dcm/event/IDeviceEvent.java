@@ -40,7 +40,7 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
  * @author chabotd, NAS
  *
  */
-public class IDeviceEvent implements Serializable, DeviceEvent {
+public class IDeviceEvent implements DeviceEvent {
 
     private static final long serialVersionUID = 1L;
 

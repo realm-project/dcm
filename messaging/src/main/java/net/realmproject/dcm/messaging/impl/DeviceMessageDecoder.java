@@ -22,6 +22,7 @@ package net.realmproject.dcm.messaging.impl;
 
 import java.util.function.Predicate;
 
+import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
@@ -40,13 +41,13 @@ import net.realmproject.dcm.messaging.DeviceMessageReceiver;
  */
 public class DeviceMessageDecoder extends IDeviceEventBusSender implements DeviceMessageReceiver {
 
-    private Predicate<IDeviceEvent> filter;
+    private Predicate<DeviceEvent> filter;
 
     public DeviceMessageDecoder(DeviceEventBus bus) {
         this(bus, new AcceptFilter());
     }
 
-    public DeviceMessageDecoder(DeviceEventBus bus, Predicate<IDeviceEvent> filter) {
+    public DeviceMessageDecoder(DeviceEventBus bus, Predicate<DeviceEvent> filter) {
         super(bus);
         this.filter = filter;
     }
@@ -55,7 +56,7 @@ public class DeviceMessageDecoder extends IDeviceEventBusSender implements Devic
     public void receive(DeviceMessage<?> deviceMessage) {
 
         DeviceEventType type = deviceMessage.getDeviceMessageType();
-        IDeviceEvent deviceEvent = new IDeviceEvent(type, deviceMessage.getDeviceId(), deviceMessage.getValue());
+        DeviceEvent deviceEvent = new IDeviceEvent(type, deviceMessage.getDeviceId(), deviceMessage.getValue());
 
         if (!filter.test(deviceEvent)) { return; }
         send(deviceEvent);

@@ -22,7 +22,7 @@ package net.realmproject.dcm.event.filter;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.IDeviceEvent;
+import net.realmproject.dcm.event.DeviceEvent;
 
 
 /**
@@ -32,10 +32,10 @@ import net.realmproject.dcm.event.IDeviceEvent;
  *
  */
 
-public class AcceptFilter implements Predicate<IDeviceEvent> {
+public class AcceptFilter implements Predicate<DeviceEvent> {
 
     @Override
-    public boolean test(IDeviceEvent t) {
+    public boolean test(DeviceEvent t) {
         return true;
     }
 

@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.devicemessagetype;
+package net.realmproject.dcm.event.filter.deviceeventtype;
 
 
 import net.realmproject.dcm.event.DeviceEventType;

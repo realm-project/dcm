@@ -26,7 +26,7 @@ import java.util.Date;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
 
-public interface DeviceEvent {
+public interface DeviceEvent extends Serializable {
 
     /**
      * Gets the ID of the device which originally published this event

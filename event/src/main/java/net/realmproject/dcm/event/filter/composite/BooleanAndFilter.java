@@ -25,21 +25,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.IDeviceEvent;
+import net.realmproject.dcm.event.DeviceEvent;
 
 
-public class BooleanAndFilter implements Predicate<IDeviceEvent> {
+public class BooleanAndFilter implements Predicate<DeviceEvent> {
 
-    List<Predicate<IDeviceEvent>> filters;
+    List<Predicate<DeviceEvent>> filters;
 
     @SafeVarargs
-    public BooleanAndFilter(Predicate<IDeviceEvent>... filters) {
+    public BooleanAndFilter(Predicate<DeviceEvent>... filters) {
         this.filters = new ArrayList<>(Arrays.asList(filters));
     }
 
     @Override
-    public boolean test(IDeviceEvent t) {
-        for (Predicate<IDeviceEvent> filter : filters) {
+    public boolean test(DeviceEvent t) {
+        for (Predicate<DeviceEvent> filter : filters) {
             if (!filter.test(t)) { return false; }
         }
         return true;

@@ -30,8 +30,8 @@ import net.realmproject.dcm.accessor.DeviceRecorder;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
+import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
 import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
-import net.realmproject.dcm.event.filter.devicemessagetype.ValueChangedFilter;
 
 
 public class IDeviceReader extends LinkedHashMap<String, Serializable> implements DeviceReader {
