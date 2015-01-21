@@ -17,6 +17,11 @@ import net.realmproject.dcm.util.DCMThreadPool;
 
 public class IDevicePinger implements DevicePinger {
 
+    private class PingResponse {
+
+        public boolean responded = false;
+    }
+
     private String id;
     private DeviceEventBus bus;
 
@@ -41,25 +46,31 @@ public class IDevicePinger implements DevicePinger {
     }
 
     @Override
+    public Future<Long> pingAndWait() {
+        return pingAndWait(0);
+    }
+
+    @Override
     public Future<Long> pingAndWait(long timeout) {
 
         return DCMThreadPool.getPool().submit(() -> {
 
             /* Our very own monitor */
-            Object monitor = new Object();
+            PingResponse response = new PingResponse();
             long t1, t2;
 
             t1 = new Date().getTime();
 
             /* grab the monitor */
-            synchronized (monitor) {
+            synchronized (response) {
 
                 UUID uuid = UUID.randomUUID();
                 Predicate<DeviceEvent> filter = new BooleanAndFilter();
 
                 bus.subscribe(event -> {
                     /* grab the monitor to make sure ping is waiting */
-                    synchronized (monitor) {
+                    synchronized (response) {
+                        response.responded = true;
                         this.notifyAll();
                     }
 
@@ -67,9 +78,14 @@ public class IDevicePinger implements DevicePinger {
 
                 ping(uuid);
                 /* release the monitor and wait to be signaled */
-                monitor.wait();
-                t2 = new Date().getTime();
-                return t2 - t1;
+                response.wait(timeout);
+                if (response.responded) {
+                    t2 = new Date().getTime();
+                    return t2 - t1;
+                } else {
+                    return null;
+                }
+
             }
 
         });

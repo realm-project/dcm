@@ -14,6 +14,14 @@ public interface DevicePinger extends DeviceAccessor {
     /**
      * Performs a ping and waits for a matching pong signal
      * 
+     * @return A {@link Future} representing the length of time in milliseconds
+     *         between ping and pong
+     */
+    Future<Long> pingAndWait();
+
+    /**
+     * Performs a ping and waits for a matching pong signal
+     * 
      * @param timeout
      *            How long to wait for a pong signal. A negative value indicates
      *            no timeout
