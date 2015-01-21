@@ -54,7 +54,7 @@ Command Driven Devices (High-Level API)
 
 ### CommandDevice
 
-The CommandDevice class provides an annotation-driven approach to designing device controllers which respond to a many different commands. 
+The CommandDevice class provides an annotation-driven approach to designing device controllers which respond to many different commands. 
 
 Subclassing CommandDevice allows your device to respond to Commands by annotating public methods with the @CommandMethod annotation. If no name is given with the annotation, the name of the Command will be the name of the method.
 
@@ -81,9 +81,9 @@ protected abstract void onConnect();
 protected abstract void onDisconnect(Exception exception);
 ```
 
-The connect method should create a new connection to the device. If this connection is terminated, the disconnected method should be called, which will in turn call onDisconnect, and then attempt to create a new connection.
+The `connect` method should create a new connection to the device. If this connection is terminated, the `disconnected` method should be called, which will in turn call `onDisconnect`, and then attempt to create a new connection.
 
-onConnect and onDisconnect notify the subclass when a (dis)connection occurs.
+`onConnect` and `onDisconnect` notify the subclass when a (dis)connection occurs.
 
 ### HeartbeatCommandDevice
 
@@ -95,7 +95,7 @@ It builds on ConnectedCommandDevice, and requires the implementation of the foll
 public abstract boolean isDisconnected();
 ```
 
-Where isDisconnected should test if the connection is still alive. If it is not, HeartbeatCommandDevice will begin the process of creating a new connection.
+Where `isDisconnected` should test if the connection is still alive. If it is not, HeartbeatCommandDevice will begin the process of creating a new connection.
 
 Simple Get/Set Devices (Low-Level API)
 ---
