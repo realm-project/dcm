@@ -32,6 +32,10 @@ public class BooleanOrFilter implements Predicate<DeviceEvent> {
 
     List<Predicate<DeviceEvent>> filters;
 
+    public BooleanOrFilter(List<Predicate<DeviceEvent>> filters) {
+        this.filters = new ArrayList<>(filters);
+    }
+
     @SafeVarargs
     public BooleanOrFilter(Predicate<DeviceEvent>... filters) {
         this.filters = new ArrayList<>(Arrays.asList(filters));

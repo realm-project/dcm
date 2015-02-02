@@ -29,8 +29,8 @@ import java.util.function.Predicate;
 import net.realmproject.dcm.device.Device;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.BackendFilter;
 import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
+import net.realmproject.dcm.event.filter.deviceeventtype.BackendFilter;
 import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
 import net.realmproject.dcm.util.DCMSerialize;
 

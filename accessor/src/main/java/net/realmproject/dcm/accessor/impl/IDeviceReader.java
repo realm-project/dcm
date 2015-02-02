@@ -29,9 +29,7 @@ import net.realmproject.dcm.accessor.DeviceReader;
 import net.realmproject.dcm.accessor.DeviceRecorder;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
-import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
+import net.realmproject.dcm.event.filter.Filters;
 
 
 public class IDeviceReader extends LinkedHashMap<String, Serializable> implements DeviceReader {
@@ -50,8 +48,7 @@ public class IDeviceReader extends LinkedHashMap<String, Serializable> implement
         this.recorder = recorder;
         timestamp = new Date();
         this.bus = bus;
-        bus.subscribe(this::handleEvent,
-                new BooleanAndFilter(new DeviceIDWhitelistFilter(id), new ValueChangedFilter()));
+        bus.subscribe(this::handleEvent, Filters.filter().id(id).changedEvents().booleanAnd());
         query();
     }
 

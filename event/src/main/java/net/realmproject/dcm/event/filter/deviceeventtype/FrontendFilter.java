@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter;
+package net.realmproject.dcm.event.filter.deviceeventtype;
 
 
 import java.util.function.Predicate;
@@ -27,19 +27,18 @@ import net.realmproject.dcm.event.DeviceEventType;
 
 
 /**
- * DeviceEvent filter to allow only events intended for a 'backend', something
- * only interested in listening to get/set events, and not the status of other
- * devices
+ * DeviceEvent filter to allow only events intended for a 'frontend', something
+ * only interested in listening to the status of devices
  * 
  * @author NAS
  *
  */
-public class BackendFilter implements Predicate<DeviceEvent> {
+public class FrontendFilter implements Predicate<DeviceEvent> {
 
     @Override
     public boolean test(DeviceEvent e) {
         DeviceEventType type = e.getDeviceMessageType();
-        return type == DeviceEventType.VALUE_GET || type == DeviceEventType.VALUE_SET;
+        return type == DeviceEventType.VALUE_CHANGED;
     }
 
 }
