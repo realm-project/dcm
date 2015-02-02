@@ -43,7 +43,18 @@ public abstract class Device extends IDeviceEventBusSender {
 
         // Respond to Pings
         Predicate<DeviceEvent> filter = new BooleanAndFilter(new PingFilter(), new DeviceIDWhitelistFilter(id));
-        bus.subscribe(event -> send(new IDeviceEvent(DeviceEventType.PONG, id, event.getValue())), filter);
+        bus.subscribe(this::onPing, filter);
+    }
+
+    /**
+     * Accepts a PING DeviceEvent and responds to it. This method can be
+     * overriden to provide custom behaviour for pings
+     * 
+     * @param The
+     *            Ping DeviceEvent
+     */
+    protected void onPing(DeviceEvent event) {
+        send(new IDeviceEvent(DeviceEventType.PONG, id, event.getValue()));
     }
 
     /**
