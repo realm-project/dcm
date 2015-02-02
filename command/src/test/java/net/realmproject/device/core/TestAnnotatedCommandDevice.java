@@ -6,8 +6,13 @@ import net.realmproject.dcm.command.CommandDevice;
 import net.realmproject.dcm.command.CommandMethod;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
+
+    private Log log = LogFactory.getLog(getClass());
 
     private TestState state;
 
@@ -29,5 +34,10 @@ public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
     @Override
     protected void afterCommand(Command command) {
         publish();
+    }
+
+    @Override
+    protected Log getLog() {
+        return log;
     }
 }

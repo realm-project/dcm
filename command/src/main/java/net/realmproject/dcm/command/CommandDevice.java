@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import net.realmproject.dcm.device.Device;
 import net.realmproject.dcm.event.DeviceEvent;
@@ -34,7 +35,6 @@ import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
 import net.realmproject.dcm.util.DCMSerialize;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -58,8 +58,6 @@ import org.apache.commons.logging.LogFactory;
 
 public abstract class CommandDevice<T extends DeviceState> extends Device {
 
-    private Log log = LogFactory.getLog(getClass());
-
     private Map<String, Method> commands;
 
     /**
@@ -73,8 +71,11 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
      */
     protected CommandDevice(String id, DeviceEventBus bus) {
         super(id, bus);
-        bus.subscribe(this::handleEvent,
-                new BooleanAndFilter(new DeviceIDWhitelistFilter(getId()), new BackendFilter()));
+
+        Predicate<DeviceEvent> eventFilter = new BooleanAndFilter(new DeviceIDWhitelistFilter(getId()),
+                new BackendFilter());
+        bus.subscribe(this::handleEvent, eventFilter);
+
         commands = getCommandMethods();
     }
 
@@ -101,19 +102,7 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
      * 
      * @return a log
      */
-    protected Log getLog() {
-        return log;
-    }
-
-    /**
-     * Sets the logger
-     * 
-     * @param log
-     *            a log
-     */
-    protected void setLog(Log log) {
-        this.log = log;
-    }
+    protected abstract Log getLog();
 
     // ////////////////////////////////////////////
     // Event-related methods
