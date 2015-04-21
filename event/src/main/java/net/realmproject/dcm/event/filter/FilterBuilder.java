@@ -20,18 +20,18 @@ import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
 import net.realmproject.dcm.event.filter.region.RegionWhitelistFilter;
 
 
-public class Filters implements Iterable<Predicate<DeviceEvent>> {
+public class FilterBuilder implements Iterable<Predicate<DeviceEvent>> {
 
     private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
 
-    public static Filters filter() {
-        return new Filters();
+    public static FilterBuilder filter() {
+        return new FilterBuilder();
     }
 
     // /////////////////////////
     // Device ID
     // /////////////////////////
-    public Filters id(String id) {
+    public FilterBuilder id(String id) {
         filters.add(new DeviceIDWhitelistFilter(id));
         return this;
     }
@@ -39,7 +39,7 @@ public class Filters implements Iterable<Predicate<DeviceEvent>> {
     // /////////////////////////
     // Region
     // /////////////////////////
-    public Filters region(String region) {
+    public FilterBuilder region(String region) {
         filters.add(new RegionWhitelistFilter(region));
         return this;
     }
@@ -47,37 +47,37 @@ public class Filters implements Iterable<Predicate<DeviceEvent>> {
     // /////////////////////////
     // Device Event Type
     // /////////////////////////
-    public Filters frontendEvents() {
+    public FilterBuilder frontendEvents() {
         filters.add(new FrontendFilter());
         return this;
     }
 
-    public Filters backendEvents() {
+    public FilterBuilder backendEvents() {
         filters.add(new BackendFilter());
         return this;
     }
 
-    public Filters pingEvents() {
+    public FilterBuilder pingEvents() {
         filters.add(new PingFilter());
         return this;
     }
 
-    public Filters pongEvents() {
+    public FilterBuilder pongEvents() {
         filters.add(new PongFilter());
         return this;
     }
 
-    public Filters getEvents() {
+    public FilterBuilder getEvents() {
         filters.add(new ValueGetFilter());
         return this;
     }
 
-    public Filters setEvents() {
+    public FilterBuilder setEvents() {
         filters.add(new ValueSetFilter());
         return this;
     }
 
-    public Filters changedEvents() {
+    public FilterBuilder changedEvents() {
         filters.add(new ValueChangedFilter());
         return this;
     }
@@ -86,11 +86,11 @@ public class Filters implements Iterable<Predicate<DeviceEvent>> {
     // Collecting
     // /////////////////////////
 
-    public Predicate<DeviceEvent> booleanAnd() {
+    public Predicate<DeviceEvent> requireAll() {
         return new BooleanAndFilter(filters);
     }
 
-    public Predicate<DeviceEvent> booleanOr() {
+    public Predicate<DeviceEvent> requireAny() {
         return new BooleanOrFilter(filters);
     }
 
