@@ -32,6 +32,11 @@
     	<artifactId>realm-dcm-command</artifactId>
     	<version>1.0</version>
     </dependency>
+    <dependency>
+    	<groupId>net.realmproject.dcm</groupId>
+    	<artifactId>realm-dcm-messaging</artifactId>
+    	<version>1.0</version>
+    </dependency>
   </dependencies>
   <build>
   	<plugins>
