@@ -134,15 +134,16 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
     @Override
     public synchronized final void setValue(Object o) {
 
+    	Command command = DCMSerialize.convertMessage(o, Command.class);
         try {
-            Command command = DCMSerialize.convertMessage(o, Command.class);
+            
             onCommand(command);
         }
         catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            getLog().error("Error executing command " + command.action, e);
         }
     }
 
