@@ -65,7 +65,8 @@ public abstract class ConnectedCommandDevice<T extends DeviceState> extends Comm
             Thread.currentThread().interrupt();
         }
         catch (Exception e2) {
-            e2.printStackTrace();
+        	getLog().error("Device " + getId() + " failed to connect!");
+        	getLog().debug("Device " + getId() + " stack trace: ", e2);
             onDisconnect(e2);
         }
     }
