@@ -35,6 +35,7 @@ import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
 import net.realmproject.dcm.util.DCMSerialize;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -58,6 +59,7 @@ import org.apache.commons.logging.Log;
 
 public abstract class CommandDevice<T extends DeviceState> extends Device {
 
+	private final Log LOG = LogFactory.getLog(getClass());
     private Map<String, Method> commands;
 
     /**
@@ -92,17 +94,6 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
      * @return the current state of this device
      */
     protected abstract T getState();
-
-    // ////////////////////////////////////////////
-    // Getters/Setters
-    // ////////////////////////////////////////////
-
-    /**
-     * Gets a logger
-     * 
-     * @return a log
-     */
-    protected abstract Log getLog();
 
     // ////////////////////////////////////////////
     // Event-related methods
@@ -143,7 +134,7 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
             Thread.currentThread().interrupt();
         }
         catch (Exception e) {
-            getLog().error("Error executing command " + command.action, e);
+            LOG.error("Error executing command " + command.action, e);
         }
     }
 
@@ -178,16 +169,16 @@ public abstract class CommandDevice<T extends DeviceState> extends Device {
 
     private final void onCommand(Command command) throws Exception {
 
-        getLog().info("Device " + getId() + " received command: " + command.action);
-        getLog().debug(getId() + ":" + command.action + ":" + DCMSerialize.serialize(command.arguments));
+        LOG.info("Device " + getId() + " received command: " + command.action);
+        LOG.debug(getId() + ":" + command.action + ":" + DCMSerialize.serialize(command.arguments));
 
         // Look up method for command
         Method method = findCommandMethod(command.action);
 
         // case where no method
         if (method == null) {
-            getLog().warn("Cannot find requested command '" + command.action + "' from available commands");
-            getLog().warn("Available commands: " + commands.keySet());
+            LOG.warn("Cannot find requested command '" + command.action + "' from available commands");
+            LOG.warn("Available commands: " + commands.keySet());
             throw new IllegalArgumentException("Command not found: " + command.action);
         }
 

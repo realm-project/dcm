@@ -20,6 +20,9 @@
 package net.realmproject.dcm.command.connected;
 
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.realmproject.dcm.command.CommandDevice;
 import net.realmproject.dcm.command.DeviceState;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
@@ -33,7 +36,9 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
  * @author NAS
  */
 public abstract class ConnectedCommandDevice<T extends DeviceState> extends CommandDevice<T> {
-
+	
+	private final Log LOG = LogFactory.getLog(getClass());
+	
     protected ConnectedCommandDevice(String id, DeviceEventBus bus) {
         super(id, bus);
     }
@@ -55,9 +60,9 @@ public abstract class ConnectedCommandDevice<T extends DeviceState> extends Comm
     private void doConnect() {
         try {
 
-            getLog().info("Device " + getId() + " (re)connecting...");
+            LOG.info("Device " + getId() + " (re)connecting...");
             connect();
-            getLog().info("Device " + getId() + " (re)connected!");
+            LOG.info("Device " + getId() + " (re)connected!");
 
             onConnect();
         }
@@ -73,8 +78,8 @@ public abstract class ConnectedCommandDevice<T extends DeviceState> extends Comm
         		sb.append("\t\t" + ex.getStackTrace()[0] + "\n");
         		ex = ex.getCause();
         	}
-        	getLog().error(sb.toString());
-        	getLog().debug("Device " + getId() + " stack trace: ", e2);
+        	LOG.error(sb.toString());
+        	LOG.debug("Device " + getId() + " stack trace: ", e2);
             onDisconnect(e2);
         }
     }

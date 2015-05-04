@@ -50,8 +50,4 @@ public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
         publish();
     }
 
-    @Override
-    protected Log getLog() {
-        return log;
-    }
 }

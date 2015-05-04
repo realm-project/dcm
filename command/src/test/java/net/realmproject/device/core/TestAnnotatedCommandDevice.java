@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
 
-    private Log log = LogFactory.getLog(getClass());
+	private final Log LOG = LogFactory.getLog(getClass());
 
     private TestState state;
 
@@ -36,8 +36,4 @@ public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
         publish();
     }
 
-    @Override
-    protected Log getLog() {
-        return log;
-    }
 }
