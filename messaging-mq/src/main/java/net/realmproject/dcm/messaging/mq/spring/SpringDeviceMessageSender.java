@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.spring;
+package net.realmproject.dcm.messaging.mq.spring;
 
 
 import javax.jms.Destination;

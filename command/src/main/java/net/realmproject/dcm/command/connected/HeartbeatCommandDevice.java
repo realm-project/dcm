@@ -22,6 +22,9 @@ package net.realmproject.dcm.command.connected;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.realmproject.dcm.command.CommandDevice;
 import net.realmproject.dcm.command.DeviceState;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
@@ -38,6 +41,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
  */
 public abstract class HeartbeatCommandDevice<T extends DeviceState> extends ConnectedCommandDevice<T> {
 
+	private final Log LOG = LogFactory.getLog(getClass());
     boolean previouslyConnected = false;
 
     protected HeartbeatCommandDevice(String id, DeviceEventBus bus, int interval, boolean heartbeat) {
@@ -55,7 +59,7 @@ public abstract class HeartbeatCommandDevice<T extends DeviceState> extends Conn
             start();
             previouslyConnected = true;
         } else {
-            getLog().info("Device " + getId() + " appears to be disconnected. Will attempt to reconnect.");
+            LOG.info("Device " + getId() + " appears to be disconnected. Will attempt to reconnect.");
             disconnected(new RuntimeException("Heartbeat failure for " + getId()));
         }
 

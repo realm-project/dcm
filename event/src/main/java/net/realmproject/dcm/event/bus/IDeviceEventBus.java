@@ -74,8 +74,10 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                             event.setRegion(getRegion());
                         }
 
-                        for (Consumer<DeviceEvent> consumer : consumers) {
-                            consumer.accept(event);
+                        synchronized (this) {
+	                        for (Consumer<DeviceEvent> consumer : consumers) {
+	                            consumer.accept(event);
+	                        }
                         }
                     }
                     catch (InterruptedException e) {

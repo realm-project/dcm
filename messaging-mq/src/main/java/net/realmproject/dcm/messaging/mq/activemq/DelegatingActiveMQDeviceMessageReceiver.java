@@ -17,36 +17,31 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.impl;
+package net.realmproject.dcm.messaging.mq.activemq;
 
 
-import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageSender;
+import net.realmproject.dcm.messaging.DeviceMessageReceiver;
 
 
 /**
- * Adapts a specific method of transmitting {@link DeviceMessage}s on a
- * distributed messaging system (eg ActiveMQ) for an
- * {@link AbstractDeviceMessageEncoder}
- * 
  * @author maxweld
  *
  */
-public class DelegatingDeviceMessageEncoder extends AbstractDeviceMessageEncoder {
+public class DelegatingActiveMQDeviceMessageReceiver extends AbstractActiveMQDeviceMessageReceiver {
 
-    private DeviceMessageSender deviceMessageSender;
+    private DeviceMessageReceiver deviceMessageReceiver;
 
-    public DelegatingDeviceMessageEncoder(DeviceEventBus bus) {
-        super(bus);
+    public DelegatingActiveMQDeviceMessageReceiver(String subject, boolean topic, String url) {
+        super(subject, topic, url);
     }
 
     @Override
-    public void send(DeviceMessage<?> deviceMessage) {
-        deviceMessageSender.send(deviceMessage);
+    public void receive(DeviceMessage<?> deviceMessage) {
+        deviceMessageReceiver.receive(deviceMessage);
     }
 
-    public void setDeviceMessageSender(DeviceMessageSender deviceMessageSender) {
-        this.deviceMessageSender = deviceMessageSender;
+    public void setDeviceMessageReceiver(DeviceMessageReceiver deviceMessageReceiver) {
+        this.deviceMessageReceiver = deviceMessageReceiver;
     }
 }

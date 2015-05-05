@@ -17,31 +17,41 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.activemq;
+package net.realmproject.dcm.messaging.mq.jms;
 
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageReceiver;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
  * @author maxweld
  *
  */
-public class DelegatingActiveMQDeviceMessageReceiver extends AbstractActiveMQDeviceMessageReceiver {
+public abstract class AbstractJmsDeviceMessageReceiver implements MessageListener, DeviceMessageReceiver {
 
-    private DeviceMessageReceiver deviceMessageReceiver;
+    protected Log log = LogFactory.getLog(getClass());
 
-    public DelegatingActiveMQDeviceMessageReceiver(String subject, boolean topic, String url) {
-        super(subject, topic, url);
+    public void onMessage(Message message) {
+        try {
+            ObjectMessage msg = (ObjectMessage) message;
+            receive((DeviceMessage<?>) msg.getObject());
+        }
+        catch (JMSException e) {
+            log.warn(e.getMessage());
+        }
+        catch (ClassCastException e) {
+            log.warn("Received message does not contain a DeviceMessage.");
+        }
     }
 
-    @Override
-    public void receive(DeviceMessage<?> deviceMessage) {
-        deviceMessageReceiver.receive(deviceMessage);
-    }
-
-    public void setDeviceMessageReceiver(DeviceMessageReceiver deviceMessageReceiver) {
-        this.deviceMessageReceiver = deviceMessageReceiver;
-    }
+    public abstract void receive(DeviceMessage<?> deviceMessage);
 }

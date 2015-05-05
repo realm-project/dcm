@@ -22,16 +22,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.apache.activemq</groupId>
-    	<artifactId>activemq-all</artifactId>
-    	<version>5.8.0</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-jms</artifactId>
-    	<version>4.0.1.RELEASE</version>
-    </dependency>
-    <dependency>
     	<groupId>net.realmproject.dcm</groupId>
     	<artifactId>realm-dcm-event</artifactId>
     	<version>1.0</version>

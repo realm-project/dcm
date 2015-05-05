@@ -24,6 +24,7 @@
   
   <modules>
     <module>messaging</module>
+    <module>messaging-mq</module>
     <module>event</module>
     <module>device</module>
     <module>accessor</module>

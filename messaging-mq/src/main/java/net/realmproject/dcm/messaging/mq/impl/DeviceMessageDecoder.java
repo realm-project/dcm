@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.impl;
+package net.realmproject.dcm.messaging.mq.impl;
 
 
 import java.util.function.Predicate;
