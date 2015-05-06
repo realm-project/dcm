@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
   <url>http://maven.apache.org</url>
   
-  <properties>
+  <!-- <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -20,7 +20,8 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-  </dependencies>
+  </dependencies> -->
+  
   <modules>
     <module>messaging</module>
     <module>messaging-mq</module>
@@ -31,4 +32,63 @@
     <module>util</module>
     <module>stock</module>
   </modules>
+  
+  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<updateReleaseInfo>true</updateReleaseInfo>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>realm</id>
+			<name>REALM Remote Maven Repository</name>
+			<url>http://realmproject.net:8888/repository/realm/</url>
+		</repository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>realm</id>
+			<name>REALM Remote Maven Repository</name>
+			<url>http://realmproject.net:8888/repository/realm/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>realm</id>
+			<name>REALM Remote Maven Repository</name>
+			<url>http://realmproject.net:8888/repository/realm/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+  
+  
 </project>
