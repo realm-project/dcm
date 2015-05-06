@@ -6,7 +6,7 @@
   <parent>
     <groupId>net.realmproject.dcm</groupId>
     <artifactId>realm-dcm</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <artifactId>realm-dcm-messaging</artifactId>
   <name>realm-dcm-messaging</name>
@@ -24,7 +24,7 @@
     <dependency>
     	<groupId>net.realmproject.dcm</groupId>
     	<artifactId>realm-dcm-event</artifactId>
-    	<version>1.0</version>
+    	<version>1.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <build>

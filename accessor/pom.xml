@@ -6,7 +6,7 @@
   <parent>
     <groupId>net.realmproject.dcm</groupId>
     <artifactId>realm-dcm</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <artifactId>realm-dcm-accessor</artifactId>
   <name>realm-dcm-accessor</name>
@@ -30,12 +30,12 @@
     <dependency>
     	<groupId>net.realmproject.dcm</groupId>
     	<artifactId>realm-dcm-command</artifactId>
-    	<version>1.0</version>
+    	<version>1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
     	<groupId>net.realmproject.dcm</groupId>
     	<artifactId>realm-dcm-messaging</artifactId>
-    	<version>1.0</version>
+    	<version>1.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <build>
