@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.realmproject.dcm.device.Device;
+import net.realmproject.dcm.device.Device;
 import net.realmproject.dcm.device.catalog.impl.AbstractDeviceCatalogImpl;
 
 import org.springframework.context.ApplicationContext;

@@ -8,14 +8,9 @@ import net.realmproject.dcm.command.CommandDevice;
 import net.realmproject.dcm.command.CommandMethod;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-
 public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
 
     private TestState state;
-    private Log log = LogFactory.getLog(getClass());
 
     public TestAnnotatedCommandDevice(String id, DeviceEventBus bus) {
         super(id, bus);

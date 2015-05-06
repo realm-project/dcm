@@ -26,13 +26,10 @@ import java.util.Map;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
+import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageSender;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * Base class for listening for events on a {@link DeviceEventBus}, encoding
@@ -42,9 +39,7 @@ import org.apache.commons.logging.LogFactory;
  * @author maxweld, NAS
  *
  */
-public abstract class AbstractDeviceMessageEncoder implements DeviceMessageSender {
-
-    protected Log log = LogFactory.getLog(getClass());
+public abstract class AbstractDeviceMessageEncoder implements DeviceMessageSender, Logging {
 
     public AbstractDeviceMessageEncoder(DeviceEventBus bus) {
         bus.subscribe(this::transmit);
@@ -54,7 +49,7 @@ public abstract class AbstractDeviceMessageEncoder implements DeviceMessageSende
     public void transmit(DeviceEvent deviceEvent) {
 
         if (deviceEvent.getDeviceMessageType() != DeviceEventType.VALUE_CHANGED) {
-            log.warn("DeviceEvent type is not handled.");
+        	getLog().warn("DeviceEvent type is not handled.");
             return;
         }
 
@@ -65,12 +60,12 @@ public abstract class AbstractDeviceMessageEncoder implements DeviceMessageSende
                 valueMap.putAll((Map<String, Serializable>) deviceEvent.getValue());
             }
             catch (ClassCastException e) {
-                log.info("DeviceEvent value is not Map<String,Serializable>.");
+            	getLog().info("DeviceEvent value is not Map<String,Serializable>.");
             }
         } else if (deviceEvent.getValue() instanceof Serializable) {
             valueMap.put("value", deviceEvent.getValue());
         } else {
-            log.warn("DeviceEvent value is not Serializable.");
+        	getLog().warn("DeviceEvent value is not Serializable.");
         }
 
         DeviceMessage<HashMap<String, Serializable>> deviceMessage = new DeviceMessage<HashMap<String, Serializable>>();

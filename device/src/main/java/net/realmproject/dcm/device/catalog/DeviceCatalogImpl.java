@@ -23,6 +23,7 @@ package net.realmproject.dcm.device.catalog;
 import java.util.Map;
 
 import net.realmproject.dcm.device.Device;
+import net.realmproject.dcm.device.Device;
 
 
 /**

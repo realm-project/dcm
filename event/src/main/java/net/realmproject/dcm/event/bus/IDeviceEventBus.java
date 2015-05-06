@@ -28,12 +28,9 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
 import net.realmproject.dcm.util.DCMThreadPool;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * Implementation of DeviceEventBus. Broadcasting events is done on a single
@@ -43,13 +40,11 @@ import org.apache.commons.logging.LogFactory;
  *
  */
 
-public class IDeviceEventBus extends AbstractDeviceEventSender implements DeviceEventBus {
+public class IDeviceEventBus extends AbstractDeviceEventSender implements DeviceEventBus, Logging {
 
     private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
     private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
-
     private String region = "";
-    protected final Log log = LogFactory.getLog(getClass());
 
     public IDeviceEventBus() {
         this("");
@@ -81,7 +76,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                         }
                     }
                     catch (InterruptedException e) {
-                        log.warn("Event bus thread has been interrupted.", e);
+                        getLog().warn("Event bus thread has been interrupted.", e);
                         Thread.currentThread().interrupt();
                         return;
                     }
@@ -89,7 +84,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                         // the eventbus thread cannot die, any exceptions which
                         // remain uncaught at this point should be logged, but
                         // discarded
-                        log.error(event, e);
+                    	getLog().error(event, e);
                     }
                 }
             }

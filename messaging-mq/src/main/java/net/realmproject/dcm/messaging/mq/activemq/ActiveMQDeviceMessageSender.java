@@ -28,21 +28,17 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
+import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageSender;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * @author maxweld
  *
  */
-public class ActiveMQDeviceMessageSender implements DeviceMessageSender {
-
-    protected Log logger = LogFactory.getLog(getClass());
+public class ActiveMQDeviceMessageSender implements DeviceMessageSender, Logging {
 
     public String url;
     public String subject;
@@ -77,16 +73,16 @@ public class ActiveMQDeviceMessageSender implements DeviceMessageSender {
                         session.commit();
                     }
                     catch (JMSException e) {
-                        logger.error("Exception while committing JMS Message", e);
+                        getLog().error("Exception while committing JMS Message", e);
                     }
                 }
             }
             catch (JMSException e) {
-                logger.error("Exception while sending JMS ObjectMessage", e);
+            	getLog().error("Exception while sending JMS ObjectMessage", e);
             }
         }
         catch (JMSException e) {
-            logger.error("Exception while creating JMS ObjectMessage", e);
+        	getLog().error("Exception while creating JMS ObjectMessage", e);
         }
     }
 
@@ -114,7 +110,7 @@ public class ActiveMQDeviceMessageSender implements DeviceMessageSender {
         }
         catch (Exception e) {
             connected = false;
-            logger.error(e.getMessage());
+            getLog().error(e.getMessage());
         }
     }
 
@@ -127,7 +123,7 @@ public class ActiveMQDeviceMessageSender implements DeviceMessageSender {
         }
         catch (Exception e) {
             connected = false;
-            logger.error(e.getMessage());
+            getLog().error(e.getMessage());
         }
     }
 

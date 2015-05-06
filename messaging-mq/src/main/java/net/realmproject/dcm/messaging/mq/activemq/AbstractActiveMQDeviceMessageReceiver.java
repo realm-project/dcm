@@ -32,21 +32,18 @@ import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.Topic;
 
+import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageReceiver;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
  * @author maxweld
  *
  */
-public abstract class AbstractActiveMQDeviceMessageReceiver implements MessageListener, DeviceMessageReceiver {
-
-    protected final Log logger = LogFactory.getLog(getClass());
+public abstract class AbstractActiveMQDeviceMessageReceiver implements MessageListener, DeviceMessageReceiver, Logging {
 
     private String url;
     private String subject;
@@ -75,15 +72,15 @@ public abstract class AbstractActiveMQDeviceMessageReceiver implements MessageLi
                     receive((DeviceMessage<?>) object);
                 }
                 catch (ClassCastException e) {
-                    logger.error("Object class is not DeviceMessage", e);
+                    getLog().error("Object class is not DeviceMessage", e);
                 }
             }
             catch (JMSException e) {
-                logger.error("Object could not be unpackaged from ObjectMessage", e);
+            	getLog().error("Object could not be unpackaged from ObjectMessage", e);
             }
         }
         catch (ClassCastException e) {
-            logger.error("JMS Message class is not ObjectMessage.", e);
+        	getLog().error("JMS Message class is not ObjectMessage.", e);
         }
     }
 
@@ -106,12 +103,12 @@ public abstract class AbstractActiveMQDeviceMessageReceiver implements MessageLi
                 }
                 messageConsumer.setMessageListener(this);
 
-                logger.info(this.getClass().getSimpleName() + " waiting for messages on " + url);
+                getLog().info(this.getClass().getSimpleName() + " waiting for messages on " + url);
             }
         }
         catch (Exception e) {
             connected = false;
-            logger.error(e.getMessage());
+            getLog().error(e.getMessage());
         }
     }
 
@@ -124,7 +121,7 @@ public abstract class AbstractActiveMQDeviceMessageReceiver implements MessageLi
         }
         catch (Exception e) {
             connected = false;
-            logger.error(e.getMessage());
+            getLog().error(e.getMessage());
         }
     }
 

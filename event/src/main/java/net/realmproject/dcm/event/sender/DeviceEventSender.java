@@ -19,6 +19,8 @@
 
 package net.realmproject.dcm.event.sender;
 
+import net.realmproject.dcm.event.DeviceEvent;
+
 
 /**
  * A DeviceEventSender is anything which sends events. It is not required that
@@ -29,6 +31,17 @@ package net.realmproject.dcm.event.sender;
  */
 public interface DeviceEventSender {
 
+    /**
+     * Sends the given {@link DeviceEvent}. If this component is not currently
+     * sending events (eg stopSending() has been called) this event will be
+     * discarded.
+     * 
+     * @param event
+     *            the event to send
+     * @return true if sending is successful, false otherwise
+     */
+	boolean send(DeviceEvent event);
+	
     /**
      * Is sending of events turned on?
      * 

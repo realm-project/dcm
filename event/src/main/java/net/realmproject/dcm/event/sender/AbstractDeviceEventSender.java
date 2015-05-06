@@ -34,16 +34,8 @@ public abstract class AbstractDeviceEventSender implements DeviceEventSender {
     private boolean sending = false;
     private long sentEvents = 0L;
 
-    /**
-     * Sends the given {@link DeviceEvent}. If this component is not currently
-     * sending events (eg stopSending() has been called) this event will be
-     * discarded.
-     * 
-     * @param event
-     *            the event to send
-     * @return true if sending is successful, false otherwise
-     */
-    protected boolean send(DeviceEvent event) {
+    @Override
+    public boolean send(DeviceEvent event) {
         if (event == null) { return false; }
         if (!isSending()) { return false; }
 

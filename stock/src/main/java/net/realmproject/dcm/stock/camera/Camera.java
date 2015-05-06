@@ -7,18 +7,20 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import net.realmproject.dcm.command.connected.HeartbeatCommandDevice;
+import net.realmproject.dcm.command.CommandDevice;
+import net.realmproject.dcm.command.connected.Heartbeat;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
 import org.apache.commons.codec.binary.Base64;
 
 
-public abstract class Camera extends HeartbeatCommandDevice<Frame> {
+public abstract class Camera extends CommandDevice<Frame> implements Heartbeat {
 
     protected Frame frame = new Frame();
 
-    protected Camera(String id, DeviceEventBus bus) {
-        super(id, bus, 5, true);
+    protected Camera(String id, DeviceEventBus bus, int interval) {
+        super(id, bus);
+        startHeartbeat(interval);
     }
 
     @Override

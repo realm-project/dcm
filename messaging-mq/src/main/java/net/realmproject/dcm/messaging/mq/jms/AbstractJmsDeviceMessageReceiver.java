@@ -25,20 +25,15 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
+import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageReceiver;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * @author maxweld
  *
  */
-public abstract class AbstractJmsDeviceMessageReceiver implements MessageListener, DeviceMessageReceiver {
-
-    protected Log log = LogFactory.getLog(getClass());
+public abstract class AbstractJmsDeviceMessageReceiver implements MessageListener, DeviceMessageReceiver, Logging {
 
     public void onMessage(Message message) {
         try {
@@ -46,10 +41,10 @@ public abstract class AbstractJmsDeviceMessageReceiver implements MessageListene
             receive((DeviceMessage<?>) msg.getObject());
         }
         catch (JMSException e) {
-            log.warn(e.getMessage());
+        	getLog().warn(e.getMessage());
         }
         catch (ClassCastException e) {
-            log.warn("Received message does not contain a DeviceMessage.");
+        	getLog().warn("Received message does not contain a DeviceMessage.");
         }
     }
 
