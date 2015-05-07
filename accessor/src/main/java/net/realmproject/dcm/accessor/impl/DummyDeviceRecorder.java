@@ -23,7 +23,7 @@ package net.realmproject.dcm.accessor.impl;
 import java.io.Serializable;
 
 import net.realmproject.dcm.accessor.DeviceRecorder;
-import net.realmproject.dcm.command.Command;
+import net.realmproject.dcm.features.command.Command;
 
 
 public class DummyDeviceRecorder implements DeviceRecorder {

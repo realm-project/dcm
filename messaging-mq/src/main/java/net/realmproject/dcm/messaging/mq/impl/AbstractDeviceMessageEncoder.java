@@ -48,7 +48,7 @@ public abstract class AbstractDeviceMessageEncoder implements DeviceMessageSende
     @SuppressWarnings("unchecked")
     public void transmit(DeviceEvent deviceEvent) {
 
-        if (deviceEvent.getDeviceMessageType() != DeviceEventType.VALUE_CHANGED) {
+        if (deviceEvent.getDeviceEventType() != DeviceEventType.VALUE_CHANGED) {
         	getLog().warn("DeviceEvent type is not handled.");
             return;
         }

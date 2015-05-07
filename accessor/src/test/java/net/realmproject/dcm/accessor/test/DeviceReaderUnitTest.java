@@ -10,9 +10,9 @@ import net.realmproject.dcm.accessor.DeviceReader;
 import net.realmproject.dcm.accessor.DeviceWriter;
 import net.realmproject.dcm.accessor.impl.IDeviceReader;
 import net.realmproject.dcm.accessor.impl.IDeviceWriter;
-import net.realmproject.dcm.command.Command;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
+import net.realmproject.dcm.features.command.Command;
 
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public class DeviceReaderUnitTest {
 
         try {
             Thread.currentThread();
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
         catch (InterruptedException e) {
             e.printStackTrace();
@@ -90,7 +90,7 @@ public class DeviceReaderUnitTest {
 
         try {
             Thread.currentThread();
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
         catch (InterruptedException e) {
             e.printStackTrace();
@@ -128,7 +128,7 @@ public class DeviceReaderUnitTest {
 
         try {
             Thread.currentThread();
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
         catch (InterruptedException e) {
             e.printStackTrace();

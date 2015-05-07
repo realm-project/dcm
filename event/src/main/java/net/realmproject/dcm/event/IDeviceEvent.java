@@ -128,7 +128,7 @@ public class IDeviceEvent implements DeviceEvent {
     }
 
     @Override
-    public DeviceEventType getDeviceMessageType() {
+    public DeviceEventType getDeviceEventType() {
         return type;
     }
 

@@ -1,10 +1,11 @@
 package net.realmproject.dcm.accessor.test;
 
+import net.realmproject.dcm.features.Statefulness.State;
 
-import net.realmproject.dcm.command.DeviceState;
 
 
-public class TestState extends DeviceState {
+
+public class TestState extends State {
 
     private String message;
     private String secondMessage;

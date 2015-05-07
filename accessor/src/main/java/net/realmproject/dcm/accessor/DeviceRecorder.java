@@ -22,7 +22,7 @@ package net.realmproject.dcm.accessor;
 
 import java.io.Serializable;
 
-import net.realmproject.dcm.command.Command;
+import net.realmproject.dcm.features.command.Command;
 
 
 public interface DeviceRecorder {

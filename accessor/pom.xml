@@ -29,12 +29,12 @@
     </dependency>
     <dependency>
     	<groupId>net.realmproject.dcm</groupId>
-    	<artifactId>realm-dcm-command</artifactId>
+    	<artifactId>realm-dcm-messaging</artifactId>
     	<version>1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
     	<groupId>net.realmproject.dcm</groupId>
-    	<artifactId>realm-dcm-messaging</artifactId>
+    	<artifactId>realm-dcm-device</artifactId>
     	<version>1.1-SNAPSHOT</version>
     </dependency>
   </dependencies>

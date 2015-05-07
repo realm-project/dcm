@@ -36,7 +36,7 @@ public class DeviceMessageTypeFilter implements Predicate<DeviceEvent> {
 
     @Override
     public boolean test(DeviceEvent t) {
-        return t.getDeviceMessageType() == type;
+        return t.getDeviceEventType() == type;
     }
 
 }

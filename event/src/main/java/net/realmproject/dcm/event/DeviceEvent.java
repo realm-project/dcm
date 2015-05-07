@@ -40,7 +40,7 @@ public interface DeviceEvent extends Serializable {
      * 
      * @return the type of this event
      */
-    DeviceEventType getDeviceMessageType();
+    DeviceEventType getDeviceEventType();
 
     /**
      * Gets the payload of this event

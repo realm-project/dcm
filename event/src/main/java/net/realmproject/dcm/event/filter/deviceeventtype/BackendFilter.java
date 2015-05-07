@@ -38,7 +38,7 @@ public class BackendFilter implements Predicate<DeviceEvent> {
 
     @Override
     public boolean test(DeviceEvent e) {
-        DeviceEventType type = e.getDeviceMessageType();
+        DeviceEventType type = e.getDeviceEventType();
         return type == DeviceEventType.VALUE_GET || type == DeviceEventType.VALUE_SET;
     }
 

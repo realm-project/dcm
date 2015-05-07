@@ -28,9 +28,10 @@
     <module>event</module>
     <module>device</module>
     <module>accessor</module>
-    <module>command</module>
     <module>util</module>
     <module>stock</module>
+    <module>features</module>
+    <module>catalog</module>
   </modules>
   
   <build>

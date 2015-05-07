@@ -3,10 +3,10 @@ package net.realmproject.dcm.accessor.test;
 
 import java.util.HashMap;
 
-import net.realmproject.dcm.command.Command;
-import net.realmproject.dcm.command.CommandDevice;
-import net.realmproject.dcm.command.CommandMethod;
+import net.realmproject.dcm.device.CommandDevice;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.features.command.Command;
+import net.realmproject.dcm.features.command.CommandMethod;
 
 public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
 
@@ -15,24 +15,18 @@ public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
     public TestAnnotatedCommandDevice(String id, DeviceEventBus bus) {
         super(id, bus);
         state = new TestState();
+        initCommands(bus);
     }
 
     @Override
-    protected TestState getState() {
+    public TestState getState() {
         return state;
     }
-
+    
     @CommandMethod
     public void setMessage(TestMessage myMessage) {
         state.setMessage(myMessage.msg);
     }
-
-    // @CommandMethod
-    // public void setTwoMessages(TestMessage firstMessage, TestMessage
-    // secondMessage) {
-    // state.setMessage(firstMessage.msg);
-    // state.setSecondMessage(secondMessage.msg);
-    // }
 
     @CommandMethod
     public void setTwoMessages(HashMap<String, String> messages) {
@@ -40,9 +34,10 @@ public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
         state.setSecondMessage(messages.get("secondMessage"));
     }
 
+
     @Override
-    protected void afterCommand(Command command) {
-        publish();
+    public void afterCommand(Command command) {
+        publishState();
     }
 
 }

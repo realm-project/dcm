@@ -19,80 +19,22 @@
 
 package net.realmproject.dcm.device;
 
-
-import java.io.Serializable;
-import java.util.function.Predicate;
-
-import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventType;
-import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBusSender;
-import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.PingFilter;
-import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
+import net.realmproject.dcm.features.Identity;
 
 
-public abstract class Device extends IDeviceEventBusSender {
+public class Device extends IDeviceEventBusSender implements Identity {
 
     private String id = null;
 
     public Device(String id, DeviceEventBus bus) {
         super(bus);
         this.id = id;
-
-        // Respond to Pings
-        Predicate<DeviceEvent> filter = new BooleanAndFilter(new PingFilter(), new DeviceIDWhitelistFilter(id));
-        bus.subscribe(this::onPing, filter);
     }
 
-    /**
-     * Accepts a PING DeviceEvent and responds to it. This method can be
-     * overriden to provide custom behaviour for pings
-     * 
-     * @param The
-     *            Ping DeviceEvent
-     */
-    protected void onPing(DeviceEvent event) {
-        send(new IDeviceEvent(DeviceEventType.PONG, id, event.getValue()));
-    }
-
-    /**
-     * Gets the id of this device
-     * 
-     * @return the id of this device
-     */
     public String getId() {
-        return id;
+    	return id;
     }
-
-    /**
-     * Gets the current value of this device
-     * 
-     * @return the value of this device
-     */
-    public abstract Object getValue();
-
-    /**
-     * Sets the value of this device. Users should not expect that a call to
-     * setValue(X) followed by a call to getValue() will return X. Due to the
-     * nature of physical devices, it may take some time for the device to reach
-     * the desired state (if it ever does). <br>
-     * <br>
-     * It is also possible for a device to accept values which act as deltas or
-     * commands, in which case the result of getValue should logically match up
-     * with the requested action, but may not be an equivalent value or even a
-     * similar data structure.
-     * 
-     * @param val
-     *            The value to set this device to
-     */
-    public abstract void setValue(Object val);
-
-    /**
-     * Publish the state of this Device as a {@link DeviceEvent}
-     */
-    public void publish() {
-        send(new IDeviceEvent(DeviceEventType.VALUE_CHANGED, id, (Serializable) getValue()));
-    }
+    
 }

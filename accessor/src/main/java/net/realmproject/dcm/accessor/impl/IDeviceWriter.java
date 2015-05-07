@@ -24,11 +24,11 @@ import java.io.Serializable;
 
 import net.realmproject.dcm.accessor.DeviceRecorder;
 import net.realmproject.dcm.accessor.DeviceWriter;
-import net.realmproject.dcm.command.Command;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.features.command.Command;
 import net.realmproject.dcm.util.DCMSerialize;
 
 

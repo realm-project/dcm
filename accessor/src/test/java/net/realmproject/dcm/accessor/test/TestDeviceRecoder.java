@@ -3,7 +3,7 @@ package net.realmproject.dcm.accessor.test;
 import java.io.Serializable;
 
 import net.realmproject.dcm.accessor.impl.DummyDeviceRecorder;
-import net.realmproject.dcm.command.Command;
+import net.realmproject.dcm.features.command.Command;
 
 public class TestDeviceRecoder extends DummyDeviceRecorder {
 	

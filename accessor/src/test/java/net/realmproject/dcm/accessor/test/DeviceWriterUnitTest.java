@@ -4,9 +4,9 @@ package net.realmproject.dcm.accessor.test;
 import java.io.Serializable;
 
 import net.realmproject.dcm.accessor.impl.IDeviceWriter;
-import net.realmproject.dcm.command.Command;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
+import net.realmproject.dcm.features.command.Command;
 import net.realmproject.dcm.util.DCMSerialize;
 
 import org.junit.Test;
