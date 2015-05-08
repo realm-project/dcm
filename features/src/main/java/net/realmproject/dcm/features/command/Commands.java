@@ -21,13 +21,13 @@ public interface Commands extends Identity, Logging {
 
 		Predicate<DeviceEvent> eventFilter = new BooleanAndFilter(
 				new DeviceIDWhitelistFilter(getId()), new BackendFilter());
-		bus.subscribe(deviceEvent -> {
+		bus.subscribe(eventFilter, deviceEvent -> {
 			if (deviceEvent.getDeviceEventType() == DeviceEventType.VALUE_SET) {
 				Object value = deviceEvent.getValue();
 				Command command = DCMSerialize.convertMessage(value, Command.class);
 				runCommand(command);
 			}
-		}, eventFilter);
+		});
 		
 		setCommandMethods(generateCommandMethods());
 

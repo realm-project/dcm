@@ -7,7 +7,7 @@ import net.realmproject.dcm.accessor.DeviceLatencyMonitor;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.Ping;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.FilterBuilder;
+import net.realmproject.dcm.event.filter.Filters;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
@@ -24,7 +24,7 @@ public class IDeviceLatencyMonitor extends IDevicePinger implements DeviceLatenc
     public IDeviceLatencyMonitor(String id, DeviceEventBus bus, int interval) {
         super(id, bus);
         DCMThreadPool.getPool().scheduleAtFixedRate(this::ping, interval, interval, TimeUnit.SECONDS);
-        bus.subscribe(this::onPong, FilterBuilder.filter().id(id).pongEvents().requireAll());
+        bus.subscribe(Filters.id(id).and(Filters.pongEvents()), this::onPong);
     }
 
     private void onPong(DeviceEvent event) {

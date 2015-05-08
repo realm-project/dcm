@@ -45,7 +45,7 @@ public class IDeviceEventBusForwarder extends AbstractDeviceEventSender {
 
     public IDeviceEventBusForwarder(DeviceEventBus from, DeviceEventBus to, Predicate<DeviceEvent> filter) {
         this.to = to;
-        from.subscribe(this::send, filter);
+        from.subscribe(filter, this::send);
     }
 
     @Override

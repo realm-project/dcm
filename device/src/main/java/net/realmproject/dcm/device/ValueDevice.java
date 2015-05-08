@@ -21,10 +21,7 @@ package net.realmproject.dcm.device;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.ValueGetFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.ValueSetFilter;
-import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
+import net.realmproject.dcm.event.filter.Filters;
 import net.realmproject.dcm.features.Publishing;
 import net.realmproject.dcm.features.Values;
 
@@ -36,9 +33,9 @@ import net.realmproject.dcm.features.Values;
 public abstract class ValueDevice extends Device implements Values, Publishing {
 
     public ValueDevice(String id, DeviceEventBus bus) {
-        super(id, bus);
-        bus.subscribe(this::onSet, new BooleanAndFilter(new DeviceIDWhitelistFilter(getId()), new ValueSetFilter()));
-        bus.subscribe(this::onGet, new BooleanAndFilter(new DeviceIDWhitelistFilter(getId()), new ValueGetFilter()));
+        super(id, bus);        
+        bus.subscribe(Filters.id(getId()).and(Filters.setEvents()), this::onSet);
+        bus.subscribe(Filters.id(getId()).and(Filters.getEvents()), this::onGet);
     }
 
     private void onSet(DeviceEvent e) {
@@ -46,7 +43,7 @@ public abstract class ValueDevice extends Device implements Values, Publishing {
     }
 
     private void onGet(DeviceEvent e) {
-    	publish(getValue());
+    	publishValue();
     }
 
 }

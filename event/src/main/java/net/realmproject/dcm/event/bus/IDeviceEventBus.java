@@ -106,7 +106,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
         consumers.add(subscriber);
     }
 
-    public final void subscribe(Consumer<DeviceEvent> subscriber, Predicate<DeviceEvent> filter) {
+    public final void subscribe(Predicate<DeviceEvent> filter, Consumer<DeviceEvent> subscriber) {
         subscribe(event -> {
             if (filter.test(event)) {
                 subscriber.accept(event);

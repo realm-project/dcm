@@ -14,7 +14,7 @@ public interface PingResponse extends Publishing {
 	default void initPingResponse(DeviceEventBus bus) {
         // Respond to Pings
         Predicate<DeviceEvent> filter = new BooleanAndFilter(new PingFilter(), new DeviceIDWhitelistFilter(getId()));
-        bus.subscribe(this::onPing, filter);
+        bus.subscribe(filter, this::onPing);
 	}
 	
     default void onPing(DeviceEvent event) {

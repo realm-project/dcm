@@ -72,13 +72,12 @@ public interface DeviceEventBus extends DeviceEventSender {
     /**
      * Listen for events broadcast on this event bus. Only events accepted by
      * the given filter will be sent to this subscriber.
-     * 
-     * @param subscriber
-     *            the consumer of events
      * @param filter
      *            rule for which events to listen for
+     * @param subscriber
+     *            the consumer of events
      */
-    void subscribe(Consumer<DeviceEvent> subscriber, Predicate<DeviceEvent> filter);
+    void subscribe(Predicate<DeviceEvent> filter, Consumer<DeviceEvent> subscriber);
 
     /**
      * Gets the region for this this DeviceEventBus. Larger or more complex
