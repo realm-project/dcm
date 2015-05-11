@@ -6,10 +6,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.Serializable;
 import java.util.Map;
 
-import net.realmproject.dcm.accessor.DeviceReader;
-import net.realmproject.dcm.accessor.DeviceWriter;
-import net.realmproject.dcm.accessor.impl.IDeviceReader;
-import net.realmproject.dcm.accessor.impl.IDeviceWriter;
+import net.realmproject.dcm.accessor.commands.DeviceCommander;
+import net.realmproject.dcm.accessor.commands.impl.IDeviceCommander;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
 import net.realmproject.dcm.features.command.Command;
@@ -31,13 +29,12 @@ public class DeviceReaderUnitTest {
 
         DeviceEventBus bus = new IDeviceEventBus();
         TestAnnotatedCommandDevice device = new TestAnnotatedCommandDevice(id, bus);
-        DeviceReader deviceReader = new IDeviceReader(id, bus);
-        DeviceWriter deviceWriter = new IDeviceWriter(id, bus);
+        DeviceCommander deviceCommander = new IDeviceCommander(id, bus);
 
-        Map<String, Serializable> deviceReaderState = deviceReader.getState();
+        Map<String, Serializable> deviceReaderState = deviceCommander.getState();
         System.out.println("deviceReaderState before write: " + deviceReaderState);
 
-        deviceWriter.write(command);
+        deviceCommander.write(command);
 
         try {
             Thread.currentThread();
@@ -47,10 +44,10 @@ public class DeviceReaderUnitTest {
             e.printStackTrace();
         }
 
-        deviceReaderState = deviceReader.getState();
+        deviceReaderState = deviceCommander.getState();
         System.out.println("deviceReaderState after write: " + deviceReaderState);
 
-        assertEquals(message, deviceReader.getState().get("message"));
+        assertEquals(message, deviceCommander.getState().get("message"));
     }
 
     @Test
@@ -65,10 +62,9 @@ public class DeviceReaderUnitTest {
 
         DeviceEventBus bus = new IDeviceEventBus();
         TestAnnotatedCommandDevice device = new TestAnnotatedCommandDevice(id, bus);
-        DeviceReader deviceReader = new IDeviceReader(id, bus);
-        DeviceWriter deviceWriter = new IDeviceWriter(id, bus);
+        DeviceCommander deviceWriter = new IDeviceCommander(id, bus);
 
-        Map<String, Serializable> deviceReaderState = deviceReader.getState();
+        Map<String, Serializable> deviceReaderState = deviceWriter.getState();
         System.out.println("deviceReaderState before write: " + deviceReaderState);
 
         command.action = "setMessage";
@@ -96,10 +92,10 @@ public class DeviceReaderUnitTest {
             e.printStackTrace();
         }
 
-        deviceReaderState = deviceReader.getState();
+        deviceReaderState = deviceWriter.getState();
         System.out.println("deviceReaderState after write: " + deviceReaderState);
 
-        assertEquals(anotherMessage, deviceReader.getState().get("message"));
+        assertEquals(anotherMessage, deviceWriter.getState().get("message"));
     }
 
     @Test
@@ -114,10 +110,9 @@ public class DeviceReaderUnitTest {
 
         DeviceEventBus bus = new IDeviceEventBus();
         TestAnnotatedCommandDevice device = new TestAnnotatedCommandDevice(id, bus);
-        DeviceReader deviceReader = new IDeviceReader(id, bus);
-        DeviceWriter deviceWriter = new IDeviceWriter(id, bus);
+        DeviceCommander deviceWriter = new IDeviceCommander(id, bus);
 
-        Map<String, Serializable> deviceReaderState = deviceReader.getState();
+        Map<String, Serializable> deviceReaderState = deviceWriter.getState();
         System.out.println("deviceReaderState before write: " + deviceReaderState);
 
         command.action = "setTwoMessages";
@@ -134,11 +129,11 @@ public class DeviceReaderUnitTest {
             e.printStackTrace();
         }
 
-        deviceReaderState = deviceReader.getState();
+        deviceReaderState = deviceWriter.getState();
         System.out.println("deviceReaderState after write: " + deviceReaderState);
 
-        assertEquals(command.arguments.get("message"), deviceReader.getState().get("message"));
-        assertEquals(command.arguments.get("secondMessage"), deviceReader.getState().get("secondMessage"));
+        assertEquals(command.arguments.get("message"), deviceWriter.getState().get("message"));
+        assertEquals(command.arguments.get("secondMessage"), deviceWriter.getState().get("secondMessage"));
     }
 
 }

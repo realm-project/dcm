@@ -27,7 +27,9 @@ import java.util.Map;
 import net.realmproject.dcm.features.Identity;
 
 
-public interface DeviceReader extends Identity {
+public interface DeviceAccessor extends Identity {
+
+    void write(Serializable input);
 
     Map<String, Serializable> getState();
 
