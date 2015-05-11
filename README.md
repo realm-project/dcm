@@ -60,7 +60,7 @@ Subclassing CommandDevice allows your device to respond to Commands by annotatin
 
 ```java
 @CommandMethod("foo")
-public void do_foo(T bar, S baz) {
+public void do_foo(T bar) {
 	// ...
 }
 ```
