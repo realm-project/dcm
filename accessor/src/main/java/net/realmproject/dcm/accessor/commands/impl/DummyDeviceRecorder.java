@@ -17,20 +17,25 @@
  * 
  */
 
-package net.realmproject.dcm.accessor;
+package net.realmproject.dcm.accessor.commands.impl;
 
 
-import net.realmproject.dcm.device.Device;
+import java.io.Serializable;
+
+import net.realmproject.dcm.accessor.commands.DeviceRecorder;
+import net.realmproject.dcm.features.command.Command;
 
 
-/**
- * Common interface for any class/interface acting as a go-between for a
- * {@link Device}
- * 
- * @author NAS
- *
- */
-public interface DeviceAccessor {
+public class DummyDeviceRecorder implements DeviceRecorder {
 
-    String getDeviceId();
+    @Override
+    public String recordCommand(Command command) {
+        return null;
+    }
+
+    @Override
+    public String recordState(Serializable state) {
+        return null;
+    }
+
 }

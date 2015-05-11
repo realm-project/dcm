@@ -22,8 +22,9 @@ package net.realmproject.dcm.accessor.impl;
 
 import java.io.Serializable;
 
-import net.realmproject.dcm.accessor.DeviceRecorder;
 import net.realmproject.dcm.accessor.DeviceWriter;
+import net.realmproject.dcm.accessor.commands.DeviceRecorder;
+import net.realmproject.dcm.accessor.commands.impl.DummyDeviceRecorder;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
@@ -49,7 +50,7 @@ public class IDeviceWriter implements DeviceWriter {
     }
 
     @Override
-    public String getDeviceId() {
+    public String getId() {
         return id;
     }
 
@@ -59,7 +60,7 @@ public class IDeviceWriter implements DeviceWriter {
         if (command.record) {
             label = recorder.recordCommand(command);
         }
-        send(getDeviceId(), bus, DeviceEventType.VALUE_SET, command);
+        send(getId(), bus, DeviceEventType.VALUE_SET, command);
         return label;
     }
 

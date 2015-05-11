@@ -20,10 +20,11 @@
 package net.realmproject.dcm.accessor;
 
 
+import net.realmproject.dcm.features.Identity;
 import net.realmproject.dcm.features.command.Command;
 
 
-public interface DeviceWriter extends DeviceAccessor {
+public interface DeviceWriter extends Identity {
 
     String write(Command command);
 }

@@ -24,8 +24,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
+import net.realmproject.dcm.features.Identity;
 
-public interface DeviceReader extends DeviceAccessor {
+
+public interface DeviceReader extends Identity {
 
     Map<String, Serializable> getState();
 

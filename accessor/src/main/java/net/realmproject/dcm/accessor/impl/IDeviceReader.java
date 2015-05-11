@@ -26,7 +26,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.realmproject.dcm.accessor.DeviceReader;
-import net.realmproject.dcm.accessor.DeviceRecorder;
+import net.realmproject.dcm.accessor.commands.DeviceRecorder;
+import net.realmproject.dcm.accessor.commands.impl.DummyDeviceRecorder;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.Filters;
@@ -70,7 +71,7 @@ public class IDeviceReader extends LinkedHashMap<String, Serializable> implement
     }
 
     @Override
-    public String getDeviceId() {
+    public String getId() {
         return id;
     }
 
@@ -81,7 +82,7 @@ public class IDeviceReader extends LinkedHashMap<String, Serializable> implement
 
     @Override
     public void query() {
-        IDeviceWriter.query(getDeviceId(), bus);
+        IDeviceWriter.query(getId(), bus);
     }
 
     @Override

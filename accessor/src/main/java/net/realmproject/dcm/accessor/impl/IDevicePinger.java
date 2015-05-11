@@ -19,7 +19,7 @@ public class IDevicePinger implements DevicePinger {
     }
 
     @Override
-    public String getDeviceId() {
+    public String getId() {
         return id;
     }
 

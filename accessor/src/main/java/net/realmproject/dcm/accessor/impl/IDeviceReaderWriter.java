@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.Map;
 
 import net.realmproject.dcm.accessor.DeviceReader;
-import net.realmproject.dcm.accessor.DeviceRecorder;
 import net.realmproject.dcm.accessor.DeviceWriter;
+import net.realmproject.dcm.accessor.commands.DeviceRecorder;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.features.command.Command;
 
@@ -28,8 +28,8 @@ public class IDeviceReaderWriter implements DeviceReader, DeviceWriter {
     }
 
     @Override
-    public String getDeviceId() {
-        return reader.getDeviceId();
+    public String getId() {
+        return reader.getId();
     }
 
     @Override

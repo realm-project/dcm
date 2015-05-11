@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.accessor;
+package net.realmproject.dcm.accessor.commands;
 
 
 import java.io.Serializable;
