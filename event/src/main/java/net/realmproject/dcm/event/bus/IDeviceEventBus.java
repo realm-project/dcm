@@ -32,6 +32,10 @@ import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
 import net.realmproject.dcm.util.DCMThreadPool;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+
 /**
  * Implementation of DeviceEventBus. Broadcasting events is done on a single
  * (separate) thread in order of receipt.
@@ -45,6 +49,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
     private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
     private String region = "";
+    private final Log log = LogFactory.getLog(getClass());
 
     public IDeviceEventBus() {
         this("");
@@ -70,9 +75,9 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                         }
 
                         synchronized (this) {
-	                        for (Consumer<DeviceEvent> consumer : consumers) {
-	                            consumer.accept(event);
-	                        }
+                            for (Consumer<DeviceEvent> consumer : consumers) {
+                                consumer.accept(event);
+                            }
                         }
                     }
                     catch (InterruptedException e) {
@@ -84,7 +89,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                         // the eventbus thread cannot die, any exceptions which
                         // remain uncaught at this point should be logged, but
                         // discarded
-                    	getLog().error(event, e);
+                        getLog().error(event, e);
                     }
                 }
             }
@@ -131,6 +136,11 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     @Override
     protected boolean doSend(DeviceEvent event) {
         return eventqueue.offer(event);
+    }
+
+    @Override
+    public Log getLog() {
+        return log;
     }
 
 }
