@@ -7,9 +7,7 @@ import java.util.Map;
 
 import net.realmproject.dcm.accessor.DeviceReader;
 import net.realmproject.dcm.accessor.DeviceWriter;
-import net.realmproject.dcm.accessor.commands.DeviceRecorder;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.features.command.Command;
 
 
 public class IDeviceReaderWriter implements DeviceReader, DeviceWriter {
@@ -22,19 +20,14 @@ public class IDeviceReaderWriter implements DeviceReader, DeviceWriter {
         writer = new IDeviceWriter(id, bus);
     }
 
-    public IDeviceReaderWriter(String id, DeviceEventBus bus, DeviceRecorder recorder) {
-        reader = new IDeviceReader(id, bus, recorder);
-        writer = new IDeviceWriter(id, bus, recorder);
-    }
-
     @Override
     public String getId() {
         return reader.getId();
     }
 
     @Override
-    public String write(Command command) {
-        return writer.write(command);
+    public void write(Serializable input) {
+        writer.write(input);
     }
 
     @Override
