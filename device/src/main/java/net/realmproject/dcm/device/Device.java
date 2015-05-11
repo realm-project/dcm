@@ -19,6 +19,7 @@
 
 package net.realmproject.dcm.device;
 
+
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBusSender;
 import net.realmproject.dcm.features.Identity;
@@ -34,7 +35,7 @@ public class Device extends IDeviceEventBusSender implements Identity {
     }
 
     public String getId() {
-    	return id;
+        return id;
     }
-    
+
 }
