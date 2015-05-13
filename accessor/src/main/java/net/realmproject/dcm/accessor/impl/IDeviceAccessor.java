@@ -31,6 +31,7 @@ import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.Filters;
+import net.realmproject.dcm.util.DCMSerialize;
 
 
 public class IDeviceAccessor implements DeviceAccessor {
@@ -60,10 +61,9 @@ public class IDeviceAccessor implements DeviceAccessor {
             return;
         }
 
-        @SuppressWarnings("unchecked")
-        Map<String, Serializable> state = (Map<String, Serializable>) event.getValue();
+        Serializable value = event.getValue();
         deviceState.clear();
-        deviceState.putAll(state);
+        deviceState.putAll(DCMSerialize.structToMap(value));
     }
 
     @Override

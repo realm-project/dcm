@@ -20,6 +20,8 @@
 package net.realmproject.dcm.event.bus;
 
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -72,12 +74,44 @@ public interface DeviceEventBus extends DeviceEventSender {
     /**
      * Listen for events broadcast on this event bus. Only events accepted by
      * the given filter will be sent to this subscriber.
+     * 
      * @param filter
      *            rule for which events to listen for
      * @param subscriber
      *            the consumer of events
      */
     void subscribe(Predicate<DeviceEvent> filter, Consumer<DeviceEvent> subscriber);
+
+    /**
+     * Convenience method which wraps a call to
+     * {@link DeviceEventBus#subscribe(Consumer)} so the {@link DeviceEvent}s
+     * are returned in a {@link BlockingQueue}
+     * 
+     * @return a {@link BlockingQueue} which will be populated with
+     *         {@link DeviceEvent}s
+     */
+    default BlockingQueue<DeviceEvent> subscriptionQueue() {
+        BlockingQueue<DeviceEvent> queue = new LinkedBlockingQueue<>();
+        subscribe(event -> queue.offer(event));
+        return queue;
+    }
+
+    /**
+     * Convenience method which wraps a call to
+     * {@link DeviceEventBus#subscribe(Consumer)} so the {@link DeviceEvent}s
+     * are returned in a {@link BlockingQueue}
+     * 
+     * @param filter
+     *            rule for which events to listen for
+     * 
+     * @return a {@link BlockingQueue} which will be populated with
+     *         {@link DeviceEvent}s
+     */
+    default BlockingQueue<DeviceEvent> subscriptionQueue(Predicate<DeviceEvent> filter) {
+        BlockingQueue<DeviceEvent> queue = new LinkedBlockingQueue<>();
+        subscribe(filter, event -> queue.offer(event));
+        return queue;
+    }
 
     /**
      * Gets the region for this this DeviceEventBus. Larger or more complex

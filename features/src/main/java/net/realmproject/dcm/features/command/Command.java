@@ -20,11 +20,23 @@
 package net.realmproject.dcm.features.command;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class Command {
+
+    public Command() {}
+
+    public Command(String action) {
+        this.action = action;
+    }
+
+    public Command(String action, Map<String, Serializable> args) {
+        this.action = action;
+        this.arguments.putAll(args);
+    }
 
     /**
      * The name of the action or command to invoke on the {@link CommandDevice}
@@ -41,5 +53,32 @@ public class Command {
      * available)
      */
     public boolean record;
+
+    /**
+     * Adds the given argument to the Command with the given key as the argument
+     * name
+     * 
+     * @param key
+     *            the name for this argument
+     * @param value
+     *            the value to add as an argument
+     * @return this Command
+     */
+    public Command arg(String key, Object value) {
+        arguments.put(key, value);
+        return this;
+    }
+
+    /**
+     * Adds the given argument to the Command with an argument name of "value"
+     * 
+     * @param value
+     *            the value to add as an argument
+     * @return this Command
+     */
+    public Command arg(Object value) {
+        arguments.put("value", value);
+        return this;
+    }
 
 }

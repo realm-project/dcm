@@ -1,6 +1,8 @@
 package net.realmproject.dcm.features.command;
 
+
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -9,31 +11,28 @@ import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.composite.BooleanAndFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.BackendFilter;
-import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
+import net.realmproject.dcm.event.filter.Filters;
 import net.realmproject.dcm.features.Identity;
 import net.realmproject.dcm.util.DCMSerialize;
 
+
 public interface Commands extends Identity, Logging {
 
-	default void initCommands(DeviceEventBus bus) {
+    default void initCommands(DeviceEventBus bus) {
 
-		Predicate<DeviceEvent> eventFilter = new BooleanAndFilter(
-				new DeviceIDWhitelistFilter(getId()), new BackendFilter());
-		bus.subscribe(eventFilter, deviceEvent -> {
-			if (deviceEvent.getDeviceEventType() == DeviceEventType.VALUE_SET) {
-				Object value = deviceEvent.getValue();
-				Command command = DCMSerialize.convertMessage(value, Command.class);
-				runCommand(command);
-			}
-		});
-		
-		setCommandMethods(generateCommandMethods());
+        Predicate<DeviceEvent> eventFilter = Filters.id(getId()).and(Filters.backendEvents());
+        bus.subscribe(eventFilter, deviceEvent -> {
+            if (deviceEvent.getDeviceEventType() == DeviceEventType.VALUE_SET) {
+                Object value = deviceEvent.getValue();
+                Command command = DCMSerialize.convertMessage(value, Command.class);
+                runCommand(command);
+            }
+        });
 
-	}
-	
-	
+        setCommandMethods(generateCommandMethods());
+
+    }
+
     /**
      * This function is called before a {@link CommandMethod} is invoked. If
      * this method returns false, the method invocation will not proceed.
@@ -48,7 +47,7 @@ public interface Commands extends Identity, Logging {
     default boolean beforeCommand(Command command) {
         return true;
     }
-    
+
     /**
      * This function is called after a {@link CommandMethod} is invoked
      * 
@@ -58,76 +57,82 @@ public interface Commands extends Identity, Logging {
      *            for the appropriate method.
      */
     default void afterCommand(Command command) {}
-    
-    
-
 
     default void runCommand(Command command) {
 
-    	synchronized(this) {
-	        try {
-    	
-		        getLog().info("Device " + getId() + " received command: " + command.action);
-		        getLog().debug(getId() + ":" + command.action + ":" + DCMSerialize.serialize(command.arguments));
-		
-		        // Look up method for command
-		        Method method = findCommandMethod(command.action);
-		
-		        // case where no method
-		        if (method == null) {
-		        	getLog().warn("Cannot find requested command '" + command.action + "' from available commands");
-		        	getLog().warn("Available commands: " + getCommandMethods().keySet());
-		            throw new IllegalArgumentException("Command not found: " + command.action);
-		        }
-		
-		        beforeCommand(command);
-		
-		        int argCount = method.getParameterCount();
-		
-		        if (argCount == 0) {
-		
-		            // case where zero-arg method
-		            method.invoke(this, new Object[] {});
-		            return;
-		
-		        } else if (argCount == 1) {
-		
-		            // case where 1-arg method
-		            method.invoke(this, DCMSerialize.convertMessage(command.arguments, method.getParameterTypes()[0]));
-		
-		        } else {
-		
-		            // case where >1-arg method
-		            Object[] args = new Object[argCount];
-		
-		            // look up named arguments from top-level map. Then examine the
-		            // parameter types, and attempt to convert the data for each
-		            // argument to that type
-		            for (int count = 0; count < argCount; count++) {
-		                String paramName = method.getParameters()[count].getName();
-		                if (!command.arguments.containsKey(paramName)) {
-		                    continue;
-		                }
-		
-		                Object arg = command.arguments.get(paramName);
-		                args[count] = DCMSerialize.convertMessage(arg, method.getParameterTypes()[count]);
-		
-		            }
-		
-		            method.invoke(this, args);
-		
-		        }
-		
-		        afterCommand(command);
+        synchronized (this) {
+            try {
 
-	        }
-	        catch (Exception e) {
-	        	getLog().error("Error executing command " + command.action, e);
-	        }
-		}
-        
+                getLog().info("Device " + getId() + " received command: " + command.action);
+                getLog().debug(getId() + ":" + command.action + ":" + DCMSerialize.serialize(command.arguments));
+
+                // Look up method for command
+                Method method = findCommandMethod(command.action);
+                CommandMethod annotation = getCommandMethodAnnotation(method);
+
+                // case where no method
+                if (method == null) {
+                    getLog().warn("Cannot find requested command '" + command.action + "' from available commands");
+                    getLog().warn("Available commands: " + getCommandMethods().keySet());
+                    throw new IllegalArgumentException("Command not found: " + command.action);
+                }
+
+                beforeCommand(command);
+
+                int argCount = method.getParameterCount();
+
+                if (argCount == 0) {
+
+                    // case where zero-arg method
+                    method.invoke(this, new Object[] {});
+                    return;
+
+                } else if (argCount == 1 && method.getParameters()[0].getAnnotationsByType(Arg.class).length == 0) {
+                    // if there is only 1 argument and there is no Arg
+                    // annotation, try and convert the entire map to the
+                    // expected parameter class type
+
+                    method.invoke(this, DCMSerialize.convertMessage(command.arguments, method.getParameterTypes()[0]));
+
+                } else {
+
+                    // case where >1-arg method
+                    Object[] argValues = new Object[argCount];
+
+                    // look up named arguments from top-level map. Then examine
+                    // the
+                    // parameter types, and attempt to convert the data for each
+                    // argument to that type
+                    for (int count = 0; count < argCount; count++) {
+                        Parameter param = method.getParameters()[count];
+                        Arg[] args = param.getAnnotationsByType(Arg.class);
+                        if (args.length == 0) { throw new IllegalArgumentException(
+                                "Named argument calls must have parameters with Arg annotations"); }
+                        Arg arg = args[0];
+                        String paramName = arg.value();
+                        if (!command.arguments.containsKey(paramName)) {
+                            continue;
+                        }
+
+                        Object argValue = command.arguments.get(paramName);
+                        argValues[count] = DCMSerialize.convertMessage(argValue, method.getParameterTypes()[count]);
+
+                    }
+
+                    method.invoke(this, argValues);
+
+                }
+
+                afterCommand(command);
+
+            }
+            catch (Exception e) {
+                getLog().error("Error executing command " + command.action, e);
+            }
+        }
+
     }
-    
+
     /*
      * Start with implementing class, work back up to anything underneath this
      * to find a CommandMethod this allows subclassing to create devices which
@@ -140,7 +145,13 @@ public interface Commands extends Identity, Logging {
         if (!commands.containsKey(name)) return null;
         return commands.get(name);
     }
-    
+
+    default CommandMethod getCommandMethodAnnotation(Method method) {
+        CommandMethod[] annotations = method.getAnnotationsByType(CommandMethod.class);
+        if (annotations.length == 0) { return null; }
+        return annotations[0];
+    }
+
     default Map<String, Method> generateCommandMethods() {
         Map<String, Method> commandMethods = new LinkedHashMap<>();
         Class<?> cls = this.getClass();
@@ -154,17 +165,16 @@ public interface Commands extends Identity, Logging {
 
         return commandMethods;
     }
-    
+
     default String getCommandName(Method m) {
         CommandMethod cm = m.getAnnotation(CommandMethod.class);
         if (cm == null) return null;
         if (cm.value().equals("")) return m.getName();
         return cm.value();
     }
-    
+
     Map<String, Method> getCommandMethods();
+
     void setCommandMethods(Map<String, Method> methods);
 
-
-    
 }
