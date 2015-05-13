@@ -29,7 +29,7 @@ import net.realmproject.dcm.event.DeviceEvent;
  *
  */
 
-public abstract class AbstractDeviceEventSender implements DeviceEventSender {
+public abstract class AbstractDeviceEventSender implements DeviceEventSender, DeviceEventSenderControl {
 
     private boolean sending = false;
     private long sentEvents = 0L;
