@@ -17,15 +17,15 @@ Event Bus Topology
 ### Basic Layout
 
 
-The simplest layout uses a single event bus on one machine, with a java device controller operating a device. A writer will generate events, the bus will relay them to the device, the device will publish it's new state, and the reader will read and store that new state.
+The simplest layout uses a single event bus on one machine, with a java Device object operating a physical device. An Accessor will will generate events, the Bus will relay them to the device, the device will publish it's new state, and the accessor will read and store that new state.
 
 ![Basic Layout](documentation/images/layout-basic.png)
 
 A few things to note:
 
- * Readers cache the state of a device to prevent a high volume of queries from negatively impacting the performance of a device.
- * All events contain a Device ID. This is the id of the device sending or receiving the event.
- * A framework exists to make creating a device controller simple, but anything which subscribes to an event bus can be made to control a device
+ * Accessors cache the state of a device to prevent a high volume of queries from negatively impacting the performance of a device.
+ * All events contain a Device ID. This is the id of the Device sending or receiving the event.
+ * A framework exists to make creating a Device object simple, but anything which subscribes to a Bus can be made to control a device.
  * More than one bus can be used. Events can be selectively forwarded to other busses. Be careful not to create cycles.
 
 ### Tiered Layout
@@ -37,78 +37,94 @@ To isolate your devices from the variable loads put on web servers, you can sepa
 
 A few things to note:
 
- * MQ is accessed through Encoders and Decoders (not shown) which publish and subscribe to event busses like any other component.
+ * MQ is accessed through Senders and Receivers (not shown) which publish and subscribe to event busses like any other component.
  * The message queuing server can be on a dedicted server, or reside on either of the machines shown.
 
 
 ### Multi-device Layout
 
-You may have several different devices which are logically related, but which reside on different machines. To accommodate this, the Device Control Module supports the notion of Regions. A region is a property of an event bus, and more than one bus may share a region name. 
+You may have several different devices which are logically related, but which reside on different machines. To accommodate this, the Device Control Module supports the notion of Zones. A zone is a property of an event bus, and more than one bus may share a zone name. 
 
 ![Network Layout](documentation/images/layout-network.png)
 
-When events are published, they contain a null region field. When an event is first published, the bus will set the region, after which, other busses the event passes through will not. This allows you to filter events coming in and out of any given bus by region, so that region-specific events can be forwarded to related busses.
+When events are published, they contain a null zone field. When an event is first published, a bus will set the event's zone to its own, after which, other busses the event passes through will not. This allows you to filter events coming in and out of any given bus by zone, so that zone-specific events can be forwarded to related busses.
+
+A few things to note:
+
+ * Components can communicate with each other through message passing using this method. They are not limited to passing status updates to an Accessor.
+ * Events can be marked private, which instructs the event bus system not to forward the events out of their zone.
 
 Command Driven Devices (High-Level API)
 ---
 
-### CommandDevice
+### Commands
 
-The CommandDevice class provides an annotation-driven approach to designing device controllers which respond to many different commands. 
+The CommandDevice class (or the Commands interface if subclassing is a problem) provides an annotation-driven approach to designing device controllers which respond to commands.
 
 Subclassing CommandDevice allows your device to respond to Commands by annotating public methods with the @CommandMethod annotation. If no name is given with the annotation, the name of the Command will be the name of the method.
 
 ```java
 @CommandMethod("foo")
-public void do_foo(T bar) {
+public void do_foo(@Arg("bar") T bar, @Arg("baz") S baz) {
 	// ...
 }
 ```
 
 Commands can be issued with a DeviceWriter, or by setting a Command object as the payload in a DeviceEvent manually.
 
-Note: At present, data types accepted by CommandMethods must be classes with public fields. Scalar values, such as primitives, or Strings are not accepted. This is a known limitation, and will hopefully be eliminated in the future.
+A few things to note:
+ * Method arguments should be annotated with @Arg(name). Command objects have an arguments Map with String keys. These annotations allows named arguments from this mapping.
+ * @Arg annotations which do not specify a name will default to "value".
+ * Zero-argument functions do not need any @Arg annotations.
+ * Single-argument functions which to not have an @Arg annotation will attempt to convert the entire argument map into an instance of the argument class. Use with caution.
 
-### ConnectedCommandDevice
+When using the Commands interface instead of the CommandDevice class, the Commands interface must be initialized by calling `initCommands()`
 
-The ConnectedCommandDevice class is meant for device controllers which must maintain a persistent connection of some sort to the controlled device. 
+### Connection
+
+The Connection interface is meant for device controllers which must maintain a persistent connection of some sort to the controlled device. 
 
 It requires the implementation of the following methods:
 
 ```java
-protected abstract void connect();
-protected abstract void onConnect();
-protected abstract void onDisconnect(Exception exception);
+void connect();
+void onConnect();
+void onDisconnect(Exception exception);
 ```
 
 The `connect` method should create a new connection to the device. If this connection is terminated, the `disconnected` method should be called, which will in turn call `onDisconnect`, and then attempt to create a new connection.
 
 `onConnect` and `onDisconnect` notify the subclass when a (dis)connection occurs.
 
-### HeartbeatCommandDevice
 
-If you require polling in order to determine if your connection is still alive, HeartbeatCommandDevice will handle some of the internals automatically. 
+The Connection interface must be initialized by calling `initConnection()`
+
+### Heartbeat
+
+If you require polling in order to determine if your connection is still alive, the Heartbeat interface will handle some of the internals automatically. 
 
 It builds on ConnectedCommandDevice, and requires the implementation of the following methods:
 
 ```java
-public abstract boolean isDisconnected();
+boolean isHeartbeatStale();
 ```
 
-Where `isDisconnected` should test if the connection is still alive. If it is not, HeartbeatCommandDevice will begin the process of creating a new connection.
+Where `isHeartbeatStale` should test if the connection is still alive. If it is not, Heartbeat will begin the process of creating a new connection.
+
+The Heartbeat interface must be initialized by calling `initHeartbeat()`
 
 Simple Get/Set Devices (Low-Level API)
 ---
 
-### SimpleDevice
+### ValueDevice
 
-If you want to create your own method of interacting with device controllers, you can use the low-level API. The SimpleDevice class provides a base implementation of a device with an ID. It automatically subscribes to get/set events for it's own ID. Subclassing SimpleDevice allows you to publish and consume Java objects in an unstructured way. 
+If you want to create your own method of interacting with device controllers, you can use the low-level API. The ValueDevice class (or Values interface if subclassing is an issue) provides a base implementation of a device with an ID. It automatically subscribes to get/set events for it's own ID. Subclassing ValueDevice allows you to publish and consume Java objects in an unstructured way. 
 
 It requires the implementation of the following methods:
 
 ```java
-public abstract Object getValue();
-public abstract void setValue(Object val);
+Object getValue();
+void setValue(Object val);
 ```
 
 ### Starting From Scratch
@@ -125,10 +141,7 @@ public class CustomDevice {
 	public CustomDevice(String id, DeviceEventBus bus) {
 		this.id = id;
 		this.bus = bus;
-		bus.subscribe(this::onEvent, new BooleanAndFilter(
-			new DeviceIDWhitelistFilter(getId()), 
-			new BackendFilter()
-		));
+		bus.subscribe(this::onEvent, new DeviceIDFilter(id).and(new BackendFilter()));
 	}
 
 	private void onEvent(DeviceEvent e) {
