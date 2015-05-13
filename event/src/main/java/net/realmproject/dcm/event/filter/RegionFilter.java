@@ -17,29 +17,40 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.deviceid;
+package net.realmproject.dcm.event.filter;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.filter.composite.BooleanNotFilter;
+import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 
 
 /**
- * DeviceEvent filter which blocks events with certain device ids
+ * DeviceEvent filter which only allows events from a certain region. See
+ * {@link DeviceEventBus}
  * 
  * @author NAS
  *
  */
 
-public class DeviceIDBlacklistFilter extends BooleanNotFilter {
+public class RegionFilter implements Predicate<DeviceEvent> {
 
-    public DeviceIDBlacklistFilter(String id) {
-        super(new DeviceIDWhitelistFilter(id));
+    private List<String> whitelist;
+
+    public RegionFilter(String region) {
+        whitelist = new ArrayList<>();
+        whitelist.add(region);
     }
 
-    public DeviceIDBlacklistFilter(List<String> ids) {
-        super(new DeviceIDWhitelistFilter(ids));
+    public RegionFilter(List<String> regions) {
+        whitelist = new ArrayList<>(regions);
     }
 
+    @Override
+    public boolean test(DeviceEvent e) {
+        return whitelist.contains(e.getRegion());
+    }
 }

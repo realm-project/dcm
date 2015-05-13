@@ -10,13 +10,11 @@ import net.realmproject.dcm.event.filter.deviceeventtype.PongFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueGetFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueSetFilter;
-import net.realmproject.dcm.event.filter.deviceid.DeviceIDWhitelistFilter;
-import net.realmproject.dcm.event.filter.region.RegionWhitelistFilter;
 
 public class Filters {
 
 	public static Predicate<DeviceEvent> id(String id) {
-		return new DeviceIDWhitelistFilter(id);
+		return new DeviceIDFilter(id);
 	}
 	
 
@@ -24,7 +22,7 @@ public class Filters {
     // Region
     // /////////////////////////
     public static Predicate<DeviceEvent> region(String region) {
-        return new RegionWhitelistFilter(region);
+        return new RegionFilter(region);
     }
 
     // /////////////////////////

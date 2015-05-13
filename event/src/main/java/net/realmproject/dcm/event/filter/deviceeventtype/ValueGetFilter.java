@@ -23,7 +23,7 @@ package net.realmproject.dcm.event.filter.deviceeventtype;
 import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class ValueGetFilter extends DeviceMessageTypeFilter {
+public class ValueGetFilter extends DeviceEventTypeFilter {
 
     public ValueGetFilter() {
         super(DeviceEventType.VALUE_GET);

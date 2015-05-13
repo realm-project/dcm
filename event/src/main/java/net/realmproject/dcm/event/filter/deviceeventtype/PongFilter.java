@@ -23,7 +23,7 @@ package net.realmproject.dcm.event.filter.deviceeventtype;
 import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class PongFilter extends DeviceMessageTypeFilter {
+public class PongFilter extends DeviceEventTypeFilter {
 
     public PongFilter() {
         super(DeviceEventType.PONG);

@@ -17,36 +17,26 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.composite;
+package net.realmproject.dcm.event.filter.deviceeventtype;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class BooleanOrFilter implements Predicate<DeviceEvent> {
+public class DeviceEventTypeFilter implements Predicate<DeviceEvent> {
 
-    List<Predicate<DeviceEvent>> filters;
+    private DeviceEventType type;
 
-    public BooleanOrFilter(List<Predicate<DeviceEvent>> filters) {
-        this.filters = new ArrayList<>(filters);
-    }
-
-    @SafeVarargs
-    public BooleanOrFilter(Predicate<DeviceEvent>... filters) {
-        this.filters = new ArrayList<>(Arrays.asList(filters));
+    public DeviceEventTypeFilter(DeviceEventType type) {
+        this.type = type;
     }
 
     @Override
     public boolean test(DeviceEvent t) {
-        for (Predicate<DeviceEvent> filter : filters) {
-            if (filter.test(t)) { return true; }
-        }
-        return false;
+        return t.getDeviceEventType() == type;
     }
 
 }

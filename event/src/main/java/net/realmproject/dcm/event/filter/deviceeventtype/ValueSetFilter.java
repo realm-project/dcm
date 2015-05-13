@@ -23,7 +23,7 @@ package net.realmproject.dcm.event.filter.deviceeventtype;
 import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class ValueSetFilter extends DeviceMessageTypeFilter {
+public class ValueSetFilter extends DeviceEventTypeFilter {
 
     public ValueSetFilter() {
         super(DeviceEventType.VALUE_SET);

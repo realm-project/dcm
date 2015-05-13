@@ -23,7 +23,7 @@ package net.realmproject.dcm.event.filter.deviceeventtype;
 import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class PingFilter extends DeviceMessageTypeFilter {
+public class PingFilter extends DeviceEventTypeFilter {
 
     public PingFilter() {
         super(DeviceEventType.PING);

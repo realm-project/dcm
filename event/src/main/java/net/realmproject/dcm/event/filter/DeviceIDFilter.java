@@ -17,26 +17,39 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.deviceeventtype;
+package net.realmproject.dcm.event.filter;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class DeviceMessageTypeFilter implements Predicate<DeviceEvent> {
+/**
+ * DeviceEvent filter which only accepts events with certain device ids
+ * 
+ * @author NAS
+ *
+ */
 
-    private DeviceEventType type;
+public class DeviceIDFilter implements Predicate<DeviceEvent> {
 
-    public DeviceMessageTypeFilter(DeviceEventType type) {
-        this.type = type;
+    List<String> ids;
+
+    public DeviceIDFilter(String id) {
+        ids = new ArrayList<>();
+        ids.add(id);
+    }
+
+    public DeviceIDFilter(List<String> ids) {
+        ids = new ArrayList<>(ids);
     }
 
     @Override
-    public boolean test(DeviceEvent t) {
-        return t.getDeviceEventType() == type;
+    public boolean test(DeviceEvent e) {
+        return ids.contains(e.getDeviceId());
     }
 
 }
