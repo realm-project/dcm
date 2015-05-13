@@ -17,36 +17,42 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.mq.impl;
+package net.realmproject.dcm.messaging.impl;
 
 
+import java.util.function.Predicate;
+
+import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.filter.AcceptFilter;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageSender;
 
 
 /**
- * Adapts a specific method of transmitting {@link DeviceMessage}s on a
- * distributed messaging system (eg ActiveMQ) for an
- * {@link AbstractDeviceMessageEncoder}
+ * Listens for events on a {@link DeviceEventBus} and transmits
+ * {@link DeviceMessage}s on a distributed messaging system (eg ActiveMQ)
  * 
- * @author maxweld
+ * @author NAS
  *
  */
-public class DelegatingDeviceMessageEncoder extends AbstractDeviceMessageEncoder {
+public abstract class IDeviceMessageSender implements DeviceMessageSender {
 
-    private DeviceMessageSender deviceMessageSender;
+    private Predicate<DeviceEvent> filter = new AcceptFilter();
 
-    public DelegatingDeviceMessageEncoder(DeviceEventBus bus) {
-        super(bus);
+    public IDeviceMessageSender(DeviceEventBus bus) {
+        bus.subscribe(event -> {
+            if (!filter.test(event)) { return; }
+            send(new DeviceMessage(event));
+        });
     }
 
-    @Override
-    public void send(DeviceMessage<?> deviceMessage) {
-        deviceMessageSender.send(deviceMessage);
+    public Predicate<DeviceEvent> getFilter() {
+        return filter;
     }
 
-    public void setDeviceMessageSender(DeviceMessageSender deviceMessageSender) {
-        this.deviceMessageSender = deviceMessageSender;
+    public void setFilter(Predicate<DeviceEvent> filter) {
+        this.filter = filter;
     }
+
 }

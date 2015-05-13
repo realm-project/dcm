@@ -22,8 +22,9 @@ package net.realmproject.dcm.messaging.mq.spring;
 
 import javax.jms.Destination;
 
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageSender;
+import net.realmproject.dcm.messaging.impl.IDeviceMessageSender;
 
 import org.springframework.jms.core.JmsTemplate;
 
@@ -32,13 +33,17 @@ import org.springframework.jms.core.JmsTemplate;
  * @author maxweld
  *
  */
-public class SpringDeviceMessageSender implements DeviceMessageSender {
+public class SpringDeviceMessageSender extends IDeviceMessageSender {
 
     private JmsTemplate jmsTemplate;
     private Destination destination;
     private String destinationName;
 
-    public void send(DeviceMessage<?> deviceMessage) {
+    public SpringDeviceMessageSender(DeviceEventBus bus) {
+        super(bus);
+    }
+
+    public void send(DeviceMessage deviceMessage) {
         if (destination != null) {
             jmsTemplate.convertAndSend(destination, deviceMessage);
         } else if (destinationName != null) {

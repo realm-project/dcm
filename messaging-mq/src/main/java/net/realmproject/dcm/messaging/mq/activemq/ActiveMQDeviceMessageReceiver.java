@@ -33,8 +33,9 @@ import javax.jms.Session;
 import javax.jms.Topic;
 
 import net.realmproject.dcm.event.Logging;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageReceiver;
+import net.realmproject.dcm.messaging.impl.IDeviceMessageReceiver;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -43,7 +44,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
  * @author maxweld
  *
  */
-public abstract class AbstractActiveMQDeviceMessageReceiver implements MessageListener, DeviceMessageReceiver, Logging {
+public class ActiveMQDeviceMessageReceiver extends IDeviceMessageReceiver implements MessageListener, Logging {
 
     private String url;
     private String subject;
@@ -57,7 +58,8 @@ public abstract class AbstractActiveMQDeviceMessageReceiver implements MessageLi
     protected Connection connection;
     protected Session session;
 
-    public AbstractActiveMQDeviceMessageReceiver(String subject, boolean topic, String url) {
+    public ActiveMQDeviceMessageReceiver(DeviceEventBus bus, String subject, boolean topic, String url) {
+        super(bus);
         this.subject = subject;
         this.topic = topic;
         this.url = url;
@@ -69,22 +71,20 @@ public abstract class AbstractActiveMQDeviceMessageReceiver implements MessageLi
             try {
                 Serializable object = objectMessage.getObject();
                 try {
-                    receive((DeviceMessage<?>) object);
+                    receive((DeviceMessage) object);
                 }
                 catch (ClassCastException e) {
                     getLog().error("Object class is not DeviceMessage", e);
                 }
             }
             catch (JMSException e) {
-            	getLog().error("Object could not be unpackaged from ObjectMessage", e);
+                getLog().error("Object could not be unpackaged from ObjectMessage", e);
             }
         }
         catch (ClassCastException e) {
-        	getLog().error("JMS Message class is not ObjectMessage.", e);
+            getLog().error("JMS Message class is not ObjectMessage.", e);
         }
     }
-
-    public abstract void receive(DeviceMessage<?> deviceMessage);
 
     public void connect() {
         try {

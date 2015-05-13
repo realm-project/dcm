@@ -21,11 +21,9 @@ package net.realmproject.dcm.messaging;
 
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
-import net.realmproject.dcm.event.DeviceEventType;
+import net.realmproject.dcm.event.DeviceEvent;
 
 
 /**
@@ -35,55 +33,32 @@ import net.realmproject.dcm.event.DeviceEventType;
  * @author maxweld
  *
  */
-public class DeviceMessage<T extends Serializable & Map<String, Serializable>> implements Serializable {
+public class DeviceMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private DeviceEvent event;
+    private String messageId = UUID.randomUUID().toString();
 
-    private String deviceId;
-    private DeviceEventType deviceMessageType;
+    public DeviceMessage() {}
 
-    private T value;
-
-    private String id = UUID.randomUUID().toString();
-    private Date timestamp = new Date();
-
-    public String getDeviceId() {
-        return deviceId;
+    public DeviceMessage(DeviceEvent event) {
+        setEvent(event);
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public DeviceEvent getEvent() {
+        return event;
     }
 
-    public DeviceEventType getDeviceMessageType() {
-        return deviceMessageType;
+    public void setEvent(DeviceEvent event) {
+        this.event = event;
     }
 
-    public void setDeviceMessageType(DeviceEventType deviceMessageType) {
-        this.deviceMessageType = deviceMessageType;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public T getValue() {
-        return value;
+    public void setMessageId(String id) {
+        this.messageId = id;
     }
 
-    public void setValue(T value) {
-        this.value = value;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
 }

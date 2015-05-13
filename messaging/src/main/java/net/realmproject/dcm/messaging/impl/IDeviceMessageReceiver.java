@@ -17,14 +17,12 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.mq.impl;
+package net.realmproject.dcm.messaging.impl;
 
 
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventType;
-import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBusSender;
 import net.realmproject.dcm.event.filter.AcceptFilter;
@@ -33,33 +31,33 @@ import net.realmproject.dcm.messaging.DeviceMessageReceiver;
 
 
 /**
- * Decodes {@link DeviceMessage}s from a distributed messaging system (eg
+ * Receives {@link DeviceMessage}s from a distributed messaging system (eg
  * ActiveMQ) and publishes them to the given {@link DeviceEventBus}
  * 
- * @author maxweld, NAS
+ * @author NAS
  *
  */
-public class DeviceMessageDecoder extends IDeviceEventBusSender implements DeviceMessageReceiver {
+public class IDeviceMessageReceiver extends IDeviceEventBusSender implements DeviceMessageReceiver {
 
-    private Predicate<DeviceEvent> filter;
+    private Predicate<DeviceEvent> filter = new AcceptFilter();
 
-    public DeviceMessageDecoder(DeviceEventBus bus) {
-        this(bus, new AcceptFilter());
-    }
-
-    public DeviceMessageDecoder(DeviceEventBus bus, Predicate<DeviceEvent> filter) {
+    public IDeviceMessageReceiver(DeviceEventBus bus) {
         super(bus);
-        this.filter = filter;
     }
 
     @Override
-    public void receive(DeviceMessage<?> deviceMessage) {
-
-        DeviceEventType type = deviceMessage.getDeviceMessageType();
-        DeviceEvent deviceEvent = new IDeviceEvent(type, deviceMessage.getDeviceId(), deviceMessage.getValue());
-
+    public void receive(DeviceMessage deviceMessage) {
+        DeviceEvent deviceEvent = deviceMessage.getEvent();
         if (!filter.test(deviceEvent)) { return; }
         send(deviceEvent);
-
     }
+
+    public Predicate<DeviceEvent> getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Predicate<DeviceEvent> filter) {
+        this.filter = filter;
+    }
+
 }

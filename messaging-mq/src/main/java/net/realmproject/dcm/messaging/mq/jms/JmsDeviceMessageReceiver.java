@@ -20,28 +20,38 @@
 package net.realmproject.dcm.messaging.mq.jms;
 
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
+
+import net.realmproject.dcm.event.Logging;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageReceiver;
+import net.realmproject.dcm.messaging.impl.IDeviceMessageReceiver;
 
 
 /**
  * @author maxweld
  *
  */
-public class DelegatingJmsDeviceMessageReceiver extends AbstractJmsDeviceMessageReceiver {
+public class JmsDeviceMessageReceiver extends IDeviceMessageReceiver implements MessageListener, Logging {
 
-    private DeviceMessageReceiver deviceMessageReceiver;
-
-    @Override
-    public void receive(DeviceMessage<?> deviceMessage) {
-        deviceMessageReceiver.receive(deviceMessage);
+    public JmsDeviceMessageReceiver(DeviceEventBus bus) {
+        super(bus);
     }
 
-    public DeviceMessageReceiver getDeviceMessageReceiver() {
-        return deviceMessageReceiver;
+    public void onMessage(Message message) {
+        try {
+            ObjectMessage msg = (ObjectMessage) message;
+            receive((DeviceMessage) msg.getObject());
+        }
+        catch (JMSException e) {
+            getLog().warn(e.getMessage());
+        }
+        catch (ClassCastException e) {
+            getLog().warn("Received message does not contain a DeviceMessage.");
+        }
     }
 
-    public void setDeviceMessageReceiver(DeviceMessageReceiver deviceMessageReceiver) {
-        this.deviceMessageReceiver = deviceMessageReceiver;
-    }
 }

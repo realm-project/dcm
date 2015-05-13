@@ -26,5 +26,5 @@ package net.realmproject.dcm.messaging;
  */
 public interface DeviceMessageReceiver {
 
-    public void receive(DeviceMessage<?> deviceMessage);
+    public void receive(DeviceMessage deviceMessage);
 }

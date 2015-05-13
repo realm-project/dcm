@@ -29,16 +29,18 @@ import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
 import net.realmproject.dcm.event.Logging;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageSender;
+import net.realmproject.dcm.messaging.impl.IDeviceMessageSender;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+
 
 /**
  * @author maxweld
  *
  */
-public class ActiveMQDeviceMessageSender implements DeviceMessageSender, Logging {
+public class ActiveMQDeviceMessageSender extends IDeviceMessageSender implements Logging {
 
     public String url;
     public String subject;
@@ -54,13 +56,14 @@ public class ActiveMQDeviceMessageSender implements DeviceMessageSender, Logging
     protected Connection connection;
     protected Session session;
 
-    public ActiveMQDeviceMessageSender(String subject, boolean topic, String url) {
+    public ActiveMQDeviceMessageSender(DeviceEventBus bus, String subject, boolean topic, String url) {
+        super(bus);
         this.subject = subject;
         this.topic = topic;
         this.url = url;
     }
 
-    public void send(DeviceMessage<?> deviceMessage) {
+    public void send(DeviceMessage deviceMessage) {
 
         try {
             ObjectMessage message = session.createObjectMessage(deviceMessage);
@@ -78,11 +81,11 @@ public class ActiveMQDeviceMessageSender implements DeviceMessageSender, Logging
                 }
             }
             catch (JMSException e) {
-            	getLog().error("Exception while sending JMS ObjectMessage", e);
+                getLog().error("Exception while sending JMS ObjectMessage", e);
             }
         }
         catch (JMSException e) {
-        	getLog().error("Exception while creating JMS ObjectMessage", e);
+            getLog().error("Exception while creating JMS ObjectMessage", e);
         }
     }
 

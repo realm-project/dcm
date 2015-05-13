@@ -126,16 +126,6 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
         });
     }
 
-    @SafeVarargs
-    public final void subscribe(Consumer<DeviceEvent> subscriber, Predicate<DeviceEvent>... filters) {
-        subscribe(event -> {
-            for (Predicate<DeviceEvent> filter : filters) {
-                if (!filter.test(event)) { return; }
-            }
-            subscriber.accept(event);
-        });
-    }
-
     public String getRegion() {
         return region;
     }
