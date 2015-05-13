@@ -1,13 +1,15 @@
 package net.realmproject.dcm.features.connection;
 
+
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.features.Identity;
 
+
 /**
- * Functionality for implementations which maintain a persistent connection
- * to a device. Implementing the abstract methods of this class will allow it 
- * to manage a disconnect/reconnect cycle automatically. call startConnection 
- * to initialize
+ * Functionality for implementations which maintain a persistent connection to a
+ * device. Implementing the abstract methods of this class will allow it to
+ * manage a disconnect/reconnect cycle automatically. call startConnection to
+ * initialize
  * 
  * @author NAS
  */
@@ -18,20 +20,20 @@ public interface Connection extends Identity, Logging {
      * process on device initialization. This will begin the connection process.
      */
     default void initConnection() {
-    	synchronized(this) {
-    		doConnect();
-    	}
+        synchronized (this) {
+            doConnect();
+        }
     }
-	
-	 /**
+
+    /**
      * Not to be called by client code. Called whenever this device is
-     * disconnected. This method wraps the connect method with logging, 
-     * error handling, and a call to onConnect after succeeding.
+     * disconnected. This method wraps the connect method with logging, error
+     * handling, and a call to onConnect after succeeding.
      */
     default void doConnect() {
         try {
 
-        	getLog().info("Device " + getId() + " (re)connecting...");
+            getLog().info("Device " + getId() + " (re)connecting...");
             connect();
             getLog().info("Device " + getId() + " (re)connected!");
 
@@ -41,21 +43,21 @@ public interface Connection extends Identity, Logging {
             Thread.currentThread().interrupt();
         }
         catch (Exception e2) {
-        	StringBuilder sb = new StringBuilder();
-        	sb.append("Device " + getId() + " failed to connect!\n");
-        	Throwable ex = e2;
-        	while (ex != null) {
-        		sb.append("\t" + ex.getMessage() + "\n");
-        		sb.append("\t\t" + ex.getStackTrace()[0] + "\n");
-        		ex = ex.getCause();
-        	}
-        	getLog().error(sb.toString());
-        	getLog().debug("Device " + getId() + " stack trace: ", e2);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Device " + getId() + " failed to connect!\n");
+            Throwable ex = e2;
+            while (ex != null) {
+                sb.append("\t" + ex.getMessage() + "\n");
+                sb.append("\t\t" + ex.getStackTrace()[0] + "\n");
+                ex = ex.getCause();
+            }
+            getLog().error(sb.toString());
+            getLog().debug("Device " + getId() + " stack trace: ", e2);
             onDisconnect(e2);
         }
     }
-	
-	 /**
+
+    /**
      * Not to be called by client code. Called whenever this device is
      * disconnected. This method should do whatever is necessary to connect the
      * device to its destination.
@@ -83,13 +85,8 @@ public interface Connection extends Identity, Logging {
      * @param exception
      *            The exception generated upon disconnection
      */
-    default void onDisconnect(Exception exception) {
-    	synchronized(this) {
-            onDisconnect(exception);
-            doConnect();
-    	}
-    }
-    
+    void onDisconnect(Exception exception);
+
     /**
      * Client code should call this method when the device loses it's
      * connection. This will begin the reconnection process.
@@ -97,6 +94,11 @@ public interface Connection extends Identity, Logging {
      * @param exception
      *            The exception generated upon disconnection
      */
-    void disconnected(Exception exception);
-	
+    default void disconnected(Exception exception) {
+        synchronized (this) {
+            onDisconnect(exception);
+            doConnect();
+        }
+    }
+
 }
