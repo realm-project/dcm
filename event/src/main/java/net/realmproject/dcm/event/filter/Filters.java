@@ -1,5 +1,6 @@
 package net.realmproject.dcm.event.filter;
 
+
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
@@ -11,18 +12,18 @@ import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueGetFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueSetFilter;
 
+
 public class Filters {
 
-	public static Predicate<DeviceEvent> id(String id) {
-		return new DeviceIDFilter(id);
-	}
-	
+    public static Predicate<DeviceEvent> id(String id) {
+        return new DeviceIDFilter(id);
+    }
 
     // /////////////////////////
-    // Region
+    // Zone
     // /////////////////////////
-    public static Predicate<DeviceEvent> region(String region) {
-        return new RegionFilter(region);
+    public static Predicate<DeviceEvent> zone(String zone) {
+        return new ZoneFilter(zone);
     }
 
     // /////////////////////////
@@ -33,28 +34,27 @@ public class Filters {
     }
 
     public static Predicate<DeviceEvent> backendEvents() {
-    	return new BackendFilter();
+        return new BackendFilter();
     }
 
     public static Predicate<DeviceEvent> pingEvents() {
-    	return new PingFilter();
+        return new PingFilter();
     }
 
     public static Predicate<DeviceEvent> pongEvents() {
-    	return new PongFilter();
+        return new PongFilter();
     }
 
     public static Predicate<DeviceEvent> getEvents() {
-    	return new ValueGetFilter();
+        return new ValueGetFilter();
     }
 
     public static Predicate<DeviceEvent> setEvents() {
-    	return new ValueSetFilter();
+        return new ValueSetFilter();
     }
 
     public static Predicate<DeviceEvent> changedEvents() {
-    	return new ValueChangedFilter();
+        return new ValueChangedFilter();
     }
 
-	
 }

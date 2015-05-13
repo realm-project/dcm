@@ -48,15 +48,15 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
 
     private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
     private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
-    private String region = "";
+    private String zone = "";
     private final Log log = LogFactory.getLog(getClass());
 
     public IDeviceEventBus() {
         this("");
     }
 
-    public IDeviceEventBus(String region) {
-        this.region = region;
+    public IDeviceEventBus(String zone) {
+        this.zone = zone;
         startSending();
         DCMThreadPool.getPool().submit(new Runnable() {
 
@@ -67,11 +67,11 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
                     try {
                         event = eventqueue.take();
 
-                        // only label event with our region if it hasn't already
+                        // only label event with our zone if it hasn't already
                         // been set. relabelling of events should be a conscious
                         // choice of a repeater
-                        if (event.getRegion() == null) {
-                            event.setRegion(getRegion());
+                        if (event.getZone() == null) {
+                            event.setZone(getZone());
                         }
 
                         synchronized (this) {
@@ -99,8 +99,8 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
 
     @Override
     public synchronized boolean broadcast(DeviceEvent event) {
-        if (event.isPrivateEvent() && !getRegion().equals(event.getRegion())) {
-            // private events from other regions will not be propagated
+        if (event.isPrivateEvent() && !getZone().equals(event.getZone())) {
+            // private events from other zones will not be propagated
             return false;
         }
         return super.send(event);
@@ -126,8 +126,8 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
         });
     }
 
-    public String getRegion() {
-        return region;
+    public String getZone() {
+        return zone;
     }
 
     @Override

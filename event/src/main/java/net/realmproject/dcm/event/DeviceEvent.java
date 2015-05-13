@@ -58,27 +58,27 @@ public interface DeviceEvent extends Serializable {
     Date getTimestamp();
 
     /**
-     * Gets the region this event was published in
+     * Gets the zone this event was published in
      * 
-     * @return region of origin
+     * @return zone of origin
      */
-    String getRegion();
+    String getZone();
 
     /**
-     * The region property is an arbitrary string representing what part of a
+     * The zone property is an arbitrary string representing what part of a
      * larger network of devices the event originated from, and is usually not
      * set by the publishing device, but by a component like a
      * {@link DeviceEventBus}
      * 
-     * @param region
-     *            the region this event originates from
+     * @param zone
+     *            the zone this event originates from
      * */
-    void setRegion(String region);
+    void setZone(String zone);
 
     /**
      * Private events are events which are not meant to be propagated beyond the
-     * region they were emitted in. {@link DeviceEventBus} implementations
-     * should not broadcast private events from other regions.
+     * zone they were emitted in. {@link DeviceEventBus} implementations should
+     * not broadcast private events from other zones.
      * 
      * @return true if this event is private, false otherwise.
      */

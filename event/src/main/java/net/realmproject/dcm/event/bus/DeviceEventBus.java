@@ -35,15 +35,15 @@ import net.realmproject.dcm.event.sender.DeviceEventSender;
  * looser coupling than a traditional direct listener-based model, as consumers
  * don't need to be aware of and registered with every producer of events. <br>
  * <br>
- * It is also possible to split a larger collection of devices into regions by
+ * It is also possible to split a larger collection of devices into zones by
  * using more than one DeviceEventBus. Events from one bus can be selectively
  * propagated to another using an {@link IDeviceEventBusForwarder} or using a
  * distributed messaging system like ActiveMQ (see
  * {@link AbstractDeviceMessageEncoder} and {@link DeviceMessageDecoder}). <br>
  * <br>
- * A DeviceEventBus has a region property which allows splitting busses into
+ * A DeviceEventBus has a zone property which allows splitting busses into
  * logical groups not related to the actual bus topology. DeviceEventBusses
- * should not broadcast events from other regions if those events are marked
+ * should not broadcast events from other zones if those events are marked
  * private.
  * 
  * @author NAS
@@ -114,13 +114,13 @@ public interface DeviceEventBus extends DeviceEventSender {
     }
 
     /**
-     * Gets the region for this this DeviceEventBus. Larger or more complex
-     * collections of devices can be split up into regions. Events can be
-     * filtered by region to isolate certain devices, or to keep the number of
-     * events to a minimum
+     * Gets the zone for this this DeviceEventBus. Larger or more complex
+     * collections of devices can be split up into zones. Events can be filtered
+     * by zone to isolate certain devices, or to keep the number of events to a
+     * minimum
      * 
-     * @return the region of this bus
+     * @return the zone of this bus
      */
-    String getRegion();
+    String getZone();
 
 }

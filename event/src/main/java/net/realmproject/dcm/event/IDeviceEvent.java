@@ -32,10 +32,10 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
  * type representing the intent of the message, and an optional
  * {@link Serializable} payload. <br>
  * <br>
- * DeviceEvents also have timestamp, and region properties. The region property
- * is an arbitrary string representing what part of a larger network of devices
- * the event originated from, and is usually not set by the publishing device,
- * but by a component like a {@link DeviceEventBus}
+ * DeviceEvents also have timestamp and zone properties. The zone property is an
+ * arbitrary string representing what part of a larger network of devices the
+ * event originated from, and is usually not set by the publishing device, but
+ * by a component like a {@link DeviceEventBus}
  * 
  * @author chabotd, NAS
  *
@@ -68,11 +68,11 @@ public class IDeviceEvent implements DeviceEvent {
     /**
      * The location (event bus) that this event was issued. Larger device
      * networks can be composed of multiple event busses, bridged over a message
-     * queuing system. The region field identifies which event bus the event is
-     * from, and allows events to be filtered by region. See
+     * queuing system. The zone field identifies which event bus the event is
+     * from, and allows events to be filtered by zone. See
      * {@link DeviceEventBus}
      */
-    private String region = null;
+    private String zone = null;
     private boolean privateEvent = false;
 
     /**************************************************************************/
@@ -143,13 +143,13 @@ public class IDeviceEvent implements DeviceEvent {
     }
 
     @Override
-    public String getRegion() {
-        return region;
+    public String getZone() {
+        return zone;
     }
 
     @Override
-    public void setRegion(String region) {
-        this.region = region;
+    public void setZone(String zone) {
+        this.zone = zone;
     }
 
     @Override

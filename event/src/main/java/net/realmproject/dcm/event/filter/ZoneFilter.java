@@ -29,28 +29,28 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
 
 
 /**
- * DeviceEvent filter which only allows events from a certain region. See
+ * DeviceEvent filter which only allows events from a certain zone. See
  * {@link DeviceEventBus}
  * 
  * @author NAS
  *
  */
 
-public class RegionFilter implements Predicate<DeviceEvent> {
+public class ZoneFilter implements Predicate<DeviceEvent> {
 
     private List<String> whitelist;
 
-    public RegionFilter(String region) {
+    public ZoneFilter(String zone) {
         whitelist = new ArrayList<>();
-        whitelist.add(region);
+        whitelist.add(zone);
     }
 
-    public RegionFilter(List<String> regions) {
-        whitelist = new ArrayList<>(regions);
+    public ZoneFilter(List<String> zones) {
+        whitelist = new ArrayList<>(zones);
     }
 
     @Override
     public boolean test(DeviceEvent e) {
-        return whitelist.contains(e.getRegion());
+        return whitelist.contains(e.getZone());
     }
 }
