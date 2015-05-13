@@ -103,7 +103,14 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
             // private events from other regions will not be propagated
             return false;
         }
-        return send(event);
+        return super.send(event);
+    }
+
+    // override this so that if a user calls send by accident, it will still go
+    // to broadcast like it should
+    @Override
+    public boolean send(DeviceEvent event) {
+        return broadcast(event);
     }
 
     @Override

@@ -54,7 +54,7 @@ public interface DeviceEventBus extends DeviceEventSender {
 
     /**
      * Send a {@link DeviceEvent} to all subscribers of this bus. Broadcasting
-     * is done asynchronously.
+     * is done asynchronously. This method should be called instead of send
      * 
      * @param event
      *            The event to broadcast

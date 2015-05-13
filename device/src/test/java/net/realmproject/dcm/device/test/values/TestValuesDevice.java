@@ -1,12 +1,11 @@
 package net.realmproject.dcm.device.test.values;
 
 
-import net.realmproject.dcm.device.Device;
+import net.realmproject.dcm.device.ValueDevice;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.features.Values;
 
 
-public class TestValuesDevice extends Device implements Values {
+public class TestValuesDevice extends ValueDevice {
 
     Object value;
 
