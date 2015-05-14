@@ -4,13 +4,12 @@ package net.realmproject.dcm.event.filter;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.filter.deviceeventtype.BackendFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.FrontendFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.MessageFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.PingFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.PongFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueGetFilter;
+import net.realmproject.dcm.event.filter.deviceeventtype.ValueGetSetFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueSetFilter;
 
 
@@ -30,12 +29,8 @@ public class Filters {
     // /////////////////////////
     // Device Event Type
     // /////////////////////////
-    public static Predicate<DeviceEvent> frontendEvents() {
-        return new FrontendFilter();
-    }
-
-    public static Predicate<DeviceEvent> backendEvents() {
-        return new BackendFilter();
+    public static Predicate<DeviceEvent> getSetEvents() {
+        return new ValueGetSetFilter();
     }
 
     public static Predicate<DeviceEvent> pingEvents() {

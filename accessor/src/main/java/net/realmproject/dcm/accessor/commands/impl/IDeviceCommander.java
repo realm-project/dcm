@@ -29,7 +29,7 @@ public class IDeviceCommander extends IDeviceAccessor implements DeviceCommander
         if (command.record) {
             label = recorder.recordCommand(command);
         }
-        send(getId(), bus, DeviceEventType.VALUE_SET, command);
+        send(getId(), bus, DeviceEventType.MESSAGE, command);
         return label;
     }
 

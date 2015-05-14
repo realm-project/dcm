@@ -84,7 +84,7 @@ public class IDeviceAccessor implements DeviceAccessor {
         if (bus == null) return false;
 
         DeviceEvent event;
-        if (type == DeviceEventType.VALUE_SET) {
+        if (type == DeviceEventType.VALUE_SET || type == DeviceEventType.MESSAGE) {
             event = new IDeviceEvent(type, deviceId, input);
         } else {
             event = new IDeviceEvent(type, deviceId);

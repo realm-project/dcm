@@ -20,9 +20,9 @@ public interface Commands extends Identity, Logging {
 
     default void initCommands(DeviceEventBus bus) {
 
-        Predicate<DeviceEvent> eventFilter = Filters.id(getId()).and(Filters.backendEvents());
+        Predicate<DeviceEvent> eventFilter = Filters.id(getId()).and(Filters.messageEvents());
         bus.subscribe(eventFilter, deviceEvent -> {
-            if (deviceEvent.getDeviceEventType() == DeviceEventType.VALUE_SET) {
+            if (deviceEvent.getDeviceEventType() == DeviceEventType.MESSAGE) {
                 Command command = (Command) deviceEvent.getValue();
                 runCommand(command);
             }
@@ -67,7 +67,6 @@ public interface Commands extends Identity, Logging {
 
                 // Look up method for command
                 Method method = findCommandMethod(command.action);
-                CommandMethod annotation = getCommandMethodAnnotation(method);
 
                 // case where no method
                 if (method == null) {
