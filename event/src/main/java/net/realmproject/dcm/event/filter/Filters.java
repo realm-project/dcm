@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.filter.deviceeventtype.BackendFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.FrontendFilter;
+import net.realmproject.dcm.event.filter.deviceeventtype.MessageFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.PingFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.PongFilter;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
@@ -43,6 +44,10 @@ public class Filters {
 
     public static Predicate<DeviceEvent> pongEvents() {
         return new PongFilter();
+    }
+
+    public static Predicate<DeviceEvent> messageEvents() {
+        return new MessageFilter();
     }
 
     public static Predicate<DeviceEvent> getEvents() {
