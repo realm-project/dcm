@@ -91,7 +91,7 @@ public interface Commands extends Identity, Logging {
                     // annotation, try and convert the entire map to the
                     // expected parameter class type
 
-                    method.invoke(this, DCMSerialize.convertMessage(command.arguments, method.getParameterTypes()[0]));
+                    method.invoke(this, DCMSerialize.convertObject(command.arguments, method.getParameterTypes()[0]));
 
                 } else {
 
@@ -114,7 +114,7 @@ public interface Commands extends Identity, Logging {
                         }
 
                         Object argValue = command.arguments.get(paramName);
-                        argValues[count] = DCMSerialize.convertMessage(argValue, method.getParameterTypes()[count]);
+                        argValues[count] = DCMSerialize.convertObject(argValue, method.getParameterTypes()[count]);
 
                     }
 

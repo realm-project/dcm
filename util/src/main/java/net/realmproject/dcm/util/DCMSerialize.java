@@ -45,8 +45,13 @@ public class DCMSerialize {
         return (Map<String, Serializable>) deserialize(serialize(o));
     }
 
-    public static <T> T convertMessage(Object publication, Class<T> clazz) {
-        String asString = serialize(publication);
+    @SuppressWarnings("unchecked")
+    public static <T> T convertObject(Object object, Class<T> clazz) {
+        // If this object is of class 'clazz', then just return it
+        if (clazz.isAssignableFrom(object.getClass())) { return (T) object; }
+        // Otherwise, use json serialization to try and coerce the data into the
+        // desired class
+        String asString = serialize(object);
         return deserialize(asString, clazz);
     }
 
