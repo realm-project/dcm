@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Command {
+public class Command implements Serializable {
 
     public Command() {}
 

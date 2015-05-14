@@ -23,8 +23,7 @@ public interface Commands extends Identity, Logging {
         Predicate<DeviceEvent> eventFilter = Filters.id(getId()).and(Filters.backendEvents());
         bus.subscribe(eventFilter, deviceEvent -> {
             if (deviceEvent.getDeviceEventType() == DeviceEventType.VALUE_SET) {
-                Object value = deviceEvent.getValue();
-                Command command = DCMSerialize.convertMessage(value, Command.class);
+                Command command = (Command) deviceEvent.getValue();
                 runCommand(command);
             }
         });

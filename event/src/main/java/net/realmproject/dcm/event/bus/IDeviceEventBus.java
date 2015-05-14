@@ -76,7 +76,17 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
 
                         synchronized (this) {
                             for (Consumer<DeviceEvent> consumer : consumers) {
-                                consumer.accept(event);
+                                try {
+                                    consumer.accept(event);
+                                }
+                                catch (Exception e) {
+                                    // the eventbus thread cannot die, any
+                                    // exceptions which
+                                    // remain uncaught at this point should be
+                                    // logged, but
+                                    // discarded
+                                    getLog().error(event, e);
+                                }
                             }
                         }
                     }
