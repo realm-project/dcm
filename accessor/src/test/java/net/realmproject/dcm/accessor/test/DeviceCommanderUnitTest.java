@@ -2,8 +2,8 @@ package net.realmproject.dcm.accessor.test;
 
 
 import static org.junit.Assert.assertEquals;
-import net.realmproject.dcm.accessor.commands.DeviceCommander;
-import net.realmproject.dcm.accessor.commands.impl.IDeviceCommander;
+import net.realmproject.dcm.accessor.DeviceAccessor;
+import net.realmproject.dcm.accessor.impl.IDeviceAccessor;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
 import net.realmproject.dcm.features.command.Command;
@@ -23,11 +23,11 @@ public class DeviceCommanderUnitTest {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
-        DeviceCommander deviceCommander = new IDeviceCommander(ID, bus);
+        DeviceAccessor<TestState> deviceCommander = new IDeviceAccessor<>(ID, bus);
 
-        deviceCommander.write(new Command(COMMAND).arg(MESSAGE));
+        deviceCommander.sendMessage(new Command(COMMAND).arg(MESSAGE));
         sleep();
-        assertEquals(MESSAGE, deviceCommander.getState().get("message"));
+        assertEquals(MESSAGE, deviceCommander.getState().getMessage());
     }
 
     @Test
@@ -35,15 +35,15 @@ public class DeviceCommanderUnitTest {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
-        DeviceCommander deviceWriter = new IDeviceCommander(ID, bus);
+        DeviceAccessor<TestState> deviceWriter = new IDeviceAccessor<>(ID, bus);
 
-        deviceWriter.write(new Command(COMMAND).arg(MESSAGE));
+        deviceWriter.sendMessage(new Command(COMMAND).arg(MESSAGE));
         sleep();
-        assertEquals(MESSAGE, deviceWriter.getState().get("message"));
+        assertEquals(MESSAGE, deviceWriter.getState().getMessage());
 
-        deviceWriter.write(new Command(COMMAND).arg(ANOTHER_MESSAGE));
+        deviceWriter.sendMessage(new Command(COMMAND).arg(ANOTHER_MESSAGE));
         sleep();
-        assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().get("message"));
+        assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getMessage());
     }
 
     @Test
@@ -51,12 +51,13 @@ public class DeviceCommanderUnitTest {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
-        DeviceCommander deviceWriter = new IDeviceCommander(ID, bus);
+        DeviceAccessor<TestState> deviceWriter = new IDeviceAccessor<>(ID, bus);
 
-        deviceWriter.write(new Command("setTwoMessages").arg("message", MESSAGE).arg("secondMessage", ANOTHER_MESSAGE));
+        deviceWriter.sendMessage(new Command("setTwoMessages").arg("message", MESSAGE)
+                .arg("secondMessage", ANOTHER_MESSAGE));
         sleep();
-        assertEquals(MESSAGE, deviceWriter.getState().get("message"));
-        assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().get("secondMessage"));
+        assertEquals(MESSAGE, deviceWriter.getState().getMessage());
+        assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getSecondMessage());
     }
 
     private void sleep() {

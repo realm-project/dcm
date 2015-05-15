@@ -22,24 +22,22 @@ package net.realmproject.dcm.accessor.impl;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import net.realmproject.dcm.accessor.DeviceAccessor;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
+import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.Filters;
-import net.realmproject.dcm.util.DCMSerialize;
 
 
-public class IDeviceAccessor implements DeviceAccessor {
+public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T>, Logging {
 
     protected DeviceEventBus bus;
     private String id;
     private Date timestamp = new Date();
-    private Map<String, Serializable> deviceState = new HashMap<>();
+    private T deviceState;
 
     public IDeviceAccessor(String id, DeviceEventBus bus) {
         this.id = id;
@@ -47,10 +45,11 @@ public class IDeviceAccessor implements DeviceAccessor {
 
         // listen for change events, query device to produce one
         bus.subscribe(Filters.id(id).and(Filters.changedEvents()), this::handleEvent);
-        query();
+        sendValueGet();
 
     }
 
+    @SuppressWarnings("unchecked")
     public void handleEvent(DeviceEvent event) {
 
         // will we ever have the issue where messages arrive out of order? What
@@ -61,9 +60,12 @@ public class IDeviceAccessor implements DeviceAccessor {
             return;
         }
 
-        Serializable value = event.getValue();
-        deviceState.clear();
-        deviceState.putAll(DCMSerialize.structToMap(value));
+        try {
+            deviceState = (T) event.getValue();
+        }
+        catch (ClassCastException e) {
+            getLog().error(e);
+        }
     }
 
     @Override
@@ -72,25 +74,13 @@ public class IDeviceAccessor implements DeviceAccessor {
     }
 
     @Override
-    public void write(Serializable input) {
+    public void sendMessage(Serializable input) {
+        send(getId(), bus, DeviceEventType.MESSAGE, input);
+    }
+
+    @Override
+    public void sendValueSet(Serializable input) {
         send(getId(), bus, DeviceEventType.VALUE_SET, input);
-    }
-
-    static boolean query(String deviceId, DeviceEventBus bus) {
-        return send(deviceId, bus, DeviceEventType.VALUE_GET, null);
-    }
-
-    protected static boolean send(String deviceId, DeviceEventBus bus, DeviceEventType type, Serializable input) {
-        if (bus == null) return false;
-
-        DeviceEvent event;
-        if (type == DeviceEventType.VALUE_SET || type == DeviceEventType.MESSAGE) {
-            event = new IDeviceEvent(type, deviceId, input);
-        } else {
-            event = new IDeviceEvent(type, deviceId);
-        }
-
-        return bus.broadcast(event);
     }
 
     @Override
@@ -99,13 +89,27 @@ public class IDeviceAccessor implements DeviceAccessor {
     }
 
     @Override
-    public void query() {
-        IDeviceAccessor.query(getId(), bus);
+    public void sendValueGet() {
+        sendValueGet(getId(), bus);
     }
 
     @Override
-    public Map<String, Serializable> getState() {
+    public T getState() {
         return deviceState;
+    }
+
+    static boolean sendValueGet(String deviceId, DeviceEventBus bus) {
+        return send(deviceId, bus, DeviceEventType.VALUE_GET);
+    }
+
+    protected static boolean send(String deviceId, DeviceEventBus bus, DeviceEventType type) {
+        return send(deviceId, bus, type, null);
+    }
+
+    protected static boolean send(String deviceId, DeviceEventBus bus, DeviceEventType type, Serializable input) {
+        if (bus == null) return false;
+        DeviceEvent event = new IDeviceEvent(type, deviceId, input);
+        return bus.broadcast(event);
     }
 
 }

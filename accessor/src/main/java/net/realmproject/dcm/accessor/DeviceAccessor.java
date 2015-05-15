@@ -22,18 +22,47 @@ package net.realmproject.dcm.accessor;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 import net.realmproject.dcm.features.Identity;
 
 
-public interface DeviceAccessor extends Identity {
+public interface DeviceAccessor<T extends Serializable> extends Identity {
 
-    void write(Serializable input);
+    /**
+     * Sends a MESSAGE event with the given payload
+     * 
+     * @param input
+     *            the payload to include with the event
+     */
+    void sendMessage(Serializable input);
 
-    Map<String, Serializable> getState();
+    /**
+     * Sends a VALUE_SET event with the given payload
+     * 
+     * @param input
+     *            the payload to include with the event
+     */
+    void sendValueSet(Serializable input);
 
+    /**
+     * Gets the state of the backing device as represented by the most recently
+     * received VALUE_CHANGED event from a backing device.
+     * 
+     * @return the state of a Device
+     */
+    T getState();
+
+    /**
+     * Gets the timestamp of the most recently received event from a backing
+     * device.
+     * 
+     * @return the timestamp of the most recent event
+     */
     Date getTimestamp();
 
-    void query();
+    /**
+     * Asynchronously emits a VALUE_GET event which may trigger a VALUE_CHANGED
+     * event from a backing device.
+     */
+    void sendValueGet();
 }
