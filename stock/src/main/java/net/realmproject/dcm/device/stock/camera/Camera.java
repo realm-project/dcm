@@ -18,10 +18,15 @@ import org.apache.commons.codec.binary.Base64;
 public abstract class Camera extends Device implements Heartbeat, Statefulness<Frame> {
 
     protected Frame frame = new Frame();
+    private int heartbeatInterval;
 
     protected Camera(String id, DeviceEventBus bus, int interval) {
         super(id, bus);
-        initHeartbeat(interval);
+        this.heartbeatInterval = interval;
+    }
+
+    public void init() {
+        initHeartbeat(heartbeatInterval);
     }
 
     @Override
