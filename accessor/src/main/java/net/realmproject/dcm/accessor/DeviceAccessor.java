@@ -22,6 +22,8 @@ package net.realmproject.dcm.accessor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Consumer;
 
 import net.realmproject.dcm.features.Identity;
 
@@ -65,4 +67,8 @@ public interface DeviceAccessor<T extends Serializable> extends Identity {
      * event from a backing device.
      */
     void sendValueGet();
+
+    public List<Consumer<T>> getListeners();
+
+    public void setListeners(List<Consumer<T>> listeners);
 }
