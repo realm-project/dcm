@@ -1,6 +1,7 @@
 package net.realmproject.dcm.event.filter;
 
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
@@ -55,6 +56,22 @@ public class Filters {
 
     public static Predicate<DeviceEvent> changedEvents() {
         return new ValueChangedFilter();
+    }
+
+    public static Predicate<DeviceEvent> all(List<Predicate<DeviceEvent>> filters) {
+        Predicate<DeviceEvent> predicate = (deviceEvent) -> true;
+        for (Predicate<DeviceEvent> filter : filters) {
+            predicate = predicate.and(filter);
+        }
+        return predicate;
+    }
+
+    public static Predicate<DeviceEvent> any(List<Predicate<DeviceEvent>> filters) {
+        Predicate<DeviceEvent> predicate = (deviceEvent) -> false;
+        for (Predicate<DeviceEvent> filter : filters) {
+            predicate = predicate.or(filter);
+        }
+        return predicate;
     }
 
 }
