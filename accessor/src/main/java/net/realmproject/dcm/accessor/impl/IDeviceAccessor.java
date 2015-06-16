@@ -67,7 +67,7 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
 
         try {
             deviceState = (T) event.getValue();
-            for (Consumer c : listeners) {
+            for (Consumer c : new ArrayList<>(listeners)) {
                 c.accept(deviceState);
             }
         }
