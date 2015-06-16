@@ -31,16 +31,10 @@ public abstract class Camera extends Device implements Statefulness<Frame> {
     }
 
     public void setImage(BufferedImage image, String format) throws IOException {
-        frame.image = fromImage(image, format);
-        publishState();
-    }
-
-    // takes a buffered image and returns a base64-encoded image
-    private byte[] fromImage(BufferedImage image, String format) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, format, baos);
         baos.close();
-        return baos.toByteArray();
+        frame.image = baos.toByteArray();
+        publishState();
     }
-
 }
