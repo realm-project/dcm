@@ -23,11 +23,19 @@ package net.realmproject.dcm.features.command;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import net.realmproject.dcm.features.Identity;
 
 
-public class Command implements Serializable {
+public class Command implements Serializable, Identity {
 
-    public Command() {}
+    
+    private String id;
+
+    public Command() {
+        id = "Command-" + UUID.randomUUID().toString();
+    }
 
     public Command(String action) {
         this.action = action;
@@ -79,6 +87,11 @@ public class Command implements Serializable {
     public Command arg(Object value) {
         arguments.put("value", value);
         return this;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
 }

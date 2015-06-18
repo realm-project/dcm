@@ -75,6 +75,7 @@ public interface Commands extends Identity, Logging {
                     throw new IllegalArgumentException("Command not found: " + command.action);
                 }
 
+                // before anything, call this hook
                 beforeCommand(command);
 
                 int argCount = method.getParameterCount();
@@ -121,6 +122,7 @@ public interface Commands extends Identity, Logging {
 
                 }
 
+                // after the method (results may be async), call this hook
                 afterCommand(command);
 
             }
