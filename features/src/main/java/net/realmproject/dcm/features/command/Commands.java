@@ -76,12 +76,14 @@ public interface Commands extends Identity, Logging {
                 }
 
                 // before anything, call this hook
-                beforeCommand(command);
+                boolean execute = beforeCommand(command);
+                if (!execute) { return; }
 
                 int argCount = method.getParameterCount();
 
                 if (argCount == 0) {
 
+                    setLastCommand(command);
                     // case where zero-arg method
                     method.invoke(this, new Object[] {});
                     return;
@@ -91,6 +93,7 @@ public interface Commands extends Identity, Logging {
                     // annotation, try and convert the entire map to the
                     // expected parameter class type
 
+                    setLastCommand(command);
                     method.invoke(this, DCMSerialize.convertObject(command.arguments, method.getParameterTypes()[0]));
 
                 } else {
@@ -118,6 +121,7 @@ public interface Commands extends Identity, Logging {
 
                     }
 
+                    setLastCommand(command);
                     method.invoke(this, argValues);
 
                 }
@@ -176,5 +180,9 @@ public interface Commands extends Identity, Logging {
     Map<String, Method> getCommandMethods();
 
     void setCommandMethods(Map<String, Method> methods);
+
+    Command getLastCommand();
+
+    void setLastCommand(Command command);
 
 }
