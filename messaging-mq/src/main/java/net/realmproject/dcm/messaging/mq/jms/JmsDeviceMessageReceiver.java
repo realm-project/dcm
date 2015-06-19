@@ -28,9 +28,9 @@ import javax.jms.ObjectMessage;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageTranscoder;
+import net.realmproject.dcm.messaging.Transcoder;
 import net.realmproject.dcm.messaging.impl.IDeviceMessageReceiver;
-import net.realmproject.dcm.messaging.impl.IIdentityDeviceMessageTranscoder;
+import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
 
 
 /**
@@ -40,10 +40,10 @@ import net.realmproject.dcm.messaging.impl.IIdentityDeviceMessageTranscoder;
 public class JmsDeviceMessageReceiver extends IDeviceMessageReceiver implements MessageListener, Logging {
 
     public JmsDeviceMessageReceiver(DeviceEventBus bus) {
-        super(bus, new IIdentityDeviceMessageTranscoder());
+        super(bus, new IIdentityTranscoder());
     }
 
-    public JmsDeviceMessageReceiver(DeviceEventBus bus, DeviceMessageTranscoder transcoder) {
+    public JmsDeviceMessageReceiver(DeviceEventBus bus, Transcoder transcoder) {
         super(bus, transcoder);
     }
 

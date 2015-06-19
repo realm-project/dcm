@@ -35,9 +35,9 @@ import javax.jms.Topic;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageTranscoder;
+import net.realmproject.dcm.messaging.Transcoder;
 import net.realmproject.dcm.messaging.impl.IDeviceMessageReceiver;
-import net.realmproject.dcm.messaging.impl.IIdentityDeviceMessageTranscoder;
+import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -61,10 +61,10 @@ public class ActiveMQDeviceMessageReceiver extends IDeviceMessageReceiver implem
     protected Session session;
 
     public ActiveMQDeviceMessageReceiver(DeviceEventBus bus, String subject, boolean topic, String url) {
-        this(bus, new IIdentityDeviceMessageTranscoder(), subject, topic, url);
+        this(bus, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQDeviceMessageReceiver(DeviceEventBus bus, DeviceMessageTranscoder transcoder, String subject,
+    public ActiveMQDeviceMessageReceiver(DeviceEventBus bus, Transcoder transcoder, String subject,
             boolean topic, String url) {
         super(bus, transcoder);
         this.subject = subject;

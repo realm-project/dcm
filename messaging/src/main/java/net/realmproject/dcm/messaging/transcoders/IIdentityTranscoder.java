@@ -1,13 +1,13 @@
-package net.realmproject.dcm.messaging.impl;
+package net.realmproject.dcm.messaging.transcoders;
 
 
 import java.io.Serializable;
 
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageTranscoder;
+import net.realmproject.dcm.messaging.Transcoder;
 
 
-public class IIdentityDeviceMessageTranscoder implements DeviceMessageTranscoder {
+public class IIdentityTranscoder implements Transcoder {
 
     @Override
     public DeviceMessage encode(DeviceMessage message) {

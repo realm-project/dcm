@@ -4,7 +4,7 @@ package net.realmproject.dcm.messaging;
 import java.io.Serializable;
 
 
-public interface DeviceMessageTranscoder {
+public interface Transcoder {
 
     public Serializable encode(DeviceMessage message);
 

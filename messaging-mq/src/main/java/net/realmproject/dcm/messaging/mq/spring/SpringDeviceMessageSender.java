@@ -24,9 +24,9 @@ import javax.jms.Destination;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.DeviceMessageTranscoder;
+import net.realmproject.dcm.messaging.Transcoder;
 import net.realmproject.dcm.messaging.impl.IDeviceMessageSender;
-import net.realmproject.dcm.messaging.impl.IIdentityDeviceMessageTranscoder;
+import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
 
 import org.springframework.jms.core.JmsTemplate;
 
@@ -40,13 +40,13 @@ public class SpringDeviceMessageSender extends IDeviceMessageSender {
     private JmsTemplate jmsTemplate;
     private Destination destination;
     private String destinationName;
-    private DeviceMessageTranscoder transcoder;
+    private Transcoder transcoder;
 
     public SpringDeviceMessageSender(DeviceEventBus bus) {
-        super(bus, new IIdentityDeviceMessageTranscoder());
+        super(bus, new IIdentityTranscoder());
     }
 
-    public SpringDeviceMessageSender(DeviceEventBus bus, DeviceMessageTranscoder transcoder) {
+    public SpringDeviceMessageSender(DeviceEventBus bus, Transcoder transcoder) {
         super(bus, transcoder);
     }
 
