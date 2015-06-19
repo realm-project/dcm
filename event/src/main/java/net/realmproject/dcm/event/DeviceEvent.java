@@ -92,4 +92,13 @@ public interface DeviceEvent extends Serializable {
      */
     void setPrivateEvent(boolean privateEvent);
 
+    /**
+     * Performs a deep copy which allows distribution of events without the
+     * chance that one reference holder can change the state of the event for
+     * others
+     * 
+     * @return a deep copy of this event
+     */
+    DeviceEvent deepCopy();
+
 }

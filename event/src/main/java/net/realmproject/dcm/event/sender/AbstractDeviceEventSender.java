@@ -39,7 +39,7 @@ public abstract class AbstractDeviceEventSender implements DeviceEventSender, De
         if (event == null) { return false; }
         if (!isSending()) { return false; }
 
-        boolean result = doSend(event);
+        boolean result = doSend(event.deepCopy());
         if (result) {
             incrementSentEvents();
         }
