@@ -27,6 +27,7 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.AcceptFilter;
 import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.DeviceMessageSender;
+import net.realmproject.dcm.messaging.DeviceMessageTranscoder;
 
 
 /**
@@ -39,8 +40,10 @@ import net.realmproject.dcm.messaging.DeviceMessageSender;
 public abstract class IDeviceMessageSender implements DeviceMessageSender {
 
     private Predicate<DeviceEvent> filter = new AcceptFilter();
+    protected DeviceMessageTranscoder transcoder;
 
-    public IDeviceMessageSender(DeviceEventBus bus) {
+    public IDeviceMessageSender(DeviceEventBus bus, DeviceMessageTranscoder transcoder) {
+        this.transcoder = transcoder;
         bus.subscribe(event -> {
             if (!filter.test(event)) { return; }
             send(new DeviceMessage(event));
