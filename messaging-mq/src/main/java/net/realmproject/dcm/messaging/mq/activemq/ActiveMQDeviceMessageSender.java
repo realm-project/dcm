@@ -31,7 +31,9 @@ import javax.jms.Session;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.messaging.DeviceMessage;
+import net.realmproject.dcm.messaging.Transcoder;
 import net.realmproject.dcm.messaging.impl.IDeviceMessageSender;
+import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -57,7 +59,12 @@ public class ActiveMQDeviceMessageSender extends IDeviceMessageSender implements
     protected Session session;
 
     public ActiveMQDeviceMessageSender(DeviceEventBus bus, String subject, boolean topic, String url) {
-        super(bus);
+        this(bus, new IIdentityTranscoder(), subject, topic, url);
+    }
+
+    public ActiveMQDeviceMessageSender(DeviceEventBus bus, Transcoder transcoder, String subject,
+            boolean topic, String url) {
+        super(bus, transcoder);
         this.subject = subject;
         this.topic = topic;
         this.url = url;

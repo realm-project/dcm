@@ -39,4 +39,11 @@ public interface Statefulness<T extends Statefulness.State> extends Publishing {
         publish(getState());
     }
 
+    /**
+     * Publishes the given state as a VALUE_CHANGED event
+     */
+    default void publishState(State state) {
+        publish(state);
+    }
+
 }

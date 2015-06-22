@@ -21,7 +21,10 @@ package net.realmproject.dcm.accessor.impl;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Consumer;
 
 import net.realmproject.dcm.accessor.DeviceAccessor;
 import net.realmproject.dcm.event.DeviceEvent;
@@ -38,6 +41,8 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     private String id;
     private Date timestamp = new Date();
     private T deviceState;
+
+    private List<Consumer<T>> listeners = new ArrayList<>();
 
     public IDeviceAccessor(String id, DeviceEventBus bus) {
         this.id = id;
@@ -62,6 +67,9 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
 
         try {
             deviceState = (T) event.getValue();
+            for (Consumer c : new ArrayList<>(listeners)) {
+                c.accept(deviceState);
+            }
         }
         catch (ClassCastException e) {
             getLog().error(e);
@@ -110,6 +118,16 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
         if (bus == null) return false;
         DeviceEvent event = new IDeviceEvent(type, deviceId, input);
         return bus.broadcast(event);
+    }
+
+    @Override
+    public List<Consumer<T>> getListeners() {
+        return listeners;
+    }
+
+    @Override
+    public void setListeners(List<Consumer<T>> listeners) {
+        this.listeners = listeners;
     }
 
 }

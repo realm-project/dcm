@@ -38,6 +38,13 @@ import flexjson.transformer.AbstractTransformer;
  */
 public class DCMSerialize {
 
+    private final static JSONSerializer SERIALIZE_WITHOUT_CLASSES = new JSONSerializer()
+            .transform(new ExcludeTransformer(), void.class).exclude("*.class").prettyPrint(true);
+
+    private final static JSONSerializer SERIALIZE_WITH_CLASSES = new JSONSerializer().prettyPrint(true);
+
+    private final static JSONDeserializer<Object> DESERIALIZE = new JSONDeserializer<>();
+
     @SuppressWarnings("unchecked")
     public static Map<String, Serializable> structToMap(Object o) {
         Object o2 = deserialize(serialize(o));
@@ -56,16 +63,20 @@ public class DCMSerialize {
     }
 
     public static Object deserialize(String json) {
-        return new JSONDeserializer<Object>().deserialize(json);
+        return DESERIALIZE.deserialize(json);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T deserialize(String json, Class<T> clazz) {
-        return new JSONDeserializer<T>().deserialize(json, clazz);
+        return (T) DESERIALIZE.deserialize(json, clazz);
+    }
+
+    public static String serializeWithClassInfo(Object o) {
+        return SERIALIZE_WITH_CLASSES.deepSerialize(o);
     }
 
     public static String serialize(Object o) {
-        return new JSONSerializer().transform(new ExcludeTransformer(), void.class).exclude("*.class")
-                .prettyPrint(true).deepSerialize(o);
+        return SERIALIZE_WITHOUT_CLASSES.prettyPrint(true).deepSerialize(o);
     }
 
 }
