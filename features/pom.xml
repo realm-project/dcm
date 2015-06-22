@@ -6,7 +6,7 @@
   <parent>
     <groupId>net.realmproject.dcm</groupId>
     <artifactId>realm-dcm</artifactId>
-    <version>2.0.0-alpha.2</version>
+    <version>2.0.0-alpha.3</version>
   </parent>
   <artifactId>realm-dcm-features</artifactId>
   <name>realm-dcm-features</name>
@@ -24,7 +24,7 @@
 	<dependency>
 		<groupId>net.realmproject.dcm</groupId>
 		<artifactId>realm-dcm-event</artifactId>
-		<version>2.0.0-alpha.2</version>
+		<version>2.0.0-alpha.3</version>
 	</dependency>
   </dependencies>
   <build>
