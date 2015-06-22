@@ -1,10 +1,10 @@
 package net.realmproject.dcm.accessor.test;
 
 
-import net.realmproject.dcm.features.command.CommandState;
+import net.realmproject.dcm.features.Statefulness.State;
 
 
-public class TestState extends CommandState {
+public class TestState extends State {
 
     private String message;
     private String secondMessage;

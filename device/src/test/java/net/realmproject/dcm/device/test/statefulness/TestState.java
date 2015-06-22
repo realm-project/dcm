@@ -1,10 +1,10 @@
 package net.realmproject.dcm.device.test.statefulness;
 
 
-import net.realmproject.dcm.features.command.CommandState;
+import net.realmproject.dcm.features.Statefulness.State;
 
 
-public class TestState extends CommandState {
+public class TestState extends State {
 
     public int number;
 }

@@ -6,8 +6,8 @@ import java.util.Map;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.features.Statefulness;
+import net.realmproject.dcm.features.Statefulness.State;
 import net.realmproject.dcm.features.command.Command;
-import net.realmproject.dcm.features.command.CommandState;
 import net.realmproject.dcm.features.command.Commands;
 
 
@@ -19,7 +19,7 @@ import net.realmproject.dcm.features.command.Commands;
  * @param <T>
  *            type of device state
  */
-public abstract class CommandDevice<T extends CommandState> extends Device implements Commands, Statefulness<T> {
+public abstract class CommandDevice<T extends State> extends Device implements Commands, Statefulness<T> {
 
     Command lastCommand;
 

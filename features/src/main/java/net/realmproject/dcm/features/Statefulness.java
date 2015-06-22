@@ -12,13 +12,24 @@ public interface Statefulness<T extends Statefulness.State> extends Publishing {
      * @author NAS
      *
      */
-    public class State implements Serializable {
+    public class State implements Serializable, Identity {
+
+        private String id;
 
         public enum Mode {
             IDLE, BUSY, ERROR, DISCONNECTED, UNKNOWN;
         }
 
         public Mode mode = Mode.IDLE;
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
     }
 
     /**
