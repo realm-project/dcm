@@ -4,6 +4,14 @@ package net.realmproject.dcm.features.recording;
 import java.io.Serializable;
 
 
+/**
+ * Generic implementation of the {@link Recording} interface which manages a
+ * {@link RecordWriter} and implements a default record method using it
+ * 
+ * @author NAS
+ *
+ * @param <T>
+ */
 public class Recorder<T extends Serializable> implements Recording<T> {
 
     RecordWriter<T> writer;

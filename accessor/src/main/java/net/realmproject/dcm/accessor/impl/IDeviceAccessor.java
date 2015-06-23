@@ -82,6 +82,11 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     }
 
     @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
     public void sendMessage(Serializable input) {
         send(getId(), bus, DeviceEventType.MESSAGE, input);
     }

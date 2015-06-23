@@ -1,4 +1,4 @@
-package net.realmproject.dcm.features;
+package net.realmproject.dcm.features.ping;
 
 
 import java.util.function.Predicate;
@@ -7,7 +7,7 @@ import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.DeviceIDFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.PingFilter;
+import net.realmproject.dcm.features.Publishing;
 
 
 public interface PingResponse extends Publishing {
@@ -19,7 +19,9 @@ public interface PingResponse extends Publishing {
     }
 
     default void onPing(DeviceEvent event) {
-        publish(event.getValue(), DeviceEventType.PONG);
+        PingMessage ping = (PingMessage) event.getValue();
+        PongMessage pong = new PongMessage(ping);
+        publish(pong, DeviceEventType.MESSAGE);
     }
 
 }

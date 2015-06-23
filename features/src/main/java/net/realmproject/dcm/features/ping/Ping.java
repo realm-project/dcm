@@ -1,4 +1,4 @@
-package net.realmproject.dcm.event;
+package net.realmproject.dcm.features.ping;
 
 
 import java.io.Serializable;

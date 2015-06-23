@@ -48,4 +48,9 @@ public class Device extends IDeviceEventBusSender implements Identity, Logging {
         return log;
     }
 
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

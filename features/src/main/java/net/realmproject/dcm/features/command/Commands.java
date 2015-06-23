@@ -63,7 +63,7 @@ public interface Commands extends Identity, Logging {
             try {
 
                 getLog().info("Device " + getId() + " received command: " + command.action);
-                getLog().debug(getId() + ":" + command.action + ":" + DCMSerialize.serialize(command.arguments));
+                getLog().debug(getId() + ":" + command.action + ":" + DCMSerialize.serialize(command.getPropertyMap()));
 
                 // Look up method for command
                 Method method = findCommandMethod(command.action);
@@ -94,7 +94,8 @@ public interface Commands extends Identity, Logging {
                     // expected parameter class type
 
                     setLastCommand(command);
-                    method.invoke(this, DCMSerialize.convertObject(command.arguments, method.getParameterTypes()[0]));
+                    method.invoke(this,
+                            DCMSerialize.convertObject(command.getPropertyMap(), method.getParameterTypes()[0]));
 
                 } else {
 
@@ -112,11 +113,11 @@ public interface Commands extends Identity, Logging {
                                 "Named argument calls must have parameters with Arg annotations"); }
                         Arg arg = args[0];
                         String paramName = arg.value();
-                        if (!command.arguments.containsKey(paramName)) {
+                        if (!command.getPropertyMap().containsKey(paramName)) {
                             continue;
                         }
 
-                        Object argValue = command.arguments.get(paramName);
+                        Object argValue = command.getPropertyMap().get(paramName);
                         argValues[count] = DCMSerialize.convertObject(argValue, method.getParameterTypes()[count]);
 
                     }

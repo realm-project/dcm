@@ -1,7 +1,10 @@
 package net.realmproject.dcm.features;
 
 
-import java.io.Serializable;
+import java.util.Map;
+import java.util.UUID;
+
+import net.realmproject.dcm.features.recording.Recordable;
 
 
 public interface Statefulness<T extends Statefulness.State> extends Publishing {
@@ -12,9 +15,15 @@ public interface Statefulness<T extends Statefulness.State> extends Publishing {
      * @author NAS
      *
      */
-    public class State implements Serializable, Identity {
+    public class State implements Recordable, Identity, Properties<Object> {
 
+        private Map<String, Object> properties;
         private String id;
+        private boolean toRecord;
+
+        public State() {
+            id = UUID.randomUUID().toString();
+        }
 
         public enum Mode {
             IDLE, BUSY, ERROR, DISCONNECTED, UNKNOWN;
@@ -29,6 +38,33 @@ public interface Statefulness<T extends Statefulness.State> extends Publishing {
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        @Override
+        public boolean isToRecord() {
+            // TODO Auto-generated method stub
+            return toRecord;
+        }
+
+        @Override
+        public void setToRecord(boolean toRecord) {
+            this.toRecord = toRecord;
+        }
+
+        @Override
+        public void setPropertyMap(Map<String, Object> propertyMap) {
+            this.properties = propertyMap;
+        }
+
+        @Override
+        public Map<String, Object> getPropertyMap() {
+            return properties;
+        }
+
+        public void setMessageType(String messageType) {}
+
+        public String getMessageType() {
+            return null;
         }
     }
 

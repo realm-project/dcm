@@ -20,31 +20,16 @@
 package net.realmproject.dcm.features.command;
 
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-import net.realmproject.dcm.features.Identity;
+import net.realmproject.dcm.features.Properties;
+import net.realmproject.dcm.features.message.Message;
 
 
-public class Command implements Serializable, Identity {
+public class Command extends Message implements Properties<Object> {
 
-    
-    private String id;
-
-    public Command() {
-        id = "Command-" + UUID.randomUUID().toString();
-    }
-
-    public Command(String action) {
-        this.action = action;
-    }
-
-    public Command(String action, Map<String, Serializable> args) {
-        this.action = action;
-        this.arguments.putAll(args);
-    }
+    public static final String COMMAND_MESSAGE_TYPE = "CommandMessage";
 
     /**
      * The name of the action or command to invoke on the {@link CommandDevice}
@@ -54,13 +39,22 @@ public class Command implements Serializable, Identity {
     /**
      * The arguments to invoke the command with
      */
-    public Map<String, Object> arguments = new HashMap<>();
+    private Map<String, Object> properties = new HashMap<>();
 
-    /**
-     * Indicates if this command should be recorded (if such facilities are
-     * available)
-     */
-    public boolean record;
+    public Command() {
+        super(COMMAND_MESSAGE_TYPE);
+    }
+
+    public Command(String action) {
+        this();
+        this.action = action;
+    }
+
+    public Command(String action, Map<String, ?> args) {
+        this();
+        this.action = action;
+        this.getPropertyMap().putAll(args);
+    }
 
     /**
      * Adds the given argument to the Command with the given key as the argument
@@ -73,7 +67,7 @@ public class Command implements Serializable, Identity {
      * @return this Command
      */
     public Command arg(String key, Object value) {
-        arguments.put(key, value);
+        setProperty(key, value);
         return this;
     }
 
@@ -85,13 +79,19 @@ public class Command implements Serializable, Identity {
      * @return this Command
      */
     public Command arg(Object value) {
-        arguments.put("value", value);
+        setProperty("value", value);
         return this;
     }
 
     @Override
-    public String getId() {
-        return id;
+    public void setPropertyMap(Map<String, Object> propertyMap) {
+        properties.clear();
+        properties = propertyMap;
+    }
+
+    @Override
+    public Map<String, Object> getPropertyMap() {
+        return properties;
     }
 
 }
