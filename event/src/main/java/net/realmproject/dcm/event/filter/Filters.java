@@ -14,8 +14,12 @@ import net.realmproject.dcm.event.filter.deviceeventtype.ValueSetFilter;
 
 public class Filters {
 
-    public static Predicate<DeviceEvent> id(String id) {
-        return new DeviceIDFilter(id);
+    public static Predicate<DeviceEvent> sourceId(String id) {
+        return new SourceIDFilter(id);
+    }
+
+    public static Predicate<DeviceEvent> targetId(String id) {
+        return new TargetIDFilter(id);
     }
 
     // /////////////////////////

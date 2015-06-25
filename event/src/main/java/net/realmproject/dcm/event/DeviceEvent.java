@@ -24,16 +24,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.identity.SourceIdentity;
+import net.realmproject.dcm.event.identity.TargetIdentity;
 
 
-public interface DeviceEvent extends Serializable, Payload<Serializable> {
-
-    /**
-     * Gets the ID of the device which originally published this event
-     * 
-     * @return id of the originating device
-     */
-    String getDeviceId();
+public interface DeviceEvent extends Serializable, Payload<Serializable>, SourceIdentity, TargetIdentity {
 
     /**
      * Gets the type of this event
@@ -43,12 +38,29 @@ public interface DeviceEvent extends Serializable, Payload<Serializable> {
     DeviceEventType getDeviceEventType();
 
     /**
+     * Sets the type of this event
+     * 
+     * @param type
+     *            the new type of this event
+     */
+    void setDeviceEventType(DeviceEventType type);
+
+    /**
      * Gets the time that this event was published (according to the computer
      * which published it)
      * 
      * @return date of publication
      */
     Date getTimestamp();
+
+    /**
+     * Sets the time that this event was published (according to the computer
+     * which published it).
+     * 
+     * @param timestamp
+     *            the new timestamp for this event
+     */
+    void setTimestamp(Date timestamp);
 
     /**
      * Gets the zone this event was published in
@@ -65,7 +77,7 @@ public interface DeviceEvent extends Serializable, Payload<Serializable> {
      * 
      * @param zone
      *            the zone this event originates from
-     * */
+     */
     void setZone(String zone);
 
     /**
@@ -93,5 +105,30 @@ public interface DeviceEvent extends Serializable, Payload<Serializable> {
      * @return a deep copy of this event
      */
     DeviceEvent deepCopy();
+
+    default DeviceEvent sourceId(String sourceId) {
+        setSourceId(sourceId);
+        return this;
+    }
+
+    default DeviceEvent targetId(String targetId) {
+        setTargetId(targetId);
+        return this;
+    }
+
+    default DeviceEvent payload(Serializable payload) {
+        setPayload(payload);
+        return this;
+    }
+
+    default DeviceEvent timestamp(Date timestamp) {
+        setTimestamp(timestamp);
+        return this;
+    }
+
+    default DeviceEvent type(DeviceEventType type) {
+        setDeviceEventType(type);
+        return this;
+    }
 
 }

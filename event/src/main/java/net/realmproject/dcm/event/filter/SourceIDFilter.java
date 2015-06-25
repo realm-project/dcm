@@ -34,22 +34,22 @@ import net.realmproject.dcm.event.DeviceEvent;
  *
  */
 
-public class DeviceIDFilter implements Predicate<DeviceEvent> {
+public class SourceIDFilter implements Predicate<DeviceEvent> {
 
     List<String> ids;
 
-    public DeviceIDFilter(String id) {
+    public SourceIDFilter(String id) {
         ids = new ArrayList<>();
         ids.add(id);
     }
 
-    public DeviceIDFilter(List<String> ids) {
+    public SourceIDFilter(List<String> ids) {
         ids = new ArrayList<>(ids);
     }
 
     @Override
     public boolean test(DeviceEvent e) {
-        return ids.contains(e.getDeviceId());
+        return ids.contains(e.getSourceId());
     }
 
 }

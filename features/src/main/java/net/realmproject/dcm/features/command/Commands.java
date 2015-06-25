@@ -12,7 +12,7 @@ import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.Filters;
-import net.realmproject.dcm.features.Identity;
+import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.util.DCMSerialize;
 
 
@@ -20,7 +20,7 @@ public interface Commands extends Identity, Logging {
 
     default void initCommands(DeviceEventBus bus) {
 
-        Predicate<DeviceEvent> eventFilter = Filters.id(getId()).and(Filters.messageEvents());
+        Predicate<DeviceEvent> eventFilter = Filters.targetId(getId()).and(Filters.messageEvents());
         bus.subscribe(eventFilter, deviceEvent -> {
             if (deviceEvent.getDeviceEventType() == DeviceEventType.MESSAGE) {
                 Command command = (Command) deviceEvent.getPayload();

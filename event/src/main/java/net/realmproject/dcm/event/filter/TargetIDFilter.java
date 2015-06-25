@@ -17,40 +17,39 @@
  * 
  */
 
-package net.realmproject.dcm.device;
+package net.realmproject.dcm.event.filter;
 
 
-import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.bus.IDeviceEventBusSender;
-import net.realmproject.dcm.event.identity.Identity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.realmproject.dcm.event.DeviceEvent;
 
 
-public class Device extends IDeviceEventBusSender implements Identity, Logging {
+/**
+ * DeviceEvent filter which only accepts events with certain device ids
+ * 
+ * @author NAS
+ *
+ */
 
-    private String id = null;
-    private final Log log = LogFactory.getLog(getClass());
+public class TargetIDFilter implements Predicate<DeviceEvent> {
 
-    public Device(String id, DeviceEventBus bus) {
-        super(bus);
-        this.id = id;
+    List<String> ids;
+
+    public TargetIDFilter(String id) {
+        ids = new ArrayList<>();
+        ids.add(id);
     }
 
-    public String getId() {
-        return id;
+    public TargetIDFilter(List<String> ids) {
+        ids = new ArrayList<>(ids);
     }
 
     @Override
-    public Log getLog() {
-        return log;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
+    public boolean test(DeviceEvent e) {
+        return ids.contains(e.getTargetId());
     }
 
 }

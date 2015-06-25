@@ -13,14 +13,15 @@ import net.realmproject.dcm.features.ping.Ping;
 
 public class IDevicePinger implements DevicePinger {
 
-    private String id;
+    private String id, deviceId;
     private DeviceEventBus bus;
     private Ping lastPing;
 
-    public IDevicePinger(String id, DeviceEventBus bus, String targetId) {
+    public IDevicePinger(String id, DeviceEventBus bus, String deviceId) {
         this.id = id;
         this.bus = bus;
-        bus.subscribe(Filters.id(targetId).and(new PayloadClassFilter(Ping.class)), this::onPong);
+        this.deviceId = deviceId;
+        bus.subscribe(Filters.sourceId(deviceId).and(new PayloadClassFilter(Ping.class)), this::onPong);
     }
 
     @Override
@@ -39,7 +40,8 @@ public class IDevicePinger implements DevicePinger {
     }
 
     private Ping ping(Ping thePing) {
-        bus.broadcast(new IDeviceEvent(DeviceEventType.MESSAGE, id, thePing));
+        bus.broadcast(new IDeviceEvent().type(DeviceEventType.MESSAGE).sourceId(getId()).targetId(getDeviceId())
+                .payload(thePing));
         return thePing;
     }
 
@@ -54,6 +56,16 @@ public class IDevicePinger implements DevicePinger {
     public long getLatency() {
         if (lastPing == null) { return -1l; }
         return lastPing.getPingTime();
+    }
+
+    @Override
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    @Override
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
 }

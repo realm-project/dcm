@@ -1,4 +1,4 @@
-package net.realmproject.dcm.features;
+package net.realmproject.dcm.event.identity;
 
 
 public interface Identity {

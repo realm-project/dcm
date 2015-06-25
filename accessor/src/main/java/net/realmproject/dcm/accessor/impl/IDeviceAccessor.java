@@ -39,17 +39,19 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
 
     protected DeviceEventBus bus;
     private String id;
+    private String deviceId;
     private Date timestamp = new Date();
     private T deviceState;
 
     private List<Consumer<T>> listeners = new ArrayList<>();
 
-    public IDeviceAccessor(String id, DeviceEventBus bus) {
+    public IDeviceAccessor(String id, String deviceId, DeviceEventBus bus) {
         this.id = id;
+        this.deviceId = deviceId;
         this.bus = bus;
 
         // listen for change events, query device to produce one
-        bus.subscribe(Filters.id(id).and(Filters.changedEvents()), this::handleEvent);
+        bus.subscribe(Filters.sourceId(deviceId).and(Filters.changedEvents()), this::handleEvent);
         sendValueGet();
 
     }
@@ -88,12 +90,12 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
 
     @Override
     public void sendMessage(Serializable input) {
-        send(getId(), bus, DeviceEventType.MESSAGE, input);
+        send(DeviceEventType.MESSAGE, input);
     }
 
     @Override
     public void sendValueSet(Serializable input) {
-        send(getId(), bus, DeviceEventType.VALUE_SET, input);
+        send(DeviceEventType.VALUE_SET, input);
     }
 
     @Override
@@ -102,26 +104,21 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     }
 
     @Override
-    public void sendValueGet() {
-        sendValueGet(getId(), bus);
-    }
-
-    @Override
     public T getState() {
         return deviceState;
     }
 
-    static boolean sendValueGet(String deviceId, DeviceEventBus bus) {
-        return send(deviceId, bus, DeviceEventType.VALUE_GET);
+    public boolean sendValueGet() {
+        return send(DeviceEventType.VALUE_GET);
     }
 
-    protected static boolean send(String deviceId, DeviceEventBus bus, DeviceEventType type) {
-        return send(deviceId, bus, type, null);
+    protected boolean send(DeviceEventType type) {
+        return send(type, null);
     }
 
-    protected static boolean send(String deviceId, DeviceEventBus bus, DeviceEventType type, Serializable input) {
+    protected boolean send(DeviceEventType type, Serializable payload) {
         if (bus == null) return false;
-        DeviceEvent event = new IDeviceEvent(type, deviceId, input);
+        DeviceEvent event = new IDeviceEvent(type, getId(), getDeviceId(), payload);
         return bus.broadcast(event);
     }
 
@@ -133,6 +130,16 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     @Override
     public void setListeners(List<Consumer<T>> listeners) {
         this.listeners = listeners;
+    }
+
+    @Override
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    @Override
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
 }

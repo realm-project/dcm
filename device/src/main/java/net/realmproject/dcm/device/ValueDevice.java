@@ -38,8 +38,8 @@ public abstract class ValueDevice extends Device implements Values, Publishing {
 
     public ValueDevice(String id, DeviceEventBus bus) {
         super(id, bus);
-        bus.subscribe(Filters.id(getId()).and(Filters.setEvents()), this::onSet);
-        bus.subscribe(Filters.id(getId()).and(Filters.getEvents()), this::onGet);
+        bus.subscribe(Filters.targetId(getId()).and(Filters.setEvents()), this::onSet);
+        bus.subscribe(Filters.targetId(getId()).and(Filters.getEvents()), this::onGet);
     }
 
     private void onSet(DeviceEvent e) {
