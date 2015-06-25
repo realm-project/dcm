@@ -7,8 +7,8 @@ import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.Filters;
+import net.realmproject.dcm.event.filter.PayloadClassFilter;
 import net.realmproject.dcm.features.ping.Ping;
-import net.realmproject.dcm.features.ping.PongFilter;
 
 
 public class IDevicePinger implements DevicePinger {
@@ -17,10 +17,10 @@ public class IDevicePinger implements DevicePinger {
     private DeviceEventBus bus;
     private Ping lastPing;
 
-    public IDevicePinger(String id, DeviceEventBus bus) {
+    public IDevicePinger(String id, DeviceEventBus bus, String targetId) {
         this.id = id;
         this.bus = bus;
-        bus.subscribe(Filters.id(id).and(new PongFilter()), this::onPong);
+        bus.subscribe(Filters.id(targetId).and(new PayloadClassFilter(Ping.class)), this::onPong);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class IDevicePinger implements DevicePinger {
     }
 
     private void onPong(DeviceEvent event) {
-        Ping ping = (Ping) event.getValue();
+        Ping ping = (Ping) event.getPayload();
         ping.completed();
         if (lastPing == null || lastPing.startedBefore(ping)) {
             lastPing = ping;

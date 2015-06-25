@@ -1,9 +1,12 @@
-package net.realmproject.dcm.features;
+package net.realmproject.dcm.features.statefulness;
 
 
 import java.util.Map;
 import java.util.UUID;
 
+import net.realmproject.dcm.features.Identity;
+import net.realmproject.dcm.features.Properties;
+import net.realmproject.dcm.features.Publishing;
 import net.realmproject.dcm.features.recording.Recordable;
 
 

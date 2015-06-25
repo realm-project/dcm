@@ -23,27 +23,27 @@ package net.realmproject.dcm.features.command;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.realmproject.dcm.features.Identity;
 import net.realmproject.dcm.features.Properties;
-import net.realmproject.dcm.features.message.Message;
+import net.realmproject.dcm.features.recording.Recordable;
 
 
-public class Command extends Message implements Properties<Object> {
-
-    public static final String COMMAND_MESSAGE_TYPE = "CommandMessage";
+public class Command implements Properties<Object>, Recordable, Identity {
 
     /**
      * The name of the action or command to invoke on the {@link CommandDevice}
      */
-    public String action;
+    private String action;
+
+    private String id;
+    private boolean toRecord;
 
     /**
      * The arguments to invoke the command with
      */
     private Map<String, Object> properties = new HashMap<>();
 
-    public Command() {
-        super(COMMAND_MESSAGE_TYPE);
-    }
+    public Command() {}
 
     public Command(String action) {
         this();
@@ -92,6 +92,34 @@ public class Command extends Message implements Properties<Object> {
     @Override
     public Map<String, Object> getPropertyMap() {
         return properties;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean isToRecord() {
+        return toRecord;
+    }
+
+    @Override
+    public void setToRecord(boolean toRecord) {
+        this.toRecord = toRecord;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
 }

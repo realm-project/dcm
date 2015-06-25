@@ -7,21 +7,21 @@ import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.DeviceIDFilter;
+import net.realmproject.dcm.event.filter.PayloadClassFilter;
 import net.realmproject.dcm.features.Publishing;
 
 
-public interface PingResponse extends Publishing {
+public interface Pingable extends Publishing {
 
-    default void initPingResponse(DeviceEventBus bus) {
+    default void initPingable(DeviceEventBus bus, String sourceId) {
         // Respond to Pings
-        Predicate<DeviceEvent> filter = new PingFilter().and(new DeviceIDFilter(getId()));
+        Predicate<DeviceEvent> filter = new PayloadClassFilter(Ping.class).and(new DeviceIDFilter(sourceId));
         bus.subscribe(filter, this::onPing);
     }
 
     default void onPing(DeviceEvent event) {
-        PingMessage ping = (PingMessage) event.getValue();
-        PongMessage pong = new PongMessage(ping);
-        publish(pong, DeviceEventType.MESSAGE);
+        Ping ping = (Ping) event.getPayload();
+        publish(ping, DeviceEventType.MESSAGE);
     }
 
 }

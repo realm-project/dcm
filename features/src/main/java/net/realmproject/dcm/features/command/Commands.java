@@ -23,7 +23,7 @@ public interface Commands extends Identity, Logging {
         Predicate<DeviceEvent> eventFilter = Filters.id(getId()).and(Filters.messageEvents());
         bus.subscribe(eventFilter, deviceEvent -> {
             if (deviceEvent.getDeviceEventType() == DeviceEventType.MESSAGE) {
-                Command command = (Command) deviceEvent.getValue();
+                Command command = (Command) deviceEvent.getPayload();
                 runCommand(command);
             }
         });
@@ -62,17 +62,19 @@ public interface Commands extends Identity, Logging {
         synchronized (this) {
             try {
 
-                getLog().info("Device " + getId() + " received command: " + command.action);
-                getLog().debug(getId() + ":" + command.action + ":" + DCMSerialize.serialize(command.getPropertyMap()));
+                getLog().info("Device " + getId() + " received command: " + command.getAction());
+                getLog().debug(
+                        getId() + ":" + command.getAction() + ":" + DCMSerialize.serialize(command.getPropertyMap()));
 
                 // Look up method for command
-                Method method = findCommandMethod(command.action);
+                Method method = findCommandMethod(command.getAction());
 
                 // case where no method
                 if (method == null) {
-                    getLog().warn("Cannot find requested command '" + command.action + "' from available commands");
+                    getLog().warn(
+                            "Cannot find requested command '" + command.getAction() + "' from available commands");
                     getLog().warn("Available commands: " + getCommandMethods().keySet());
-                    throw new IllegalArgumentException("Command not found: " + command.action);
+                    throw new IllegalArgumentException("Command not found: " + command.getAction());
                 }
 
                 // before anything, call this hook
@@ -132,7 +134,7 @@ public interface Commands extends Identity, Logging {
 
             }
             catch (Exception e) {
-                getLog().error("Error executing command " + command.action, e);
+                getLog().error("Error executing command " + command.getAction(), e);
             }
         }
 

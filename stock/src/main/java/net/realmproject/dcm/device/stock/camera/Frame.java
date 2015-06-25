@@ -1,7 +1,7 @@
 package net.realmproject.dcm.device.stock.camera;
 
 
-import net.realmproject.dcm.features.Statefulness.State;
+import net.realmproject.dcm.features.statefulness.Statefulness.State;
 
 
 public class Frame extends State {

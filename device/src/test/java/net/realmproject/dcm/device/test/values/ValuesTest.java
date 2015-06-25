@@ -31,7 +31,7 @@ public class ValuesTest {
         DeviceEvent event = new IDeviceEvent(DeviceEventType.VALUE_SET, "id", 5);
         bus.broadcast(event);
         event = eventQueue.take();
-        Assert.assertEquals(5, event.getValue());
+        Assert.assertEquals(5, event.getPayload());
 
     }
 

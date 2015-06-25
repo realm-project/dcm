@@ -43,7 +43,7 @@ public abstract class ValueDevice extends Device implements Values, Publishing {
     }
 
     private void onSet(DeviceEvent e) {
-        setValue(e.getValue());
+        setValue(e.getPayload());
     }
 
     private void onGet(DeviceEvent e) {

@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 import net.realmproject.dcm.device.Device;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.features.Statefulness;
+import net.realmproject.dcm.features.statefulness.Statefulness;
 
 
 public abstract class Camera extends Device implements Statefulness<Frame> {

@@ -62,7 +62,7 @@ public class IDeviceEvent implements DeviceEvent {
     /**
      * The value or payload of this event
      */
-    private Serializable value;
+    private Serializable payload;
 
     /**
      * The time (as recorded by the computer of origin) that this event was
@@ -123,7 +123,7 @@ public class IDeviceEvent implements DeviceEvent {
     public IDeviceEvent(DeviceEventType type, String deviceId, Serializable value, Date timestamp) {
         this.deviceId = deviceId;
         this.type = type;
-        this.value = value;
+        this.payload = value;
         this.timestamp = timestamp;
     }
 
@@ -138,8 +138,13 @@ public class IDeviceEvent implements DeviceEvent {
     }
 
     @Override
-    public Serializable getValue() {
-        return value;
+    public Serializable getPayload() {
+        return payload;
+    }
+
+    @Override
+    public void setPayload(Serializable payload) {
+        this.payload = payload;
     }
 
     @Override
@@ -201,4 +206,5 @@ public class IDeviceEvent implements DeviceEvent {
             return null;
         }
     }
+
 }
