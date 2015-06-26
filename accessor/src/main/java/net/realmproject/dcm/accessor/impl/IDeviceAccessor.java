@@ -32,7 +32,7 @@ import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.Filters;
+import net.realmproject.dcm.event.filter.FilterBuilder;
 
 
 public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T>, Logging {
@@ -51,7 +51,7 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
         this.bus = bus;
 
         // listen for change events, query device to produce one
-        bus.subscribe(Filters.sourceId(deviceId).and(Filters.changedEvents()), this::handleEvent);
+        bus.subscribe(FilterBuilder.start().source(deviceId).eventChange(), this::handleEvent);
         sendValueGet();
 
     }

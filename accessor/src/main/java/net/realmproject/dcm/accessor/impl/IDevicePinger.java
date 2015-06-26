@@ -6,8 +6,7 @@ import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.Filters;
-import net.realmproject.dcm.event.filter.PayloadClassFilter;
+import net.realmproject.dcm.event.filter.FilterBuilder;
 import net.realmproject.dcm.features.ping.Ping;
 
 
@@ -21,7 +20,7 @@ public class IDevicePinger implements DevicePinger {
         this.id = id;
         this.bus = bus;
         this.deviceId = deviceId;
-        bus.subscribe(Filters.sourceId(deviceId).and(new PayloadClassFilter(Ping.class)), this::onPong);
+        bus.subscribe(FilterBuilder.start().source(deviceId).payload(Ping.class), this::onPong);
     }
 
     @Override
@@ -40,7 +39,9 @@ public class IDevicePinger implements DevicePinger {
     }
 
     private Ping ping(Ping thePing) {
-        bus.broadcast(new IDeviceEvent().type(DeviceEventType.MESSAGE).sourceId(getId()).targetId(getDeviceId())
+        bus.broadcast(new IDeviceEvent().type(DeviceEventType.MESSAGE)
+                .sourceId(getId())
+                .targetId(getDeviceId())
                 .payload(thePing));
         return thePing;
     }

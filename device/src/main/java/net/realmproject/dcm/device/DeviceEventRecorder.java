@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.Filters;
+import net.realmproject.dcm.event.filter.FilterBuilder;
 import net.realmproject.dcm.features.recording.RecordWriter;
 import net.realmproject.dcm.features.recording.Recorder;
 
@@ -19,7 +19,7 @@ public class DeviceEventRecorder extends Recorder<DeviceEvent> {
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer,
             List<Predicate<DeviceEvent>> filters) {
-        this(bus, writer, Filters.all(filters));
+        this(bus, writer, FilterBuilder.all(filters));
     }
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer, Predicate<DeviceEvent> filter) {

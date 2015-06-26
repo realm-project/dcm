@@ -141,9 +141,10 @@ public class IDeviceEvent implements DeviceEvent {
         return type;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Serializable getPayload() {
-        return payload;
+    public <S extends Serializable> S getPayload() {
+        return (S) payload;
     }
 
     @Override

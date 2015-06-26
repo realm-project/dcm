@@ -4,13 +4,13 @@ package net.realmproject.dcm.device.test.commands;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
 import net.realmproject.dcm.features.command.Command;
 import net.realmproject.dcm.util.DCMSerialize;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 
 public class CommandsTest {
@@ -40,7 +40,8 @@ public class CommandsTest {
 
         // testing single argument without annotation as fields in a single
         // struct
-        device.runCommand(new Command("incrementByIncrementerUnannotated", DCMSerialize.structToMap(new Incrementer(2))));
+        device.runCommand(
+                new Command("incrementByIncrementerUnannotated", DCMSerialize.structToMap(new Incrementer(2))));
         Assert.assertEquals(7, device.getState().number);
 
         // testing structs which have been serialized by
@@ -65,6 +66,29 @@ public class CommandsTest {
         // testing un-named arg with simple integer value
         device.runCommand(new Command("incrementUnnamed").arg("value", 1));
         Assert.assertEquals(19, device.getState().number);
+
+    }
+
+    @Test
+    public void fromJson() {
+
+        //@formatter:off
+        
+        String json = ""
+                + "{"
+                + " \"action\": \"f\",\n"
+                + " \"arguments\":{\n"
+                + "     \"arg1\": \"value1\"\n"
+                + " }\n"
+                + "}\n";
+        
+        //@formatter:on
+
+        Command command = DCMSerialize.deserialize(json, Command.class);
+
+        Assert.assertNotNull(command.getPropertyMap());
+        Assert.assertEquals("f", command.getAction());
+        Assert.assertEquals("value1", command.getProperty("arg1"));
 
     }
 }
