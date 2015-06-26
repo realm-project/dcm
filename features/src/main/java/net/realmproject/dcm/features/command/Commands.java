@@ -16,6 +16,15 @@ import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.util.DCMSerialize;
 
 
+/**
+ * Interface for a device accepting {@link Command} messages and automatically
+ * dispatching them to methods with {@link CommandMethod} and {@link Arg}
+ * annotations.
+ * 
+ * @author NAS
+ *
+ */
+
 public interface Commands extends Identity, Logging {
 
     default void initCommands(DeviceEventBus bus) {
