@@ -24,7 +24,7 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.filter.AcceptFilter;
-import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
+import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
 
 
 /**
@@ -34,7 +34,7 @@ import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
  * @author NAS
  *
  */
-public class IDeviceEventBusForwarder extends AbstractDeviceEventSender {
+public class IDeviceEventBusForwarder extends AbstractDeviceEventSource {
 
     private DeviceEventBus to;
 

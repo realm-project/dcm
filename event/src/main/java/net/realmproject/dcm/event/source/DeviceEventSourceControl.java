@@ -17,17 +17,17 @@
  * 
  */
 
-package net.realmproject.dcm.event.sender;
+package net.realmproject.dcm.event.source;
 
 
 /**
  * DeviceEventSenderControl is an interface to add controls such as on/off
- * toggle and metrics to a {@link DeviceEventSender}
+ * toggle and metrics to a {@link DeviceEventSource}
  * 
  * @author maxweld, NAS
  *
  */
-public interface DeviceEventSenderControl {
+public interface DeviceEventSourceControl {
 
     /**
      * Is sending of events turned on?

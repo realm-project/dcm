@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.event.sender;
+package net.realmproject.dcm.event.source;
 
 
 import net.realmproject.dcm.event.DeviceEvent;
@@ -30,7 +30,7 @@ import net.realmproject.dcm.event.DeviceEvent;
  * @author maxweld, NAS
  *
  */
-public interface DeviceEventSender {
+public interface DeviceEventSource {
 
     /**
      * Sends the given {@link DeviceEvent}. If this component is not currently

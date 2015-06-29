@@ -21,7 +21,7 @@ package net.realmproject.dcm.event.bus;
 
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
+import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
 
 
 /**
@@ -31,11 +31,11 @@ import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
  * @author NAS, maxweld
  *
  */
-public abstract class IDeviceEventBusSender extends AbstractDeviceEventSender {
+public abstract class IDeviceEventBusSource extends AbstractDeviceEventSource {
 
     private DeviceEventBus bus;
 
-    public IDeviceEventBusSender(DeviceEventBus bus) {
+    public IDeviceEventBusSource(DeviceEventBus bus) {
         this.bus = bus;
         startSending();
     }
