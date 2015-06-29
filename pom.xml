@@ -23,8 +23,8 @@
   </dependencies> -->
   
   <modules>
-    <module>messaging</module>
-    <module>messaging-mq</module>
+    <module>network</module>
+    <module>network-mq</module>
     <module>event</module>
     <module>device</module>
     <module>accessor</module>
