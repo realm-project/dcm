@@ -24,30 +24,35 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.bus.IDeviceEventBusSource;
 import net.realmproject.dcm.event.filter.AcceptFilter;
-import net.realmproject.dcm.messaging.WireMessage;
-import net.realmproject.dcm.messaging.WireMessageSender;
 import net.realmproject.dcm.messaging.Transcoder;
+import net.realmproject.dcm.messaging.WireMessage;
+import net.realmproject.dcm.messaging.WireMessageSink;
 
 
 /**
- * Listens for events on a {@link DeviceEventBus} and transmits
- * {@link WireMessage}s on a distributed messaging system (eg ActiveMQ)
+ * Receives {@link WireMessage}s from a distributed messaging system (eg
+ * ActiveMQ) and publishes them to the given {@link DeviceEventBus}
  * 
  * @author NAS
  *
  */
-public abstract class IWireMessageSender implements WireMessageSender {
+public class IWireMessageSink extends IDeviceEventBusSource implements WireMessageSink {
 
     private Predicate<DeviceEvent> filter = new AcceptFilter();
-    protected Transcoder transcoder;
+    private Transcoder transcoder;
 
-    public IWireMessageSender(DeviceEventBus bus, Transcoder transcoder) {
+    public IWireMessageSink(DeviceEventBus bus, Transcoder transcoder) {
+        super(bus);
         this.transcoder = transcoder;
-        bus.subscribe(event -> {
-            if (!filter.test(event)) { return; }
-            send(new WireMessage(event));
-        });
+    }
+
+    @Override
+    public void receive(WireMessage deviceMessage) {
+        DeviceEvent deviceEvent = deviceMessage.getEvent();
+        if (!filter.test(deviceEvent)) { return; }
+        send(deviceEvent);
     }
 
     public Predicate<DeviceEvent> getFilter() {
@@ -56,6 +61,14 @@ public abstract class IWireMessageSender implements WireMessageSender {
 
     public void setFilter(Predicate<DeviceEvent> filter) {
         this.filter = filter;
+    }
+
+    public Transcoder getTranscoder() {
+        return transcoder;
+    }
+
+    public void setTranscoder(Transcoder transcoder) {
+        this.transcoder = transcoder;
     }
 
 }

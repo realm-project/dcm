@@ -20,79 +20,75 @@
 package net.realmproject.dcm.messaging.mq.activemq;
 
 
+import java.io.Serializable;
+
 import javax.jms.Connection;
-import javax.jms.DeliveryMode;
-import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.MessageProducer;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
+import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.Topic;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.Transcoder;
-import net.realmproject.dcm.messaging.impl.IDeviceMessageSender;
+import net.realmproject.dcm.messaging.impl.IWireMessageSink;
 import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
-
-import org.apache.activemq.ActiveMQConnectionFactory;
 
 
 /**
  * @author maxweld
  *
  */
-public class ActiveMQWireMessageSender extends IDeviceMessageSender implements Logging {
+public class ActiveMQWireMessageSink extends IWireMessageSink implements MessageListener, Logging {
 
-    public String url;
-    public String subject;
-    public boolean topic;
+    private String url;
+    private String subject;
+    private boolean topic;
 
-    protected boolean transacted = false;
-    protected boolean persistent = false;
     protected boolean connected = false;
+    protected boolean transacted = false;
 
     protected ActiveMQConnectionFactory connectionFactory;
-    protected MessageProducer messageProducer;
-    protected Destination destination;
+    protected MessageConsumer messageConsumer;
     protected Connection connection;
     protected Session session;
 
-    public ActiveMQWireMessageSender(DeviceEventBus bus, String subject, boolean topic, String url) {
+    public ActiveMQWireMessageSink(DeviceEventBus bus, String subject, boolean topic, String url) {
         this(bus, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSender(DeviceEventBus bus, Transcoder transcoder, String subject,
-            boolean topic, String url) {
+    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic,
+            String url) {
         super(bus, transcoder);
         this.subject = subject;
         this.topic = topic;
         this.url = url;
     }
 
-    public void send(DeviceMessage deviceMessage) {
-
+    public void onMessage(Message message) {
         try {
-            ObjectMessage message = session.createObjectMessage(deviceMessage);
-
+            ObjectMessage objectMessage = (ObjectMessage) message;
             try {
-                messageProducer.send(message);
-
-                if (transacted) {
-                    try {
-                        session.commit();
-                    }
-                    catch (JMSException e) {
-                        getLog().error("Exception while committing JMS Message", e);
-                    }
+                Serializable object = objectMessage.getObject();
+                try {
+                    receive(getTranscoder().decode(object));
+                }
+                catch (ClassCastException e) {
+                    getLog().error("Object class is not DeviceMessage", e);
                 }
             }
             catch (JMSException e) {
-                getLog().error("Exception while sending JMS ObjectMessage", e);
+                getLog().error("Object could not be unpackaged from ObjectMessage", e);
             }
         }
-        catch (JMSException e) {
-            getLog().error("Exception while creating JMS ObjectMessage", e);
+        catch (ClassCastException e) {
+            getLog().error("JMS Message class is not ObjectMessage.", e);
         }
     }
 
@@ -104,18 +100,16 @@ public class ActiveMQWireMessageSender extends IDeviceMessageSender implements L
                 connection.start();
                 connected = true;
                 session = connection.createSession(transacted, Session.AUTO_ACKNOWLEDGE);
-                if (topic) {
-                    destination = session.createTopic(subject);
+                if (this.topic) {
+                    Topic topic = session.createTopic(subject);
+                    messageConsumer = session.createConsumer(topic);
                 } else {
-                    destination = session.createQueue(subject);
+                    Queue queue = session.createQueue(subject);
+                    messageConsumer = session.createConsumer(queue);
                 }
+                messageConsumer.setMessageListener(this);
 
-                messageProducer = session.createProducer(destination);
-                if (persistent) {
-                    messageProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
-                } else {
-                    messageProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-                }
+                getLog().info(this.getClass().getSimpleName() + " waiting for messages on " + url);
             }
         }
         catch (Exception e) {

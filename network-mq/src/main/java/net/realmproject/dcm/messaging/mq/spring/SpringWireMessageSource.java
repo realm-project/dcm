@@ -22,36 +22,35 @@ package net.realmproject.dcm.messaging.mq.spring;
 
 import javax.jms.Destination;
 
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.messaging.DeviceMessage;
-import net.realmproject.dcm.messaging.Transcoder;
-import net.realmproject.dcm.messaging.impl.IDeviceMessageSender;
-import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
-
 import org.springframework.jms.core.JmsTemplate;
+
+import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.messaging.Transcoder;
+import net.realmproject.dcm.messaging.WireMessage;
+import net.realmproject.dcm.messaging.impl.IWireMessageSource;
+import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
 
 
 /**
  * @author maxweld
  *
  */
-public class SpringWireMessageSender extends IDeviceMessageSender {
+public class SpringWireMessageSource extends IWireMessageSource {
 
     private JmsTemplate jmsTemplate;
     private Destination destination;
     private String destinationName;
-    private Transcoder transcoder;
 
-    public SpringWireMessageSender(DeviceEventBus bus) {
+    public SpringWireMessageSource(DeviceEventBus bus) {
         super(bus, new IIdentityTranscoder());
     }
 
-    public SpringWireMessageSender(DeviceEventBus bus, Transcoder transcoder) {
+    public SpringWireMessageSource(DeviceEventBus bus, Transcoder transcoder) {
         super(bus, transcoder);
     }
 
-    public void send(DeviceMessage deviceMessage) {
-        Object message = transcoder.encode(deviceMessage);
+    public void send(WireMessage deviceMessage) {
+        Object message = getTranscoder().encode(deviceMessage);
         if (destination != null) {
             jmsTemplate.convertAndSend(destination, message);
         } else if (destinationName != null) {

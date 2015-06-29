@@ -27,9 +27,9 @@ import javax.jms.ObjectMessage;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.messaging.DeviceMessage;
 import net.realmproject.dcm.messaging.Transcoder;
-import net.realmproject.dcm.messaging.impl.IDeviceMessageReceiver;
+import net.realmproject.dcm.messaging.WireMessage;
+import net.realmproject.dcm.messaging.impl.IWireMessageSink;
 import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
 
 
@@ -37,21 +37,21 @@ import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
  * @author maxweld
  *
  */
-public class JmsWireMessageReceiver extends IDeviceMessageReceiver implements MessageListener, Logging {
+public class JmsWireMessageSink extends IWireMessageSink implements MessageListener, Logging {
 
-    public JmsWireMessageReceiver(DeviceEventBus bus) {
+    public JmsWireMessageSink(DeviceEventBus bus) {
         super(bus, new IIdentityTranscoder());
     }
 
-    public JmsWireMessageReceiver(DeviceEventBus bus, Transcoder transcoder) {
+    public JmsWireMessageSink(DeviceEventBus bus, Transcoder transcoder) {
         super(bus, transcoder);
     }
 
     public void onMessage(Message message) {
         try {
             ObjectMessage msg = (ObjectMessage) message;
-            transcoder.decode(msg.getObject());
-            receive((DeviceMessage) msg.getObject());
+            getTranscoder().decode(msg.getObject());
+            receive((WireMessage) msg.getObject());
         }
         catch (JMSException e) {
             getLog().warn(e.getMessage());

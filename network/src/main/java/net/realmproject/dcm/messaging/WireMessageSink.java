@@ -24,7 +24,7 @@ package net.realmproject.dcm.messaging;
  * @author maxweld
  *
  */
-public interface WireMessageSender {
+public interface WireMessageSink {
 
-    public void send(WireMessage deviceMessage);
+    public void receive(WireMessage deviceMessage);
 }

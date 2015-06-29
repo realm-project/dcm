@@ -28,10 +28,12 @@ public interface DeviceEventSink {
     void setFilters(List<Predicate<DeviceEvent>> filters);
 
     default boolean filter(DeviceEvent event) {
-        for (Predicate<DeviceEvent> filter : new ArrayList<>(getFilters())) {
-            if (!filter.test(event)) { return false; }
+        synchronized (this) {
+            for (Predicate<DeviceEvent> filter : new ArrayList<>(getFilters())) {
+                if (!filter.test(event)) { return false; }
+            }
+            return true;
         }
-        return true;
     }
 
     void receive(DeviceEvent event);
