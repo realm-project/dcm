@@ -1,10 +1,10 @@
-package net.realmproject.dcm.messaging.transcoders;
+package net.realmproject.dcm.network.transcoders;
 
 
 import java.io.Serializable;
 
-import net.realmproject.dcm.messaging.WireMessage;
-import net.realmproject.dcm.messaging.Transcoder;
+import net.realmproject.dcm.network.Transcoder;
+import net.realmproject.dcm.network.WireMessage;
 
 
 public class IIdentityTranscoder implements Transcoder {

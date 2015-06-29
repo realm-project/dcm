@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.messaging;
+package net.realmproject.dcm.network;
 
 
 import java.io.Serializable;

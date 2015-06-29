@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.mq.spring;
+package net.realmproject.dcm.network.mq.spring;
 
 
 import javax.jms.Destination;
@@ -25,10 +25,10 @@ import javax.jms.Destination;
 import org.springframework.jms.core.JmsTemplate;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.messaging.Transcoder;
-import net.realmproject.dcm.messaging.WireMessage;
-import net.realmproject.dcm.messaging.impl.IWireMessageSource;
-import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
+import net.realmproject.dcm.network.Transcoder;
+import net.realmproject.dcm.network.WireMessage;
+import net.realmproject.dcm.network.impl.IWireMessageSource;
+import net.realmproject.dcm.network.transcoders.IIdentityTranscoder;
 
 
 /**

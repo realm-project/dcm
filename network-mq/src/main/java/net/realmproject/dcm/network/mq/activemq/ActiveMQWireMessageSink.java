@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.mq.activemq;
+package net.realmproject.dcm.network.mq.activemq;
 
 
 import java.io.Serializable;
@@ -36,9 +36,9 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.messaging.Transcoder;
-import net.realmproject.dcm.messaging.impl.IWireMessageSink;
-import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
+import net.realmproject.dcm.network.Transcoder;
+import net.realmproject.dcm.network.impl.IWireMessageSink;
+import net.realmproject.dcm.network.transcoders.IIdentityTranscoder;
 
 
 /**

@@ -17,52 +17,50 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.impl;
+package net.realmproject.dcm.network.impl;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.sink.DeviceEventSink;
-import net.realmproject.dcm.messaging.Transcoder;
-import net.realmproject.dcm.messaging.WireMessage;
-import net.realmproject.dcm.messaging.WireMessageSource;
+import net.realmproject.dcm.event.bus.IDeviceEventBusSource;
+import net.realmproject.dcm.event.filter.AcceptFilter;
+import net.realmproject.dcm.network.Transcoder;
+import net.realmproject.dcm.network.WireMessage;
+import net.realmproject.dcm.network.WireMessageSink;
 
 
 /**
- * Listens for events on a {@link DeviceEventBus} and transmits
- * {@link WireMessage}s on a distributed messaging system (eg ActiveMQ)
+ * Receives {@link WireMessage}s from a distributed messaging system (eg
+ * ActiveMQ) and publishes them to the given {@link DeviceEventBus}
  * 
  * @author NAS
  *
  */
-public abstract class IWireMessageSource implements WireMessageSource, DeviceEventSink {
+public class IWireMessageSink extends IDeviceEventBusSource implements WireMessageSink {
 
-    private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
+    private Predicate<DeviceEvent> filter = new AcceptFilter();
     private Transcoder transcoder;
 
-    public IWireMessageSource(DeviceEventBus bus, Transcoder transcoder) {
+    public IWireMessageSink(DeviceEventBus bus, Transcoder transcoder) {
+        super(bus);
         this.transcoder = transcoder;
-        bus.subscribe(this::filter, this::receive);
     }
 
     @Override
-    public List<Predicate<DeviceEvent>> getFilters() {
-        return filters;
+    public void receive(WireMessage deviceMessage) {
+        DeviceEvent deviceEvent = deviceMessage.getEvent();
+        if (!filter.test(deviceEvent)) { return; }
+        send(deviceEvent);
     }
 
-    @Override
-    public synchronized void setFilters(List<Predicate<DeviceEvent>> filters) {
-        this.filters.clear();
-        this.filters.addAll(filters);
+    public Predicate<DeviceEvent> getFilter() {
+        return filter;
     }
 
-    @Override
-    public void receive(DeviceEvent event) {
-        send(new WireMessage(event));
+    public void setFilter(Predicate<DeviceEvent> filter) {
+        this.filter = filter;
     }
 
     public Transcoder getTranscoder() {

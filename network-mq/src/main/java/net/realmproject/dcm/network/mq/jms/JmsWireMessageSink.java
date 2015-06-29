@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.messaging.mq.jms;
+package net.realmproject.dcm.network.mq.jms;
 
 
 import javax.jms.JMSException;
@@ -27,10 +27,10 @@ import javax.jms.ObjectMessage;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.messaging.Transcoder;
-import net.realmproject.dcm.messaging.WireMessage;
-import net.realmproject.dcm.messaging.impl.IWireMessageSink;
-import net.realmproject.dcm.messaging.transcoders.IIdentityTranscoder;
+import net.realmproject.dcm.network.Transcoder;
+import net.realmproject.dcm.network.WireMessage;
+import net.realmproject.dcm.network.impl.IWireMessageSink;
+import net.realmproject.dcm.network.transcoders.IIdentityTranscoder;
 
 
 /**

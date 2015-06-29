@@ -17,14 +17,14 @@
  * 
  */
 
-package net.realmproject.dcm.messaging;
+package net.realmproject.dcm.network;
 
 
 /**
  * @author maxweld
  *
  */
-public interface WireMessageSink {
+public interface WireMessageSource {
 
-    public void receive(WireMessage deviceMessage);
+    public void send(WireMessage deviceMessage);
 }
