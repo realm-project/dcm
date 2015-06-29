@@ -108,7 +108,11 @@ public class IDeviceEventBus extends AbstractDeviceEventSource implements Device
 
     @Override
     public synchronized boolean broadcast(DeviceEvent event) {
-        if (event.isPrivateEvent() && !getZone().equals(event.getZone())) {
+        if (event == null) { return false; }
+        boolean isPrivate = event.isPrivateEvent();
+        boolean sameZone = getZone() != null && getZone().equals(event.getZone());
+
+        if (isPrivate && !sameZone) {
             // private events from other zones will not be propagated
             return false;
         }
