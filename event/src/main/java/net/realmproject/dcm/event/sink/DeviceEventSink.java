@@ -2,7 +2,6 @@ package net.realmproject.dcm.event.sink;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -22,18 +21,18 @@ public interface DeviceEventSink {
     List<Predicate<DeviceEvent>> getFilters();
 
     default void setFilters(Predicate<DeviceEvent> filter) {
-        setFilters(Collections.singletonList(filter));
+        List<Predicate<DeviceEvent>> filters = new ArrayList<>();
+        filters.add(filter);
+        setFilters(filters);
     }
 
     void setFilters(List<Predicate<DeviceEvent>> filters);
 
     default boolean filter(DeviceEvent event) {
-        synchronized (this) {
-            for (Predicate<DeviceEvent> filter : new ArrayList<>(getFilters())) {
-                if (!filter.test(event)) { return false; }
-            }
-            return true;
+        for (Predicate<DeviceEvent> filter : new ArrayList<>(getFilters())) {
+            if (!filter.test(event)) { return false; }
         }
+        return true;
     }
 
     void receive(DeviceEvent event);

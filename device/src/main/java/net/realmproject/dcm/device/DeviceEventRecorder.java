@@ -2,7 +2,6 @@ package net.realmproject.dcm.device;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -22,17 +21,15 @@ public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceE
     }
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer, Predicate<DeviceEvent> filter) {
-        this(bus, writer, Collections.singletonList(filter));
+        super(writer);
+        setFilters(filter);
+        bus.subscribe(this::filter, this::receive);
     }
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer,
             List<Predicate<DeviceEvent>> filters) {
         super(writer);
-
-        // set filters
-        getFilters().clear();
-        getFilters().addAll(filters);
-
+        setFilters(filters);
         bus.subscribe(this::filter, this::receive);
     }
 
