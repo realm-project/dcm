@@ -209,10 +209,10 @@ public class IDeviceEvent implements DeviceEvent {
             return (DeviceEvent) ois.readObject();
         }
         catch (IOException e) {
-            return null;
+            throw new RuntimeException(e);
         }
         catch (ClassNotFoundException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
