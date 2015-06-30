@@ -34,10 +34,10 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.network.Transcoder;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSource;
-import net.realmproject.dcm.network.transcoders.IIdentityTranscoder;
+import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
+import net.realmproject.dcm.network.transcoder.Transcoder;
 
 
 /**

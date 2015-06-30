@@ -27,9 +27,9 @@ import java.util.function.Predicate;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.sink.DeviceEventSink;
-import net.realmproject.dcm.network.Transcoder;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSource;
+import net.realmproject.dcm.network.transcoder.Transcoder;
 
 
 /**

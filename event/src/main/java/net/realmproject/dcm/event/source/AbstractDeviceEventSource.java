@@ -29,7 +29,7 @@ import net.realmproject.dcm.event.DeviceEvent;
  *
  */
 
-public abstract class AbstractDeviceEventSource implements DeviceEventSource, DeviceEventSourceControl {
+public abstract class AbstractDeviceEventSource implements DeviceEventSource {
 
     private boolean sending = false;
     private long sentEvents = 0L;
@@ -78,21 +78,6 @@ public abstract class AbstractDeviceEventSource implements DeviceEventSource, De
                 sentEvents = 0L;
             }
         }
-    }
-
-    @Override
-    public void startSending() {
-        setSending(true);
-    }
-
-    @Override
-    public void stopSending() {
-        setSending(false);
-    }
-
-    @Override
-    public boolean hasSent() {
-        return (sentEvents > 0L);
     }
 
     @Override

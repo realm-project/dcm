@@ -26,9 +26,9 @@ import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBusSource;
 import net.realmproject.dcm.event.filter.AcceptFilter;
-import net.realmproject.dcm.network.Transcoder;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSink;
+import net.realmproject.dcm.network.transcoder.Transcoder;
 
 
 /**

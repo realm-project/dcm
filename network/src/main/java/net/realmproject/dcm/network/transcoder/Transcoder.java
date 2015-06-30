@@ -1,7 +1,9 @@
-package net.realmproject.dcm.network;
+package net.realmproject.dcm.network.transcoder;
 
 
 import java.io.Serializable;
+
+import net.realmproject.dcm.network.WireMessage;
 
 
 /**
