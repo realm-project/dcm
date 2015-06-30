@@ -27,4 +27,13 @@ public interface Recordable extends Serializable {
      */
     void setToRecord(boolean toRecord);
 
+    /**
+     * Convenience/alternate form of setToRecord
+     * 
+     * @param toRecord
+     */
+    default void setRecord(boolean toRecord) {
+        setToRecord(toRecord);
+    }
+
 }
