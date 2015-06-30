@@ -1,6 +1,7 @@
 package net.realmproject.dcm.features.statefulness;
 
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public interface Statefulness<T extends Statefulness.State> extends Publishing {
      */
     public class State implements Recordable, Identity, Properties<Object> {
 
-        private Map<String, Object> properties;
+        private Map<String, Object> properties = new HashMap<>();
         private String id;
         private boolean toRecord;
 

@@ -105,8 +105,8 @@ public interface Commands extends Identity, Logging {
                     // expected parameter class type
 
                     setLastCommand(command);
-                    method.invoke(this,
-                            DCMSerialize.convertObject(command.getPropertyMap(), method.getParameterTypes()[0]));
+                    Object arg = DCMSerialize.convertObject(command.getPropertyMap(), method.getParameterTypes()[0]);
+                    method.invoke(this, arg);
 
                 } else {
 
