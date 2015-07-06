@@ -7,8 +7,8 @@ import java.util.Map;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.features.command.Command;
 import net.realmproject.dcm.features.command.Commands;
+import net.realmproject.dcm.features.statefulness.State;
 import net.realmproject.dcm.features.statefulness.Statefulness;
-import net.realmproject.dcm.features.statefulness.Statefulness.State;
 
 
 /**

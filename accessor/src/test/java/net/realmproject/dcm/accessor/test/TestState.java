@@ -1,7 +1,7 @@
 package net.realmproject.dcm.accessor.test;
 
 
-import net.realmproject.dcm.features.statefulness.Statefulness.State;
+import net.realmproject.dcm.features.statefulness.State;
 
 
 public class TestState extends State {
