@@ -4,6 +4,7 @@ package net.realmproject.dcm.device.stock.camera;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
@@ -23,17 +24,22 @@ public class URLCamera extends Camera {
 
     protected void getFrame() {
         try {
-            InputStream is = cameraURL.openStream();
+        	
+        	URLConnection conn = cameraURL.openConnection();
+        	conn.setConnectTimeout(250);
+        	conn.setReadTimeout(250);
+        	conn.connect();
+        	InputStream is = conn.getInputStream();
             byte[] bytes = IOUtils.toByteArray(is);
             is.close();
             frame.image = bytes;
             publishState();
         }
         catch (Exception e) {
-            if (lastGetFrameException < System.currentTimeMillis() - 60) {
+            //if (lastGetFrameException < System.currentTimeMillis() - 60) {
                 getLog().error("Error getting camera frame", e);
-            }
-            lastGetFrameException = System.currentTimeMillis();
+            //}
+            //lastGetFrameException = System.currentTimeMillis();
         }
     }
 
