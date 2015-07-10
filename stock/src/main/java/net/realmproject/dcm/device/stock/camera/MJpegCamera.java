@@ -37,12 +37,16 @@ public class MJpegCamera extends Camera {
 	}
 	
 	protected void receive() {
-		try {
-			byte[] image = retrieveNextImage();
-			frame.image = image;
-			publishState();
-		} catch (IOException e) {
-			getLog().error("Failed to read frame", e);
+		System.out.println("Receive camera started");
+		while (true) {
+			try {
+				byte[] image = retrieveNextImage();
+				System.out.println("grabbed frame");
+				frame.image = image;
+				publishState();
+			} catch (Exception e) {
+				getLog().error("Failed to read frame", e);
+			}
 		}
 	}
 	
@@ -95,7 +99,6 @@ public class MJpegCamera extends Camera {
 	// dirty but it works content-length parsing
 	private static int contentLength(String header)
 	{
-		
 		int indexOfContentLength = header.indexOf(CONTENT_LENGTH);
 		
 		//System.out.println(indexOfContentLength + "asdasd" );
