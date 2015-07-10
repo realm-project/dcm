@@ -36,10 +36,10 @@ public class URLCamera extends Camera {
             publishState();
         }
         catch (Exception e) {
-            //if (lastGetFrameException < System.currentTimeMillis() - 60) {
+            if (lastGetFrameException < System.currentTimeMillis() - 60) {
                 getLog().error("Error getting camera frame", e);
-            //}
-            //lastGetFrameException = System.currentTimeMillis();
+            }
+            lastGetFrameException = System.currentTimeMillis();
         }
     }
 
