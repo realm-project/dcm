@@ -1,4 +1,4 @@
-package net.realmproject.dcm.device.stock.camera;
+package net.realmproject.dcm.stock.camera;
 
 
 import java.awt.image.BufferedImage;
@@ -7,12 +7,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import net.realmproject.dcm.device.Device;
+import net.realmproject.dcm.device.CommandDevice;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.features.statefulness.Statefulness;
 
 
-public abstract class Camera extends Device implements Statefulness<Frame> {
+public abstract class Camera extends CommandDevice<Frame> {
 
     protected Frame frame = new Frame();
 
@@ -26,15 +25,18 @@ public abstract class Camera extends Device implements Statefulness<Frame> {
     }
 
     public void setImage(byte[] data) {
-        frame.image = data;
+        frame.image = process(data);
         publishState();
     }
 
-    public void setImage(BufferedImage image, String format) throws IOException {
+    protected byte[] fromBufferedImage(BufferedImage image) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, format, baos);
+        ImageIO.write(image, "jpg", baos);
         baos.close();
-        frame.image = baos.toByteArray();
-        publishState();
+        return process(baos.toByteArray());
+    }
+
+    protected byte[] process(byte[] frame) {
+        return frame;
     }
 }

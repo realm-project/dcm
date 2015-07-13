@@ -1,4 +1,4 @@
-package net.realmproject.dcm.device.stock.camera;
+package net.realmproject.dcm.stock.camera;
 
 
 import net.realmproject.dcm.features.statefulness.State;

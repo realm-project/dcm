@@ -1,4 +1,4 @@
-package net.realmproject.dcm.device.stock.camera;
+package net.realmproject.dcm.stock.camera;
 
 
 import java.io.InputStream;
@@ -10,12 +10,12 @@ import org.apache.commons.io.IOUtils;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
 
-public class URLCamera extends Camera {
+public class UrlCamera extends Camera {
 
     private URL cameraURL;
     private boolean logGetFrameException = true; // limit exception spamming
 
-    protected URLCamera(String id, DeviceEventBus bus, String url) throws MalformedURLException {
+    protected UrlCamera(String id, DeviceEventBus bus, String url) throws MalformedURLException {
         super(id, bus);
         cameraURL = new URL(url);
     }
@@ -25,8 +25,7 @@ public class URLCamera extends Camera {
             InputStream is = cameraURL.openStream();
             byte[] bytes = IOUtils.toByteArray(is);
             is.close();
-            frame.image = bytes;
-            publishState();
+            setImage(bytes);
             logGetFrameException = true;
         }
         catch (Exception e) {
