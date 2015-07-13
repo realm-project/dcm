@@ -4,6 +4,7 @@ package net.realmproject.dcm.stock.camera;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.commons.io.IOUtils;
 
@@ -13,7 +14,7 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
 public class UrlCamera extends Camera {
 
     private URL cameraURL;
-    private boolean logGetFrameException = true; // limit exception spamming
+    private long lastGetFrameException = 0; // limit exception spamming
 
     protected UrlCamera(String id, DeviceEventBus bus, String url) throws MalformedURLException {
         super(id, bus);
@@ -22,17 +23,22 @@ public class UrlCamera extends Camera {
 
     protected void getFrame() {
         try {
-            InputStream is = cameraURL.openStream();
+
+            URLConnection conn = cameraURL.openConnection();
+            conn.setConnectTimeout(250);
+            conn.setReadTimeout(250);
+            conn.connect();
+            InputStream is = conn.getInputStream();
             byte[] bytes = IOUtils.toByteArray(is);
             is.close();
-            setImage(bytes);
-            logGetFrameException = true;
+            frame.image = bytes;
+            publishState();
         }
         catch (Exception e) {
-            if (logGetFrameException) {
+            if (lastGetFrameException < System.currentTimeMillis() - 60) {
                 getLog().error("Error getting camera frame", e);
             }
-            logGetFrameException = false;
+            lastGetFrameException = System.currentTimeMillis();
         }
     }
 
