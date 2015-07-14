@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.sender.DeviceEventSender;
+import net.realmproject.dcm.event.source.DeviceEventSource;
 
 
 /**
@@ -50,7 +50,7 @@ import net.realmproject.dcm.event.sender.DeviceEventSender;
  *
  */
 
-public interface DeviceEventBus extends DeviceEventSender {
+public interface DeviceEventBus extends DeviceEventSource {
 
     /**
      * Send a {@link DeviceEvent} to all subscribers of this bus. Broadcasting

@@ -1,7 +1,11 @@
 package net.realmproject.dcm.device.test.values;
 
 
+import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
@@ -9,9 +13,6 @@ import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
 import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 
 public class ValuesTest {
@@ -28,10 +29,10 @@ public class ValuesTest {
 
         // test setting/getting value over device event bus
         BlockingQueue<DeviceEvent> eventQueue = bus.subscriptionQueue(new ValueChangedFilter());
-        DeviceEvent event = new IDeviceEvent(DeviceEventType.VALUE_SET, "id", 5);
+        DeviceEvent event = new IDeviceEvent(DeviceEventType.VALUE_SET, "id", "id", 5);
         bus.broadcast(event);
         event = eventQueue.take();
-        Assert.assertEquals(5, event.getValue());
+        Assert.assertEquals(5, event.<Serializable> getPayload());
 
     }
 

@@ -22,7 +22,7 @@ package net.realmproject.dcm.device;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.Filters;
+import net.realmproject.dcm.event.filter.FilterBuilder;
 import net.realmproject.dcm.features.Publishing;
 import net.realmproject.dcm.features.Values;
 
@@ -38,12 +38,12 @@ public abstract class ValueDevice extends Device implements Values, Publishing {
 
     public ValueDevice(String id, DeviceEventBus bus) {
         super(id, bus);
-        bus.subscribe(Filters.id(getId()).and(Filters.setEvents()), this::onSet);
-        bus.subscribe(Filters.id(getId()).and(Filters.getEvents()), this::onGet);
+        bus.subscribe(FilterBuilder.start().target(getId()).eventSet(), this::onSet);
+        bus.subscribe(FilterBuilder.start().target(getId()).eventGet(), this::onGet);
     }
 
     private void onSet(DeviceEvent e) {
-        setValue(e.getValue());
+        setValue(e.getPayload());
     }
 
     private void onGet(DeviceEvent e) {

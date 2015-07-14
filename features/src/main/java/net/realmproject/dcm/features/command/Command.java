@@ -20,39 +20,52 @@
 package net.realmproject.dcm.features.command;
 
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.features.Properties;
+import net.realmproject.dcm.features.recording.Recordable;
 
-public class Command implements Serializable {
 
-    public Command() {}
-
-    public Command(String action) {
-        this.action = action;
-    }
-
-    public Command(String action, Map<String, Serializable> args) {
-        this.action = action;
-        this.arguments.putAll(args);
-    }
+/**
+ * Class representing a command issued to a device. A command is similar to a
+ * method invocation (or a smalltalk message). It contains an action name
+ * analogous to method name (or selector), and arguments/properties analogous to
+ * named arguments (or keywords). Devices implementing the {@link Commands}
+ * interface can apply the {@link CommandMethod} and {@link Arg} annotations to
+ * methods to enable automatic dispatch of commands to methods
+ * 
+ * @author NAS
+ *
+ */
+public class Command implements Properties<Object>, Recordable, Identity {
 
     /**
      * The name of the action or command to invoke on the {@link CommandDevice}
      */
-    public String action;
+    private String action;
+
+    private String id;
+    private boolean toRecord;
 
     /**
      * The arguments to invoke the command with
      */
-    public Map<String, Object> arguments = new HashMap<>();
+    private Map<String, Object> properties = new HashMap<>();
 
-    /**
-     * Indicates if this command should be recorded (if such facilities are
-     * available)
-     */
-    public boolean record;
+    public Command() {}
+
+    public Command(String action) {
+        this();
+        this.action = action;
+    }
+
+    public Command(String action, Map<String, ?> args) {
+        this();
+        this.action = action;
+        this.getPropertyMap().putAll(args);
+    }
 
     /**
      * Adds the given argument to the Command with the given key as the argument
@@ -65,7 +78,7 @@ public class Command implements Serializable {
      * @return this Command
      */
     public Command arg(String key, Object value) {
-        arguments.put(key, value);
+        setProperty(key, value);
         return this;
     }
 
@@ -77,8 +90,66 @@ public class Command implements Serializable {
      * @return this Command
      */
     public Command arg(Object value) {
-        arguments.put("value", value);
+        setProperty("value", value);
         return this;
+    }
+
+    @Override
+    public void setPropertyMap(Map<String, Object> propertyMap) {
+        properties.clear();
+        properties = propertyMap;
+    }
+
+    @Override
+    public Map<String, Object> getPropertyMap() {
+        return properties;
+    }
+
+    /**
+     * Convenience method for getPropertyMap
+     * 
+     * @return the arguments/properties map
+     */
+    public Map<String, Object> getArguments() {
+        return getPropertyMap();
+    }
+
+    /**
+     * Convenience method for setPropertyMap
+     * 
+     * @param arguments
+     *            the arguments/properties map
+     */
+    public void setArguments(Map<String, Object> arguments) {
+        setPropertyMap(arguments);
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean isToRecord() {
+        return toRecord;
+    }
+
+    @Override
+    public void setToRecord(boolean toRecord) {
+        this.toRecord = toRecord;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
 }

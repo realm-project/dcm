@@ -1,36 +1,33 @@
 package net.realmproject.dcm.device;
 
-import java.lang.reflect.Method;
-import java.util.Map;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.features.Statefulness;
-import net.realmproject.dcm.features.Statefulness.State;
+import net.realmproject.dcm.features.command.CommandDispatcher;
 import net.realmproject.dcm.features.command.Commands;
+import net.realmproject.dcm.features.statefulness.State;
+import net.realmproject.dcm.features.statefulness.Statefulness;
+
 
 /**
  * Implementation of Statefulness and Commands features.
+ * 
  * @author NAS
  *
- * @param <T> type of device state
+ * @param <T>
+ *            type of device state
  */
 public abstract class CommandDevice<T extends State> extends Device implements Commands, Statefulness<T> {
 
-	Map<String, Method> commands;
-	
-	public CommandDevice(String id, DeviceEventBus bus) {
-		super(id, bus);
-		initCommands(bus);
-	}
+    private CommandDispatcher dispatcher;
 
-	@Override
-	public Map<String, Method> getCommandMethods() {
-		return commands;
-	}
+    public CommandDevice(String id, DeviceEventBus bus) {
+        super(id, bus);
+        dispatcher = new CommandDispatcher(this, bus);
+    }
 
-	@Override
-	public void setCommandMethods(Map<String, Method> methods) {
-		commands = methods;
-	}
+    @Override
+    public CommandDispatcher getCommandDispatcher() {
+        return dispatcher;
+    }
 
 }

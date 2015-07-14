@@ -22,11 +22,11 @@ package net.realmproject.dcm.accessor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Consumer;
 
-import net.realmproject.dcm.features.Identity;
 
-
-public interface DeviceAccessor<T extends Serializable> extends Identity {
+public interface DeviceAccessor<T extends Serializable> extends AccessorIdentity {
 
     /**
      * Sends a MESSAGE event with the given payload
@@ -64,5 +64,14 @@ public interface DeviceAccessor<T extends Serializable> extends Identity {
      * Asynchronously emits a VALUE_GET event which may trigger a VALUE_CHANGED
      * event from a backing device.
      */
-    void sendValueGet();
+    boolean sendValueGet();
+
+    List<Consumer<T>> getListeners();
+
+    void setListeners(List<Consumer<T>> listeners);
+
+    String getDeviceId();
+
+    void setDeviceId(String deviceId);
+
 }

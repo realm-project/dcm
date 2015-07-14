@@ -20,6 +20,11 @@
 package net.realmproject.dcm.event;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -45,9 +50,9 @@ public class IDeviceEvent implements DeviceEvent {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The device which has emitted this event
+     * The source and target ids for this event
      */
-    private String deviceId;
+    private String sourceId, targetId;
 
     /**
      * The type of event/message
@@ -57,7 +62,7 @@ public class IDeviceEvent implements DeviceEvent {
     /**
      * The value or payload of this event
      */
-    private Serializable value;
+    private Serializable payload;
 
     /**
      * The time (as recorded by the computer of origin) that this event was
@@ -77,30 +82,20 @@ public class IDeviceEvent implements DeviceEvent {
 
     /**************************************************************************/
 
+    public IDeviceEvent() {
+        this(null, null, null, null, new Date());
+    }
+
     /**
      * Creates a new DeviceEvent with no payload and a current timestamp
      * 
      * @param type
      *            The type of this message
-     * @param deviceId
+     * @param sourceId
      *            The id of the originating device
      */
-    public IDeviceEvent(DeviceEventType type, String deviceId) {
-        this(type, deviceId, null, new Date());
-    }
-
-    /**
-     * Creates a new DeviceEvent with the given payload and a current timestamp
-     * 
-     * @param type
-     *            The type of this message
-     * @param deviceId
-     *            The id of the originating device
-     * @param value
-     *            the payload for this event
-     */
-    public IDeviceEvent(DeviceEventType type, String deviceId, Serializable value) {
-        this(type, deviceId, value, new Date());
+    public IDeviceEvent(DeviceEventType type, String sourceId) {
+        this(type, sourceId, null, null, new Date());
     }
 
     /**
@@ -108,23 +103,37 @@ public class IDeviceEvent implements DeviceEvent {
      * 
      * @param type
      *            The type of this message
-     * @param deviceId
+     * @param sourceId
      *            The id of the originating device
+     * @param targetId
+     *            The id of the target device
+     * @param value
+     *            The payload for this event
+     */
+    public IDeviceEvent(DeviceEventType type, String sourceId, String targetId, Serializable value) {
+        this(type, sourceId, targetId, value, new Date());
+    }
+
+    /**
+     * Creates a new DeviceEvent with the given payload and timestamp
+     * 
+     * @param type
+     *            The type of this message
+     * @param sourceId
+     *            The id of the originating device
+     * @param targetId
+     *            The id of the target device
      * @param value
      *            The payload for this event
      * @param timestamp
      *            The timestamp this event was issued at
      */
-    public IDeviceEvent(DeviceEventType type, String deviceId, Serializable value, Date timestamp) {
-        this.deviceId = deviceId;
+    public IDeviceEvent(DeviceEventType type, String sourceId, String targetId, Serializable value, Date timestamp) {
+        this.sourceId = sourceId;
+        this.targetId = targetId;
         this.type = type;
-        this.value = value;
+        this.payload = value;
         this.timestamp = timestamp;
-    }
-
-    @Override
-    public String getDeviceId() {
-        return deviceId;
     }
 
     @Override
@@ -132,9 +141,15 @@ public class IDeviceEvent implements DeviceEvent {
         return type;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Serializable getValue() {
-        return value;
+    public <S extends Serializable> S getPayload() {
+        return (S) payload;
+    }
+
+    @Override
+    public void setPayload(Serializable payload) {
+        this.payload = payload;
     }
 
     @Override
@@ -171,10 +186,64 @@ public class IDeviceEvent implements DeviceEvent {
             str += ":" + type.toString();
         }
 
-        if (deviceId != null) {
-            str += " from " + deviceId;
+        if (getSourceId() != null) {
+            str += " from " + getSourceId();
+        }
+
+        if (getTargetId() != null) {
+            str += " to " + getTargetId();
         }
 
         return str;
     }
+
+    @Override
+    public DeviceEvent deepCopy() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (DeviceEvent) ois.readObject();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    @Override
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    @Override
+    public String getTargetId() {
+        return targetId;
+    }
+
+    @Override
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
+    }
+
+    @Override
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    @Override
+    public void setDeviceEventType(DeviceEventType type) {
+        this.type = type;
+    }
+
 }

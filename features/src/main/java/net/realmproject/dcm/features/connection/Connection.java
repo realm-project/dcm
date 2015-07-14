@@ -2,7 +2,7 @@ package net.realmproject.dcm.features.connection;
 
 
 import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.features.Identity;
+import net.realmproject.dcm.event.identity.Identity;
 
 
 /**

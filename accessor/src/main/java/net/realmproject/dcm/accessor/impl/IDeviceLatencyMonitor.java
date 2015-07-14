@@ -12,12 +12,12 @@ public class IDeviceLatencyMonitor extends IDevicePinger implements DeviceLatenc
 
     private static final int DEFAULT_PING_INTERVAL = 5;
 
-    public IDeviceLatencyMonitor(String id, DeviceEventBus bus) {
-        this(id, bus, DEFAULT_PING_INTERVAL);
+    public IDeviceLatencyMonitor(String id, DeviceEventBus bus, String targetId) {
+        this(id, bus, targetId, DEFAULT_PING_INTERVAL);
     }
 
-    public IDeviceLatencyMonitor(String id, DeviceEventBus bus, int interval) {
-        super(id, bus);
+    public IDeviceLatencyMonitor(String id, DeviceEventBus bus, String targetId, int interval) {
+        super(id, bus, targetId);
         DCMThreadPool.getPool().scheduleAtFixedRate(this::ping, interval, interval, TimeUnit.SECONDS);
     }
 

@@ -25,7 +25,7 @@ public class StatefulnessTest {
 
         DeviceEvent event = eventQueue.take();
 
-        TestState state = (TestState) event.getValue();
+        TestState state = (TestState) event.getPayload();
         Assert.assertEquals(7, state.number);
 
     }

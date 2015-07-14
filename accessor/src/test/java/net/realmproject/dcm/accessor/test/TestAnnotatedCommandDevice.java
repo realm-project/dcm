@@ -15,7 +15,6 @@ public class TestAnnotatedCommandDevice extends CommandDevice<TestState> {
     public TestAnnotatedCommandDevice(String id, DeviceEventBus bus) {
         super(id, bus);
         state = new TestState();
-        initCommands(bus);
     }
 
     @Override

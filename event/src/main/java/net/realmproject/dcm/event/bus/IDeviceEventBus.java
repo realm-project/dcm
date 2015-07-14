@@ -27,13 +27,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
-import net.realmproject.dcm.util.DCMThreadPool;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.Logging;
+import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
+import net.realmproject.dcm.util.DCMThreadPool;
 
 
 /**
@@ -44,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  *
  */
 
-public class IDeviceEventBus extends AbstractDeviceEventSender implements DeviceEventBus, Logging {
+public class IDeviceEventBus extends AbstractDeviceEventSource implements DeviceEventBus, Logging {
 
     private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
     private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
@@ -58,49 +58,48 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
     public IDeviceEventBus(String zone) {
         this.zone = zone;
         startSending();
-        DCMThreadPool.getPool().submit(new Runnable() {
+        DCMThreadPool.getPool().submit(() -> {
+            DeviceEvent event = null;
+            while (true) {
+                try {
+                    event = eventqueue.take();
 
-            @Override
-            public void run() {
-                DeviceEvent event = null;
-                while (true) {
-                    try {
-                        event = eventqueue.take();
+                    // only label event with our zone if it hasn't already
+                    // been set. relabelling of events should be a conscious
+                    // choice of a repeater
+                    if (event.getZone() == null) {
+                        event.setZone(getZone());
+                    }
 
-                        // only label event with our zone if it hasn't already
-                        // been set. relabelling of events should be a conscious
-                        // choice of a repeater
-                        if (event.getZone() == null) {
-                            event.setZone(getZone());
-                        }
-
-                        synchronized (this) {
-                            for (Consumer<DeviceEvent> consumer : consumers) {
-                                try {
-                                    consumer.accept(event);
-                                }
-                                catch (Exception e) {
-                                    // the eventbus thread cannot die, any
-                                    // exceptions which
-                                    // remain uncaught at this point should be
-                                    // logged, but
-                                    // discarded
-                                    getLog().error(event, e);
-                                }
+                    synchronized (this) {
+                        for (Consumer<DeviceEvent> consumer : new ArrayList<>(consumers)) {
+                            try {
+                                // give a different copy to each recipient
+                                // to prevent one from modifying it for
+                                // others
+                                consumer.accept(event.deepCopy());
+                            }
+                            catch (Exception e) {
+                                // the eventbus thread cannot die, any
+                                // exceptions which
+                                // remain uncaught at this point should be
+                                // logged, but
+                                // discarded
+                                getLog().error(event, e);
                             }
                         }
                     }
-                    catch (InterruptedException e) {
-                        getLog().warn("Event bus thread has been interrupted.", e);
-                        Thread.currentThread().interrupt();
-                        return;
-                    }
-                    catch (Exception e) {
-                        // the eventbus thread cannot die, any exceptions which
-                        // remain uncaught at this point should be logged, but
-                        // discarded
-                        getLog().error(event, e);
-                    }
+                }
+                catch (InterruptedException e) {
+                    getLog().warn("Event bus thread has been interrupted.", e);
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+                catch (Exception e) {
+                    // the eventbus thread cannot die, any exceptions which
+                    // remain uncaught at this point should be logged, but
+                    // discarded
+                    getLog().error(event, e);
                 }
             }
         });
@@ -109,7 +108,11 @@ public class IDeviceEventBus extends AbstractDeviceEventSender implements Device
 
     @Override
     public synchronized boolean broadcast(DeviceEvent event) {
-        if (event.isPrivateEvent() && !getZone().equals(event.getZone())) {
+        if (event == null) { return false; }
+        boolean isPrivate = event.isPrivateEvent();
+        boolean sameZone = getZone() != null && getZone().equals(event.getZone());
+
+        if (isPrivate && !sameZone) {
             // private events from other zones will not be propagated
             return false;
         }

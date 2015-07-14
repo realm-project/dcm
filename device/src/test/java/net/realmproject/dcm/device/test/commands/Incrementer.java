@@ -1,7 +1,10 @@
 package net.realmproject.dcm.device.test.commands;
 
 
-public class Incrementer {
+import java.io.Serializable;
+
+
+public class Incrementer implements Serializable {
 
     public Incrementer() {
         // TODO Auto-generated constructor stub

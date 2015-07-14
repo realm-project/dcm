@@ -20,11 +20,14 @@
 package net.realmproject.dcm.event.bus;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.filter.AcceptFilter;
-import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
+import net.realmproject.dcm.event.sink.DeviceEventSink;
+import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
 
 
 /**
@@ -34,9 +37,10 @@ import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
  * @author NAS
  *
  */
-public class IDeviceEventBusForwarder extends AbstractDeviceEventSender {
+public class IDeviceEventBusForwarder extends AbstractDeviceEventSource implements DeviceEventSink {
 
     private DeviceEventBus to;
+    private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
 
     public IDeviceEventBusForwarder(DeviceEventBus from, DeviceEventBus to) {
         this(from, to, new AcceptFilter());
@@ -45,11 +49,33 @@ public class IDeviceEventBusForwarder extends AbstractDeviceEventSender {
 
     public IDeviceEventBusForwarder(DeviceEventBus from, DeviceEventBus to, Predicate<DeviceEvent> filter) {
         this.to = to;
-        from.subscribe(filter, this::send);
+        filters.add(filter);
+        from.subscribe(this::filter, this::receive);
+    }
+
+    public IDeviceEventBusForwarder(DeviceEventBus from, DeviceEventBus to, List<Predicate<DeviceEvent>> filters) {
+        this.to = to;
+        setFilters(filters);
+        from.subscribe(this::filter, this::receive);
     }
 
     @Override
     protected boolean doSend(DeviceEvent event) {
         return to.broadcast(event);
+    }
+
+    @Override
+    public List<Predicate<DeviceEvent>> getFilters() {
+        return filters;
+    }
+
+    @Override
+    public void setFilters(List<Predicate<DeviceEvent>> filters) {
+        this.filters = filters;
+    }
+
+    @Override
+    public void receive(DeviceEvent event) {
+        send(event);
     }
 }
