@@ -95,9 +95,15 @@ public class ActiveMQDeviceMessageReceiver extends IDeviceMessageReceiver implem
                 connected = true;
                 session = connection.createSession(transacted, Session.AUTO_ACKNOWLEDGE);
                 if (this.topic) {
+                	
+                	System.out.println("Topic is true!");
+                	
                     Topic topic = session.createTopic(subject);
                     messageConsumer = session.createConsumer(topic);
                 } else {
+                	
+                	System.out.println("Topic is false!");
+                	
                     Queue queue = session.createQueue(subject);
                     messageConsumer = session.createConsumer(queue);
                 }
