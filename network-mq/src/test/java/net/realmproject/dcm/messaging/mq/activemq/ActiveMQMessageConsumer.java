@@ -8,7 +8,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
-import net.realmproject.dcm.messaging.DeviceMessage;
+import net.realmproject.dcm.network.WireMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -40,7 +40,7 @@ public class ActiveMQMessageConsumer implements Runnable {
             		try {
             			Serializable object = objectMessage.getObject();
             			try {
-        					DeviceMessage deviceMessage = (DeviceMessage) object;
+        					WireMessage deviceMessage = (WireMessage) object;
         					System.out.println("messageId of recieved message: " + deviceMessage.getMessageId());
         					System.out.println("EventType of recieved message's event: " + deviceMessage.getEvent().getDeviceEventType());
         				}

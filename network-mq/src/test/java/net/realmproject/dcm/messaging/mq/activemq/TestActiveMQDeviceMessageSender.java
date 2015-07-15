@@ -1,8 +1,8 @@
 package net.realmproject.dcm.messaging.mq.activemq;
 
-import net.realmproject.dcm.messaging.DeviceMessage;
+import net.realmproject.dcm.network.mq.activemq.ActiveMQWireMessageSource;
 
-public class TestActiveMQDeviceMessageSender extends ActiveMQDeviceMessageSender {
+public class TestActiveMQDeviceMessageSender extends ActiveMQWireMessageSource {
 
 	public TestActiveMQDeviceMessageSender(String subject, boolean topic, String url) {
 		super(null, subject, topic, url);

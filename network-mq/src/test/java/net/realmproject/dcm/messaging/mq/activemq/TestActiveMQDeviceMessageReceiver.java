@@ -6,9 +6,10 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 
-import net.realmproject.dcm.messaging.DeviceMessage;
+import net.realmproject.dcm.network.WireMessage;
+import net.realmproject.dcm.network.mq.activemq.ActiveMQWireMessageSink;
 
-public class TestActiveMQDeviceMessageReceiver extends ActiveMQDeviceMessageReceiver {
+public class TestActiveMQDeviceMessageReceiver extends ActiveMQWireMessageSink {
 
 	public TestActiveMQDeviceMessageReceiver(String subject, boolean topic, String url) {
 		super(null, subject, topic, url);
@@ -20,7 +21,7 @@ public class TestActiveMQDeviceMessageReceiver extends ActiveMQDeviceMessageRece
 			try {
 				Serializable object = objectMessage.getObject();
 				try {
-					DeviceMessage deviceMessage = (DeviceMessage) object;
+					WireMessage deviceMessage = (WireMessage) object;
 					System.out.println("messageId of recieved message: " + deviceMessage.getMessageId());
 					System.out.println("EventType of recieved message's event: " + deviceMessage.getEvent().getDeviceEventType());
 				}

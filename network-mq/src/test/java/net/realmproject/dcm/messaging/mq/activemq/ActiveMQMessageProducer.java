@@ -11,7 +11,7 @@ import javax.jms.TextMessage;
 
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
-import net.realmproject.dcm.messaging.DeviceMessage;
+import net.realmproject.dcm.network.WireMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -44,9 +44,9 @@ public class ActiveMQMessageProducer implements Runnable {
 			// Send 20 messages
 			for (int i = 0; i < 20; i ++) {
 				String messageId = Integer.toString(i);
-				DeviceMessage dummyDeviceMessage = new DeviceMessage();
+				WireMessage dummyDeviceMessage = new WireMessage();
 				dummyDeviceMessage.setMessageId(messageId);
-				dummyDeviceMessage.setEvent(new IDeviceEvent(DeviceEventType.PING, "TestDevice"));
+				dummyDeviceMessage.setEvent(new IDeviceEvent(DeviceEventType.MESSAGE, "TestDevice"));
 				ObjectMessage message = session.createObjectMessage(dummyDeviceMessage);
 			
 				producer.send(message);
