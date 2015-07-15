@@ -1,4 +1,4 @@
-package net.realmproject.dcm.messaging.mq.activemq;
+package net.realmproject.dcm.network.mq.activemq;
 
 import java.io.Serializable;
 
