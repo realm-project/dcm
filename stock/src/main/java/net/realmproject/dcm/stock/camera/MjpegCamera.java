@@ -48,8 +48,12 @@ public class MjpegCamera extends Camera implements Connection {
                 setImage(getFrame());
             }
             catch (Exception e) {
-                e.printStackTrace();
-                disconnected(e);
+                if (e instanceof InterruptedException) {
+                    Thread.currentThread().interrupt();
+                } else {
+                    logConnectionError(e);
+                    disconnected(e);
+                }
             }
         }
         Thread.currentThread().interrupt();
@@ -102,6 +106,15 @@ public class MjpegCamera extends Camera implements Connection {
 
     @Override
     public void onDisconnect(Exception exception) {
+
+        // delay to avoid reconnect spam
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e1) {
+            Thread.currentThread().interrupt();
+        }
+
         if (input != null) {
             try {
                 input.close();

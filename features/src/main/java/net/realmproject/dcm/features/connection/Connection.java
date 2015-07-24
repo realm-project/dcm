@@ -39,21 +39,12 @@ public interface Connection extends Identity, Logging {
 
             onConnect();
         }
-        catch (InterruptedException e2) {
+        catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        catch (Exception e2) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Device " + getId() + " failed to connect!\n");
-            Throwable ex = e2;
-            while (ex != null) {
-                sb.append("\t" + ex.getMessage() + "\n");
-                sb.append("\t\t" + ex.getStackTrace()[0] + "\n");
-                ex = ex.getCause();
-            }
-            getLog().error(sb.toString());
-            getLog().debug("Device " + getId() + " stack trace: ", e2);
-            onDisconnect(e2);
+        catch (Exception e) {
+            logConnectionError(e);
+            onDisconnect(e);
         }
     }
 
@@ -99,6 +90,13 @@ public interface Connection extends Identity, Logging {
             onDisconnect(exception);
             doConnect();
         }
+    }
+
+    default void logConnectionError(Exception e) {
+        StackTraceElement ste = e.getStackTrace()[0];
+        String location = ste.getFileName() + ":" + ste.getMethodName() + ":" + ste.getLineNumber();
+        getLog().debug(getId() + ": " + e.toString() + " at " + location);
+        getLog().trace(getId(), e);
     }
 
 }
