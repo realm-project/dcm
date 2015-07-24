@@ -4,6 +4,7 @@ package net.realmproject.dcm.stock.camera;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -20,6 +21,18 @@ public abstract class Camera extends CommandDevice<Frame> {
 
     protected Camera(String id, DeviceEventBus bus) {
         super(id, bus);
+
+        try {
+            InputStream framestream = Camera.class
+                    .getResourceAsStream("/net/realmproject/dcm/stock/camera/nosignal.png");
+            BufferedImage image = ImageIO.read(framestream);
+            setImage(fromBufferedImage(image, 0.5f));
+
+        }
+        catch (IOException e) {
+            getLog().error(e.getMessage(), e);
+        }
+
     }
 
     @Override
