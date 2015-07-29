@@ -39,7 +39,7 @@ public abstract class AbstractDeviceEventSource implements DeviceEventSource {
         if (event == null) { return false; }
         if (!isSending()) { return false; }
 
-        boolean result = doSend(event.deepCopy());
+        boolean result = doSend(event);
         if (result) {
             incrementSentEvents();
         }

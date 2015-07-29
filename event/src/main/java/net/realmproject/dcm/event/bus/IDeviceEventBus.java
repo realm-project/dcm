@@ -77,7 +77,7 @@ public class IDeviceEventBus extends AbstractDeviceEventSource implements Device
                                 // give a different copy to each recipient
                                 // to prevent one from modifying it for
                                 // others
-                                consumer.accept(event.deepCopy());
+                                consumer.accept(event);
                             }
                             catch (Exception e) {
                                 // the eventbus thread cannot die, any

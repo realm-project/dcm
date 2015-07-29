@@ -132,7 +132,7 @@ public class IDeviceEvent implements DeviceEvent {
         this.sourceId = sourceId;
         this.targetId = targetId;
         this.type = type;
-        this.payload = value;
+        this.payload = deepCopy(value);
         this.timestamp = timestamp;
     }
 
@@ -149,7 +149,7 @@ public class IDeviceEvent implements DeviceEvent {
 
     @Override
     public void setPayload(Serializable payload) {
-        this.payload = payload;
+        this.payload = deepCopy(payload);
     }
 
     @Override
@@ -177,36 +177,16 @@ public class IDeviceEvent implements DeviceEvent {
         this.privateEvent = privateEvent;
     }
 
-    @Override
-    public String toString() {
+    private static Serializable deepCopy(Serializable input) {
 
-        String str = "Event";
-
-        if (type != null) {
-            str += ":" + type.toString();
-        }
-
-        if (getSourceId() != null) {
-            str += " from " + getSourceId();
-        }
-
-        if (getTargetId() != null) {
-            str += " to " + getTargetId();
-        }
-
-        return str;
-    }
-
-    @Override
-    public DeviceEvent deepCopy() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(this);
+            oos.writeObject(input);
 
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
-            return (DeviceEvent) ois.readObject();
+            return (Serializable) ois.readObject();
         }
         catch (IOException e) {
             throw new RuntimeException(e);

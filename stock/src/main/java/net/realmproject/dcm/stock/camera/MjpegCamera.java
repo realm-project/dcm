@@ -36,8 +36,8 @@ public class MjpegCamera extends Camera implements Connection {
     @Override
     public void connect() throws Exception {
         conn = url.openConnection();
-        conn.setReadTimeout(1000);
-        conn.setConnectTimeout(1000);
+        conn.setReadTimeout(5000);
+        conn.setConnectTimeout(5000);
         conn.connect();
         input = conn.getInputStream();
     }
