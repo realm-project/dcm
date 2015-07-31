@@ -36,9 +36,11 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.network.transcoder.TranscoderException;
 
 
 /**
@@ -63,14 +65,15 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
         this(bus, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic,
-            String url) {
+    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder<WireMessage, Serializable> transcoder, String subject,
+            boolean topic, String url) {
         super(bus, transcoder);
         this.subject = subject;
         this.topic = topic;
         this.url = url;
     }
 
+    @Override
     public void onMessage(Message message) {
         try {
             ObjectMessage objectMessage = (ObjectMessage) message;
@@ -79,8 +82,8 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
                 try {
                     receive(getTranscoder().decode(object));
                 }
-                catch (ClassCastException e) {
-                    getLog().error("Object class is not DeviceMessage", e);
+                catch (TranscoderException e) {
+                    getLog().error("Unable to decode message", e);
                 }
             }
             catch (JMSException e) {

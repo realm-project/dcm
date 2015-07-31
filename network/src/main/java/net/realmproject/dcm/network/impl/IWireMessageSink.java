@@ -20,6 +20,7 @@
 package net.realmproject.dcm.network.impl;
 
 
+import java.io.Serializable;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
@@ -41,9 +42,9 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
 public class IWireMessageSink extends IDeviceEventBusSource implements WireMessageSink {
 
     private Predicate<DeviceEvent> filter = new AcceptFilter();
-    private Transcoder transcoder;
+    private Transcoder<WireMessage, Serializable> transcoder;
 
-    public IWireMessageSink(DeviceEventBus bus, Transcoder transcoder) {
+    public IWireMessageSink(DeviceEventBus bus, Transcoder<WireMessage, Serializable> transcoder) {
         super(bus);
         this.transcoder = transcoder;
     }
@@ -63,11 +64,11 @@ public class IWireMessageSink extends IDeviceEventBusSource implements WireMessa
         this.filter = filter;
     }
 
-    public Transcoder getTranscoder() {
+    public Transcoder<WireMessage, Serializable> getTranscoder() {
         return transcoder;
     }
 
-    public void setTranscoder(Transcoder transcoder) {
+    public void setTranscoder(Transcoder<WireMessage, Serializable> transcoder) {
         this.transcoder = transcoder;
     }
 
