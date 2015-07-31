@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
+import net.realmproject.dcm.event.filter.IDeviceEventFilterer;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
@@ -44,7 +44,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
  *
  */
 
-public class IDeviceEventBus extends AbstractDeviceEventSource implements DeviceEventBus, Logging {
+public class IDeviceEventBus extends IDeviceEventFilterer implements DeviceEventBus, Logging {
 
     private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
     private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
@@ -57,7 +57,6 @@ public class IDeviceEventBus extends AbstractDeviceEventSource implements Device
 
     public IDeviceEventBus(String zone) {
         this.zone = zone;
-        startSending();
         DCMThreadPool.getPool().submit(() -> {
             DeviceEvent event = null;
             while (true) {
@@ -107,23 +106,18 @@ public class IDeviceEventBus extends AbstractDeviceEventSource implements Device
     }
 
     @Override
-    public synchronized boolean broadcast(DeviceEvent event) {
+    public synchronized boolean accept(DeviceEvent event) {
         if (event == null) { return false; }
         boolean isPrivate = event.isPrivateEvent();
         boolean sameZone = getZone() != null && getZone().equals(event.getZone());
 
-        if (isPrivate && !sameZone) {
-            // private events from other zones will not be propagated
-            return false;
-        }
-        return super.send(event);
-    }
+        // private events from other zones will not be propagated
+        if (isPrivate && !sameZone) { return false; }
 
-    // override this so that if a user calls send by accident, it will still go
-    // to broadcast like it should
-    @Override
-    public boolean send(DeviceEvent event) {
-        return broadcast(event);
+        // allow the bus to filter events
+        if (!filter(event)) { return false; }
+
+        return eventqueue.offer(event);
     }
 
     @Override
@@ -141,11 +135,6 @@ public class IDeviceEventBus extends AbstractDeviceEventSource implements Device
 
     public String getZone() {
         return zone;
-    }
-
-    @Override
-    protected boolean doSend(DeviceEvent event) {
-        return eventqueue.offer(event);
     }
 
     @Override

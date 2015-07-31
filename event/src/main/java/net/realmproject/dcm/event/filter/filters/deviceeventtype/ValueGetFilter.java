@@ -17,16 +17,16 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.deviceeventtype;
+package net.realmproject.dcm.event.filter.filters.deviceeventtype;
 
 
 import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class ValueSetFilter extends DeviceEventTypeFilter {
+public class ValueGetFilter extends DeviceEventTypeFilter {
 
-    public ValueSetFilter() {
-        super(DeviceEventType.VALUE_SET);
+    public ValueGetFilter() {
+        super(DeviceEventType.VALUE_GET);
     }
 
 }

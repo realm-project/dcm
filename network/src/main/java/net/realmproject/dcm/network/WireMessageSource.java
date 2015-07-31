@@ -26,5 +26,5 @@ package net.realmproject.dcm.network;
  */
 public interface WireMessageSource {
 
-    public void send(WireMessage deviceMessage);
+    public boolean send(WireMessage deviceMessage);
 }

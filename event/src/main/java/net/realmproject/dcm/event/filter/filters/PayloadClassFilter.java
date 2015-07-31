@@ -1,4 +1,4 @@
-package net.realmproject.dcm.event.filter;
+package net.realmproject.dcm.event.filter.filters;
 
 
 import java.io.Serializable;

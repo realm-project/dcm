@@ -35,7 +35,7 @@ import javax.jms.Topic;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
@@ -59,13 +59,13 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     protected Connection connection;
     protected Session session;
 
-    public ActiveMQWireMessageSink(DeviceEventBus bus, String subject, boolean topic, String url) {
-        this(bus, new IIdentityTranscoder(), subject, topic, url);
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, String subject, boolean topic, String url) {
+        this(receiver, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic,
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder transcoder, String subject, boolean topic,
             String url) {
-        super(bus, transcoder);
+        super(receiver, transcoder);
         this.subject = subject;
         this.topic = topic;
         this.url = url;

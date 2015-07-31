@@ -17,29 +17,40 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.deviceeventtype;
+package net.realmproject.dcm.event.filter.filters;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventType;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 
 
 /**
- * DeviceEvent filter to allow only events intended for a 'backend', something
- * only interested in listening to get/set events, and not messages or status
- * updates from other devices
+ * DeviceEvent filter which only allows events from a certain zone. See
+ * {@link DeviceEventBus}
  * 
  * @author NAS
  *
  */
-public class ValueGetSetFilter implements Predicate<DeviceEvent> {
+
+public class ZoneFilter implements Predicate<DeviceEvent> {
+
+    private List<String> whitelist;
+
+    public ZoneFilter(String zone) {
+        whitelist = new ArrayList<>();
+        whitelist.add(zone);
+    }
+
+    public ZoneFilter(List<String> zones) {
+        whitelist = new ArrayList<>(zones);
+    }
 
     @Override
     public boolean test(DeviceEvent e) {
-        DeviceEventType type = e.getDeviceEventType();
-        return type == DeviceEventType.VALUE_GET || type == DeviceEventType.VALUE_SET;
+        return whitelist.contains(e.getZone());
     }
-
 }

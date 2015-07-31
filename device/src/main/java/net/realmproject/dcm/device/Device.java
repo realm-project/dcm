@@ -20,22 +20,22 @@
 package net.realmproject.dcm.device;
 
 
-import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.bus.IDeviceEventBusSource;
-import net.realmproject.dcm.event.identity.Identity;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.realmproject.dcm.event.Logging;
+import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
+import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
 
-public class Device extends IDeviceEventBusSource implements Identity, Logging {
+
+public class Device extends AbstractDeviceEventSender implements Identity, Logging {
 
     private String id = null;
     private final Log log = LogFactory.getLog(getClass());
 
-    public Device(String id, DeviceEventBus bus) {
-        super(bus);
+    public Device(String id, DeviceEventReceiver receiver) {
+        super(receiver);
         this.id = id;
     }
 

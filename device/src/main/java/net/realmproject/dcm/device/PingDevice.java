@@ -3,18 +3,19 @@ package net.realmproject.dcm.device;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.features.ping.Pingable;
 
 
 public class PingDevice implements Pingable {
 
     private String id;
-    private DeviceEventBus bus;
+    private DeviceEventReceiver receiver;
     private long sentMessages = 0l;
 
     public PingDevice(String id, DeviceEventBus bus) {
         this.id = id;
-        this.bus = bus;
+        this.receiver = bus;
         initPingable(bus);
     }
 
@@ -30,7 +31,7 @@ public class PingDevice implements Pingable {
 
     @Override
     public boolean send(DeviceEvent event) {
-        boolean success = bus.broadcast(event);
+        boolean success = receiver.accept(event);
         if (success) {
             sentMessages++;
         }

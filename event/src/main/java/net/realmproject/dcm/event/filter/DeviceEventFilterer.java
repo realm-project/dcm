@@ -1,4 +1,4 @@
-package net.realmproject.dcm.event.sink;
+package net.realmproject.dcm.event.filter;
 
 
 import java.util.ArrayList;
@@ -11,12 +11,12 @@ import net.realmproject.dcm.event.DeviceEvent;
 /**
  * Interface for components which require only simple receipt of events through
  * a single set of filters. Subscription to a bus can thus be handled as
- * <tt>bus.subscribe(this::filter, this::receive)</tt>
+ * <tt>bus.subscribe(this::filter, ...)</tt>
  * 
  * @author NAS
  *
  */
-public interface DeviceEventSink {
+public interface DeviceEventFilterer {
 
     List<Predicate<DeviceEvent>> getFilters();
 
@@ -34,7 +34,5 @@ public interface DeviceEventSink {
         }
         return true;
     }
-
-    void receive(DeviceEvent event);
 
 }

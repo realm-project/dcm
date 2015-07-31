@@ -72,7 +72,7 @@ public class ActiveMQWireMessageSource extends IWireMessageSource implements Log
         this.url = url;
     }
 
-    public void send(WireMessage deviceMessage) {
+    public boolean send(WireMessage deviceMessage) {
 
         try {
             Serializable contents = getTranscoder().encode(deviceMessage);
@@ -87,16 +87,22 @@ public class ActiveMQWireMessageSource extends IWireMessageSource implements Log
                     }
                     catch (JMSException e) {
                         getLog().error("Exception while committing JMS Message", e);
+                        return false;
                     }
                 }
             }
             catch (JMSException e) {
                 getLog().error("Exception while sending JMS ObjectMessage", e);
+                return false;
             }
         }
         catch (JMSException e) {
             getLog().error("Exception while creating JMS ObjectMessage", e);
+            return false;
         }
+
+        return true;
+
     }
 
     public void connect() {

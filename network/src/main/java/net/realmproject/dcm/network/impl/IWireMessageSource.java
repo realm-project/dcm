@@ -26,7 +26,8 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.sink.DeviceEventSink;
+import net.realmproject.dcm.event.filter.DeviceEventFilterer;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSource;
 import net.realmproject.dcm.network.transcoder.Transcoder;
@@ -39,14 +40,14 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  * @author NAS
  *
  */
-public abstract class IWireMessageSource implements WireMessageSource, DeviceEventSink {
+public abstract class IWireMessageSource implements WireMessageSource, DeviceEventReceiver, DeviceEventFilterer {
 
     private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
     private Transcoder transcoder;
 
     public IWireMessageSource(DeviceEventBus bus, Transcoder transcoder) {
         this.transcoder = transcoder;
-        bus.subscribe(this::filter, this::receive);
+        bus.subscribe(this::filter, this::accept);
     }
 
     @Override
@@ -61,8 +62,8 @@ public abstract class IWireMessageSource implements WireMessageSource, DeviceEve
     }
 
     @Override
-    public void receive(DeviceEvent event) {
-        send(new WireMessage(event));
+    public boolean accept(DeviceEvent event) {
+        return send(new WireMessage(event));
     }
 
     public Transcoder getTranscoder() {

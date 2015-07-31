@@ -17,26 +17,16 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.deviceeventtype;
+package net.realmproject.dcm.event.filter.filters.deviceeventtype;
 
 
-import java.util.function.Predicate;
-
-import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class DeviceEventTypeFilter implements Predicate<DeviceEvent> {
+public class ValueChangedFilter extends DeviceEventTypeFilter {
 
-    private DeviceEventType type;
-
-    public DeviceEventTypeFilter(DeviceEventType type) {
-        this.type = type;
-    }
-
-    @Override
-    public boolean test(DeviceEvent t) {
-        return t.getDeviceEventType() == type;
+    public ValueChangedFilter() {
+        super(DeviceEventType.VALUE_CHANGED);
     }
 
 }

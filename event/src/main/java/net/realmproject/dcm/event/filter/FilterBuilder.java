@@ -7,11 +7,15 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.filter.deviceeventtype.MessageFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.ValueGetFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.ValueGetSetFilter;
-import net.realmproject.dcm.event.filter.deviceeventtype.ValueSetFilter;
+import net.realmproject.dcm.event.filter.filters.PayloadClassFilter;
+import net.realmproject.dcm.event.filter.filters.SourceIDFilter;
+import net.realmproject.dcm.event.filter.filters.TargetIDFilter;
+import net.realmproject.dcm.event.filter.filters.ZoneFilter;
+import net.realmproject.dcm.event.filter.filters.deviceeventtype.MessageFilter;
+import net.realmproject.dcm.event.filter.filters.deviceeventtype.ValueChangedFilter;
+import net.realmproject.dcm.event.filter.filters.deviceeventtype.ValueGetFilter;
+import net.realmproject.dcm.event.filter.filters.deviceeventtype.ValueGetSetFilter;
+import net.realmproject.dcm.event.filter.filters.deviceeventtype.ValueSetFilter;
 
 
 public class FilterBuilder implements Predicate<DeviceEvent> {

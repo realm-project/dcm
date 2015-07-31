@@ -49,7 +49,7 @@ public class SpringWireMessageSource extends IWireMessageSource {
         super(bus, transcoder);
     }
 
-    public void send(WireMessage deviceMessage) {
+    public boolean send(WireMessage deviceMessage) {
         Object message = getTranscoder().encode(deviceMessage);
         if (destination != null) {
             jmsTemplate.convertAndSend(destination, message);
@@ -58,6 +58,7 @@ public class SpringWireMessageSource extends IWireMessageSource {
         } else {
             jmsTemplate.convertAndSend(message);
         }
+        return true;
     }
 
     public void setJmsTemplate(JmsTemplate jmsTemplate) {

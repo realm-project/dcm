@@ -17,10 +17,11 @@
  * 
  */
 
-package net.realmproject.dcm.event.source;
+package net.realmproject.dcm.event.sender;
 
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 
 
 /**
@@ -29,22 +30,16 @@ import net.realmproject.dcm.event.DeviceEvent;
  *
  */
 
-public abstract class AbstractDeviceEventSource implements DeviceEventSource {
+public abstract class AbstractDeviceEventSender implements DeviceEventSender {
 
     private boolean sending = false;
     private long sentEvents = 0L;
 
-    @Override
-    public boolean send(DeviceEvent event) {
-        if (event == null) { return false; }
-        if (!isSending()) { return false; }
+    private DeviceEventReceiver receiver;
 
-        boolean result = doSend(event);
-        if (result) {
-            incrementSentEvents();
-        }
-
-        return result;
+    public AbstractDeviceEventSender(DeviceEventReceiver receiver) {
+        this.receiver = receiver;
+        startSending();
     }
 
     // this method is intended to allow different implementations of the sending
@@ -59,7 +54,23 @@ public abstract class AbstractDeviceEventSource implements DeviceEventSource {
      *            the event to send
      * @return true if sending is successful, false otherwise
      */
-    protected abstract boolean doSend(DeviceEvent event);
+
+    protected boolean doSend(DeviceEvent event) {
+        return receiver.accept(event);
+    }
+
+    @Override
+    public boolean send(DeviceEvent event) {
+        if (event == null) { return false; }
+        if (!isSending()) { return false; }
+
+        boolean result = doSend(event);
+        if (result) {
+            incrementSentEvents();
+        }
+
+        return result;
+    }
 
     private void incrementSentEvents() {
         sentEvents++;

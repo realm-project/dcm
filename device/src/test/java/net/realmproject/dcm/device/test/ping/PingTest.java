@@ -36,7 +36,7 @@ public class PingTest {
 
         // send the ping
         Ping ping = new Ping();
-        bus.broadcast(new IDeviceEvent(DeviceEventType.MESSAGE, "pinger", "ponger", ping));
+        bus.accept(new IDeviceEvent(DeviceEventType.MESSAGE, "pinger", "ponger", ping));
 
         // check for response
         DeviceEvent response = events.poll(5, TimeUnit.SECONDS);

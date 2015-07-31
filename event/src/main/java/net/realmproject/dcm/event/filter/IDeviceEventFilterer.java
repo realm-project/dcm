@@ -17,31 +17,34 @@
  * 
  */
 
-package net.realmproject.dcm.event.bus;
+package net.realmproject.dcm.event.filter;
 
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
 
 
 /**
- * Abstract base class for anything which sends {@link DeviceEvent}s onto a
- * {@link DeviceEventBus}
  * 
- * @author NAS, maxweld
+ * @author maxweld, NAS
  *
  */
-public abstract class IDeviceEventBusSource extends AbstractDeviceEventSource {
 
-    private DeviceEventBus bus;
+public class IDeviceEventFilterer implements DeviceEventFilterer {
 
-    public IDeviceEventBusSource(DeviceEventBus bus) {
-        this.bus = bus;
-        startSending();
+    private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
+
+    @Override
+    public List<Predicate<DeviceEvent>> getFilters() {
+        return filters;
     }
 
-    protected boolean doSend(DeviceEvent event) {
-        return bus.broadcast(event);
+    @Override
+    public void setFilters(List<Predicate<DeviceEvent>> filters) {
+        this.filters = filters;
     }
 
 }
