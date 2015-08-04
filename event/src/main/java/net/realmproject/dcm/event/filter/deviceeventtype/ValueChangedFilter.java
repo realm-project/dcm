@@ -17,39 +17,16 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.filters;
+package net.realmproject.dcm.event.filter.deviceeventtype;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceEventType;
 
 
-/**
- * DeviceEvent filter which only accepts events with certain device ids
- * 
- * @author NAS
- *
- */
+public class ValueChangedFilter extends DeviceEventTypeFilter {
 
-public class TargetIDFilter implements Predicate<DeviceEvent> {
-
-    List<String> ids;
-
-    public TargetIDFilter(String id) {
-        ids = new ArrayList<>();
-        ids.add(id);
-    }
-
-    public TargetIDFilter(List<String> ids) {
-        ids = new ArrayList<>(ids);
-    }
-
-    @Override
-    public boolean test(DeviceEvent e) {
-        return ids.contains(e.getTargetId());
+    public ValueChangedFilter() {
+        super(DeviceEventType.VALUE_CHANGED);
     }
 
 }

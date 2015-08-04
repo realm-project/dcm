@@ -17,11 +17,13 @@
  * 
  */
 
-package net.realmproject.dcm.event.sender;
+package net.realmproject.dcm.event.source;
 
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
+import net.realmproject.dcm.event.relay.DeviceEventRelay;
+import net.realmproject.dcm.event.relay.IDeviceEventRelay;
 
 
 /**
@@ -30,16 +32,12 @@ import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
  *
  */
 
-public abstract class AbstractDeviceEventSender implements DeviceEventSender {
-
-    private boolean sending = false;
-    private long sentEvents = 0L;
+public abstract class AbstractDeviceEventSource extends IDeviceEventRelay implements DeviceEventRelay, DeviceEventSource {
 
     private DeviceEventReceiver receiver;
 
-    public AbstractDeviceEventSender(DeviceEventReceiver receiver) {
+    public AbstractDeviceEventSource(DeviceEventReceiver receiver) {
         this.receiver = receiver;
-        startSending();
     }
 
     // this method is intended to allow different implementations of the sending
@@ -62,38 +60,12 @@ public abstract class AbstractDeviceEventSender implements DeviceEventSender {
     @Override
     public boolean send(DeviceEvent event) {
         if (event == null) { return false; }
-        if (!isSending()) { return false; }
-
-        boolean result = doSend(event);
-        if (result) {
-            incrementSentEvents();
-        }
-
-        return result;
+        if (!test(event)) { return false; }
+        return doSend(event);
     }
 
-    private void incrementSentEvents() {
-        sentEvents++;
-    }
 
-    @Override
-    public boolean isSending() {
-        return sending;
-    }
 
-    @Override
-    public void setSending(boolean sending) {
-        if (this.sending != sending) {
-            this.sending = sending;
-            if (sending) {
-                sentEvents = 0L;
-            }
-        }
-    }
 
-    @Override
-    public long sendCount() {
-        return sentEvents;
-    }
 
 }

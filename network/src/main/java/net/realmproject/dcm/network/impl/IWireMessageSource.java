@@ -20,14 +20,12 @@
 package net.realmproject.dcm.network.impl;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.DeviceEventFilterer;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
+import net.realmproject.dcm.event.relay.IDeviceEventRelay;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSource;
 import net.realmproject.dcm.network.transcoder.Transcoder;
@@ -40,24 +38,13 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  * @author NAS
  *
  */
-public abstract class IWireMessageSource implements WireMessageSource, DeviceEventReceiver, DeviceEventFilterer {
+public abstract class IWireMessageSource extends IDeviceEventRelay implements WireMessageSource, DeviceEventReceiver {
 
-    private Predicate<DeviceEvent> filter = a -> true;
     private Transcoder transcoder;
 
     public IWireMessageSource(DeviceEventBus bus, Transcoder transcoder) {
         this.transcoder = transcoder;
         bus.subscribe(this::test, this::accept);
-    }
-
-    @Override
-    public Predicate<DeviceEvent> getFilter() {
-        return filter;
-    }
-
-    @Override
-    public synchronized void setFilter(Predicate<DeviceEvent> filter) {
-        this.filter = filter;
     }
 
     @Override

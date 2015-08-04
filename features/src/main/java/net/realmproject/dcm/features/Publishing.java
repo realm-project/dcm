@@ -6,10 +6,10 @@ import java.io.Serializable;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.identity.Identity;
-import net.realmproject.dcm.event.sender.DeviceEventSender;
+import net.realmproject.dcm.event.source.DeviceEventSource;
 
 
-public interface Publishing extends Identity, DeviceEventSender {
+public interface Publishing extends Identity, DeviceEventSource {
 
     default void publish(Object o) {
         publish(o, DeviceEventType.VALUE_CHANGED);

@@ -17,26 +17,30 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.filters.deviceeventtype;
+package net.realmproject.dcm.event.source;
 
-
-import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventType;
 
 
-public class DeviceEventTypeFilter implements Predicate<DeviceEvent> {
+/**
+ * A DeviceEventSender is anything which sends events. It is not required that
+ * it generate events of it's own.
+ * 
+ * @author NAS
+ *
+ */
+public interface DeviceEventSource {
 
-    private DeviceEventType type;
-
-    public DeviceEventTypeFilter(DeviceEventType type) {
-        this.type = type;
-    }
-
-    @Override
-    public boolean test(DeviceEvent t) {
-        return t.getDeviceEventType() == type;
-    }
+    /**
+     * Sends the given {@link DeviceEvent}. If this component is not currently
+     * sending events (eg stopSending() has been called) this event will be
+     * discarded.
+     * 
+     * @param event
+     *            the event to send
+     * @return true if sending is successful, false otherwise
+     */
+    boolean send(DeviceEvent event);
 
 }

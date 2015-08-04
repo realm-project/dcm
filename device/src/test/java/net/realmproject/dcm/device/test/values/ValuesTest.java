@@ -12,7 +12,7 @@ import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
-import net.realmproject.dcm.event.filter.filters.deviceeventtype.ValueChangedFilter;
+import net.realmproject.dcm.event.filter.deviceeventtype.ValueChangedFilter;
 
 
 public class ValuesTest {

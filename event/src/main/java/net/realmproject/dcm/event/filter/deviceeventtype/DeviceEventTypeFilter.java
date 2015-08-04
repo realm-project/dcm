@@ -17,30 +17,26 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter;
+package net.realmproject.dcm.event.filter.deviceeventtype;
 
 
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceEventType;
 
-/**
- * 
- * @author NAS
- *
- */
-public class IDeviceEventFilterer implements DeviceEventFilterer {
 
-    private Predicate<DeviceEvent> filter = a -> true;
+public class DeviceEventTypeFilter implements Predicate<DeviceEvent> {
 
-    @Override
-    public Predicate<DeviceEvent> getFilter() {
-        return filter;
+    private DeviceEventType type;
+
+    public DeviceEventTypeFilter(DeviceEventType type) {
+        this.type = type;
     }
 
     @Override
-    public void setFilter(Predicate<DeviceEvent> filter) {
-        this.filter = filter;
+    public boolean test(DeviceEvent t) {
+        return t.getDeviceEventType() == type;
     }
 
 }

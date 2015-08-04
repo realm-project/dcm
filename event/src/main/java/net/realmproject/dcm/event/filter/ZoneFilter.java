@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.filters;
+package net.realmproject.dcm.event.filter;
 
 
 import java.util.ArrayList;
@@ -25,31 +25,32 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 
 
 /**
- * DeviceEvent filter which only accepts events with certain device ids
+ * DeviceEvent filter which only allows events from a certain zone. See
+ * {@link DeviceEventBus}
  * 
  * @author NAS
  *
  */
 
-public class SourceIDFilter implements Predicate<DeviceEvent> {
+public class ZoneFilter implements Predicate<DeviceEvent> {
 
-    List<String> ids;
+    private List<String> whitelist;
 
-    public SourceIDFilter(String id) {
-        ids = new ArrayList<>();
-        ids.add(id);
+    public ZoneFilter(String zone) {
+        whitelist = new ArrayList<>();
+        whitelist.add(zone);
     }
 
-    public SourceIDFilter(List<String> ids) {
-        ids = new ArrayList<>(ids);
+    public ZoneFilter(List<String> zones) {
+        whitelist = new ArrayList<>(zones);
     }
 
     @Override
     public boolean test(DeviceEvent e) {
-        return ids.contains(e.getSourceId());
+        return whitelist.contains(e.getZone());
     }
-
 }

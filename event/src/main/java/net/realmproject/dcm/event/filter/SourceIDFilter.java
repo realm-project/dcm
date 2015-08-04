@@ -17,29 +17,39 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.filters.deviceeventtype;
+package net.realmproject.dcm.event.filter;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventType;
 
 
 /**
- * DeviceEvent filter to allow only events intended for a 'backend', something
- * only interested in listening to get/set events, and not messages or status
- * updates from other devices
+ * DeviceEvent filter which only accepts events with certain device ids
  * 
  * @author NAS
  *
  */
-public class ValueGetSetFilter implements Predicate<DeviceEvent> {
+
+public class SourceIDFilter implements Predicate<DeviceEvent> {
+
+    List<String> ids;
+
+    public SourceIDFilter(String id) {
+        ids = new ArrayList<>();
+        ids.add(id);
+    }
+
+    public SourceIDFilter(List<String> ids) {
+        ids = new ArrayList<>(ids);
+    }
 
     @Override
     public boolean test(DeviceEvent e) {
-        DeviceEventType type = e.getDeviceEventType();
-        return type == DeviceEventType.VALUE_GET || type == DeviceEventType.VALUE_SET;
+        return ids.contains(e.getSourceId());
     }
 
 }

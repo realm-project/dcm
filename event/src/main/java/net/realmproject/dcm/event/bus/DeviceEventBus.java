@@ -26,9 +26,9 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.filter.DeviceEventFilterer;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.event.receiver.IDeviceEventRelay;
+import net.realmproject.dcm.event.relay.DeviceEventRelay;
+import net.realmproject.dcm.event.relay.IDeviceEventForwarder;
 
 
 /**
@@ -39,7 +39,7 @@ import net.realmproject.dcm.event.receiver.IDeviceEventRelay;
  * <br>
  * It is also possible to split a larger collection of devices into zones by
  * using more than one DeviceEventBus. Events from one bus can be selectively
- * propagated to another using an {@link IDeviceEventRelay} or using a
+ * propagated to another using an {@link IDeviceEventForwarder} or using a
  * distributed messaging system like ActiveMQ (see
  * {@link AbstractDeviceMessageEncoder} and {@link DeviceMessageDecoder}). <br>
  * <br>
@@ -52,7 +52,7 @@ import net.realmproject.dcm.event.receiver.IDeviceEventRelay;
  *
  */
 
-public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventFilterer {
+public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventRelay {
 
     /**
      * Listen for events broadcast on this event bus. All events will be sent to

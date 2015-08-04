@@ -7,13 +7,12 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.DeviceEventFilterer;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.features.recording.RecordWriter;
 import net.realmproject.dcm.features.recording.Recorder;
 
 
-public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceEventReceiver, DeviceEventFilterer {
+public class DeviceEventRecorder extends Recorder<DeviceEvent> implements DeviceEventReceiver {
 
     private Predicate<DeviceEvent> filter = a -> true;
 
@@ -27,14 +26,16 @@ public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceE
         bus.subscribe(this::test, this::accept);
     }
 
-    @Override
     public Predicate<DeviceEvent> getFilter() {
         return filter;
     }
 
-    @Override
     public void setFilter(Predicate<DeviceEvent> filter) {
         this.filter = filter;
+    }
+    
+    private boolean test(DeviceEvent event) {
+    	return filter.test(event);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.realmproject.dcm.event.filter.filters.deviceeventtype;
+package net.realmproject.dcm.event.filter.deviceeventtype;
 
 
 import net.realmproject.dcm.event.DeviceEventType;

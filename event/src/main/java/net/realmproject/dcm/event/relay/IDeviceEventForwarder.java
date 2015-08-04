@@ -17,26 +17,41 @@
  * 
  */
 
-package net.realmproject.dcm.event.filter.filters;
+package net.realmproject.dcm.event.relay;
 
-
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 
 
 /**
- * DeviceEvent filter which always accepts the event
+ * Forwards events from one DeviceEventBus to another.
  * 
  * @author NAS
  *
  */
+public class IDeviceEventForwarder extends IDeviceEventRelay implements DeviceEventReceiver, DeviceEventRelay {
 
-public class AcceptFilter implements Predicate<DeviceEvent> {
-
-    @Override
-    public boolean test(DeviceEvent t) {
-        return true;
+    private DeviceEventReceiver to;
+    
+    public IDeviceEventForwarder(DeviceEventReceiver to) {
+        this.to = to;
+    }
+    
+    public IDeviceEventForwarder(DeviceEventBus from, DeviceEventReceiver to) {
+        this(to);
+        from.subscribe(this::accept);
     }
 
+    @Override
+    public boolean accept(DeviceEvent event) {
+        if (!test(event)) { return false; }
+    	return to.accept(apply(event));
+    }
+
+    
+    
 }

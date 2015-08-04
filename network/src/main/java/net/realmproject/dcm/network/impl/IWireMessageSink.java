@@ -24,9 +24,9 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.filters.AcceptFilter;
+import net.realmproject.dcm.event.filter.AcceptFilter;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.event.sender.AbstractDeviceEventSender;
+import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSink;
 import net.realmproject.dcm.network.transcoder.Transcoder;
@@ -39,7 +39,7 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  * @author NAS
  *
  */
-public class IWireMessageSink extends AbstractDeviceEventSender implements WireMessageSink {
+public class IWireMessageSink extends AbstractDeviceEventSource implements WireMessageSink {
 
     private Predicate<DeviceEvent> filter = new AcceptFilter();
     private Transcoder transcoder;
