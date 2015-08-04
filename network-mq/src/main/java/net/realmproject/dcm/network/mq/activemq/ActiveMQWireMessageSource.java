@@ -75,7 +75,7 @@ public class ActiveMQWireMessageSource extends IWireMessageSource implements Log
     public boolean send(WireMessage deviceMessage) {
 
         try {
-            Serializable contents = encode(deviceMessage);
+            Serializable contents = getTranscoder().encode(deviceMessage);
             ObjectMessage message = session.createObjectMessage(contents);
 
             try {

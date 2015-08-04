@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 
-public interface DeviceEventRelay extends Predicate<DeviceEvent>, Function<DeviceEvent, DeviceEvent> {
+public interface DeviceEventRelay {
 
 	
 	//Filter Predicate
@@ -13,16 +13,11 @@ public interface DeviceEventRelay extends Predicate<DeviceEvent>, Function<Devic
 
 	void setFilter(Predicate<DeviceEvent> filter);
 
-	/** Java Predicate test for filtering {@link DeviceEvent}s **/
-    default boolean test(DeviceEvent event) {
+	/** Method for filtering {@link DeviceEvent}s using the specified filter **/
+    default boolean filter(DeviceEvent event) {
     	if (!isSending()) { return false; }
         if (!getFilter().test(event)) { return false; }
          return true;
-    }
-    
-    /** Java Predicate test for filtering {@link DeviceEvent}s. This is a convenience method for test() **/ 
-    default boolean filter(DeviceEvent event) {
-    	return test(event);
     }
     
 	//Transform Function
@@ -30,17 +25,11 @@ public interface DeviceEventRelay extends Predicate<DeviceEvent>, Function<Devic
 
 	void setTransform(Function<DeviceEvent, DeviceEvent> transform);
 	
-	/** Java Predicate test for transforming {@link DeviceEvent}s **/
-    default DeviceEvent apply(DeviceEvent event) {
+	/** Method for transforming {@link DeviceEvent}s using the specified transformation function **/
+    default DeviceEvent transform(DeviceEvent event) {
     	return getTransform().apply(event);
     }
-    
-    /** Java Predicate test for filtering {@link DeviceEvent}s. This is a convenience method for apply() **/
-    default DeviceEvent transform(DeviceEvent event) {
-    	return apply(event);
-    }
-    
-    //Node Sending/Relaying Enabled/Disabled
+        //Node Sending/Relaying Enabled/Disabled
     /**
      * Is sending of events turned on?
      * 

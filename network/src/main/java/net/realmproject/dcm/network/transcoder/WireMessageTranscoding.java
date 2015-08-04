@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import net.realmproject.dcm.network.WireMessage;
 
-public interface WireMessageTranscoder extends Transcoder<WireMessage, Serializable>{
+public interface WireMessageTranscoding {
 
     /**
      * Retrieve the {@link WireMessage} {@link Transcoder}. This is the component used to adapt to other wire formats by de/encoding {@link WireMessage}s
@@ -18,12 +18,5 @@ public interface WireMessageTranscoder extends Transcoder<WireMessage, Serializa
      */
     void setTranscoder(Transcoder<WireMessage, Serializable> transcoder);
 
-    default Serializable encode(WireMessage message) {
-    	return getTranscoder().encode(message);
-    }
-    
-    default WireMessage decode(Serializable serializable) {
-    	return getTranscoder().decode(serializable);
-    }
     
 }

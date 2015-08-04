@@ -80,7 +80,7 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
             try {
                 Serializable object = objectMessage.getObject();
                 try {
-                    receive(decode(object));
+                    receive(getTranscoder().decode(object));
                 }
                 catch (TranscoderException e) {
                     getLog().error("Unable to decode message", e);

@@ -115,7 +115,7 @@ public class IDeviceEventBus extends IDeviceEventRelay implements DeviceEventBus
         if (isPrivate && !sameZone) { return false; }
 
         // allow the bus to filter events
-        if (!test(event)) { return false; }
+        if (!filter(event)) { return false; }
 
         return eventqueue.offer(event);
     }

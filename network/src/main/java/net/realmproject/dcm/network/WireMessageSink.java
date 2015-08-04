@@ -19,12 +19,14 @@
 
 package net.realmproject.dcm.network;
 
+import net.realmproject.dcm.event.relay.DeviceEventRelay;
+import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
 
 /**
  * @author maxweld
  *
  */
-public interface WireMessageSink {
+public interface WireMessageSink extends DeviceEventRelay, WireMessageTranscoding {
 
     public void receive(WireMessage deviceMessage);
 }

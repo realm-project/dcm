@@ -30,7 +30,7 @@ import net.realmproject.dcm.event.source.DeviceEventSource;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSink;
 import net.realmproject.dcm.network.transcoder.Transcoder;
-import net.realmproject.dcm.network.transcoder.WireMessageTranscoder;
+import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
 
 
 /**
@@ -40,7 +40,7 @@ import net.realmproject.dcm.network.transcoder.WireMessageTranscoder;
  * @author NAS
  *
  */
-public class IWireMessageSink extends AbstractDeviceEventSource implements WireMessageSink, DeviceEventSource, WireMessageTranscoder {
+public class IWireMessageSink extends AbstractDeviceEventSource implements WireMessageSink, DeviceEventSource {
 
     private Transcoder<WireMessage, Serializable> transcoder;
 
