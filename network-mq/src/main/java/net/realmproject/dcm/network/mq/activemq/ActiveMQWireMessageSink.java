@@ -35,12 +35,10 @@ import javax.jms.Topic;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.network.WireMessage;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
-import net.realmproject.dcm.network.transcoder.TranscoderException;
 
 
 /**
@@ -52,6 +50,8 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     private String url;
     private String subject;
     private boolean topic;
+    private String username;
+    private String password;
 
     protected boolean connected = false;
     protected boolean transacted = false;
@@ -61,19 +61,24 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     protected Connection connection;
     protected Session session;
 
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, String subject, boolean topic, String url) {
-        this(receiver, new IIdentityTranscoder(), subject, topic, url);
+    public ActiveMQWireMessageSink(DeviceEventBus bus, String subject, boolean topic, String url) {
+        this(bus, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder, String subject, boolean topic, String url) {
-        super(receiver, transcoder);
-
-        this.subject = subject;
+    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic,
+            String url) {
+        this(bus, new IIdentityTranscoder(), subject, topic, url, null, null);
+    }
+    
+    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic, String url, String username, String password) {
+    	super(bus, transcoder);
+    	this.subject = subject;
         this.topic = topic;
         this.url = url;
+        this.username = username;
+        this.password = password;
     }
 
-    @Override
     public void onMessage(Message message) {
         try {
             ObjectMessage objectMessage = (ObjectMessage) message;
@@ -82,8 +87,8 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
                 try {
                     receive(getTranscoder().decode(object));
                 }
-                catch (TranscoderException e) {
-                    getLog().error("Unable to decode message", e);
+                catch (ClassCastException e) {
+                    getLog().error("Object class is not DeviceMessage", e);
                 }
             }
             catch (JMSException e) {
@@ -98,7 +103,10 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     public void connect() {
         try {
             if (!connected) {
-                connectionFactory = new ActiveMQConnectionFactory(url);
+            	if (username != null)
+            		connectionFactory = new ActiveMQConnectionFactory(username, password, url);
+            	else
+            		connectionFactory = new ActiveMQConnectionFactory(url);
                 connection = connectionFactory.createConnection();
                 connection.start();
                 connected = true;
