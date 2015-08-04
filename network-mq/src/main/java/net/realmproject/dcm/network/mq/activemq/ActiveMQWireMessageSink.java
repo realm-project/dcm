@@ -50,6 +50,8 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     private String url;
     private String subject;
     private boolean topic;
+    private String username;
+    private String password;
 
     protected boolean connected = false;
     protected boolean transacted = false;
@@ -65,10 +67,16 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
 
     public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic,
             String url) {
-        super(bus, transcoder);
-        this.subject = subject;
+        this(bus, new IIdentityTranscoder(), subject, topic, url, null, null);
+    }
+    
+    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic, String url, String username, String password) {
+    	super(bus, transcoder);
+    	this.subject = subject;
         this.topic = topic;
         this.url = url;
+        this.username = username;
+        this.password = password;
     }
 
     public void onMessage(Message message) {
@@ -95,7 +103,10 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     public void connect() {
         try {
             if (!connected) {
-                connectionFactory = new ActiveMQConnectionFactory(url);
+            	if (username != null)
+            		connectionFactory = new ActiveMQConnectionFactory(username, password, url);
+            	else
+            		connectionFactory = new ActiveMQConnectionFactory(url);
                 connection = connectionFactory.createConnection();
                 connection.start();
                 connected = true;
