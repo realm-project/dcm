@@ -36,7 +36,8 @@ public class UrlCamera extends Camera {
         }
         catch (Exception e) {
             if (lastGetFrameException < System.currentTimeMillis() - 60) {
-                getLog().error("Error getting camera frame", e);
+                getLog().debug("Error getting camera frame: " + e.getMessage());
+                getLog().trace("Error getting camera frame", e);
             }
             lastGetFrameException = System.currentTimeMillis();
         }

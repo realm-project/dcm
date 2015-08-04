@@ -17,40 +17,41 @@
  * 
  */
 
-package net.realmproject.dcm.device;
+package net.realmproject.dcm.event.relay;
 
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
 
 
-public class Device extends AbstractDeviceEventSource implements Identity, Logging {
+/**
+ * Forwards events from one DeviceEventBus to another.
+ * 
+ * @author NAS
+ *
+ */
+public class IDeviceEventForwarder extends IDeviceEventRelay implements DeviceEventReceiver, DeviceEventRelay {
 
-    private String id = null;
-    private final Log log = LogFactory.getLog(getClass());
-
-    public Device(String id, DeviceEventReceiver receiver) {
-        super(receiver);
-        this.id = id;
+    private DeviceEventReceiver to;
+    
+    public IDeviceEventForwarder(DeviceEventReceiver to) {
+        this.to = to;
     }
-
-    public String getId() {
-        return id;
+    
+    public IDeviceEventForwarder(DeviceEventBus from, DeviceEventReceiver to) {
+        this(to);
+        from.subscribe(this::accept);
     }
 
     @Override
-    public Log getLog() {
-        return log;
+    public boolean accept(DeviceEvent event) {
+        if (!test(event)) { return false; }
+    	return to.accept(apply(event));
     }
 
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    
+    
 }

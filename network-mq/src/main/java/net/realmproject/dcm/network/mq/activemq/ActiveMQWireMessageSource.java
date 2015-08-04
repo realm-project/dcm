@@ -64,18 +64,18 @@ public class ActiveMQWireMessageSource extends IWireMessageSource implements Log
         this(bus, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSource(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic,
-            String url) {
+    public ActiveMQWireMessageSource(DeviceEventBus bus, Transcoder<WireMessage, Serializable> transcoder,
+            String subject, boolean topic, String url) {
         super(bus, transcoder);
         this.subject = subject;
         this.topic = topic;
         this.url = url;
     }
 
-    public void send(WireMessage deviceMessage) {
+    public boolean send(WireMessage deviceMessage) {
 
         try {
-            Serializable contents = getTranscoder().encode(deviceMessage);
+            Serializable contents = encode(deviceMessage);
             ObjectMessage message = session.createObjectMessage(contents);
 
             try {
@@ -87,16 +87,22 @@ public class ActiveMQWireMessageSource extends IWireMessageSource implements Log
                     }
                     catch (JMSException e) {
                         getLog().error("Exception while committing JMS Message", e);
+                        return false;
                     }
                 }
             }
             catch (JMSException e) {
                 getLog().error("Exception while sending JMS ObjectMessage", e);
+                return false;
             }
         }
         catch (JMSException e) {
             getLog().error("Exception while creating JMS ObjectMessage", e);
+            return false;
         }
+
+        return true;
+
     }
 
     public void connect() {

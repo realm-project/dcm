@@ -20,15 +20,17 @@
 package net.realmproject.dcm.network.impl;
 
 
-import java.util.function.Predicate;
+import java.io.Serializable;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.bus.IDeviceEventBusSource;
-import net.realmproject.dcm.event.filter.AcceptFilter;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
+import net.realmproject.dcm.event.source.AbstractDeviceEventSource;
+import net.realmproject.dcm.event.source.DeviceEventSource;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSink;
 import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.network.transcoder.WireMessageTranscoder;
 
 
 /**
@@ -38,36 +40,28 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  * @author NAS
  *
  */
-public class IWireMessageSink extends IDeviceEventBusSource implements WireMessageSink {
+public class IWireMessageSink extends AbstractDeviceEventSource implements WireMessageSink, DeviceEventSource, WireMessageTranscoder {
 
-    private Predicate<DeviceEvent> filter = new AcceptFilter();
-    private Transcoder transcoder;
+    private Transcoder<WireMessage, Serializable> transcoder;
 
-    public IWireMessageSink(DeviceEventBus bus, Transcoder transcoder) {
-        super(bus);
+	public IWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder) {
+		super(receiver);
         this.transcoder = transcoder;
     }
 
     @Override
     public void receive(WireMessage deviceMessage) {
         DeviceEvent deviceEvent = deviceMessage.getEvent();
-        if (!filter.test(deviceEvent)) { return; }
         send(deviceEvent);
     }
 
-    public Predicate<DeviceEvent> getFilter() {
-        return filter;
-    }
-
-    public void setFilter(Predicate<DeviceEvent> filter) {
-        this.filter = filter;
-    }
-
-    public Transcoder getTranscoder() {
+    @Override
+    public Transcoder<WireMessage, Serializable> getTranscoder() {
         return transcoder;
     }
 
-    public void setTranscoder(Transcoder transcoder) {
+    @Override
+    public void setTranscoder(Transcoder<WireMessage, Serializable> transcoder) {
         this.transcoder = transcoder;
     }
 

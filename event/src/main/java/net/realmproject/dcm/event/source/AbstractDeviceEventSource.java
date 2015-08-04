@@ -21,6 +21,9 @@ package net.realmproject.dcm.event.source;
 
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
+import net.realmproject.dcm.event.relay.DeviceEventRelay;
+import net.realmproject.dcm.event.relay.IDeviceEventRelay;
 
 
 /**
@@ -29,22 +32,12 @@ import net.realmproject.dcm.event.DeviceEvent;
  *
  */
 
-public abstract class AbstractDeviceEventSource implements DeviceEventSource {
+public abstract class AbstractDeviceEventSource extends IDeviceEventRelay implements DeviceEventRelay, DeviceEventSource {
 
-    private boolean sending = false;
-    private long sentEvents = 0L;
+    private DeviceEventReceiver receiver;
 
-    @Override
-    public boolean send(DeviceEvent event) {
-        if (event == null) { return false; }
-        if (!isSending()) { return false; }
-
-        boolean result = doSend(event.deepCopy());
-        if (result) {
-            incrementSentEvents();
-        }
-
-        return result;
+    public AbstractDeviceEventSource(DeviceEventReceiver receiver) {
+        this.receiver = receiver;
     }
 
     // this method is intended to allow different implementations of the sending
@@ -59,30 +52,20 @@ public abstract class AbstractDeviceEventSource implements DeviceEventSource {
      *            the event to send
      * @return true if sending is successful, false otherwise
      */
-    protected abstract boolean doSend(DeviceEvent event);
 
-    private void incrementSentEvents() {
-        sentEvents++;
+    protected boolean doSend(DeviceEvent event) {
+        return receiver.accept(event);
     }
 
     @Override
-    public boolean isSending() {
-        return sending;
+    public boolean send(DeviceEvent event) {
+        if (event == null) { return false; }
+        if (!filter(event)) { return false; }
+        return doSend(transform(event));
     }
 
-    @Override
-    public void setSending(boolean sending) {
-        if (this.sending != sending) {
-            this.sending = sending;
-            if (sending) {
-                sentEvents = 0L;
-            }
-        }
-    }
 
-    @Override
-    public long sendCount() {
-        return sentEvents;
-    }
+
+
 
 }

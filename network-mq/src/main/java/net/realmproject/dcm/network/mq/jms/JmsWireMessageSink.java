@@ -26,7 +26,7 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
 import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
@@ -39,14 +39,15 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  */
 public class JmsWireMessageSink extends IWireMessageSink implements MessageListener, Logging {
 
-    public JmsWireMessageSink(DeviceEventBus bus) {
-        super(bus, new IIdentityTranscoder());
+    public JmsWireMessageSink(DeviceEventReceiver receiver) {
+        super(receiver, new IIdentityTranscoder());
     }
 
-    public JmsWireMessageSink(DeviceEventBus bus, Transcoder transcoder) {
-        super(bus, transcoder);
+    public JmsWireMessageSink(DeviceEventReceiver receiver, Transcoder transcoder) {
+        super(receiver, transcoder);
     }
 
+    @Override
     public void onMessage(Message message) {
         try {
             ObjectMessage msg = (ObjectMessage) message;

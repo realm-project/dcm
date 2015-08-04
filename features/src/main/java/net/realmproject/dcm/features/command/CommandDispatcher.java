@@ -69,9 +69,11 @@ public class CommandDispatcher {
 
         try {
 
-            commanded.getLog().info("Device " + commanded.getId() + " received command: " + command.getAction());
-            commanded.getLog().debug(commanded.getId() + ":" + command.getAction() + ":"
-                    + DCMSerialize.serialize(command.getPropertyMap()));
+            if (commanded.getLog().isTraceEnabled()) {
+                commanded.getLog().trace("Device " + commanded.getId() + " received command: " + command.getAction());
+                commanded.getLog().trace(commanded.getId() + ":" + command.getAction() + ":"
+                        + DCMSerialize.serialize(command.getPropertyMap()));
+            }
 
             // Look up method for command
             Method method = findCommandMethod(command.getAction());

@@ -20,13 +20,13 @@
 package net.realmproject.dcm.util;
 
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
 
-import flexjson.JSONDeserializer;
-import flexjson.JSONSerializer;
-import flexjson.transformer.AbstractTransformer;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 
 
 /**
@@ -38,12 +38,20 @@ import flexjson.transformer.AbstractTransformer;
  */
 public class DCMSerialize {
 
-    private final static JSONSerializer SERIALIZE_WITHOUT_CLASSES = new JSONSerializer()
-            .transform(new ExcludeTransformer(), void.class).exclude("*.class").prettyPrint(true);
+    private final static ObjectMapper SERIALIZE_WITHOUT_CLASSES = new ObjectMapper();
 
-    private final static JSONSerializer SERIALIZE_WITH_CLASSES = new JSONSerializer().prettyPrint(true);
+    static {
+        SERIALIZE_WITHOUT_CLASSES.enable(SerializationConfig.Feature.INDENT_OUTPUT);
+    }
 
-    private final static JSONDeserializer<Object> DESERIALIZE = new JSONDeserializer<>();
+    private final static ObjectMapper SERIALIZE_WITH_CLASSES = new ObjectMapper();
+
+    static {
+        SERIALIZE_WITH_CLASSES.enable(SerializationConfig.Feature.INDENT_OUTPUT);
+        SERIALIZE_WITH_CLASSES.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+    }
+
+    private final static ObjectMapper DESERIALIZE = new ObjectMapper();
 
     @SuppressWarnings("unchecked")
     public static Map<String, Serializable> structToMap(Object o) {
@@ -63,34 +71,41 @@ public class DCMSerialize {
     }
 
     public static Object deserialize(String json) {
-        return DESERIALIZE.deserialize(json);
+        try {
+            return DESERIALIZE.reader().readValue(json);
+        }
+        catch (IOException e) {
+            throw new SerializationException(e);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T> T deserialize(String json, Class<T> clazz) {
-        return (T) DESERIALIZE.deserialize(json, clazz);
+        try {
+            return (T) DESERIALIZE.reader(clazz).readValue(json);
+        }
+        catch (IOException e) {
+            throw new SerializationException(e);
+        }
     }
 
     public static String serializeWithClassInfo(Object o) {
-        return SERIALIZE_WITH_CLASSES.deepSerialize(o);
+        try {
+            return SERIALIZE_WITH_CLASSES.writeValueAsString(o);
+        }
+        catch (IOException e) {
+            throw new SerializationException(e);
+        }
     }
 
     public static String serialize(Object o) {
-        return SERIALIZE_WITHOUT_CLASSES.prettyPrint(true).deepSerialize(o);
+
+        try {
+            return SERIALIZE_WITHOUT_CLASSES.writeValueAsString(o);
+        }
+        catch (IOException e) {
+            throw new SerializationException(e);
+        }
     }
 
-}
-
-class ExcludeTransformer extends AbstractTransformer {
-
-    @Override
-    public Boolean isInline() {
-        return true;
-    }
-
-    @Override
-    public void transform(Object object) {
-        // Do nothing, null objects are not serialized.
-        return;
-    }
 }

@@ -2,11 +2,12 @@ package net.realmproject.dcm.event.filter;
 
 
 import java.io.Serializable;
+import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 
 
-public class PayloadClassFilter implements Filter {
+public class PayloadClassFilter implements Predicate<DeviceEvent> {
 
     Class<?> cls;
 

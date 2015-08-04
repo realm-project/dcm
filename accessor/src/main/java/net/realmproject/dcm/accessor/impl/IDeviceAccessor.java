@@ -33,11 +33,12 @@ import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.FilterBuilder;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 
 
 public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T>, Logging {
 
-    protected DeviceEventBus bus;
+    protected DeviceEventReceiver receiver;
     private String id;
     private String deviceId;
     private Date timestamp = new Date();
@@ -48,7 +49,7 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     public IDeviceAccessor(String id, String deviceId, DeviceEventBus bus) {
         this.id = id;
         this.deviceId = deviceId;
-        this.bus = bus;
+        this.receiver = bus;
 
         // listen for change events, query device to produce one
         bus.subscribe(FilterBuilder.start().source(deviceId).eventChange(), this::handleEvent);
@@ -117,9 +118,9 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     }
 
     protected boolean send(DeviceEventType type, Serializable payload) {
-        if (bus == null) return false;
+        if (receiver == null) return false;
         DeviceEvent event = new IDeviceEvent(type, getId(), getDeviceId(), payload);
-        return bus.broadcast(event);
+        return receiver.accept(event);
     }
 
     @Override

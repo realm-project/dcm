@@ -7,14 +7,14 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.sink.DeviceEventSink;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.features.recording.RecordWriter;
 import net.realmproject.dcm.features.recording.Recorder;
 
 
-public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceEventSink {
+public class DeviceEventRecorder extends Recorder<DeviceEvent> implements DeviceEventReceiver {
 
-    private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
+    private Predicate<DeviceEvent> filter = a -> true;
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer) {
         this(bus, writer, e -> true);
@@ -22,35 +22,31 @@ public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceE
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer, Predicate<DeviceEvent> filter) {
         super(writer);
-        setFilters(filter);
-        bus.subscribe(this::filter, this::receive);
+        setFilter(filter);
+        bus.subscribe(this::test, this::accept);
     }
 
-    public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer,
-            List<Predicate<DeviceEvent>> filters) {
-        super(writer);
-        setFilters(filters);
-        bus.subscribe(this::filter, this::receive);
+    public Predicate<DeviceEvent> getFilter() {
+        return filter;
     }
 
-    @Override
-    public List<Predicate<DeviceEvent>> getFilters() {
-        return filters;
+    public void setFilter(Predicate<DeviceEvent> filter) {
+        this.filter = filter;
     }
-
-    @Override
-    public void setFilters(List<Predicate<DeviceEvent>> filters) {
-        this.filters.clear();
-        this.filters.addAll(filters);
+    
+    private boolean test(DeviceEvent event) {
+    	return filter.test(event);
     }
 
     @Override
-    public void receive(DeviceEvent event) {
+    public boolean accept(DeviceEvent event) {
         try {
             record(event);
+            return true;
         }
         catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 

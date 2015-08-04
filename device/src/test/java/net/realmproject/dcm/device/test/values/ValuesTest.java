@@ -30,7 +30,7 @@ public class ValuesTest {
         // test setting/getting value over device event bus
         BlockingQueue<DeviceEvent> eventQueue = bus.subscriptionQueue(new ValueChangedFilter());
         DeviceEvent event = new IDeviceEvent(DeviceEventType.VALUE_SET, "id", "id", 5);
-        bus.broadcast(event);
+        bus.accept(event);
         event = eventQueue.take();
         Assert.assertEquals(5, event.<Serializable> getPayload());
 

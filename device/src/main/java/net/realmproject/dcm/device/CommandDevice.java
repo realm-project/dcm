@@ -2,6 +2,7 @@ package net.realmproject.dcm.device;
 
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.filter.FilterBuilder;
 import net.realmproject.dcm.features.command.CommandDispatcher;
 import net.realmproject.dcm.features.command.Commands;
 import net.realmproject.dcm.features.statefulness.State;
@@ -23,6 +24,7 @@ public abstract class CommandDevice<T extends State> extends Device implements C
     public CommandDevice(String id, DeviceEventBus bus) {
         super(id, bus);
         dispatcher = new CommandDispatcher(this, bus);
+        bus.subscribe(FilterBuilder.start().eventGet().target(getId()), event -> publishState());
     }
 
     @Override

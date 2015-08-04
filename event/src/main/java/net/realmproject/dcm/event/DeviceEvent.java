@@ -97,15 +97,6 @@ public interface DeviceEvent extends Serializable, Payload<Serializable>, Source
      */
     void setPrivateEvent(boolean privateEvent);
 
-    /**
-     * Performs a deep copy which allows distribution of events without the
-     * chance that one reference holder can change the state of the event for
-     * others
-     * 
-     * @return a deep copy of this event
-     */
-    DeviceEvent deepCopy();
-
     default DeviceEvent sourceId(String sourceId) {
         setSourceId(sourceId);
         return this;

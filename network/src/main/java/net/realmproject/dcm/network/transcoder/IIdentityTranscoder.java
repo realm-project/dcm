@@ -6,10 +6,10 @@ import java.io.Serializable;
 import net.realmproject.dcm.network.WireMessage;
 
 
-public class IIdentityTranscoder implements Transcoder {
+public class IIdentityTranscoder implements Transcoder<WireMessage, Serializable> {
 
     @Override
-    public WireMessage encode(WireMessage message) {
+    public Serializable encode(WireMessage message) {
         return message;
     }
 
