@@ -36,6 +36,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
+import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
@@ -61,17 +63,21 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     protected Connection connection;
     protected Session session;
 
-    public ActiveMQWireMessageSink(DeviceEventBus bus, String subject, boolean topic, String url) {
-        this(bus, new IIdentityTranscoder(), subject, topic, url);
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, String subject, boolean topic, String url) {
+        this(receiver, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic,
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder, String subject, boolean topic,
             String url) {
-        this(bus, new IIdentityTranscoder(), subject, topic, url, null, null);
+        this(receiver, new IIdentityTranscoder(), subject, topic, url, null, null);
     }
     
-    public ActiveMQWireMessageSink(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic, String url, String username, String password) {
-    	super(bus, transcoder);
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, String subject, boolean topic, String url, String username, String password) {
+        this(receiver, new IIdentityTranscoder(), subject, topic, url, username, password);
+    }
+    
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder, String subject, boolean topic, String url, String username, String password) {
+    	super(receiver, transcoder);
     	this.subject = subject;
         this.topic = topic;
         this.url = url;
@@ -103,10 +109,11 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     public void connect() {
         try {
             if (!connected) {
-            	if (username != null)
+            	if (username != null) {
             		connectionFactory = new ActiveMQConnectionFactory(username, password, url);
-            	else
+            	} else {
             		connectionFactory = new ActiveMQConnectionFactory(url);
+            	}
                 connection = connectionFactory.createConnection();
                 connection.start();
                 connected = true;
