@@ -64,8 +64,8 @@ public class ActiveMQWireMessageSource extends IWireMessageSource implements Log
         this(bus, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSource(DeviceEventBus bus, Transcoder transcoder, String subject, boolean topic,
-            String url) {
+    public ActiveMQWireMessageSource(DeviceEventBus bus, Transcoder<WireMessage, Serializable> transcoder,
+            String subject, boolean topic, String url) {
         super(bus, transcoder);
         this.subject = subject;
         this.topic = topic;

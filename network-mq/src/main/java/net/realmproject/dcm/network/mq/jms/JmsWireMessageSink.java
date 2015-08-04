@@ -47,6 +47,7 @@ public class JmsWireMessageSink extends IWireMessageSink implements MessageListe
         super(receiver, transcoder);
     }
 
+    @Override
     public void onMessage(Message message) {
         try {
             ObjectMessage msg = (ObjectMessage) message;

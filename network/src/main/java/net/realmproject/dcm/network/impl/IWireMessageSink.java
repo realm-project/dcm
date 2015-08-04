@@ -20,6 +20,8 @@
 package net.realmproject.dcm.network.impl;
 
 
+import java.io.Serializable;
+
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
@@ -39,10 +41,10 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  */
 public class IWireMessageSink extends AbstractDeviceEventSource implements WireMessageSink, DeviceEventSource {
 
-    private Transcoder transcoder;
+    private Transcoder<WireMessage, Serializable> transcoder;
 
-    public IWireMessageSink(DeviceEventReceiver receiver, Transcoder transcoder) {
-        super(receiver);
+	public IWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder) {
+    super(receiver);
         this.transcoder = transcoder;
     }
 
@@ -56,7 +58,7 @@ public class IWireMessageSink extends AbstractDeviceEventSource implements WireM
      * Retrieve the {@link WireMessage} {@link Transcoder}. This is the component used to adapt to other wire formats by de/encoding {@link WireMessage}s
      * @return the current transcoder
      */
-    public Transcoder getTranscoder() {
+    public Transcoder<WireMessage, Serializable> getTranscoder() {
         return transcoder;
     }
 
@@ -64,7 +66,7 @@ public class IWireMessageSink extends AbstractDeviceEventSource implements WireM
      * Sets the {@link WireMessage} {@link Transcoder}. This is the component used to adapt to other wire formats by de/encoding {@link WireMessage}s
      * @param transcoder
      */
-    public void setTranscoder(Transcoder transcoder) {
+    public void setTranscoder(Transcoder<WireMessage, Serializable> transcoder) {
         this.transcoder = transcoder;
     }
 
