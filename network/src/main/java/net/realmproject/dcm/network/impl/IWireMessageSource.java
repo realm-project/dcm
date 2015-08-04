@@ -29,6 +29,7 @@ import net.realmproject.dcm.event.relay.IDeviceEventRelay;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSource;
 import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.network.transcoder.WireMessageTranscoder;
 
 
 /**
@@ -38,7 +39,7 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  * @author NAS
  *
  */
-public abstract class IWireMessageSource extends IDeviceEventRelay implements WireMessageSource, DeviceEventReceiver {
+public abstract class IWireMessageSource extends IDeviceEventRelay implements WireMessageSource, DeviceEventReceiver, WireMessageTranscoder {
 
     private Transcoder<WireMessage, Serializable> transcoder;
 
@@ -52,10 +53,12 @@ public abstract class IWireMessageSource extends IDeviceEventRelay implements Wi
         return send(new WireMessage(event));
     }
 
+    @Override
     public Transcoder<WireMessage, Serializable> getTranscoder() {
         return transcoder;
     }
 
+    @Override
     public void setTranscoder(Transcoder<WireMessage, Serializable> transcoder) {
         this.transcoder = transcoder;
     }
