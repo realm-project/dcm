@@ -72,7 +72,7 @@ public class DCMSerialize {
 
     public static Object deserialize(String json) {
         try {
-            return DESERIALIZE.reader().readValue(json);
+            return DESERIALIZE.reader(Object.class).readValue(json);
         }
         catch (IOException e) {
             throw new SerializationException(e);
