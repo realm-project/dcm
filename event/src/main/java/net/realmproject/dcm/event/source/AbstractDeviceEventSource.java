@@ -60,8 +60,8 @@ public abstract class AbstractDeviceEventSource extends IDeviceEventRelay implem
     @Override
     public boolean send(DeviceEvent event) {
         if (event == null) { return false; }
-        if (!test(event)) { return false; }
-        return doSend(event);
+        if (!filter(event)) { return false; }
+        return doSend(transform(event));
     }
 
 

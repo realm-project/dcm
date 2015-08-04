@@ -13,19 +13,31 @@ public interface DeviceEventRelay extends Predicate<DeviceEvent>, Function<Devic
 
 	void setFilter(Predicate<DeviceEvent> filter);
 
+	/** Java Predicate test for filtering {@link DeviceEvent}s **/
     default boolean test(DeviceEvent event) {
     	if (!isSending()) { return false; }
         if (!getFilter().test(event)) { return false; }
          return true;
     }
     
+    /** Java Predicate test for filtering {@link DeviceEvent}s. This is a convenience method for test() **/ 
+    default boolean filter(DeviceEvent event) {
+    	return test(event);
+    }
+    
 	//Transform Function
 	Function<DeviceEvent, DeviceEvent> getTransform();
 
 	void setTransform(Function<DeviceEvent, DeviceEvent> transform);
-	    
+	
+	/** Java Predicate test for transforming {@link DeviceEvent}s **/
     default DeviceEvent apply(DeviceEvent event) {
     	return getTransform().apply(event);
+    }
+    
+    /** Java Predicate test for filtering {@link DeviceEvent}s. This is a convenience method for apply() **/
+    default DeviceEvent transform(DeviceEvent event) {
+    	return apply(event);
     }
     
     //Node Sending/Relaying Enabled/Disabled
