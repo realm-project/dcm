@@ -28,7 +28,7 @@ import java.util.function.Predicate;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.filter.DeviceEventFilterer;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.event.relay.IDeviceEventRelay;
+import net.realmproject.dcm.event.receiver.IDeviceEventRelay;
 
 
 /**

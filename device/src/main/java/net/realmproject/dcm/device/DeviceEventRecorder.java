@@ -15,7 +15,7 @@ import net.realmproject.dcm.features.recording.Recorder;
 
 public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceEventReceiver, DeviceEventFilterer {
 
-    private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
+    private Predicate<DeviceEvent> filter = a -> true;
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer) {
         this(bus, writer, e -> true);
@@ -23,26 +23,18 @@ public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceE
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer, Predicate<DeviceEvent> filter) {
         super(writer);
-        setFilters(filter);
-        bus.subscribe(this::filter, this::accept);
-    }
-
-    public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer,
-            List<Predicate<DeviceEvent>> filters) {
-        super(writer);
-        setFilters(filters);
-        bus.subscribe(this::filter, this::accept);
+        setFilter(filter);
+        bus.subscribe(this::test, this::accept);
     }
 
     @Override
-    public List<Predicate<DeviceEvent>> getFilters() {
-        return filters;
+    public Predicate<DeviceEvent> getFilter() {
+        return filter;
     }
 
     @Override
-    public void setFilters(List<Predicate<DeviceEvent>> filters) {
-        this.filters.clear();
-        this.filters.addAll(filters);
+    public void setFilter(Predicate<DeviceEvent> filter) {
+        this.filter = filter;
     }
 
     @Override

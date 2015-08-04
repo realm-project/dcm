@@ -42,23 +42,22 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  */
 public abstract class IWireMessageSource implements WireMessageSource, DeviceEventReceiver, DeviceEventFilterer {
 
-    private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
+    private Predicate<DeviceEvent> filter = a -> true;
     private Transcoder transcoder;
 
     public IWireMessageSource(DeviceEventBus bus, Transcoder transcoder) {
         this.transcoder = transcoder;
-        bus.subscribe(this::filter, this::accept);
+        bus.subscribe(this::test, this::accept);
     }
 
     @Override
-    public List<Predicate<DeviceEvent>> getFilters() {
-        return filters;
+    public Predicate<DeviceEvent> getFilter() {
+        return filter;
     }
 
     @Override
-    public synchronized void setFilters(List<Predicate<DeviceEvent>> filters) {
-        this.filters.clear();
-        this.filters.addAll(filters);
+    public synchronized void setFilter(Predicate<DeviceEvent> filter) {
+        this.filter = filter;
     }
 
     @Override

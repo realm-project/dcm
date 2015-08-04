@@ -20,31 +20,27 @@
 package net.realmproject.dcm.event.filter;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
 
-
 /**
  * 
- * @author maxweld, NAS
+ * @author NAS
  *
  */
-
 public class IDeviceEventFilterer implements DeviceEventFilterer {
 
-    private List<Predicate<DeviceEvent>> filters = new ArrayList<>();
+    private Predicate<DeviceEvent> filter = a -> true;
 
     @Override
-    public List<Predicate<DeviceEvent>> getFilters() {
-        return filters;
+    public Predicate<DeviceEvent> getFilter() {
+        return filter;
     }
 
     @Override
-    public void setFilters(List<Predicate<DeviceEvent>> filters) {
-        this.filters = filters;
+    public void setFilter(Predicate<DeviceEvent> filter) {
+        this.filter = filter;
     }
 
 }

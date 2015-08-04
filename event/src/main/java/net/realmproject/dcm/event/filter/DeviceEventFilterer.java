@@ -16,23 +16,15 @@ import net.realmproject.dcm.event.DeviceEvent;
  * @author NAS
  *
  */
-public interface DeviceEventFilterer {
+public interface DeviceEventFilterer extends Predicate<DeviceEvent>{
 
-    List<Predicate<DeviceEvent>> getFilters();
+    Predicate<DeviceEvent> getFilter();
 
-    default void setFilters(Predicate<DeviceEvent> filter) {
-        List<Predicate<DeviceEvent>> filters = new ArrayList<>();
-        filters.add(filter);
-        setFilters(filters);
-    }
+    void setFilter(Predicate<DeviceEvent> filter);
 
-    void setFilters(List<Predicate<DeviceEvent>> filters);
-
-    default boolean filter(DeviceEvent event) {
-        for (Predicate<DeviceEvent> filter : new ArrayList<>(getFilters())) {
-            if (!filter.test(event)) { return false; }
-        }
-        return true;
+    default boolean test(DeviceEvent event) {
+        if (!getFilter().test(event)) { return false; }
+         return true;
     }
 
 }

@@ -115,7 +115,7 @@ public class IDeviceEventBus extends IDeviceEventFilterer implements DeviceEvent
         if (isPrivate && !sameZone) { return false; }
 
         // allow the bus to filter events
-        if (!filter(event)) { return false; }
+        if (!test(event)) { return false; }
 
         return eventqueue.offer(event);
     }
