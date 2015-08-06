@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
 
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 
@@ -52,7 +53,10 @@ public class DCMSerialize {
     }
 
     private final static ObjectMapper DESERIALIZE = new ObjectMapper();
-
+    static {
+    	DESERIALIZE.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+    
     @SuppressWarnings("unchecked")
     public static Map<String, Serializable> structToMap(Object o) {
         Object o2 = deserialize(serialize(o));
