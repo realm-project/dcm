@@ -1,7 +1,8 @@
-package net.realmproject.dcm.network.transcoder;
+package net.realmproject.dcm.stock.event;
 
 
 import net.realmproject.dcm.network.WireMessage;
+import net.realmproject.dcm.network.transcoder.Transcoder;
 import net.realmproject.dcm.util.DCMSerialize;
 
 
