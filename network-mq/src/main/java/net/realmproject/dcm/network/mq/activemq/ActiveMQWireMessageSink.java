@@ -22,6 +22,7 @@ package net.realmproject.dcm.network.mq.activemq;
 
 import java.io.Serializable;
 
+import javax.jms.BytesMessage;
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -30,12 +31,12 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.jms.Topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
@@ -67,18 +68,20 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
         this(receiver, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder, String subject, boolean topic,
-            String url) {
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder,
+            String subject, boolean topic, String url) {
         this(receiver, new IIdentityTranscoder(), subject, topic, url, null, null);
     }
-    
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, String subject, boolean topic, String url, String username, String password) {
+
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, String subject, boolean topic, String url,
+            String username, String password) {
         this(receiver, new IIdentityTranscoder(), subject, topic, url, username, password);
     }
-    
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder, String subject, boolean topic, String url, String username, String password) {
-    	super(receiver, transcoder);
-    	this.subject = subject;
+
+    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder,
+            String subject, boolean topic, String url, String username, String password) {
+        super(receiver, transcoder);
+        this.subject = subject;
         this.topic = topic;
         this.url = url;
         this.username = username;
@@ -87,33 +90,46 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
 
     public void onMessage(Message message) {
         try {
-            ObjectMessage objectMessage = (ObjectMessage) message;
+            Serializable object = readMessage(message);
             try {
-                Serializable object = objectMessage.getObject();
-                try {
-                    receive(getTranscoder().decode(object));
-                }
-                catch (ClassCastException e) {
-                    getLog().error("Object class is not DeviceMessage", e);
-                }
+                receive(getTranscoder().decode(object));
             }
-            catch (JMSException e) {
-                getLog().error("Object could not be unpackaged from ObjectMessage", e);
+            catch (ClassCastException e) {
+                getLog().error("Object class is not DeviceMessage", e);
             }
+        }
+        catch (JMSException e) {
+            getLog().error("Object could not be unpackaged from ObjectMessage", e);
         }
         catch (ClassCastException e) {
             getLog().error("JMS Message class is not ObjectMessage.", e);
         }
     }
 
+    private Serializable readMessage(Message message) throws JMSException {
+
+        if (message instanceof ObjectMessage) { return ((ObjectMessage) message).getObject(); }
+
+        if (message instanceof TextMessage) { return ((TextMessage) message).getText(); }
+
+        if (message instanceof BytesMessage) {
+            byte[] buffer = new byte[(int) ((BytesMessage) message).getBodyLength()];
+            ((BytesMessage) message).readBytes(buffer);
+            return buffer;
+        }
+
+        throw new ClassCastException();
+
+    }
+
     public void connect() {
         try {
             if (!connected) {
-            	if (username != null) {
-            		connectionFactory = new ActiveMQConnectionFactory(username, password, url);
-            	} else {
-            		connectionFactory = new ActiveMQConnectionFactory(url);
-            	}
+                if (username != null) {
+                    connectionFactory = new ActiveMQConnectionFactory(username, password, url);
+                } else {
+                    connectionFactory = new ActiveMQConnectionFactory(url);
+                }
                 connection = connectionFactory.createConnection();
                 connection.start();
                 connected = true;
