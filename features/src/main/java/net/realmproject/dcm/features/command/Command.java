@@ -26,6 +26,7 @@ import java.util.Map;
 import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.features.Properties;
 import net.realmproject.dcm.features.recording.Recordable;
+import net.realmproject.dcm.util.DCMSerialize;
 
 
 /**
@@ -41,7 +42,14 @@ import net.realmproject.dcm.features.recording.Recordable;
  */
 public class Command implements Properties<Object>, Recordable, Identity {
 
-    /**
+    @Override
+	public String toString() {
+    	
+		return "Command [action=" + action + ", id=" + id + ", properties="
+				+ DCMSerialize.serialize(getPropertyMap()) + "]";
+	}
+
+	/**
      * The name of the action or command to invoke on the {@link CommandDevice}
      */
     private String action;
