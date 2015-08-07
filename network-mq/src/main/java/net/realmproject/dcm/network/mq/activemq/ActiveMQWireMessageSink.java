@@ -42,6 +42,7 @@ import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.network.transcoder.TranscoderException;
 
 
 /**
@@ -94,15 +95,15 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
             try {
                 receive(getTranscoder().decode(object));
             }
-            catch (ClassCastException e) {
-                getLog().error("Object class is not DeviceMessage", e);
+            catch (TranscoderException e) {
+                getLog().error("Unable to convert JMS Message contents to WireMessage", e);
             }
         }
         catch (JMSException e) {
-            getLog().error("Object could not be unpackaged from ObjectMessage", e);
+            getLog().error("Serializable content could not be unpacked from JMS Message", e);
         }
         catch (ClassCastException e) {
-            getLog().error("JMS Message class is not ObjectMessage.", e);
+            getLog().error("JMS Message class is not ObjectMessage, TextMessage, or BytesMessage.", e);
         }
     }
 
