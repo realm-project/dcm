@@ -87,9 +87,12 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
         this.url = url;
         this.username = username;
         this.password = password;
+        
+        connect();
     }
 
     public void onMessage(Message message) {
+    	
         try {
             Serializable object = readMessage(message);
             try {
@@ -134,6 +137,9 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
                 connection = connectionFactory.createConnection();
                 connection.start();
                 connected = true;
+                
+                System.out.println("In ActiveMQWireMessageSink.connect. Connected!");
+                
                 session = connection.createSession(transacted, Session.AUTO_ACKNOWLEDGE);
                 if (this.topic) {
                     Topic topic = session.createTopic(subject);
