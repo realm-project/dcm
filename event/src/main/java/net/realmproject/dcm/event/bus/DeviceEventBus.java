@@ -26,8 +26,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceEventNode;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.event.relay.DeviceEventRelay;
 import net.realmproject.dcm.event.relay.IDeviceEventForwarder;
 
 
@@ -52,7 +52,7 @@ import net.realmproject.dcm.event.relay.IDeviceEventForwarder;
  *
  */
 
-public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventRelay {
+public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventNode {
 
     /**
      * Listen for events broadcast on this event bus. All events will be sent to

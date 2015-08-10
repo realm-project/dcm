@@ -1,35 +1,29 @@
 package net.realmproject.dcm.event.relay;
 
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceEventNode;
+import net.realmproject.dcm.event.source.DeviceEventSource;
 
-public interface DeviceEventRelay {
 
-	
-	//Filter Predicate
-	Predicate<DeviceEvent> getFilter();
+/**
+ * 
+ * Interface for DCM event graph nodes which relay events to other nodes, either
+ * by being {@link DeviceEventSource}s
+ * 
+ * @author NAS
+ *
+ */
+public interface DeviceEventRelay extends DeviceEventNode {
 
-	void setFilter(Predicate<DeviceEvent> filter);
-
-	/** Method for filtering {@link DeviceEvent}s using the specified filter **/
+    /** Method for filtering {@link DeviceEvent}s using the specified filter **/
     default boolean filter(DeviceEvent event) {
-    	if (!isSending()) { return false; }
+        if (!isSending()) { return false; }
         if (!getFilter().test(event)) { return false; }
-         return true;
+        return true;
     }
-    
-	//Transform Function
-	Function<DeviceEvent, DeviceEvent> getTransform();
 
-	void setTransform(Function<DeviceEvent, DeviceEvent> transform);
-	
-	/** Method for transforming {@link DeviceEvent}s using the specified transformation function **/
-    default DeviceEvent transform(DeviceEvent event) {
-    	return getTransform().apply(event);
-    }
-        //Node Sending/Relaying Enabled/Disabled
+    // Node Sending/Relaying Enabled/Disabled
     /**
      * Is sending of events turned on?
      * 
@@ -37,7 +31,7 @@ public interface DeviceEventRelay {
      *         otherwise
      */
     boolean isSending();
-    
+
     /**
      * Set if this component is currently sending events. There is no backlog of
      * unsent events retained. Events "sent" while this component was not
@@ -47,23 +41,23 @@ public interface DeviceEventRelay {
      *            whether to send events or not
      */
     void setSending(boolean sending);
-    
+
     /**
      * If this component is not currently sending events, start sending them
      * now. There is no backlog of unsent events retained. Events "sent" while
      * this component was not sending are lost.
      */
     default void startSending() {
-    	setSending(true);
+        setSending(true);
     }
-    
+
     /**
      * If this component is currently sending events, stop sending them now.
      * There is no backlog of unsent events retained. Events "sent" while this
      * component was not sending are lost.
      */
     default void stopSending() {
-    	setSending(true);
+        setSending(true);
     }
-    
+
 }

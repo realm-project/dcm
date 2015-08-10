@@ -28,6 +28,14 @@ import net.realmproject.dcm.event.identity.SourceIdentity;
 import net.realmproject.dcm.event.identity.TargetIdentity;
 
 
+/**
+ * A DeviceEvent repreents a message on the DCM event graph. It can any of the
+ * types defined by {@link DeviceEventType}, and optionally contains a
+ * {@link Serializable} payload.
+ * 
+ * @author NAS
+ *
+ */
 public interface DeviceEvent extends Serializable, Payload<Serializable>, SourceIdentity, TargetIdentity {
 
     /**

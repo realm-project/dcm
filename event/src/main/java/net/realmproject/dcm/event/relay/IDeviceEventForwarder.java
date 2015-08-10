@@ -19,10 +19,9 @@
 
 package net.realmproject.dcm.event.relay;
 
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceEventNode;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 
@@ -33,14 +32,14 @@ import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
  * @author NAS
  *
  */
-public class IDeviceEventForwarder extends IDeviceEventRelay implements DeviceEventReceiver, DeviceEventRelay {
+public class IDeviceEventForwarder extends IDeviceEventRelay implements DeviceEventNode, DeviceEventReceiver {
 
     private DeviceEventReceiver to;
-    
+
     public IDeviceEventForwarder(DeviceEventReceiver to) {
         this.to = to;
     }
-    
+
     public IDeviceEventForwarder(DeviceEventBus from, DeviceEventReceiver to) {
         this(to);
         from.subscribe(this::accept);
@@ -49,9 +48,7 @@ public class IDeviceEventForwarder extends IDeviceEventRelay implements DeviceEv
     @Override
     public boolean accept(DeviceEvent event) {
         if (!filter(event)) { return false; }
-    	return to.accept(transform(event));
+        return to.accept(transform(event));
     }
 
-    
-    
 }
