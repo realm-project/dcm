@@ -26,7 +26,7 @@ public class DeviceCommanderUnitTest {
         new TestAnnotatedCommandDevice(ID, bus);
         DeviceAccessor<TestState> deviceCommander = new IDeviceAccessor<>(ID, ID, bus);
 
-        deviceCommander.sendMessage(new Command(COMMAND).arg(MESSAGE));
+        deviceCommander.sendMessage(new Command(COMMAND).property(MESSAGE));
         sleep();
         assertEquals(MESSAGE, deviceCommander.getState().getMessage());
     }
@@ -38,11 +38,11 @@ public class DeviceCommanderUnitTest {
         new TestAnnotatedCommandDevice(ID, bus);
         DeviceAccessor<TestState> deviceWriter = new IDeviceAccessor<>(ID, ID, bus);
 
-        deviceWriter.sendMessage(new Command(COMMAND).arg(MESSAGE));
+        deviceWriter.sendMessage(new Command(COMMAND).property(MESSAGE));
         sleep();
         assertEquals(MESSAGE, deviceWriter.getState().getMessage());
 
-        deviceWriter.sendMessage(new Command(COMMAND).arg(ANOTHER_MESSAGE));
+        deviceWriter.sendMessage(new Command(COMMAND).property(ANOTHER_MESSAGE));
         sleep();
         assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getMessage());
     }
@@ -55,7 +55,7 @@ public class DeviceCommanderUnitTest {
         DeviceAccessor<TestState> deviceWriter = new IDeviceAccessor<>(ID, ID, bus);
 
         deviceWriter.sendMessage(
-                new Command("setTwoMessages").arg("message", MESSAGE).arg("secondMessage", ANOTHER_MESSAGE));
+                new Command("setTwoMessages").property("message", MESSAGE).property("secondMessage", ANOTHER_MESSAGE));
         sleep();
         assertEquals(MESSAGE, deviceWriter.getState().getMessage());
         assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getSecondMessage());

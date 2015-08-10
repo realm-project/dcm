@@ -20,6 +20,7 @@
 package net.realmproject.dcm.features.command;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,16 +41,9 @@ import net.realmproject.dcm.util.DCMSerialize;
  * @author NAS
  *
  */
-public class Command implements Properties<Object>, Recordable, Identity {
+public class Command implements Properties<Serializable>, Recordable, Identity {
 
-    @Override
-	public String toString() {
-    	
-		return "Command [action=" + action + ", id=" + id + ", properties="
-				+ DCMSerialize.serialize(getPropertyMap()) + "]";
-	}
-
-	/**
+    /**
      * The name of the action or command to invoke on the {@link CommandDevice}
      */
     private String action;
@@ -60,7 +54,7 @@ public class Command implements Properties<Object>, Recordable, Identity {
     /**
      * The arguments to invoke the command with
      */
-    private Map<String, Object> properties = new HashMap<>();
+    private Map<String, Serializable> properties = new HashMap<>();
 
     public Command() {}
 
@@ -69,7 +63,7 @@ public class Command implements Properties<Object>, Recordable, Identity {
         this.action = action;
     }
 
-    public Command(String action, Map<String, ?> args) {
+    public Command(String action, Map<String, ? extends Serializable> args) {
         this();
         this.action = action;
         this.getPropertyMap().putAll(args);
@@ -85,7 +79,7 @@ public class Command implements Properties<Object>, Recordable, Identity {
      *            the value to add as an argument
      * @return this Command
      */
-    public Command arg(String key, Object value) {
+    public Command property(String key, Serializable value) {
         setProperty(key, value);
         return this;
     }
@@ -97,39 +91,20 @@ public class Command implements Properties<Object>, Recordable, Identity {
      *            the value to add as an argument
      * @return this Command
      */
-    public Command arg(Object value) {
+    public Command property(Serializable value) {
         setProperty("value", value);
         return this;
     }
 
     @Override
-    public void setPropertyMap(Map<String, Object> propertyMap) {
+    public void setPropertyMap(Map<String, Serializable> propertyMap) {
         properties.clear();
         properties = propertyMap;
     }
 
     @Override
-    public Map<String, Object> getPropertyMap() {
+    public Map<String, Serializable> getPropertyMap() {
         return properties;
-    }
-
-    /**
-     * Convenience method for getPropertyMap
-     * 
-     * @return the arguments/properties map
-     */
-    public Map<String, Object> getArguments() {
-        return getPropertyMap();
-    }
-
-    /**
-     * Convenience method for setPropertyMap
-     * 
-     * @param arguments
-     *            the arguments/properties map
-     */
-    public void setArguments(Map<String, Object> arguments) {
-        setPropertyMap(arguments);
     }
 
     @Override
@@ -158,6 +133,13 @@ public class Command implements Properties<Object>, Recordable, Identity {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Command [action=" + action + ", id=" + id + ", properties=" + DCMSerialize.serialize(getPropertyMap())
+                + "]";
     }
 
 }

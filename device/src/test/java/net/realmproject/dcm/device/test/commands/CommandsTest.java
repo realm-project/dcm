@@ -26,16 +26,16 @@ public class CommandsTest {
         Assert.assertEquals(1, device.getState().number);
 
         // testing single argument function
-        device.runCommand(new Command("incrementBy").arg("value", 2));
+        device.runCommand(new Command("incrementBy").property("value", 2));
         Assert.assertEquals(3, device.getState().number);
 
         // testing string argument
         // don't name our arg here to test default arg name version of method
-        device.runCommand(new Command("incrementFromString").arg("1"));
+        device.runCommand(new Command("incrementFromString").property("1"));
         Assert.assertEquals(4, device.getState().number);
 
         // testing structs
-        device.runCommand(new Command("incrementByIncrementer").arg("value", new Incrementer(1)));
+        device.runCommand(new Command("incrementByIncrementer").property("value", new Incrementer(1)));
         Assert.assertEquals(5, device.getState().number);
 
         // testing single argument without annotation as fields in a single
@@ -46,7 +46,8 @@ public class CommandsTest {
 
         // testing structs which have been serialized by
         // DCMSerialize.structToMap
-        device.runCommand(new Command("incrementByIncrementer").arg(DCMSerialize.structToMap(new Incrementer(1))));
+        device.runCommand(new Command("incrementByIncrementer")
+                .property((Serializable) DCMSerialize.structToMap(new Incrementer(1))));
         Assert.assertEquals(8, device.getState().number);
 
         // testing serializing integers with default DSMSerialise.structToMap
@@ -56,7 +57,7 @@ public class CommandsTest {
         Assert.assertEquals(9, device.getState().number);
 
         // testing multi-arg functions
-        device.runCommand(new Command("incrementTwice").arg("first", 3).arg("second", "3"));
+        device.runCommand(new Command("incrementTwice").property("first", 3).property("second", "3"));
         Assert.assertEquals(15, device.getState().number);
 
         // testing default @Arg name of "value"
@@ -64,7 +65,7 @@ public class CommandsTest {
         Assert.assertEquals(18, device.getState().number);
 
         // testing un-named arg with simple integer value
-        device.runCommand(new Command("incrementUnnamed").arg("value", 1));
+        device.runCommand(new Command("incrementUnnamed").property("value", 1));
         Assert.assertEquals(19, device.getState().number);
 
     }
