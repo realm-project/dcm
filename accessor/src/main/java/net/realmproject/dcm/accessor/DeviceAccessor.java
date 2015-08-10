@@ -25,8 +25,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
 
-public interface DeviceAccessor<T extends Serializable> extends AccessorIdentity {
+
+/**
+ * DeviceAccessors track the state of a Device and allow indirect interaction
+ * with it. This can be used to reduce latency for Device state lookups or for
+ * isolating a Device from a high volume of queries. A listener interface
+ * provides push notification of updates from the Device.
+ * 
+ * @author NAS
+ *
+ * @param <T>
+ */
+public interface DeviceAccessor<T extends Serializable> extends AccessorIdentity, DeviceEventPublisher {
 
     /**
      * Sends a MESSAGE event with the given payload
@@ -64,7 +76,7 @@ public interface DeviceAccessor<T extends Serializable> extends AccessorIdentity
      * Asynchronously emits a VALUE_GET event which may trigger a VALUE_CHANGED
      * event from a backing device.
      */
-    boolean sendValueGet();
+    void sendValueGet();
 
     List<Consumer<T>> getListeners();
 

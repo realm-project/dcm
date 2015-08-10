@@ -47,22 +47,21 @@ public abstract class AbstractDeviceEventPublisher extends IDeviceEventRelay
     // method does not
     /**
      * This method is for internal use only, and should not be called. Call
-     * send(event) instead.
+     * publish(event) instead.
      * 
      * @param event
      *            the event to send
-     * @return true if sending is successful, false otherwise
      */
 
-    protected boolean doSend(DeviceEvent event) {
-        return receiver.accept(event);
+    protected void doPublish(DeviceEvent event) {
+        receiver.accept(event);
     }
 
     @Override
     public void publish(DeviceEvent event) {
         if (event == null) { return; }
         if (!filter(event)) { return; }
-        doSend(transform(event));
+        doPublish(transform(event));
     }
 
 }

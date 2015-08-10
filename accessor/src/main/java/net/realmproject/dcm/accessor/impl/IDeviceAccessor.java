@@ -29,7 +29,6 @@ import java.util.function.Consumer;
 import net.realmproject.dcm.accessor.DeviceAccessor;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
-import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.FilterBuilder;
@@ -91,12 +90,12 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
 
     @Override
     public void sendMessage(Serializable input) {
-        send(DeviceEventType.MESSAGE, input);
+        publish(DeviceEventType.MESSAGE, input);
     }
 
     @Override
     public void sendValueSet(Serializable input) {
-        send(DeviceEventType.VALUE_SET, input);
+        publish(DeviceEventType.VALUE_SET, input);
     }
 
     @Override
@@ -109,18 +108,22 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
         return deviceState;
     }
 
-    public boolean sendValueGet() {
-        return send(DeviceEventType.VALUE_GET);
+    public void sendValueGet() {
+        publish(DeviceEventType.VALUE_GET);
     }
 
-    protected boolean send(DeviceEventType type) {
-        return send(type, null);
+    protected void publish(DeviceEventType type) {
+        publish(type, null);
     }
 
-    protected boolean send(DeviceEventType type, Serializable payload) {
-        if (receiver == null) return false;
-        DeviceEvent event = new IDeviceEvent(type, getId(), getDeviceId(), payload);
-        return receiver.accept(event);
+    protected void publish(DeviceEventType type, Serializable payload) {
+        publish(type, getId(), getDeviceId(), payload);
+    }
+
+    @Override
+    public void publish(DeviceEvent event) {
+        if (receiver == null) return;
+        receiver.accept(event);
     }
 
     @Override

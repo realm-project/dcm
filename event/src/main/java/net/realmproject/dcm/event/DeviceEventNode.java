@@ -21,6 +21,7 @@ public interface DeviceEventNode {
 
     /** Method for filtering {@link DeviceEvent}s using the specified filter **/
     default boolean filter(DeviceEvent event) {
+        if (getFilter() == null) { return true; }
         if (!getFilter().test(event)) { return false; }
         return true;
     }
@@ -35,7 +36,8 @@ public interface DeviceEventNode {
      * transformation function
      **/
     default DeviceEvent transform(DeviceEvent event) {
-        return getTransform().apply(event);
+        if (getTransform() == null) { return event; }
+        return getTransform().apply(event.deepCopy());
     }
 
 }

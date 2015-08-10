@@ -202,4 +202,11 @@ public interface DeviceEvent extends Serializable {
      */
     void setSourceId(String id);
 
+    /**
+     * Performs a deep copy of this DeviceEvent.
+     * 
+     * @return The deep copy of this DeviceEvent
+     */
+    public DeviceEvent deepCopy();
+
 }

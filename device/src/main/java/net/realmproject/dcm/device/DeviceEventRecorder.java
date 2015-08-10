@@ -14,8 +14,8 @@ import net.realmproject.dcm.features.recording.Recorder;
 
 public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceEventReceiver, DeviceEventNode {
 
-    private Predicate<DeviceEvent> filter = a -> true;
-    private Function<DeviceEvent, DeviceEvent> transform = a -> a;
+    private Predicate<DeviceEvent> filter = null;
+    private Function<DeviceEvent, DeviceEvent> transform = null;
 
     public DeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer) {
         this(bus, writer, e -> true);
@@ -28,14 +28,14 @@ public class DeviceEventRecorder extends Recorder<DeviceEvent>implements DeviceE
     }
 
     @Override
-    public boolean accept(DeviceEvent event) {
+    public void accept(DeviceEvent event) {
         try {
-            record(event);
-            return true;
+            record(transform(event));
+            return;
         }
         catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return;
         }
     }
 

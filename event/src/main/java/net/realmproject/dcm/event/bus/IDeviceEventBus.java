@@ -45,7 +45,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
  */
 
 public class IDeviceEventBus extends IDeviceEventRelay implements DeviceEventBus, Logging {
-	
+
     private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
     private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);
     private String zone = "";
@@ -61,7 +61,7 @@ public class IDeviceEventBus extends IDeviceEventRelay implements DeviceEventBus
             DeviceEvent event = null;
             while (true) {
                 try {
-                    event = eventqueue.take();
+                    event = transform(eventqueue.take());
 
                     // only label event with our zone if it hasn't already
                     // been set. relabelling of events should be a conscious
@@ -106,18 +106,18 @@ public class IDeviceEventBus extends IDeviceEventRelay implements DeviceEventBus
     }
 
     @Override
-    public synchronized boolean accept(DeviceEvent event) {
-        if (event == null) { return false; }
+    public synchronized void accept(DeviceEvent event) {
+        if (event == null) { return; }
         boolean isPrivate = event.isPrivateEvent();
         boolean sameZone = getZone() != null && getZone().equals(event.getZone());
 
         // private events from other zones will not be propagated
-        if (isPrivate && !sameZone) { return false; }
+        if (isPrivate && !sameZone) { return; }
 
         // allow the bus to filter events
-        if (!filter(event)) { return false; }
+        if (!filter(event)) { return; }
 
-        return eventqueue.offer(event);
+        eventqueue.offer(event);
     }
 
     @Override

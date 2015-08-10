@@ -9,8 +9,8 @@ import net.realmproject.dcm.event.DeviceEvent;
 
 public class IDeviceEventRelay implements DeviceEventRelay {
 
-    private Predicate<DeviceEvent> filter = a -> true;
-    private Function<DeviceEvent, DeviceEvent> transform = a -> a;
+    private Predicate<DeviceEvent> filter = null;
+    private Function<DeviceEvent, DeviceEvent> transform = null;
     private boolean sending = true;
 
     @Override

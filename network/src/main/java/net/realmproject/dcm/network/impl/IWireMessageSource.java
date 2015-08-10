@@ -39,7 +39,8 @@ import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
  * @author NAS
  *
  */
-public abstract class IWireMessageSource extends IDeviceEventRelay implements WireMessageSource, DeviceEventReceiver, WireMessageTranscoding {
+public abstract class IWireMessageSource extends IDeviceEventRelay
+        implements WireMessageSource, DeviceEventReceiver, WireMessageTranscoding {
 
     private Transcoder<WireMessage, Serializable> transcoder;
 
@@ -49,8 +50,8 @@ public abstract class IWireMessageSource extends IDeviceEventRelay implements Wi
     }
 
     @Override
-    public boolean accept(DeviceEvent event) {
-        return send(new WireMessage(event));
+    public void accept(DeviceEvent event) {
+        send(new WireMessage(event));
     }
 
     @Override

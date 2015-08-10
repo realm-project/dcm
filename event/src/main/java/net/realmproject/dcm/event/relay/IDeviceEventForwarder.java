@@ -46,9 +46,9 @@ public class IDeviceEventForwarder extends IDeviceEventRelay implements DeviceEv
     }
 
     @Override
-    public boolean accept(DeviceEvent event) {
-        if (!filter(event)) { return false; }
-        return to.accept(transform(event));
+    public void accept(DeviceEvent event) {
+        if (!filter(event)) { return; }
+        to.accept(transform(event));
     }
 
 }

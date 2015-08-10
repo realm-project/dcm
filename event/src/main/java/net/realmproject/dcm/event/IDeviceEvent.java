@@ -177,7 +177,11 @@ public class IDeviceEvent implements DeviceEvent {
         this.privateEvent = privateEvent;
     }
 
-    private static Serializable deepCopy(Serializable input) {
+    public DeviceEvent deepCopy() {
+        return (DeviceEvent) deepCopy(this);
+    }
+
+    public static Serializable deepCopy(Serializable input) {
 
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
