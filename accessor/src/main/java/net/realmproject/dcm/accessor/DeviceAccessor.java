@@ -25,6 +25,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.event.identity.TargetIdentity;
 import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
 
 
@@ -38,7 +40,7 @@ import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
  *
  * @param <T>
  */
-public interface DeviceAccessor<T extends Serializable> extends AccessorIdentity, DeviceEventPublisher {
+public interface DeviceAccessor<T extends Serializable> extends Identity, TargetIdentity, DeviceEventPublisher {
 
     /**
      * Sends a MESSAGE event with the given payload
@@ -81,9 +83,5 @@ public interface DeviceAccessor<T extends Serializable> extends AccessorIdentity
     List<Consumer<T>> getListeners();
 
     void setListeners(List<Consumer<T>> listeners);
-
-    String getDeviceId();
-
-    void setDeviceId(String deviceId);
 
 }

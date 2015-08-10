@@ -1,9 +1,8 @@
-package net.realmproject.dcm.accessor.impl;
+package net.realmproject.dcm.stock.ping;
 
 
 import java.util.concurrent.TimeUnit;
 
-import net.realmproject.dcm.accessor.DeviceLatencyMonitor;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.util.DCMThreadPool;
 

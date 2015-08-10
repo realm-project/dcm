@@ -1,4 +1,4 @@
-package net.realmproject.dcm.accessor;
+package net.realmproject.dcm.stock.ping;
 
 
 public interface DeviceLatencyMonitor {

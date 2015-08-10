@@ -1,7 +1,6 @@
-package net.realmproject.dcm.accessor.impl;
+package net.realmproject.dcm.stock.ping;
 
 
-import net.realmproject.dcm.accessor.DevicePinger;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
@@ -13,15 +12,15 @@ import net.realmproject.dcm.features.ping.Ping;
 
 public class IDevicePinger implements DevicePinger {
 
-    private String id, deviceId;
+    private String id, targetId;
     private DeviceEventReceiver receiver;
     private Ping lastPing;
 
-    public IDevicePinger(String id, DeviceEventBus bus, String deviceId) {
+    public IDevicePinger(String id, DeviceEventBus bus, String targetId) {
         this.id = id;
         this.receiver = bus;
-        this.deviceId = deviceId;
-        bus.subscribe(FilterBuilder.start().source(deviceId).payload(Ping.class), this::onPong);
+        this.targetId = targetId;
+        bus.subscribe(FilterBuilder.start().source(targetId).payload(Ping.class), this::onPong);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class IDevicePinger implements DevicePinger {
     private Ping ping(Ping thePing) {
         receiver.accept(new IDeviceEvent().type(DeviceEventType.MESSAGE)
                 .sourceId(getId())
-                .targetId(getDeviceId())
+                .targetId(getTargetId())
                 .payload(thePing));
         return thePing;
     }
@@ -61,13 +60,13 @@ public class IDevicePinger implements DevicePinger {
     }
 
     @Override
-    public String getDeviceId() {
-        return deviceId;
+    public String getTargetId() {
+        return targetId;
     }
 
     @Override
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public void setTargetId(String deviceId) {
+        this.targetId = deviceId;
     }
 
 }

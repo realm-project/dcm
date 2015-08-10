@@ -1,6 +1,11 @@
-package net.realmproject.dcm.accessor;
+package net.realmproject.dcm.stock.ping;
 
-public interface DevicePinger extends AccessorIdentity {
+
+import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.event.identity.TargetIdentity;
+
+
+public interface DevicePinger extends Identity, TargetIdentity {
 
     /**
      * Performs a ping and returns immediately

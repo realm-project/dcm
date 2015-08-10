@@ -117,7 +117,7 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     }
 
     protected void publish(DeviceEventType type, Serializable payload) {
-        publish(type, getId(), getDeviceId(), payload);
+        publish(type, getId(), getTargetId(), payload);
     }
 
     @Override
@@ -137,12 +137,12 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     }
 
     @Override
-    public String getDeviceId() {
+    public String getTargetId() {
         return deviceId;
     }
 
     @Override
-    public void setDeviceId(String deviceId) {
+    public void setTargetId(String deviceId) {
         this.deviceId = deviceId;
     }
 
