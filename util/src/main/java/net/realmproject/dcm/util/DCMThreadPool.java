@@ -57,6 +57,7 @@ public class DCMThreadPool {
         }
         catch (InterruptedException e) {
             log.warn("Orderly shutdown of threadpool failed", e);
+            Thread.currentThread().interrupt();
         }
 
         pool.shutdownNow();
@@ -69,6 +70,7 @@ public class DCMThreadPool {
         }
         catch (InterruptedException e) {
             log.warn("Forced shutdown of threadpool failed", e);
+            Thread.currentThread().interrupt();
         }
 
     }

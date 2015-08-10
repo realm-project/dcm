@@ -23,6 +23,7 @@ public class MjpegCamera extends Camera implements Connection {
     private URLConnection conn;
     private InputStream input;
     private StringWriter header;
+    private int connectionTimeout = 10000;
 
     protected MjpegCamera(String id, DeviceEventBus bus, String url) throws MalformedURLException {
         super(id, bus);
@@ -36,8 +37,8 @@ public class MjpegCamera extends Camera implements Connection {
     @Override
     public void connect() throws Exception {
         conn = url.openConnection();
-        conn.setReadTimeout(5000);
-        conn.setConnectTimeout(5000);
+        conn.setReadTimeout(connectionTimeout);
+        conn.setConnectTimeout(connectionTimeout);
         conn.connect();
         input = conn.getInputStream();
     }
@@ -107,20 +108,20 @@ public class MjpegCamera extends Camera implements Connection {
     @Override
     public void onDisconnect(Exception exception) {
 
-        // delay to avoid reconnect spam
-        try {
-            Thread.sleep(1000);
-        }
-        catch (InterruptedException e1) {
-            Thread.currentThread().interrupt();
-        }
-
         if (input != null) {
             try {
                 input.close();
             }
             catch (IOException e) {}
         }
+    }
+
+    public int getConnectionTimeout() {
+        return connectionTimeout;
+    }
+
+    public void setConnectionTimeout(int connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
     }
 
 }

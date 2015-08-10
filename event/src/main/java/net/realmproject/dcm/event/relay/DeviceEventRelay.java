@@ -19,6 +19,7 @@ public interface DeviceEventRelay extends DeviceEventNode {
     /** Method for filtering {@link DeviceEvent}s using the specified filter **/
     default boolean filter(DeviceEvent event) {
         if (!isSending()) { return false; }
+        if (getFilter() == null) { return true; }
         if (!getFilter().test(event)) { return false; }
         return true;
     }

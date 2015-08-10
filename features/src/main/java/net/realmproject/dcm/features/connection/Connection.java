@@ -3,6 +3,7 @@ package net.realmproject.dcm.features.connection;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.util.DCMInterrupt;
 
 
 /**
@@ -31,21 +32,17 @@ public interface Connection extends Identity, Logging {
      * handling, and a call to onConnect after succeeding.
      */
     default void doConnect() {
-        try {
 
+        DCMInterrupt.handle(() -> {
             getLog().info("Device " + getId() + " (re)connecting...");
             connect();
             getLog().info("Device " + getId() + " (re)connected!");
-
             onConnect();
-        }
-        catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        catch (Exception e) {
+        } , e -> {
             logConnectionError(e);
-            onDisconnect(e);
-        }
+            DCMInterrupt.handle(() -> onDisconnect(e));
+        });
+
     }
 
     /**
@@ -87,7 +84,9 @@ public interface Connection extends Identity, Logging {
      */
     default void disconnected(Exception exception) {
         synchronized (this) {
-            onDisconnect(exception);
+            DCMInterrupt.handle(() -> {
+                onDisconnect(exception);
+            });
             doConnect();
         }
     }
