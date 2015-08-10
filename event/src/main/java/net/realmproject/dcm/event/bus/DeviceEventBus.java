@@ -28,7 +28,7 @@ import java.util.function.Predicate;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventNode;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.event.relay.IDeviceEventForwarder;
+import net.realmproject.dcm.event.relay.IDeviceEventRelay;
 
 
 /**
@@ -39,7 +39,7 @@ import net.realmproject.dcm.event.relay.IDeviceEventForwarder;
  * <br>
  * It is also possible to split a larger collection of devices into zones by
  * using more than one DeviceEventBus. Events from one bus can be selectively
- * propagated to another using an {@link IDeviceEventForwarder} or using a
+ * propagated to another using an {@link IDeviceEventRelay} or using a
  * distributed messaging system like ActiveMQ (see
  * {@link AbstractDeviceMessageEncoder} and {@link DeviceMessageDecoder}). <br>
  * <br>
@@ -77,7 +77,9 @@ public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventNode {
     /**
      * Convenience method which wraps a call to
      * {@link DeviceEventBus#subscribe(Consumer)} so the {@link DeviceEvent}s
-     * are returned in a {@link BlockingQueue}
+     * are returned in a {@link BlockingQueue}. Users should take care to make
+     * sure that the queue does not become backed up with events with large
+     * payloads, as this could consume a large amount of memory
      * 
      * @return a {@link BlockingQueue} which will be populated with
      *         {@link DeviceEvent}s
@@ -91,7 +93,9 @@ public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventNode {
     /**
      * Convenience method which wraps a call to
      * {@link DeviceEventBus#subscribe(Consumer)} so the {@link DeviceEvent}s
-     * are returned in a {@link BlockingQueue}
+     * are returned in a {@link BlockingQueue}. Users should take care to make
+     * sure that the queue does not become backed up with events with large
+     * payloads, as this could consume a large amount of memory
      * 
      * @param filter
      *            rule for which events to listen for

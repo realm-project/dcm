@@ -2,6 +2,7 @@ package net.realmproject.dcm.event.testing;
 
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,10 +11,11 @@ import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.IDeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.bus.IDeviceEventBridge;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
 
 
-public class EventBusTest {
+public class EventNode {
 
     // test to make sure a bus is relaying a payload reliably
     @Test
@@ -76,6 +78,21 @@ public class EventBusTest {
 
         DeviceEvent event = eventQueue.take();
         Assert.assertEquals("World!", event.getPayload().toString());
+
+    }
+
+    @Test
+    public void bridge() throws InterruptedException {
+
+        DeviceEventBus bus1 = new IDeviceEventBus();
+        DeviceEventBus bus2 = new IDeviceEventBus();
+        new IDeviceEventBridge(bus1, bus2);
+
+        BlockingQueue<DeviceEvent> eventQueue = bus2.subscriptionQueue();
+        bus1.accept(new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "World"));
+
+        DeviceEvent event = eventQueue.poll(5, TimeUnit.SECONDS);
+        Assert.assertEquals("World", event.getPayload());
 
     }
 

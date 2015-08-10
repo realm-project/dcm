@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.relay.IDeviceEventRelay;
+import net.realmproject.dcm.event.relay.AbstractDeviceEventRelay;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
@@ -44,7 +44,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
  *
  */
 
-public class IDeviceEventBus extends IDeviceEventRelay implements DeviceEventBus, Logging {
+public class IDeviceEventBus extends AbstractDeviceEventRelay implements DeviceEventBus, Logging {
 
     private List<Consumer<DeviceEvent>> consumers = new ArrayList<>();
     private BlockingQueue<DeviceEvent> eventqueue = new LinkedBlockingQueue<>(1000);

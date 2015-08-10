@@ -23,7 +23,7 @@ package net.realmproject.dcm.event.publisher;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventNode;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.event.relay.IDeviceEventRelay;
+import net.realmproject.dcm.event.relay.AbstractDeviceEventRelay;
 
 
 /**
@@ -32,7 +32,7 @@ import net.realmproject.dcm.event.relay.IDeviceEventRelay;
  *
  */
 
-public class IDeviceEventPublisher extends IDeviceEventRelay implements DeviceEventNode, DeviceEventPublisher {
+public class IDeviceEventPublisher extends AbstractDeviceEventRelay implements DeviceEventNode, DeviceEventPublisher {
 
     private DeviceEventReceiver receiver;
 
