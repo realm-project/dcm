@@ -29,9 +29,8 @@ public class PingDevice implements Pingable {
     }
 
     @Override
-    public boolean publish(DeviceEvent event) {
-        return receiver.accept(event);
+    public void publish(DeviceEvent event) {
+        receiver.accept(event);
     }
-
 
 }

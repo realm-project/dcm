@@ -28,8 +28,7 @@ import net.realmproject.dcm.event.IDeviceEvent;
 
 
 /**
- * A DeviceEventSender is anything which sends events. It is not required that
- * it generate events of it's own.
+ * A DeviceEventPublisher is anything which publishes events of its own.
  * 
  * @author NAS
  *
@@ -43,16 +42,28 @@ public interface DeviceEventPublisher {
      * 
      * @param event
      *            the event to send
+     * @return true if sending is successful, false otherwise.
+     */
+    void publish(DeviceEvent event);
+
+    /**
+     * Convenience method for publish(DeviceEvent). Builds a {@link DeviceEvent}
+     * from the given values and publishes it.
+     * 
      * @return true if sending is successful, false otherwise
      */
-    boolean publish(DeviceEvent event);
-
-    default boolean publish(DeviceEventType type, String sourceId, Serializable value) {
-        return publish(new IDeviceEvent(type, sourceId, null, value));
+    default void publish(DeviceEventType type, String sourceId, Serializable value) {
+        publish(new IDeviceEvent(type, sourceId, null, value));
     }
 
-    default boolean publish(DeviceEventType type, String sourceId, String targetId, Serializable value) {
-        return publish(new IDeviceEvent(type, sourceId, targetId, value));
+    /**
+     * Convenience method for publish(DeviceEvent). Builds a {@link DeviceEvent}
+     * from the given values and publishes it.
+     * 
+     * @return true if sending is successful, false otherwise
+     */
+    default void publish(DeviceEventType type, String sourceId, String targetId, Serializable value) {
+        publish(new IDeviceEvent(type, sourceId, targetId, value));
     }
 
 }
