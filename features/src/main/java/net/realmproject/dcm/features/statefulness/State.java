@@ -1,6 +1,7 @@
 package net.realmproject.dcm.features.statefulness;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -10,9 +11,9 @@ import net.realmproject.dcm.features.Properties;
 import net.realmproject.dcm.features.recording.Recordable;
 
 
-public class State implements Recordable, Identity, Properties<Object> {
+public class State implements Recordable, Identity, Properties<Serializable>, Serializable {
 
-    private Map<String, Object> properties = new HashMap<>();
+    private Map<String, Serializable> properties = new HashMap<>();
     private String id;
     private boolean toRecord;
 
@@ -47,12 +48,12 @@ public class State implements Recordable, Identity, Properties<Object> {
     }
 
     @Override
-    public void setPropertyMap(Map<String, Object> propertyMap) {
+    public void setPropertyMap(Map<String, Serializable> propertyMap) {
         this.properties = propertyMap;
     }
 
     @Override
-    public Map<String, Object> getPropertyMap() {
+    public Map<String, Serializable> getPropertyMap() {
         return properties;
     }
 

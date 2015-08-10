@@ -3,13 +3,13 @@ package net.realmproject.dcm.event.relay;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventNode;
-import net.realmproject.dcm.event.source.DeviceEventSource;
+import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
 
 
 /**
  * 
  * Interface for DCM event graph nodes which relay events to other nodes, either
- * by being {@link DeviceEventSource}s
+ * by being {@link DeviceEventPublisher}s
  * 
  * @author NAS
  *

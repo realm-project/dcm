@@ -23,7 +23,6 @@ package net.realmproject.dcm.device;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.FilterBuilder;
-import net.realmproject.dcm.features.Publishing;
 import net.realmproject.dcm.features.Values;
 
 
@@ -34,7 +33,7 @@ import net.realmproject.dcm.features.Values;
  * @author NAS
  *
  */
-public abstract class ValueDevice extends Device implements Values, Publishing {
+public abstract class ValueDevice extends Device implements Values {
 
     public ValueDevice(String id, DeviceEventBus bus) {
         super(id, bus);

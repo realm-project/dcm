@@ -1,14 +1,22 @@
 package net.realmproject.dcm.features;
 
-public interface Values extends Publishing {
+
+import java.io.Serializable;
+
+import net.realmproject.dcm.event.DeviceEventType;
+import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
+
+
+public interface Values extends Identity, DeviceEventPublisher {
 
     /**
      * Gets the current value of this device
      * 
      * @return the value of this device
      */
-	Object getValue();
-	
+    Serializable getValue();
+
     /**
      * Sets the value of this device. Users should not expect that a call to
      * setValue(X) followed by a call to getValue() will return X. Due to the
@@ -23,13 +31,13 @@ public interface Values extends Publishing {
      * @param val
      *            The value to set this device to
      */
-	void setValue(Object val);
-	
-	/**
-	 * Publishes the result of the getValue method as a VALUE_CHANGED event
-	 */
-	default void publishValue() {
-		publish(getValue());
-	}
-	
+    void setValue(Serializable val);
+
+    /**
+     * Publishes the result of the getValue method as a VALUE_CHANGED event
+     */
+    default void publishValue() {
+        publish(DeviceEventType.VALUE_CHANGED, getId(), null, getValue());
+    }
+
 }

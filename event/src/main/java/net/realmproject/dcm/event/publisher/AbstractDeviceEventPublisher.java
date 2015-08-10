@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.event.source;
+package net.realmproject.dcm.event.publisher;
 
 
 import net.realmproject.dcm.event.DeviceEvent;
@@ -32,11 +32,11 @@ import net.realmproject.dcm.event.relay.IDeviceEventRelay;
  *
  */
 
-public abstract class AbstractDeviceEventSource extends IDeviceEventRelay implements DeviceEventNode, DeviceEventSource {
+public abstract class AbstractDeviceEventPublisher extends IDeviceEventRelay implements DeviceEventNode, DeviceEventPublisher {
 
     private DeviceEventReceiver receiver;
 
-    public AbstractDeviceEventSource(DeviceEventReceiver receiver) {
+    public AbstractDeviceEventPublisher(DeviceEventReceiver receiver) {
         this.receiver = receiver;
     }
 
@@ -58,7 +58,7 @@ public abstract class AbstractDeviceEventSource extends IDeviceEventRelay implem
     }
 
     @Override
-    public boolean send(DeviceEvent event) {
+    public boolean publish(DeviceEvent event) {
         if (event == null) { return false; }
         if (!filter(event)) { return false; }
         return doSend(transform(event));

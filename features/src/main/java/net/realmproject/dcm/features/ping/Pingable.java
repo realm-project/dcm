@@ -5,10 +5,11 @@ import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventType;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.FilterBuilder;
-import net.realmproject.dcm.features.Publishing;
+import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
 
 
-public interface Pingable extends Publishing {
+public interface Pingable extends Identity, DeviceEventPublisher {
 
     default void initPingable(DeviceEventBus bus) {
         // Respond to Pings
@@ -17,7 +18,7 @@ public interface Pingable extends Publishing {
 
     default void onPing(DeviceEvent event) {
         Ping ping = (Ping) event.getPayload();
-        publish(ping, event.getSourceId(), DeviceEventType.MESSAGE);
+        publish(DeviceEventType.MESSAGE, event.getSourceId(), ping);
     }
 
 }

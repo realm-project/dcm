@@ -17,10 +17,14 @@
  * 
  */
 
-package net.realmproject.dcm.event.source;
+package net.realmproject.dcm.event.publisher;
 
+
+import java.io.Serializable;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.event.DeviceEventType;
+import net.realmproject.dcm.event.IDeviceEvent;
 
 
 /**
@@ -30,7 +34,7 @@ import net.realmproject.dcm.event.DeviceEvent;
  * @author NAS
  *
  */
-public interface DeviceEventSource {
+public interface DeviceEventPublisher {
 
     /**
      * Sends the given {@link DeviceEvent}. If this component is not currently
@@ -41,6 +45,14 @@ public interface DeviceEventSource {
      *            the event to send
      * @return true if sending is successful, false otherwise
      */
-    boolean send(DeviceEvent event);
+    boolean publish(DeviceEvent event);
+
+    default boolean publish(DeviceEventType type, String sourceId, Serializable value) {
+        return publish(new IDeviceEvent(type, sourceId, null, value));
+    }
+
+    default boolean publish(DeviceEventType type, String sourceId, String targetId, Serializable value) {
+        return publish(new IDeviceEvent(type, sourceId, targetId, value));
+    }
 
 }
