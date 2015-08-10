@@ -17,8 +17,8 @@ import java.util.Map;
 public interface Properties<T> {
 
     default T getProperty(String key, T defaultValue) {
-        if (!getPropertyMap().containsKey(key)) { return defaultValue; }
-        return getPropertyMap().get(key);
+        if (!getProperties().containsKey(key)) { return defaultValue; }
+        return getProperties().get(key);
     }
 
     default T getProperty(String key) {
@@ -26,11 +26,11 @@ public interface Properties<T> {
     }
 
     default void setProperty(String key, T value) {
-        getPropertyMap().put(key, value);
+        getProperties().put(key, value);
     }
 
-    void setPropertyMap(Map<String, T> propertyMap);
+    void setProperties(Map<String, T> propertyMap);
 
-    Map<String, T> getPropertyMap();
+    Map<String, T> getProperties();
 
 }

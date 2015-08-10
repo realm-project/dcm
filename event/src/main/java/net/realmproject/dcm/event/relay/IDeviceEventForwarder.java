@@ -27,7 +27,8 @@ import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 
 
 /**
- * Forwards events from one DeviceEventBus to another.
+ * Forwards events to a {@link DeviceEventReceiver}. Optionally accepts a
+ * {@link DeviceEventBus} to subscribe to for events.
  * 
  * @author NAS
  *

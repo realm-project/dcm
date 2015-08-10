@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.publisher.AbstractDeviceEventPublisher;
+import net.realmproject.dcm.event.publisher.IDeviceEventPublisher;
 import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.WireMessage;
@@ -40,7 +40,7 @@ import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
  * @author NAS
  *
  */
-public class IWireMessageSink extends AbstractDeviceEventPublisher implements WireMessageSink, DeviceEventPublisher {
+public class IWireMessageSink extends IDeviceEventPublisher implements WireMessageSink, DeviceEventPublisher {
 
     private Transcoder<WireMessage, Serializable> transcoder;
 

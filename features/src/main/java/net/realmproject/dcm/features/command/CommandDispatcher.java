@@ -72,7 +72,7 @@ public class CommandDispatcher {
             if (commanded.getLog().isTraceEnabled()) {
                 commanded.getLog().trace("Device " + commanded.getId() + " received command: " + command.getAction());
                 commanded.getLog().trace(commanded.getId() + ":" + command.getAction() + ":"
-                        + DCMSerialize.serialize(command.getPropertyMap()));
+                        + DCMSerialize.serialize(command.getProperties()));
             }
 
             // Look up method for command
@@ -105,7 +105,7 @@ public class CommandDispatcher {
                 // expected parameter class type
 
                 latestCommand = command;
-                Object arg = DCMSerialize.convertObject(command.getPropertyMap(), method.getParameterTypes()[0]);
+                Object arg = DCMSerialize.convertObject(command.getProperties(), method.getParameterTypes()[0]);
                 method.invoke(commanded, arg);
 
             } else {
@@ -124,11 +124,11 @@ public class CommandDispatcher {
                             "Named argument calls must have parameters with Arg annotations"); }
                     Arg arg = args[0];
                     String paramName = arg.value();
-                    if (!command.getPropertyMap().containsKey(paramName)) {
+                    if (!command.getProperties().containsKey(paramName)) {
                         continue;
                     }
 
-                    Object argValue = command.getPropertyMap().get(paramName);
+                    Object argValue = command.getProperties().get(paramName);
                     argValues[count] = DCMSerialize.convertObject(argValue, method.getParameterTypes()[count]);
 
                 }

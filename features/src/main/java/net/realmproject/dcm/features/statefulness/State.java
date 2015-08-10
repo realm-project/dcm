@@ -48,12 +48,12 @@ public class State implements Recordable, Identity, Properties<Serializable>, Se
     }
 
     @Override
-    public void setPropertyMap(Map<String, Serializable> propertyMap) {
+    public void setProperties(Map<String, Serializable> propertyMap) {
         this.properties = propertyMap;
     }
 
     @Override
-    public Map<String, Serializable> getPropertyMap() {
+    public Map<String, Serializable> getProperties() {
         return properties;
     }
 

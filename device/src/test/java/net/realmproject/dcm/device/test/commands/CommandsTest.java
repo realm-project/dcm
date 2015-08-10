@@ -87,7 +87,7 @@ public class CommandsTest {
 
         Command command = DCMSerialize.deserialize(json, Command.class);
 
-        Assert.assertNotNull(command.getPropertyMap());
+        Assert.assertNotNull(command.getProperties());
         Assert.assertEquals("f", command.getAction());
         Assert.assertEquals("value1", command.getProperty("arg1"));
 

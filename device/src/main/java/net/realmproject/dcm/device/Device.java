@@ -25,11 +25,11 @@ import org.apache.commons.logging.LogFactory;
 
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.identity.Identity;
-import net.realmproject.dcm.event.publisher.AbstractDeviceEventPublisher;
+import net.realmproject.dcm.event.publisher.IDeviceEventPublisher;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 
 
-public class Device extends AbstractDeviceEventPublisher implements Identity, Logging {
+public class Device extends IDeviceEventPublisher implements Identity, Logging {
 
     private String id = null;
     private final Log log = LogFactory.getLog(getClass());

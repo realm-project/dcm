@@ -32,36 +32,19 @@ import net.realmproject.dcm.event.relay.IDeviceEventRelay;
  *
  */
 
-public abstract class AbstractDeviceEventPublisher extends IDeviceEventRelay
-        implements DeviceEventNode, DeviceEventPublisher {
+public class IDeviceEventPublisher extends IDeviceEventRelay implements DeviceEventNode, DeviceEventPublisher {
 
     private DeviceEventReceiver receiver;
 
-    public AbstractDeviceEventPublisher(DeviceEventReceiver receiver) {
+    public IDeviceEventPublisher(DeviceEventReceiver receiver) {
         this.receiver = receiver;
-    }
-
-    // this method is intended to allow different implementations of the sending
-    // action but any attempt to actually send an event should go send(event),
-    // since it wraps this method and performs required bookkeeping that this
-    // method does not
-    /**
-     * This method is for internal use only, and should not be called. Call
-     * publish(event) instead.
-     * 
-     * @param event
-     *            the event to send
-     */
-
-    protected void doPublish(DeviceEvent event) {
-        receiver.accept(event);
     }
 
     @Override
     public void publish(DeviceEvent event) {
         if (event == null) { return; }
         if (!filter(event)) { return; }
-        doPublish(transform(event));
+        receiver.accept(transform(event));
     }
 
 }
