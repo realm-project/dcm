@@ -60,11 +60,11 @@ A few things to note:
 
 ### Complex event graphs
 
-There are some situations where having more than one event bus (per machine) is desirable. In these cases, busses can be connected together using Relays. A relay forwards events from a source (optionally a bus) to a target event receiver (a bus, another relay, a recorder, etc)
+Most components in an event graph (bus, relay, recorder, etc) support filtering and transforming events. 
+
+There are some situations where having more than one event bus (per machine) is desirable. A Relay can pass events from a source to a target, such as one bus to another. Filtering and transforming allows a relay to be more selective in determing which events to pass on and what form those passed-on events should take.
 
 ![Relay Layout](documentation/images/layout-relay.png)
-
-Most components in an event graph (bus, relay, recorder, etc) support filtering and transforming events. A relay can be configured to only pass specific events from one bus to the other.
 
 
 Command Driven Devices (High-Level API)
