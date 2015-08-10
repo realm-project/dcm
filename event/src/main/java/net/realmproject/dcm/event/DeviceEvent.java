@@ -24,8 +24,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.identity.SourceIdentity;
-import net.realmproject.dcm.event.identity.TargetIdentity;
 
 
 /**
@@ -36,7 +34,7 @@ import net.realmproject.dcm.event.identity.TargetIdentity;
  * @author NAS
  *
  */
-public interface DeviceEvent extends Serializable, Payload<Serializable>, SourceIdentity, TargetIdentity {
+public interface DeviceEvent extends Serializable {
 
     /**
      * Gets the type of this event
@@ -52,6 +50,21 @@ public interface DeviceEvent extends Serializable, Payload<Serializable>, Source
      *            the new type of this event
      */
     void setDeviceEventType(DeviceEventType type);
+
+    /**
+     * Gets the current payload for this DeviceEvent.
+     * 
+     * @return The current payload. May be null.
+     */
+    <S extends Serializable> S getPayload();
+
+    /**
+     * Sets the payload for this DeviceEvent.
+     * 
+     * @param payload
+     *            The new payload. May be null.
+     */
+    void setPayload(Serializable payload);
 
     /**
      * Gets the time that this event was published (according to the computer
@@ -105,29 +118,88 @@ public interface DeviceEvent extends Serializable, Payload<Serializable>, Source
      */
     void setPrivateEvent(boolean privateEvent);
 
+    /**
+     * Fluent API convenience method. See setSourceId
+     * 
+     * @return This DeviceEvent
+     */
     default DeviceEvent sourceId(String sourceId) {
         setSourceId(sourceId);
         return this;
     }
 
+    /**
+     * Fluent API convenience method. See setTargetId
+     * 
+     * @return This DeviceEvent
+     */
     default DeviceEvent targetId(String targetId) {
         setTargetId(targetId);
         return this;
     }
 
+    /**
+     * Fluent API convenience method. See setPayload
+     * 
+     * @return This DeviceEvent
+     */
     default DeviceEvent payload(Serializable payload) {
         setPayload(payload);
         return this;
     }
 
+    /**
+     * Fluent API convenience method. See setTimestamp
+     * 
+     * @return This DeviceEvent
+     */
     default DeviceEvent timestamp(Date timestamp) {
         setTimestamp(timestamp);
         return this;
     }
 
+    /**
+     * Fluent API convenience method. See setDeviceEventType
+     * 
+     * @return This DeviceEvent
+     */
     default DeviceEvent type(DeviceEventType type) {
         setDeviceEventType(type);
         return this;
     }
+
+    /**
+     * Represents the id of the Device this event is intended for. Only messages
+     * intended as point-to-point will require this field
+     * 
+     * @return the id of the target Device
+     */
+    String getTargetId();
+
+    /**
+     * Represents the id of the Device this event is intended for. Only messages
+     * intended as point-to-point will require this field
+     * 
+     * @param target
+     *            the new id of the target Device
+     */
+    void setTargetId(String target);
+
+    /**
+     * Represents the id of the Device which emitted this event. This field
+     * should be set for all messages.
+     * 
+     * @return the id of the source Device
+     */
+    String getSourceId();
+
+    /**
+     * Represents the id of the Device which emitted this event. This field
+     * should be set for all messages.
+     * 
+     * @param id
+     *            the new id of the source Device
+     */
+    void setSourceId(String id);
 
 }
