@@ -15,7 +15,7 @@ The Device Control Module is an event handling system designed to facilitate int
  * Built-in event filtering and device isolation
 
 
-Event Bus Topology
+Event Graph Topology
 ---
 
 ### Basic Layout
@@ -57,6 +57,15 @@ A few things to note:
 
  * Related components can communicate with each other privately through message passing. Devices are not limited to passing status updates to an Accessor.
  * Events can be marked private, which instructs the event bus system not to forward the events out of their zone.
+
+### Complex event graphs
+
+There are some situations where having more than one event bus (per machine) is desirable. In these cases, busses can be connected together using Relays. A relay forwards events from a source (optionally a bus) to a target event receiver (a bus, another relay, a recorder, etc)
+
+![Relay Layout](documentation/images/layout-relay.png)
+
+Most components in an event graph (bus, relay, recorder, etc) support filtering and transforming events. A relay can be configured to only pass specific events from one bus to the other.
+
 
 Command Driven Devices (High-Level API)
 ---
