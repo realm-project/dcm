@@ -96,4 +96,25 @@ public class EventNode {
 
     }
 
+    // make sure busses aren't propagating events from other zones
+    @Test
+    public void zone() throws InterruptedException {
+
+        DeviceEventBus bus1 = new IDeviceEventBus("zone-1");
+        DeviceEventBus bus2 = new IDeviceEventBus("zone-1");
+        new IDeviceEventBridge(bus1, bus2);
+
+        BlockingQueue<DeviceEvent> eventQueue = bus2.subscriptionQueue();
+        DeviceEvent event;
+        event = new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "Hello");
+        // event.setPrivateEvent(true);
+        // bus1.accept(event);
+        event = new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "World");
+        bus1.accept(event);
+
+        event = eventQueue.poll(5, TimeUnit.SECONDS);
+        Assert.assertEquals("World", event.getPayload());
+
+    }
+
 }
