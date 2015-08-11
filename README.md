@@ -57,7 +57,7 @@ When events are created, they contain a null zone field. When an event is first 
 A few things to note:
 
  * Related components can communicate with each other privately through message passing. Devices are not limited to passing status updates to an Accessor.
- * Events can be marked private, which instructs the event bus system not to forward the events out of their zone.
+ * Events can be marked private, which instructs an event bus system not to accept it if it is froma different zone.
 
 ### Complex event graphs
 
