@@ -27,7 +27,7 @@ public class DeviceCommanderUnitTest {
         DeviceAccessor<TestState> deviceCommander = new IDeviceAccessor<>(ID, ID, bus);
 
         deviceCommander.sendMessage(new Command(COMMAND).property(MESSAGE));
-        Thread.sleep(1000);
+        sleep();
         assertEquals(MESSAGE, deviceCommander.getState().getMessage());
     }
 
@@ -39,11 +39,11 @@ public class DeviceCommanderUnitTest {
         DeviceAccessor<TestState> deviceWriter = new IDeviceAccessor<>(ID, ID, bus);
 
         deviceWriter.sendMessage(new Command(COMMAND).property(MESSAGE));
-        Thread.sleep(1000);
+        sleep();
         assertEquals(MESSAGE, deviceWriter.getState().getMessage());
 
         deviceWriter.sendMessage(new Command(COMMAND).property(ANOTHER_MESSAGE));
-        Thread.sleep(1000);
+        sleep();
         assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getMessage());
     }
 
@@ -56,9 +56,13 @@ public class DeviceCommanderUnitTest {
 
         deviceWriter.sendMessage(
                 new Command("setTwoMessages").property("message", MESSAGE).property("secondMessage", ANOTHER_MESSAGE));
-        Thread.sleep(1000);
+        sleep();
         assertEquals(MESSAGE, deviceWriter.getState().getMessage());
         assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getSecondMessage());
+    }
+
+    private void sleep() throws InterruptedException {
+        Thread.sleep(500);
     }
 
 }
