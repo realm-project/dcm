@@ -33,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.relay.AbstractDeviceEventRelay;
+import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
@@ -62,35 +63,10 @@ public class IDeviceEventBus extends AbstractDeviceEventRelay implements DeviceE
             while (true) {
                 try {
                     event = transform(eventqueue.take());
-
-                    // only label event with our zone if it hasn't already
-                    // been set. relabelling of events should be a conscious
-                    // choice of a repeater
-                    if (event.getZone() == null) {
-                        event.setZone(getZone());
-                    }
-
-                    synchronized (this) {
-                        for (Consumer<DeviceEvent> consumer : new ArrayList<>(consumers)) {
-                            try {
-                                // give a different copy to each recipient
-                                // to prevent one from modifying it for
-                                // others
-                                consumer.accept(event);
-                            }
-                            catch (Exception e) {
-                                // the eventbus thread cannot die, any
-                                // exceptions which
-                                // remain uncaught at this point should be
-                                // logged, but
-                                // discarded
-                                getLog().error(event, e);
-                            }
-                        }
-                    }
+                    broadcast(event);
                 }
                 catch (InterruptedException e) {
-                    getLog().warn("Event bus thread has been interrupted.", e);
+                    getLog().warn("Event bus thread has been interrupted.");
                     Thread.currentThread().interrupt();
                     return;
                 }
@@ -105,13 +81,27 @@ public class IDeviceEventBus extends AbstractDeviceEventRelay implements DeviceE
 
     }
 
+    private synchronized void broadcast(DeviceEvent event) {
+        for (Consumer<DeviceEvent> consumer : new ArrayList<>(consumers)) {
+            // shallow copy to ensure things like route are not clobbered by
+            // different nodes further on.
+            DCMInterrupt.handle(() -> consumer.accept(event.shallowCopy()), e -> getLog().error(event, e));
+        }
+    }
+
     @Override
     public synchronized void accept(DeviceEvent event) {
         if (event == null) { return; }
         if (event.getRoute().contains(getId())) { return; } // cycle detection
-        event.getRoute().push(getId());
+        event.getRoute().add(getId());
 
-        boolean isPrivate = event.isPrivateEvent();
+        // only label event with our zone if it hasn't already been set.
+        // Relabelling of events should be a conscious choice of a relay
+        if (event.getZone() == null) {
+            event.setZone(getZone());
+        }
+
+        boolean isPrivate = event.isPrivate();
         boolean sameZone = getZone() != null && getZone().equals(event.getZone());
 
         // private events from other zones will not be propagated
@@ -138,6 +128,10 @@ public class IDeviceEventBus extends AbstractDeviceEventRelay implements DeviceE
 
     public String getZone() {
         return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
     }
 
     @Override

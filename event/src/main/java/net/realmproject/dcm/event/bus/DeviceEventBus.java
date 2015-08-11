@@ -119,4 +119,14 @@ public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventNode {
      */
     String getZone();
 
+    /**
+     * Sets the zone for this this DeviceEventBus. Larger or more complex
+     * collections of devices can be split up into zones. Events can be filtered
+     * by zone to isolate certain devices, or to keep the number of events to a
+     * minimum
+     * 
+     * @param zone
+     */
+    void setZone(String zone);
+
 }

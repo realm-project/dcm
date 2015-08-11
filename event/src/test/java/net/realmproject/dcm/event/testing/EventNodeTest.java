@@ -107,8 +107,7 @@ public class EventNodeTest {
         BlockingQueue<DeviceEvent> eventQueue = bus2.subscriptionQueue();
         DeviceEvent event;
         event = new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "Hello");
-        event.setPrivateEvent(true);
-        event.setZone("zone-1");
+        event.setPrivate(true);
         bus1.accept(event);
         event = new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "World");
         bus1.accept(event);

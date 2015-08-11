@@ -27,7 +27,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.List;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
@@ -80,7 +81,7 @@ public class IDeviceEvent implements DeviceEvent {
      */
     private String zone = null;
     private boolean privateEvent = false;
-    private Stack<String> route = new Stack<>();
+    private List<String> route = new LinkedList<>();
 
     /**************************************************************************/
 
@@ -170,12 +171,12 @@ public class IDeviceEvent implements DeviceEvent {
     }
 
     @Override
-    public boolean isPrivateEvent() {
+    public boolean isPrivate() {
         return privateEvent;
     }
 
     @Override
-    public void setPrivateEvent(boolean privateEvent) {
+    public void setPrivate(boolean privateEvent) {
         this.privateEvent = privateEvent;
     }
 
@@ -200,6 +201,23 @@ public class IDeviceEvent implements DeviceEvent {
         catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public DeviceEvent shallowCopy() {
+        IDeviceEvent copy = new IDeviceEvent();
+        copy.timestamp = timestamp;
+        copy.sourceId = sourceId;
+        copy.targetId = targetId;
+        copy.type = type;
+        copy.payload = payload;
+        copy.zone = zone;
+        copy.privateEvent = privateEvent;
+
+        // copy the elements of the route stack, rather than the stack itself
+        copy.route.addAll(route);
+
+        return copy;
     }
 
     @Override
@@ -233,7 +251,7 @@ public class IDeviceEvent implements DeviceEvent {
     }
 
     @Override
-    public Stack<String> getRoute() {
+    public List<String> getRoute() {
         return route;
     }
 

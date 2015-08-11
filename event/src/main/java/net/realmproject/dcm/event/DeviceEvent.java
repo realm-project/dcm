@@ -22,7 +22,7 @@ package net.realmproject.dcm.event;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Stack;
+import java.util.List;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
@@ -109,7 +109,7 @@ public interface DeviceEvent extends Serializable {
      * 
      * @return true if this event is private, false otherwise.
      */
-    boolean isPrivateEvent();
+    boolean isPrivate();
 
     /**
      * Sets this event as private.
@@ -117,7 +117,7 @@ public interface DeviceEvent extends Serializable {
      * @param privateEvent
      *            indicates if this event is private.
      */
-    void setPrivateEvent(boolean privateEvent);
+    void setPrivate(boolean privateEvent);
 
     /**
      * Fluent API convenience method. See setSourceId
@@ -169,6 +169,16 @@ public interface DeviceEvent extends Serializable {
         return this;
     }
 
+    default DeviceEvent zone(String zone) {
+        setZone(zone);
+        return this;
+    }
+
+    default DeviceEvent privateEvent(boolean privateEvent) {
+        setPrivate(privateEvent);
+        return this;
+    }
+
     /**
      * Represents the id of the Device this event is intended for. Only messages
      * intended as point-to-point will require this field
@@ -204,17 +214,26 @@ public interface DeviceEvent extends Serializable {
     void setSourceId(String id);
 
     /**
-     * Performs a deep copy of this DeviceEvent.
+     * Performs a deep copy of this DeviceEvent including making a copy of the
+     * payload.
      * 
      * @return The deep copy of this DeviceEvent
      */
     public DeviceEvent deepCopy();
 
     /**
+     * Performs a deep copy of this DeviceEvent without making a copy of the
+     * payload.
+     * 
+     * @return The shallow copy of this DeviceEvent
+     */
+    public DeviceEvent shallowCopy();
+
+    /**
      * Retrieves the route this event has traveled
      * 
      * @return the stack of nodes this event has traversed
      */
-    public Stack<String> getRoute();
+    public List<String> getRoute();
 
 }
