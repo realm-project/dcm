@@ -108,6 +108,9 @@ public class IDeviceEventBus extends AbstractDeviceEventRelay implements DeviceE
     @Override
     public synchronized void accept(DeviceEvent event) {
         if (event == null) { return; }
+        if (event.getRoute().contains(getId())) { return; } // cycle detection
+        event.getRoute().push(getId());
+
         boolean isPrivate = event.isPrivateEvent();
         boolean sameZone = getZone() != null && getZone().equals(event.getZone());
 

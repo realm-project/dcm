@@ -49,6 +49,8 @@ public class IDeviceEventRelay extends AbstractDeviceEventRelay implements Devic
     @Override
     public void accept(DeviceEvent event) {
         if (!filter(event)) { return; }
+        if (event.getRoute().contains(getId())) { return; } // cycle detection
+        event.getRoute().push(getId());
         to.accept(transform(event));
     }
 

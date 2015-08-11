@@ -13,7 +13,7 @@ public interface Heartbeat extends Connection {
 
     default ScheduledFuture<?> initHeartbeat(int interval) {
         initConnection();
-        return DCMThreadPool.getPool().scheduleAtFixedRate(this::heartbeat, interval, interval, TimeUnit.SECONDS);
+        return DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::heartbeat, interval, interval, TimeUnit.SECONDS);
     }
 
     default void heartbeat() {

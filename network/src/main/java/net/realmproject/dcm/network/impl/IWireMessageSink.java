@@ -24,13 +24,12 @@ import java.io.Serializable;
 
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.publisher.IDeviceEventPublisher;
 import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
+import net.realmproject.dcm.event.publisher.IDeviceEventPublisher;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSink;
 import net.realmproject.dcm.network.transcoder.Transcoder;
-import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
 
 
 /**
@@ -44,8 +43,8 @@ public class IWireMessageSink extends IDeviceEventPublisher implements WireMessa
 
     private Transcoder<WireMessage, Serializable> transcoder;
 
-	public IWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder) {
-		super(receiver);
+    public IWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder) {
+        super(receiver);
         this.transcoder = transcoder;
     }
 

@@ -15,7 +15,7 @@ import net.realmproject.dcm.event.bus.IDeviceEventBridge;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
 
 
-public class EventNode {
+public class EventNodeTest {
 
     // test to make sure a bus is relaying a payload reliably
     @Test
@@ -26,7 +26,7 @@ public class EventNode {
 
         bus.accept(new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "Hello"));
 
-        DeviceEvent event = eventQueue.take();
+        DeviceEvent event = eventQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("Hello", event.getPayload());
 
     }
@@ -43,7 +43,7 @@ public class EventNode {
         bus.accept(new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, sb));
         sb.append(" World!"); // modify payload state after sending
 
-        DeviceEvent event = eventQueue.take();
+        DeviceEvent event = eventQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("Hello", event.getPayload().toString());
     }
 
@@ -58,7 +58,7 @@ public class EventNode {
         bus.accept(new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "Hello"));
         bus.accept(new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "World"));
 
-        DeviceEvent event = eventQueue.take();
+        DeviceEvent event = eventQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World", event.getPayload().toString());
 
     }
@@ -76,7 +76,7 @@ public class EventNode {
 
         bus.accept(new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "World"));
 
-        DeviceEvent event = eventQueue.take();
+        DeviceEvent event = eventQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World!", event.getPayload().toString());
 
     }
@@ -101,14 +101,15 @@ public class EventNode {
     public void zone() throws InterruptedException {
 
         DeviceEventBus bus1 = new IDeviceEventBus("zone-1");
-        DeviceEventBus bus2 = new IDeviceEventBus("zone-1");
+        DeviceEventBus bus2 = new IDeviceEventBus("zone-2");
         new IDeviceEventBridge(bus1, bus2);
 
         BlockingQueue<DeviceEvent> eventQueue = bus2.subscriptionQueue();
         DeviceEvent event;
         event = new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "Hello");
-        // event.setPrivateEvent(true);
-        // bus1.accept(event);
+        event.setPrivateEvent(true);
+        event.setZone("zone-1");
+        bus1.accept(event);
         event = new IDeviceEvent(DeviceEventType.MESSAGE, "testid", null, "World");
         bus1.accept(event);
 

@@ -27,6 +27,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Stack;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
@@ -79,6 +80,7 @@ public class IDeviceEvent implements DeviceEvent {
      */
     private String zone = null;
     private boolean privateEvent = false;
+    private Stack<String> route = new Stack<>();
 
     /**************************************************************************/
 
@@ -228,6 +230,11 @@ public class IDeviceEvent implements DeviceEvent {
     @Override
     public void setDeviceEventType(DeviceEventType type) {
         this.type = type;
+    }
+
+    @Override
+    public Stack<String> getRoute() {
+        return route;
     }
 
 }

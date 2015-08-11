@@ -20,8 +20,10 @@
 package net.realmproject.dcm.util;
 
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
@@ -37,15 +39,54 @@ import org.apache.commons.logging.LogFactory;
 public class DCMThreadPool {
 
     private static Log log = LogFactory.getLog(DCMThreadPool.class);
+    public static boolean daemonThreads = true;
 
-    private static ScheduledExecutorService pool = Executors.newScheduledThreadPool(5);
+    private static ThreadFactory threadFactory = runnable -> {
+        Thread t = new Thread(runnable);
+        t.setDaemon(daemonThreads);
+        return t;
+    };
 
-    public static ScheduledExecutorService getPool() {
+    private static ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(10, threadFactory);
+    private static ExecutorService pool = Executors.newCachedThreadPool(threadFactory);
+
+    /**
+     * Returns the scheduled thread pool execution service. This pool is of a
+     * fixed, limited size, and so long running tasks should not be put in this
+     * pool. Longer running tasks should be run through the normal task pool.
+     * see {@link DCMThreadPool#getPool()}
+     * 
+     * Threads running in this pool will be interrupted on application
+     * termination when {@link DCMThreadPool#stop()} is called. This is useful
+     * when running in an environment such as Tomcat.
+     * 
+     * @return The scheduled thread pool
+     */
+    public static ScheduledExecutorService getScheduledPool() {
+        return scheduledPool;
+    }
+
+    /**
+     * Returns the thread pool. This pool is of a flexible size. Long running
+     * tasks should be submitted to this pool, rather than the scheduled pool,
+     * which is of a fixed size.
+     * 
+     * Threads running in this pool will be interrupted on application
+     * termination when {@link DCMThreadPool#stop()} is called. This is useful
+     * when running in an environment such as Tomcat.
+     * 
+     * @return The thread pool
+     */
+    public static ExecutorService getPool() {
         return pool;
     }
 
     public static void stop() {
+        shutdownPool(scheduledPool);
+        shutdownPool(pool);
+    }
 
+    private static void shutdownPool(ExecutorService pool) {
         pool.shutdown();
         boolean success;
 
@@ -72,7 +113,6 @@ public class DCMThreadPool {
             log.warn("Forced shutdown of threadpool failed", e);
             Thread.currentThread().interrupt();
         }
-
     }
 
 }

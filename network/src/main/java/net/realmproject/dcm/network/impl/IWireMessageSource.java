@@ -51,7 +51,9 @@ public abstract class IWireMessageSource extends AbstractDeviceEventRelay
 
     @Override
     public void accept(DeviceEvent event) {
-        send(new WireMessage(event));
+        if (event.getRoute().contains(getId())) { return; } // cycle detection
+        event.getRoute().push(getId());
+        send(new WireMessage(transform(event)));
     }
 
     @Override

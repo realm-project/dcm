@@ -22,6 +22,7 @@ package net.realmproject.dcm.event;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Stack;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
@@ -208,5 +209,12 @@ public interface DeviceEvent extends Serializable {
      * @return The deep copy of this DeviceEvent
      */
     public DeviceEvent deepCopy();
+
+    /**
+     * Retrieves the route this event has traveled
+     * 
+     * @return the stack of nodes this event has traversed
+     */
+    public Stack<String> getRoute();
 
 }

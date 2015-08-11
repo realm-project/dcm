@@ -17,7 +17,7 @@ public class IDeviceLatencyMonitor extends IDevicePinger implements DeviceLatenc
 
     public IDeviceLatencyMonitor(String id, DeviceEventBus bus, String targetId, int interval) {
         super(id, bus, targetId);
-        DCMThreadPool.getPool().scheduleAtFixedRate(this::ping, interval, interval, TimeUnit.SECONDS);
+        DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::ping, interval, interval, TimeUnit.SECONDS);
     }
 
 }

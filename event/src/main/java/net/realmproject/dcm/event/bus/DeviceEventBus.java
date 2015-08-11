@@ -86,7 +86,10 @@ public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventNode {
      */
     default BlockingQueue<DeviceEvent> subscriptionQueue() {
         BlockingQueue<DeviceEvent> queue = new LinkedBlockingQueue<>();
-        subscribe(event -> queue.offer(event));
+        subscribe(event -> {
+            System.out.println("Adding event " + event.getPayload());
+            queue.offer(event);
+        });
         return queue;
     }
 
