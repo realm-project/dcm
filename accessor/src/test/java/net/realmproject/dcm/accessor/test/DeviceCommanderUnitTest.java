@@ -20,35 +20,35 @@ public class DeviceCommanderUnitTest {
     static final String COMMAND = "setMessage";
 
     @Test
-    public void testDeviceReader1() {
+    public void testDeviceReader1() throws InterruptedException {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
         DeviceAccessor<TestState> deviceCommander = new IDeviceAccessor<>(ID, ID, bus);
 
         deviceCommander.sendMessage(new Command(COMMAND).property(MESSAGE));
-        sleep();
+        Thread.sleep(1000);
         assertEquals(MESSAGE, deviceCommander.getState().getMessage());
     }
 
     @Test
-    public void testDeviceReader2() {
+    public void testDeviceReader2() throws InterruptedException {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
         DeviceAccessor<TestState> deviceWriter = new IDeviceAccessor<>(ID, ID, bus);
 
         deviceWriter.sendMessage(new Command(COMMAND).property(MESSAGE));
-        sleep();
+        Thread.sleep(1000);
         assertEquals(MESSAGE, deviceWriter.getState().getMessage());
 
         deviceWriter.sendMessage(new Command(COMMAND).property(ANOTHER_MESSAGE));
-        sleep();
+        Thread.sleep(1000);
         assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getMessage());
     }
 
     @Test
-    public void testDeviceReader3() {
+    public void testDeviceReader3() throws InterruptedException {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
@@ -56,18 +56,9 @@ public class DeviceCommanderUnitTest {
 
         deviceWriter.sendMessage(
                 new Command("setTwoMessages").property("message", MESSAGE).property("secondMessage", ANOTHER_MESSAGE));
-        sleep();
+        Thread.sleep(1000);
         assertEquals(MESSAGE, deviceWriter.getState().getMessage());
         assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getSecondMessage());
-    }
-
-    private void sleep() {
-        try {
-            Thread.sleep(500);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
 }
