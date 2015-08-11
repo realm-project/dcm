@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="336.7383"
-     inkscape:cy="405.6444"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="291.96244"
+     inkscape:cy="410.84401"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer3"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1016"
@@ -255,7 +255,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -268,11 +268,38 @@
        ry="15"
        rx="15.000001"
        y="324.69553"
+       x="485.03955"
+       height="166.81833"
+       width="214.96045"
+       id="rect10709"
+       style="color:#000000;fill:#7e57c2;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;filter:url(#filter3987)"
+       id="rect3959"
+       width="214.96045"
+       height="166.81833"
+       x="485.03955"
+       y="324.69553"
+       rx="15.000001"
+       ry="15" />
+    <rect
+       ry="15"
+       rx="15.000001"
+       y="324.69553"
        x="0"
        height="166.81833"
        width="214.96045"
        id="rect7506"
-       style="color:#000000;fill:#90a4ae;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+       style="color:#000000;fill:#7e57c2;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;filter:url(#filter3979)"
+       id="rect3943"
+       width="214.96045"
+       height="166.81833"
+       x="0"
+       y="324.69553"
+       rx="15.000001"
+       ry="15" />
     <rect
        style="color:#000000;fill:#cfd8dc;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect7502-3"
@@ -295,38 +322,11 @@
        ry="15"
        rx="15.000001"
        y="324.69553"
-       x="485.03955"
-       height="166.81833"
-       width="214.96045"
-       id="rect10709"
-       style="color:#000000;fill:#90a4ae;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <rect
-       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;filter:url(#filter3979)"
-       id="rect3943"
-       width="214.96045"
-       height="166.81833"
-       x="0"
-       y="324.69553"
-       rx="15.000001"
-       ry="15" />
-    <rect
-       ry="15"
-       rx="15.000001"
-       y="324.69553"
        x="242.51978"
        height="166.81833"
        width="214.96045"
        id="rect3953"
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;filter:url(#filter3955)" />
-    <rect
-       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;filter:url(#filter3987)"
-       id="rect3959"
-       width="214.96045"
-       height="166.81833"
-       x="485.03955"
-       y="324.69553"
-       rx="15.000001"
-       ry="15" />
     <rect
        ry="15"
        rx="15"
