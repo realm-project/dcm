@@ -20,7 +20,7 @@ public class DeviceCommanderUnitTest {
     static final String COMMAND = "setMessage";
 
     @Test
-    public void testDeviceReader1() {
+    public void testDeviceReader1() throws InterruptedException {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
@@ -32,7 +32,7 @@ public class DeviceCommanderUnitTest {
     }
 
     @Test
-    public void testDeviceReader2() {
+    public void testDeviceReader2() throws InterruptedException {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
@@ -48,7 +48,7 @@ public class DeviceCommanderUnitTest {
     }
 
     @Test
-    public void testDeviceReader3() {
+    public void testDeviceReader3() throws InterruptedException {
 
         DeviceEventBus bus = new IDeviceEventBus();
         new TestAnnotatedCommandDevice(ID, bus);
@@ -61,13 +61,8 @@ public class DeviceCommanderUnitTest {
         assertEquals(ANOTHER_MESSAGE, deviceWriter.getState().getSecondMessage());
     }
 
-    private void sleep() {
-        try {
-            Thread.sleep(200);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    private void sleep() throws InterruptedException {
+        Thread.sleep(500);
     }
 
 }
