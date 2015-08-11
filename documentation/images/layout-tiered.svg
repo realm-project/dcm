@@ -26,10 +26,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="331.56741"
-     inkscape:cy="454.04343"
+     inkscape:cx="249.82115"
+     inkscape:cy="429.22654"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1043"
@@ -317,7 +317,7 @@
          height="45.5"
          width="165.21428"
          id="rect7524"
-         style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#e53935;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
+         style="color:#000000;fill:#d32f2f;fill-opacity:1;fill-rule:nonzero;stroke:#c62828;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text7526"
@@ -356,7 +356,7 @@
            height="45.5"
            width="165.21428"
            id="rect7460"
-           style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#4caf50;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
+           style="color:#000000;fill:#388e3c;fill-opacity:1;fill-rule:nonzero;stroke:#2e7d32;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
         <text
            sodipodi:linespacing="125%"
            id="text7462"
@@ -383,7 +383,7 @@
              height="45.5"
              width="165.21428"
              id="rect7468"
-             style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#03a9f4;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
+             style="color:#000000;fill:#0288d1;fill-opacity:1;fill-rule:nonzero;stroke:#0277bd;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
           <text
              sodipodi:linespacing="125%"
              id="text7470"
@@ -400,7 +400,7 @@
            transform="translate(52.202061,-70.557398)"
            id="g12430">
           <rect
-             style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#03a9f4;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0"
+             style="color:#000000;fill:#0288d1;fill-opacity:1;fill-rule:nonzero;stroke:#0277bd;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0"
              id="rect12432"
              width="165.21428"
              height="45.5"
@@ -438,7 +438,7 @@
            height="45.5"
            width="165.21428"
            id="rect2999-0"
-           style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#ffc107;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
+           style="color:#000000;fill:#ffa000;fill-opacity:1;fill-rule:nonzero;stroke:#ff8f00;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
         <text
            sodipodi:linespacing="125%"
            id="text3769-0"
@@ -456,7 +456,7 @@
          id="g3773-5-2"
          style="display:inline">
         <rect
-           style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#4caf50;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0"
+           style="color:#000000;fill:#388e3c;fill-opacity:1;fill-rule:nonzero;stroke:#2e7d32;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0"
            id="rect2999-1-4"
            width="165.21428"
            height="45.5"

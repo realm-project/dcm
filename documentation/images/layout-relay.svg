@@ -26,16 +26,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.0000001"
-     inkscape:cx="200.77788"
-     inkscape:cy="568.77103"
+     inkscape:cx="201.5369"
+     inkscape:cy="568.7821"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1016"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="959"
+     inkscape:window-height="1043"
+     inkscape:window-x="2880"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
   <defs
      id="defs4">
     <marker
@@ -205,26 +205,6 @@
          d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
          transform="scale(-0.6,-0.6)" />
     </marker>
-    <filter
-       id="filter3884"
-       inkscape:collect="always">
-      <feGaussianBlur
-         id="feGaussianBlur3886"
-         stdDeviation="4.859725"
-         inkscape:collect="always" />
-    </filter>
-    <filter
-       height="1.2026229"
-       y="-0.10131147"
-       width="1.0852414"
-       x="-0.04262069"
-       id="filter3894"
-       inkscape:collect="always">
-      <feGaussianBlur
-         id="feGaussianBlur3896"
-         stdDeviation="7.2831997"
-         inkscape:collect="always" />
-    </filter>
     <marker
        inkscape:stockid="Arrow2MendI"
        orient="auto"
@@ -248,7 +228,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -304,7 +284,7 @@
          transform="translate(-42.318015,-456.53828)"
          id="g7458">
         <rect
-           style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#4caf50;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           style="color:#000000;fill:#388e3c;fill-opacity:1;fill-rule:nonzero;stroke:#2e7d32;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
            id="rect7460"
            width="165.21428"
            height="45.5"
@@ -335,7 +315,7 @@
            height="45.5"
            width="165.21428"
            id="rect3063"
-           style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#4caf50;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+           style="color:#000000;fill:#388e3c;fill-opacity:1;fill-rule:nonzero;stroke:#2e7d32;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
         <text
            sodipodi:linespacing="125%"
            id="text3065"
@@ -355,7 +335,7 @@
            transform="translate(251.48485,-246.78026)"
            id="g7522">
           <rect
-             style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#e53935;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+             style="color:#000000;fill:#d32f2f;fill-opacity:1;fill-rule:nonzero;stroke:#c62828;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
              id="rect7524"
              width="165.21428"
              height="45.5"
@@ -386,7 +366,7 @@
              height="45.5"
              width="165.21428"
              id="rect3071"
-             style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#e53935;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+             style="color:#000000;fill:#d32f2f;fill-opacity:1;fill-rule:nonzero;stroke:#c62828;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
           <text
              sodipodi:linespacing="125%"
              id="text3073"

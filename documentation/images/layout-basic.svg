@@ -25,16 +25,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.0000002"
-     inkscape:cx="229.76808"
-     inkscape:cy="564.74761"
+     inkscape:zoom="1.4142137"
+     inkscape:cx="252.47504"
+     inkscape:cy="515.61111"
      inkscape:document-units="px"
-     inkscape:current-layer="g3035"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1" />
   <defs
      id="defs4">
@@ -303,7 +303,7 @@
          height="45.5"
          width="165.21428"
          id="rect2999"
-         style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#ffc107;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
+         style="color:#000000;fill:#ffa000;fill-opacity:1;fill-rule:nonzero;stroke:#ff8f00;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text3769"
@@ -320,7 +320,7 @@
        transform="translate(-45.499992,-397.39398)"
        id="g3773-5">
       <rect
-         style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#4caf50;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0"
+         style="color:#000000;fill:#388e3c;fill-opacity:1;fill-rule:nonzero;stroke:#2e7d32;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0"
          id="rect2999-1"
          width="165.21428"
          height="45.5"
@@ -352,7 +352,7 @@
          height="45.5"
          width="165.21428"
          id="rect3843"
-         style="color:#000000;fill:#546e7a;fill-opacity:1;fill-rule:nonzero;stroke:#03a9f4;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
+         style="color:#000000;fill:#0288d1;fill-opacity:1;fill-rule:nonzero;stroke:#0277bd;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-linecap:butt;stroke-linejoin:miter;stroke-dashoffset:0" />
       <text
          sodipodi:linespacing="125%"
          id="text3845"
