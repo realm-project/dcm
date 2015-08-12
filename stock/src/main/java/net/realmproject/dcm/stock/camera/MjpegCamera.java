@@ -4,9 +4,9 @@ package net.realmproject.dcm.stock.camera;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.features.connection.Connection;
@@ -21,7 +21,7 @@ public class MjpegCamera extends Camera implements Connection {
     private static final String CONTENT_LENGTH = "Content-Length: ";
 
     private URL url;
-    private URLConnection conn;
+    private HttpURLConnection conn;
     private InputStream input;
     private StringWriter header;
     private int connectionTimeout = 10000;
@@ -38,7 +38,7 @@ public class MjpegCamera extends Camera implements Connection {
 
     @Override
     public void connect() throws Exception {
-        conn = url.openConnection();
+        conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(connectionTimeout);
         conn.setConnectTimeout(connectionTimeout);
         conn.connect();
@@ -115,6 +115,12 @@ public class MjpegCamera extends Camera implements Connection {
                 input.close();
             }
             catch (IOException e) {}
+            input = null;
+        }
+
+        if (conn != null) {
+            conn.disconnect();
+            conn = null;
         }
 
         // don's spam the camera
