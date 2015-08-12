@@ -92,8 +92,15 @@ public interface Connection extends Identity, Logging {
     }
 
     default void logConnectionError(Exception e) {
-        StackTraceElement ste = e.getStackTrace()[0];
-        String location = ste.getFileName() + ":" + ste.getMethodName() + ":" + ste.getLineNumber();
+
+        String location = "Unknown";
+
+        StackTraceElement[] stes = e.getStackTrace();
+        if (stes.length > 0) {
+            StackTraceElement ste = stes[0];
+            location = ste.getFileName() + ":" + ste.getMethodName() + ":" + ste.getLineNumber();
+        }
+
         getLog().debug(getId() + ": " + e.toString() + " at " + location);
         getLog().trace(getId(), e);
     }

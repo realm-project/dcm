@@ -10,6 +10,7 @@ import java.net.URLConnection;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.features.connection.Connection;
+import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
@@ -24,6 +25,7 @@ public class MjpegCamera extends Camera implements Connection {
     private InputStream input;
     private StringWriter header;
     private int connectionTimeout = 10000;
+    private int connectionInterval = 10000;
 
     protected MjpegCamera(String id, DeviceEventBus bus, String url) throws MalformedURLException {
         super(id, bus);
@@ -114,6 +116,9 @@ public class MjpegCamera extends Camera implements Connection {
             }
             catch (IOException e) {}
         }
+
+        // don's spam the camera
+        DCMInterrupt.handle(() -> Thread.sleep(connectionInterval));
     }
 
     public int getConnectionTimeout() {
@@ -122,6 +127,14 @@ public class MjpegCamera extends Camera implements Connection {
 
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+    }
+
+    public int getConnectionInterval() {
+        return connectionInterval;
+    }
+
+    public void setConnectionInterval(int connectionDelay) {
+        this.connectionInterval = connectionDelay;
     }
 
 }
