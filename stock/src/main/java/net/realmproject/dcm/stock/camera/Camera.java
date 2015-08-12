@@ -11,11 +11,11 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
-import net.realmproject.dcm.device.CommandDevice;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.features.command.ICommandDevice;
 
 
-public abstract class Camera extends CommandDevice<Frame> {
+public abstract class Camera extends ICommandDevice<Frame> {
 
     protected Frame frame = new Frame();
 

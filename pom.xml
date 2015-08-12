@@ -26,8 +26,6 @@
     <module>network</module>
     <module>network-mq</module>
     <module>event</module>
-    <module>device</module>
-    <module>accessor</module>
     <module>util</module>
     <module>stock</module>
     <module>features</module>
