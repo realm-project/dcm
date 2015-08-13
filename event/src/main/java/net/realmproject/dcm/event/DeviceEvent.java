@@ -69,11 +69,13 @@ public interface DeviceEvent extends Serializable {
 
     /**
      * Gets the time that this event was published (according to the computer
-     * which published it)
+     * which published it). The time is represented as a unix epoch time with
+     * millisecond precision as returned by {@link System#currentTimeMillis()}.
+     * By default, this timestamp is set to the time DeviceEvent was created
      * 
      * @return date of publication
      */
-    Date getTimestamp();
+    long getTimestamp();
 
     /**
      * Sets the time that this event was published (according to the computer
@@ -82,7 +84,19 @@ public interface DeviceEvent extends Serializable {
      * @param timestamp
      *            the new timestamp for this event
      */
-    void setTimestamp(Date timestamp);
+    default void setTimestamp(Date timestamp) {
+        setTimestamp(timestamp.getTime());
+    }
+
+    /**
+     * Sets the time that this event was published (according to the computer
+     * which published it). The time is represented as a unix epoch time with
+     * millisecond precision as returned by {@link System#currentTimeMillis()}
+     * 
+     * @param timestamp
+     *            the new timestamp for this event
+     */
+    void setTimestamp(long timestamp);
 
     /**
      * Gets the zone this event was published in

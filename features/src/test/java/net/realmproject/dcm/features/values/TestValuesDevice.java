@@ -4,10 +4,10 @@ package net.realmproject.dcm.features.values;
 import java.io.Serializable;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.features.values.IValueDevice;
+import net.realmproject.dcm.features.value.AbstractValueDevice;
 
 
-public class TestValuesDevice extends IValueDevice {
+public class TestValuesDevice extends AbstractValueDevice {
 
     Serializable value;
 

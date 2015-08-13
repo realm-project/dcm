@@ -34,7 +34,7 @@ import net.realmproject.dcm.util.DCMSerialize;
  * Class representing a command issued to a device. A command is similar to a
  * method invocation (or a smalltalk message). It contains an action name
  * analogous to method name (or selector), and arguments/properties analogous to
- * named arguments (or keywords). Devices implementing the {@link Commands}
+ * named arguments (or keywords). Devices implementing the {@link CommandDevice}
  * interface can apply the {@link CommandMethod} and {@link Arg} annotations to
  * methods to enable automatic dispatch of commands to methods
  * 
@@ -44,7 +44,7 @@ import net.realmproject.dcm.util.DCMSerialize;
 public class Command implements Properties<Object>, Recordable, Identity {
 
     /**
-     * The name of the action or command to invoke on the {@link CommandDevice}
+     * The name of the action or command to invoke.
      */
     private String action;
 

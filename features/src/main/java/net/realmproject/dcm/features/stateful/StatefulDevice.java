@@ -1,4 +1,4 @@
-package net.realmproject.dcm.features.statefulness;
+package net.realmproject.dcm.features.stateful;
 
 
 import net.realmproject.dcm.event.DeviceEventType;
@@ -6,7 +6,7 @@ import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
 
 
-public interface Statefulness<T extends State> extends DeviceEventPublisher, Identity {
+public interface StatefulDevice<T extends State> extends DeviceEventPublisher, Identity {
 
     /**
      * Queries the state of this Device. This method should return an object

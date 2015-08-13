@@ -1,4 +1,4 @@
-package net.realmproject.dcm.features.statefulness;
+package net.realmproject.dcm.features.stateful;
 
 
 import java.io.Serializable;

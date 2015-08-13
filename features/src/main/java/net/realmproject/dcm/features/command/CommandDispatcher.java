@@ -16,11 +16,11 @@ import net.realmproject.dcm.util.DCMSerialize;
 
 public class CommandDispatcher {
 
-    private Commands commanded;
+    private CommandDevice commanded;
     private Map<String, Method> methods;
     private Command latestCommand;
 
-    public CommandDispatcher(Commands commanded, DeviceEventBus bus) {
+    public CommandDispatcher(CommandDevice commanded, DeviceEventBus bus) {
         this.commanded = commanded;
         methods = generateCommandMethods();
 

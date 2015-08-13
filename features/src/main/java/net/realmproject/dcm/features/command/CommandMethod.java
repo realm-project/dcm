@@ -26,7 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * 
- * Indicates that a method in a {@link Commands} device is meant to process
+ * Indicates that a method in a {@link CommandDevice} device is meant to process
  * {@link Command}s from received events. Optionally specifies a method name,
  * the default is the name of the annotated method
  * 

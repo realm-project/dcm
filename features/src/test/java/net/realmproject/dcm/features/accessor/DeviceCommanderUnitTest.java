@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
-import net.realmproject.dcm.features.accessor.DeviceAccessor;
-import net.realmproject.dcm.features.accessor.IDeviceAccessor;
 import net.realmproject.dcm.features.command.Command;
 
 
@@ -62,7 +60,7 @@ public class DeviceCommanderUnitTest {
     }
 
     private void sleep() throws InterruptedException {
-        Thread.sleep(500);
+        Thread.sleep(50);
     }
 
 }

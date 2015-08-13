@@ -3,10 +3,10 @@ package net.realmproject.dcm.features.statefulness;
 
 import net.realmproject.dcm.event.Device;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.features.statefulness.Statefulness;
+import net.realmproject.dcm.features.stateful.StatefulDevice;
 
 
-public class TestStatefulDevice extends Device implements Statefulness<TestState> {
+public class TestStatefulDevice extends Device implements StatefulDevice<TestState> {
 
     TestState state = new TestState();
 

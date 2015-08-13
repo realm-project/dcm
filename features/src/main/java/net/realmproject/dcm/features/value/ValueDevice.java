@@ -1,4 +1,4 @@
-package net.realmproject.dcm.features.values;
+package net.realmproject.dcm.features.value;
 
 
 import java.io.Serializable;
@@ -8,14 +8,14 @@ import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
 
 
-public interface Values extends Identity, DeviceEventPublisher {
+public interface ValueDevice<T extends Serializable> extends Identity, DeviceEventPublisher {
 
     /**
      * Gets the current value of this device
      * 
      * @return the value of this device
      */
-    Serializable getValue();
+    T getValue();
 
     /**
      * Sets the value of this device. Users should not expect that a call to
@@ -31,7 +31,7 @@ public interface Values extends Identity, DeviceEventPublisher {
      * @param val
      *            The value to set this device to
      */
-    void setValue(Serializable val);
+    void setValue(T val);
 
     /**
      * Publishes the result of the getValue method as a VALUE_CHANGED event

@@ -21,7 +21,6 @@ package net.realmproject.dcm.features.accessor;
 
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -72,7 +71,7 @@ public interface DeviceAccessor<T extends Serializable> extends Identity, Target
      * 
      * @return the timestamp of the most recent event
      */
-    Date getTimestamp();
+    long getTimestamp();
 
     /**
      * Asynchronously emits a VALUE_GET event which may trigger a VALUE_CHANGED

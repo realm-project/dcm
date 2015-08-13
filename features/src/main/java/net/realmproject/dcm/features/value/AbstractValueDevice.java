@@ -17,8 +17,10 @@
  * 
  */
 
-package net.realmproject.dcm.features.values;
+package net.realmproject.dcm.features.value;
 
+
+import java.io.Serializable;
 
 import net.realmproject.dcm.event.Device;
 import net.realmproject.dcm.event.DeviceEvent;
@@ -33,9 +35,9 @@ import net.realmproject.dcm.event.filter.FilterBuilder;
  * @author NAS
  *
  */
-public abstract class IValueDevice extends Device implements Values {
+public abstract class AbstractValueDevice<T extends Serializable> extends Device implements ValueDevice<T> {
 
-    public IValueDevice(String id, DeviceEventBus bus) {
+    public AbstractValueDevice(String id, DeviceEventBus bus) {
         super(id, bus);
         bus.subscribe(FilterBuilder.start().target(getId()).eventSet(), this::onSet);
         bus.subscribe(FilterBuilder.start().target(getId()).eventGet(), this::onGet);

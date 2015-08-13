@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,7 +69,7 @@ public class IDeviceEvent implements DeviceEvent {
      * The time (as recorded by the computer of origin) that this event was
      * issued
      */
-    private Date timestamp;
+    private long timestamp = System.currentTimeMillis();
 
     /**
      * The location (event bus) that this event was issued. Larger device
@@ -86,7 +85,7 @@ public class IDeviceEvent implements DeviceEvent {
     /**************************************************************************/
 
     public IDeviceEvent() {
-        this(null, null, null, null, new Date());
+        this(null, null, null, null, System.currentTimeMillis());
     }
 
     /**
@@ -98,7 +97,7 @@ public class IDeviceEvent implements DeviceEvent {
      *            The id of the originating device
      */
     public IDeviceEvent(DeviceEventType type, String sourceId) {
-        this(type, sourceId, null, null, new Date());
+        this(type, sourceId, null, null, System.currentTimeMillis());
     }
 
     /**
@@ -114,7 +113,7 @@ public class IDeviceEvent implements DeviceEvent {
      *            The payload for this event
      */
     public IDeviceEvent(DeviceEventType type, String sourceId, String targetId, Serializable value) {
-        this(type, sourceId, targetId, value, new Date());
+        this(type, sourceId, targetId, value, System.currentTimeMillis());
     }
 
     /**
@@ -131,7 +130,7 @@ public class IDeviceEvent implements DeviceEvent {
      * @param timestamp
      *            The timestamp this event was issued at
      */
-    public IDeviceEvent(DeviceEventType type, String sourceId, String targetId, Serializable value, Date timestamp) {
+    public IDeviceEvent(DeviceEventType type, String sourceId, String targetId, Serializable value, long timestamp) {
         this.sourceId = sourceId;
         this.targetId = targetId;
         this.type = type;
@@ -156,7 +155,7 @@ public class IDeviceEvent implements DeviceEvent {
     }
 
     @Override
-    public Date getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -241,7 +240,7 @@ public class IDeviceEvent implements DeviceEvent {
     }
 
     @Override
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

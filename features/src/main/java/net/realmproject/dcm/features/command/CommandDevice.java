@@ -14,7 +14,7 @@ import net.realmproject.dcm.event.identity.Identity;
  *
  */
 
-public interface Commands extends Identity, Logging {
+public interface CommandDevice extends Identity, Logging {
 
     /**
      * This function is called before a {@link CommandMethod} is invoked. If

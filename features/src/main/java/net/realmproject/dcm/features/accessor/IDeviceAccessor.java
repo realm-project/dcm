@@ -22,7 +22,6 @@ package net.realmproject.dcm.features.accessor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -39,7 +38,7 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     protected DeviceEventReceiver receiver;
     private String id;
     private String deviceId;
-    private Date timestamp = new Date();
+    private long timestamp = System.currentTimeMillis();
     private T deviceState;
 
     private List<Consumer<T>> listeners = new ArrayList<>();
@@ -58,9 +57,7 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     @SuppressWarnings("unchecked")
     public void handleEvent(DeviceEvent event) {
 
-        // will we ever have the issue where messages arrive out of order? What
-        // if they contain different key->value mappings?
-        if (event.getTimestamp() != null && event.getTimestamp().after(timestamp)) {
+        if (event.getTimestamp() >= timestamp) {
             timestamp = event.getTimestamp();
         } else {
             return;
@@ -68,7 +65,7 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
 
         try {
             deviceState = (T) event.getPayload();
-            for (Consumer c : new ArrayList<>(listeners)) {
+            for (Consumer<T> c : new ArrayList<>(listeners)) {
                 c.accept(deviceState);
             }
         }
@@ -98,7 +95,7 @@ public class IDeviceAccessor<T extends Serializable> implements DeviceAccessor<T
     }
 
     @Override
-    public Date getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 

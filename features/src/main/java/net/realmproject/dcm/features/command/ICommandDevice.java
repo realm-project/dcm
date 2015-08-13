@@ -4,8 +4,8 @@ package net.realmproject.dcm.features.command;
 import net.realmproject.dcm.event.Device;
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.filter.FilterBuilder;
-import net.realmproject.dcm.features.statefulness.State;
-import net.realmproject.dcm.features.statefulness.Statefulness;
+import net.realmproject.dcm.features.stateful.State;
+import net.realmproject.dcm.features.stateful.StatefulDevice;
 
 
 /**
@@ -16,7 +16,7 @@ import net.realmproject.dcm.features.statefulness.Statefulness;
  * @param <T>
  *            type of device state
  */
-public abstract class ICommandDevice<T extends State> extends Device implements Commands, Statefulness<T> {
+public abstract class ICommandDevice<T extends State> extends Device implements CommandDevice, StatefulDevice<T> {
 
     private CommandDispatcher dispatcher;
 
