@@ -138,8 +138,6 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
                 connection.start();
                 connected = true;
 
-                System.out.println("In ActiveMQWireMessageSink.connect. Connected!");
-
                 session = connection.createSession(transacted, Session.AUTO_ACKNOWLEDGE);
                 if (this.topic) {
                     Topic topic = session.createTopic(subject);
