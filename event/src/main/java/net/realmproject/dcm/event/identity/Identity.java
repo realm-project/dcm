@@ -12,6 +12,9 @@ public interface Identity {
 
     /**
      * Sets the identity of this object
+     * 
+     * @param id
+     *            the new identity string
      */
     void setId(String id);
 

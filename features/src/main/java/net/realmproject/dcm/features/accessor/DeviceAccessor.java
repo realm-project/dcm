@@ -38,6 +38,7 @@ import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
  * @author NAS
  *
  * @param <T>
+ *            the type of data that this accessor is storing
  */
 public interface DeviceAccessor<T extends Serializable> extends Identity, TargetIdentity, DeviceEventPublisher {
 

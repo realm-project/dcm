@@ -10,6 +10,7 @@ import java.io.Serializable;
  * @author NAS
  *
  * @param <T>
+ *            The type of data that this Recorder will be recording.
  */
 public interface Recording<T extends Serializable> {
 

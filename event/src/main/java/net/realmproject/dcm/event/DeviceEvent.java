@@ -55,6 +55,10 @@ public interface DeviceEvent extends Serializable {
     /**
      * Gets the current payload for this DeviceEvent.
      * 
+     * @param <S>
+     *            the actual type of the payload. This method will attempt to
+     *            cast the payload to match this type parameter.
+     * 
      * @return The current payload. May be null.
      */
     <S extends Serializable> S getPayload();
@@ -134,8 +138,11 @@ public interface DeviceEvent extends Serializable {
     void setPrivate(boolean privateEvent);
 
     /**
-     * Fluent API convenience method. See setSourceId
+     * Fluent API convenience method. See
+     * {@link DeviceEvent#setSourceId(String)}
      * 
+     * @param sourceId
+     *            the id of the originating node
      * @return This DeviceEvent
      */
     default DeviceEvent sourceId(String sourceId) {
@@ -144,8 +151,11 @@ public interface DeviceEvent extends Serializable {
     }
 
     /**
-     * Fluent API convenience method. See setTargetId
+     * Fluent API convenience method. See
+     * {@link DeviceEvent#setTargetId(String)}
      * 
+     * @param targetId
+     *            the id of the target node. To set no target id, pass null
      * @return This DeviceEvent
      */
     default DeviceEvent targetId(String targetId) {
@@ -154,8 +164,11 @@ public interface DeviceEvent extends Serializable {
     }
 
     /**
-     * Fluent API convenience method. See setPayload
+     * Fluent API convenience method. See
+     * {@link DeviceEvent#setPayload(Serializable)}
      * 
+     * @param payload
+     *            the (optional) payload for this event
      * @return This DeviceEvent
      */
     default DeviceEvent payload(Serializable payload) {
@@ -164,8 +177,10 @@ public interface DeviceEvent extends Serializable {
     }
 
     /**
-     * Fluent API convenience method. See setTimestamp
+     * Fluent API convenience method. See {@link DeviceEvent#setTimestamp(Date)}
      * 
+     * @param timestamp
+     *            the timestamp as a Date object
      * @return This DeviceEvent
      */
     default DeviceEvent timestamp(Date timestamp) {
@@ -174,8 +189,23 @@ public interface DeviceEvent extends Serializable {
     }
 
     /**
-     * Fluent API convenience method. See setDeviceEventType
+     * Fluent API convenience method. See {@link DeviceEvent#setTimestamp(long)}
      * 
+     * @param timestamp
+     *            the timestamp this event was issued at
+     * @return This DeviceEvent
+     */
+    default DeviceEvent timestamp(long timestamp) {
+        setTimestamp(timestamp);
+        return this;
+    }
+
+    /**
+     * Fluent API convenience method. See
+     * {@link DeviceEvent#setDeviceEventType(DeviceEventType)}
+     * 
+     * @param type
+     *            the type of event this {@link DeviceEvent} represents
      * @return This DeviceEvent
      */
     default DeviceEvent type(DeviceEventType type) {
@@ -183,11 +213,26 @@ public interface DeviceEvent extends Serializable {
         return this;
     }
 
+    /**
+     * Fluent API convenience method. See {@link DeviceEvent#setZone(String)}
+     * 
+     * @param zone
+     *            The zone this event originates from
+     * @return This DeviceEvent
+     */
     default DeviceEvent zone(String zone) {
         setZone(zone);
         return this;
     }
 
+    /**
+     * Fluent API convenience method. See
+     * {@link DeviceEvent#setPrivate(boolean)}
+     * 
+     * @param privateEvent
+     *            flag to set this event private or not
+     * @return This DeviceEvent
+     */
     default DeviceEvent privateEvent(boolean privateEvent) {
         setPrivate(privateEvent);
         return this;

@@ -18,12 +18,17 @@ public interface Recordable extends Serializable {
     /**
      * Indicates if this command should be recorded (if such facilities are
      * available)
+     * 
+     * @return true if the recording flat is setto true, false otherwise
      */
     boolean isToRecord();
 
     /**
      * Specifies if this command should be recorded (if such facilities are
      * available)
+     * 
+     * @param toRecord
+     *            flag to specify the recording preference
      */
     void setToRecord(boolean toRecord);
 
@@ -31,6 +36,7 @@ public interface Recordable extends Serializable {
      * Convenience/alternate form of setToRecord
      * 
      * @param toRecord
+     *            flag to specify the recording preference
      */
     default void setRecord(boolean toRecord) {
         setToRecord(toRecord);

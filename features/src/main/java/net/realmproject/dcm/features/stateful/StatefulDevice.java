@@ -28,6 +28,9 @@ public interface StatefulDevice<T extends State> extends DeviceEventPublisher, I
 
     /**
      * Publishes the given state as a VALUE_CHANGED event
+     * 
+     * @param state
+     *            The state of the device
      */
     default void publishState(State state) {
         publish(DeviceEventType.VALUE_CHANGED, getId(), state);

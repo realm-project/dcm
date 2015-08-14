@@ -32,21 +32,17 @@ import net.realmproject.dcm.event.relay.IDeviceEventRelay;
 
 
 /**
- * A DeviceEventBus is a component which can have {@link DeviceEvent}s broadcast
- * from any source to the components which subscribe to it. This provides a
- * looser coupling than a traditional direct listener-based model, as consumers
- * don't need to be aware of and registered with every producer of events. <br>
+ * A DeviceEventBus is a component which can {@link DeviceEvent}s from any
+ * source to all event nodes which subscribe to it. This provides a looser
+ * coupling than a traditional direct listener-based model, as consumers don't
+ * need to be aware of and registered with every producer of events. <br>
  * <br>
  * It is also possible to split a larger collection of devices into zones by
  * using more than one DeviceEventBus. Events from one bus can be selectively
- * propagated to another using an {@link IDeviceEventRelay} or using a
- * distributed messaging system like ActiveMQ (see
- * {@link AbstractDeviceMessageEncoder} and {@link DeviceMessageDecoder}). <br>
+ * propagated to another using a {@link IDeviceEventRelay} or using a
+ * distributed messaging system like ActiveMQ (see the network and network-mq
+ * packages) <br>
  * <br>
- * A DeviceEventBus has a zone property which allows splitting busses into
- * logical groups not related to the actual bus topology. DeviceEventBusses
- * should not broadcast events from other zones if those events are marked
- * private.
  * 
  * @author NAS
  *
@@ -126,6 +122,7 @@ public interface DeviceEventBus extends DeviceEventReceiver, DeviceEventNode {
      * minimum
      * 
      * @param zone
+     *            the new zone this bus is in.
      */
     void setZone(String zone);
 

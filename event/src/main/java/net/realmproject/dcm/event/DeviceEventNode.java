@@ -19,7 +19,16 @@ public interface DeviceEventNode {
 
     void setFilter(Predicate<DeviceEvent> filter);
 
-    /** Method for filtering {@link DeviceEvent}s using the specified filter **/
+    /**
+     * Method for filtering {@link DeviceEvent}s using the specified filter
+     * 
+     * @param event
+     *            the event to filter against
+     * 
+     * @return true if the filter should pass the event, false if it should
+     *         block it
+     * 
+     */
     default boolean filter(DeviceEvent event) {
         if (getFilter() == null) { return true; }
         if (!getFilter().test(event)) { return false; }
@@ -34,7 +43,13 @@ public interface DeviceEventNode {
     /**
      * Method for transforming {@link DeviceEvent}s using the specified
      * transformation function
-     **/
+     * 
+     * @param event
+     *            the event to transform
+     * 
+     * @return the (optionally) modified event
+     * 
+     */
     default DeviceEvent transform(DeviceEvent event) {
         if (getTransform() == null) { return event; }
         return getTransform().apply(event.deepCopy());

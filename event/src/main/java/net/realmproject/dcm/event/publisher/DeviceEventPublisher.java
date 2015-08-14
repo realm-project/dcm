@@ -42,7 +42,6 @@ public interface DeviceEventPublisher {
      * 
      * @param event
      *            the event to send
-     * @return true if sending is successful, false otherwise.
      */
     void publish(DeviceEvent event);
 
@@ -50,7 +49,13 @@ public interface DeviceEventPublisher {
      * Convenience method for publish(DeviceEvent). Builds a {@link DeviceEvent}
      * from the given values and publishes it.
      * 
-     * @return true if sending is successful, false otherwise
+     * @param type
+     *            the type of DeviceEvent
+     * @param sourceId
+     *            the id of the originating node
+     * @param value
+     *            the payload for this event. To set no payload, pass null
+     * 
      */
     default void publish(DeviceEventType type, String sourceId, Serializable value) {
         publish(new IDeviceEvent(type, sourceId, null, value));
@@ -60,7 +65,15 @@ public interface DeviceEventPublisher {
      * Convenience method for publish(DeviceEvent). Builds a {@link DeviceEvent}
      * from the given values and publishes it.
      * 
-     * @return true if sending is successful, false otherwise
+     * @param type
+     *            the type of DeviceEvent
+     * @param sourceId
+     *            the id of the originating node
+     * @param targetId
+     *            the id of the target node. To set no targetId, pass null
+     * @param value
+     *            the payload for this event. To set no payload, pass null
+     * 
      */
     default void publish(DeviceEventType type, String sourceId, String targetId, Serializable value) {
         publish(new IDeviceEvent(type, sourceId, targetId, value));
