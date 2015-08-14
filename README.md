@@ -65,9 +65,9 @@ Most components in an event graph (bus, relay, recorder, etc) support filtering 
 
 There are some situations where having more than one event bus (per machine) is desirable.
  * A Relay can pass events from a source to a target, such as one bus to another. 
- * A Bridge can link two busses together in both directions.
+ * A Bridge can link two busses together in both directions. Cycle-detection will prevent an infinite loop.
 
-Filtering and transforming allows relays and bridges to be more selective in determing which events to pass on and what form those passed-on events should take. If differemt filters or transformers are required in each direction linking two busses, a pair of relays is required.
+Filtering and transforming allows relays and bridges to be more selective in determing which events to pass on and what form those passed-on events should take. If different filters or transformers are required in each direction when linking two busses, a pair of relays should be used instead.
 
 ![Relay Layout](documentation/images/layout-relay.png)
 
