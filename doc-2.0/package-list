@@ -12,8 +12,8 @@ net.realmproject.dcm.features.command
 net.realmproject.dcm.features.connection
 net.realmproject.dcm.features.ping
 net.realmproject.dcm.features.recording
-net.realmproject.dcm.features.statefulness
-net.realmproject.dcm.features.values
+net.realmproject.dcm.features.stateful
+net.realmproject.dcm.features.value
 net.realmproject.dcm.network
 net.realmproject.dcm.network.impl
 net.realmproject.dcm.network.mq.activemq
