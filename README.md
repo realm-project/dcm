@@ -16,6 +16,44 @@ The Device Control Module is an event handling system designed to facilitate int
  * Designed with web services in mind
 
 
+Getting DCM
+---
+
+To use DCM with Maven, you'll have to add our repository to your project:
+
+```xml
+<repositories>
+        <repository>
+                <id>realm</id>
+                <name>REALM Repository</name>
+                <url>http://realmproject.net:8888/repository/realm/</url>
+                <releases>
+                        <enabled>true</enabled>
+                </releases>
+                <snapshots>
+                        <enabled>true</enabled>
+                </snapshots>
+        </repository>
+</repositories>
+```
+
+Then add DCM packages to your project
+
+```xml
+<dependency>
+        <groupId>net.realmproject.dcm</groupId>
+        <artifactId>realm-dcm-[package]</artifactId>
+        <version>2.0.0</version>
+</dependency>
+```
+
+DCM contains the following packages. Bolded packages are the one's you'll most likely need.
+* `realm-dcm-event`: Base package for the low-level event bus system
+* **`realm-dcm-features`**: Builds on the event package providing higher level APIs
+* `realm-dcm-network`: provides framework for extending DCM across the network, but no specific implementation
+* **`realm-dcm-network-mq`**: provives an implementation of the network package using JMS/MQ
+* `realm-dcm-util`: utility classes used across all/most packages
+
 Event Graph Topology
 ---
 
