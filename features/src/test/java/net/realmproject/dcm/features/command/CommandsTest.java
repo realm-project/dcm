@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.event.bus.IDeviceEventBus;
-import net.realmproject.dcm.features.command.Command;
 import net.realmproject.dcm.util.DCMSerialize;
 
 
@@ -91,5 +90,11 @@ public class CommandsTest {
         Assert.assertEquals("f", command.getAction());
         Assert.assertEquals("value1", command.getProperty("arg1"));
 
+    }
+
+    @Test
+    public void testId() {
+        Command command = new Command();
+        Assert.assertNotNull("Command ID should be automatically generated on construction", command.getId());
     }
 }
