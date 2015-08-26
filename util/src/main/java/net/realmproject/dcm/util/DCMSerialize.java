@@ -53,10 +53,11 @@ public class DCMSerialize {
     }
 
     private final static ObjectMapper DESERIALIZE = new ObjectMapper();
+
     static {
-    	DESERIALIZE.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        DESERIALIZE.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
-    
+
     @SuppressWarnings("unchecked")
     public static Map<String, Serializable> structToMap(Object o) {
         Object o2 = deserialize(serialize(o));

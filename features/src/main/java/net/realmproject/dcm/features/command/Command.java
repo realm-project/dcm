@@ -128,6 +128,10 @@ public class Command implements Properties<Object>, Recordable, Identity {
         this.id = id;
     }
 
+    public void generateId() {
+        id = getClass().getSimpleName() + ":" + UUID.randomUUID().toString();
+    }
+
     @Override
     public boolean isToRecord() {
         return toRecord;
