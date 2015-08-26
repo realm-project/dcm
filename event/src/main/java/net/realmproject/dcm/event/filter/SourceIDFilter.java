@@ -44,7 +44,7 @@ public class SourceIDFilter implements Predicate<DeviceEvent> {
     }
 
     public SourceIDFilter(List<String> ids) {
-        ids = new ArrayList<>(ids);
+        this.ids = new ArrayList<>(ids);
     }
 
     @Override
