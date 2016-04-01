@@ -28,6 +28,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 
@@ -252,6 +253,31 @@ public class IDeviceEvent implements DeviceEvent {
     @Override
     public List<String> getRoute() {
         return route;
+    }
+
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("IDeviceEvent[Type ");
+        sb.append(getDeviceEventType());
+        sb.append(" | From ");
+        sb.append(getSourceId());
+
+        if (getTargetId() != null) {
+            sb.append(" To ");
+            sb.append(getSourceId());
+        }
+
+        sb.append(" | Time ");
+        sb.append(getTimestamp());
+
+        sb.append(" | Via ");
+        sb.append(getRoute().stream().collect(Collectors.joining(">")));
+
+        sb.append("]");
+
+        return sb.toString();
+
     }
 
 }

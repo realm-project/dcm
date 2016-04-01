@@ -62,11 +62,15 @@ public class IDeviceEventBus extends AbstractDeviceEventRelay implements DeviceE
             DeviceEvent event = null;
             while (true) {
                 try {
+                    getLog().trace("DeviceEventBus " + IDeviceEventBus.this.getId() + " Transforming Event " + event);
                     event = transform(eventqueue.take());
+                    getLog().trace("DeviceEventBus " + IDeviceEventBus.this.getId() + " Broadcasting Event " + event);
                     broadcast(event);
+                    getLog().trace("DeviceEventBus " + IDeviceEventBus.this.getId() + " Finished Event " + event);
                 }
                 catch (InterruptedException e) {
-                    getLog().warn("Event bus thread has been interrupted.");
+                    getLog().warn("Event bus " + IDeviceEventBus.this.getId() + " thread has been interrupted.");
+                    getLog().trace("DeviceEventBus Thread Interrupted", e);
                     Thread.currentThread().interrupt();
                     return;
                 }
@@ -110,7 +114,10 @@ public class IDeviceEventBus extends AbstractDeviceEventRelay implements DeviceE
         // allow the bus to filter events
         if (!filter(event)) { return; }
 
-        eventqueue.offer(event);
+        if (!eventqueue.offer(event)) {
+            getLog().error("Dropped event " + event + " because of full event queue");
+        }
+
     }
 
     @Override

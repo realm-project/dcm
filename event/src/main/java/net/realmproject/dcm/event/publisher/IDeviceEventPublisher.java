@@ -19,7 +19,7 @@
 
 package net.realmproject.dcm.event.publisher;
 
-
+import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.DeviceEvent;
 import net.realmproject.dcm.event.DeviceEventNode;
 import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
@@ -32,7 +32,7 @@ import net.realmproject.dcm.event.relay.AbstractDeviceEventRelay;
  *
  */
 
-public class IDeviceEventPublisher extends AbstractDeviceEventRelay implements DeviceEventNode, DeviceEventPublisher {
+public class IDeviceEventPublisher extends AbstractDeviceEventRelay implements DeviceEventNode, DeviceEventPublisher, Logging {
 
     private DeviceEventReceiver receiver;
 
@@ -42,9 +42,12 @@ public class IDeviceEventPublisher extends AbstractDeviceEventRelay implements D
 
     @Override
     public void publish(DeviceEvent event) {
+        getLog().trace("publish() called for " + event + " from " + this.getId());
         if (event == null) { return; }
         if (!filter(event)) { return; }
+        getLog().trace("Publishing event " + event + " from " + this.getId());
         receiver.accept(transform(event));
+        getLog().trace("Event " + event + " Published from " + this.getId());
     }
 
 }
