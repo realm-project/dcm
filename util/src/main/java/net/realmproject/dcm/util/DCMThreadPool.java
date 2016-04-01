@@ -20,6 +20,8 @@
 package net.realmproject.dcm.util;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,6 +42,8 @@ public class DCMThreadPool {
 
     private static Log log = LogFactory.getLog(DCMThreadPool.class);
     public static boolean daemonThreads = true;
+
+    public static List<Runnable> shutdownHooks = new ArrayList<>();
 
     private static ThreadFactory threadFactory = runnable -> {
         Thread t = new Thread(runnable);
@@ -82,6 +86,12 @@ public class DCMThreadPool {
     }
 
     public static void stop() {
+
+        // run shutdown hooks before terminating the threadpools
+        for (Runnable hook : shutdownHooks) {
+            hook.run();
+        }
+
         shutdownPool(scheduledPool);
         shutdownPool(pool);
     }
@@ -113,6 +123,10 @@ public class DCMThreadPool {
             log.warn("Forced shutdown of threadpool failed", e);
             Thread.currentThread().interrupt();
         }
+    }
+
+    public static void onShutdown(Runnable hook) {
+        shutdownHooks.add(hook);
     }
 
 }
