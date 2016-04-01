@@ -1,9 +1,14 @@
 package net.realmproject.dcm.features.connection;
 
 
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
 import net.realmproject.dcm.event.Logging;
 import net.realmproject.dcm.event.identity.Identity;
-import net.realmproject.dcm.util.DCMInterrupt;
+import net.realmproject.dcm.features.DCMState;
+import net.realmproject.dcm.util.DCMThreadPool;
+import net.realmproject.dcm.util.backoff.BackoffGenerator;
 
 
 /**
@@ -14,95 +19,120 @@ import net.realmproject.dcm.util.DCMInterrupt;
  * 
  * @author NAS
  */
-public interface Connection extends Identity, Logging {
+public interface Connection extends Identity, Logging, DCMState {
+
+    public enum State {
+        CLOSED, OPEN, FAILED, RESTARTING
+    }
 
     /**
      * Client code should call this method to start the initial connection
      * process on device initialization. This will begin the connection process.
      */
-    default void initConnection() {
+    default boolean connectionInitialize() {
         synchronized (this) {
-            doConnect();
+            try {
+                connectionOpen();
+                setConnectionState(State.OPEN);
+                BackoffGenerator backoff = getDCMState(Connection.class, "backoff", new BackoffGenerator());
+                backoff.reset();
+                return true;
+            }
+            catch (Exception e) {
+                getLog().error("Connection Attempt Failed", e);
+                setConnectionState(State.FAILED);
+                connectionFailed(new RuntimeException("Encountered Exception Opening Connection"));
+                return false;
+            }
         }
     }
 
     /**
-     * Not to be called by client code. Called whenever this device is
-     * disconnected. This method wraps the connect method with logging, error
-     * handling, and a call to onConnect after succeeding.
+     * Client code should call this method to permanently close and stop the
+     * connection
      */
-    default void doConnect() {
-
-        DCMInterrupt.handle(() -> {
-            getLog().info("Device " + getId() + " (re)connecting...");
-            connect();
-            getLog().info("Device " + getId() + " (re)connected!");
-            onConnect();
-        } , e -> {
-            logConnectionError(e);
-            DCMInterrupt.handle(() -> onDisconnect(e));
-        });
-
+    default void connectionTerminate() {
+        synchronized (this) {
+            try {
+                this.connectionClose();
+            }
+            catch (Exception e) {
+                getLog().error("Encountered Exception Closing Connection", e);
+            }
+            setConnectionState(State.CLOSED);
+        }
     }
-
-    /**
-     * Not to be called by client code. Called whenever this device is
-     * disconnected. This method should do whatever is necessary to connect the
-     * device to its destination.
-     * 
-     * @throws Exception
-     *             on error
-     */
-    void connect() throws Exception;
-
-    /**
-     * Not to be called by client code. Called whenever this device is newly
-     * connected. This method should do whatever setup is necessary to get the
-     * device to a consistent connected state.
-     * 
-     * @throws Exception
-     *             on error
-     */
-    void onConnect() throws Exception;
-
-    /**
-     * Not to be called by client code. Called whenever this device is
-     * disconnected. This method should do whatever cleanup is necessary to
-     * return the device to a consistent disconnected state.
-     * 
-     * @param exception
-     *            The exception generated upon disconnection
-     */
-    void onDisconnect(Exception exception);
 
     /**
      * Client code should call this method when the device loses it's
-     * connection. This will begin the reconnection process.
+     * connection. This will begin the reconnection process immediately.
      * 
      * @param exception
      *            The exception generated upon disconnection
      */
-    default void disconnected(Exception exception) {
+    default boolean connectionRestart() {
         synchronized (this) {
-            DCMInterrupt.handle(() -> {
-                onDisconnect(exception);
-            });
-            doConnect();
+            connectionTerminate();
+            return connectionInitialize();
         }
     }
 
-    default void logConnectionError(Exception e) {
+    /**
+     * Client code should call this method when the device loses it's
+     * connection. This will begin the reconnection process asynchronously,
+     * using a user-customizable backoff function to prevent spamming the target
+     * 
+     * @param exception
+     * @return
+     */
+    default ScheduledFuture<?> connectionFailed(Exception exception) {
+        synchronized (this) {
+            getLog().error("Connection Failed", exception);
+            setConnectionState(State.RESTARTING);
 
-        String location = "Unknown";
-
-        StackTraceElement[] stes = e.getStackTrace();
-        if (stes.length > 0) {
-            StackTraceElement ste = stes[0];
-            location = ste.getFileName() + ":" + ste.getMethodName() + ":" + ste.getLineNumber();
+            // get the backoff generator and schedule a reconnection attempt for
+            // later
+            BackoffGenerator backoff = getDCMState(Connection.class, "backoff", new BackoffGenerator());
+            return DCMThreadPool.getScheduledPool().schedule(() -> {
+                synchronized (this) {
+                    if (getConnectionState() == State.RESTARTING) {
+                        connectionRestart();
+                    }
+                }
+            } , backoff.getDelay(), TimeUnit.MILLISECONDS);
         }
+    }
 
-        getLog().debug(getId() + ": " + e.toString() + " at " + location);
-        getLog().trace(getId(), e);
+    /************************************************
+     * User-Implemented Code
+     ************************************************/
+
+    /**
+     * Not to be called by client code. Called whenever this connection is to be
+     * opened. This method should do whatever is necessary to connect the device
+     * to its destination.
+     * 
+     * @throws Exception
+     *             on error
+     */
+    void connectionOpen() throws Exception;
+
+    /**
+     * Not to be called by client code. Called whenever this device is to be
+     * disconnected. This method should do whatever is necessary to disconnect
+     * the device from its destination.
+     * 
+     * @throws Exception
+     *             on error
+     */
+    void connectionClose() throws Exception;
+
+    Connection.State getConnectionState();
+
+    void setConnectionState(Connection.State state);
+
+    default void setConnectionBackoff(BackoffGenerator backoff) {
+        setDCMState(Connection.class, "backoff", backoff);
     }
 
 }

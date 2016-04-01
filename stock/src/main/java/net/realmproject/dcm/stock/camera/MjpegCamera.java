@@ -7,6 +7,8 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.features.connection.Connection;
@@ -25,19 +27,27 @@ public class MjpegCamera extends Camera implements Connection {
     private InputStream input;
     private StringWriter header;
     private int connectionTimeout = 10000;
-    private int connectionInterval = 10000;
+
+    Connection.State connectionState;
+    Map<String, Object> dcmStateMap = new HashMap<>();
+
+    private boolean shutdown = false;
 
     protected MjpegCamera(String id, DeviceEventBus bus, String url) throws MalformedURLException {
         super(id, bus);
+
         this.url = new URL(url);
         header = new StringWriter(128);
-        initConnection();
+
+        connectionInitialize();
+
         DCMThreadPool.getPool().submit(this::receive);
+        DCMThreadPool.onShutdown(() -> shutdown = true);
 
     }
 
     @Override
-    public void connect() throws Exception {
+    public synchronized void connectionOpen() throws Exception {
         conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(connectionTimeout);
         conn.setConnectTimeout(connectionTimeout);
@@ -45,24 +55,35 @@ public class MjpegCamera extends Camera implements Connection {
         input = conn.getInputStream();
     }
 
-    private void receive() {
-        while (!Thread.interrupted()) {
+    @Override
+    public synchronized void connectionClose() {
+
+        if (input != null) {
             try {
-                setImage(getFrame());
+                input.close();
             }
-            catch (Exception e) {
-                if (e instanceof InterruptedException) {
-                    Thread.currentThread().interrupt();
-                } else {
-                    logConnectionError(e);
-                    disconnected(e);
-                }
-            }
+            catch (IOException e) {}
+            input = null;
+        }
+
+        if (conn != null) {
+            conn.disconnect();
+            conn = null;
+        }
+
+    }
+
+    private void receive() {
+        while (!Thread.interrupted() && !shutdown) {
+            DCMInterrupt.handle(() -> setImage(getFrame()), this::connectionFailed);
         }
         Thread.currentThread().interrupt();
     }
 
-    private byte[] getFrame() throws IOException {
+    private synchronized byte[] getFrame() throws IOException {
+        if (input == null) {
+            connectionFailed(new NullPointerException("InputStream was null"));
+        }
 
         header.getBuffer().setLength(0);
 
@@ -104,29 +125,6 @@ public class MjpegCamera extends Camera implements Connection {
         return retValue;
     }
 
-    @Override
-    public void onConnect() throws Exception {}
-
-    @Override
-    public void onDisconnect(Exception exception) {
-
-        if (input != null) {
-            try {
-                input.close();
-            }
-            catch (IOException e) {}
-            input = null;
-        }
-
-        if (conn != null) {
-            conn.disconnect();
-            conn = null;
-        }
-
-        // don's spam the camera
-        DCMInterrupt.handle(() -> Thread.sleep(connectionInterval));
-    }
-
     public int getConnectionTimeout() {
         return connectionTimeout;
     }
@@ -135,12 +133,19 @@ public class MjpegCamera extends Camera implements Connection {
         this.connectionTimeout = connectionTimeout;
     }
 
-    public int getConnectionInterval() {
-        return connectionInterval;
+    @Override
+    public State getConnectionState() {
+        return connectionState;
     }
 
-    public void setConnectionInterval(int connectionDelay) {
-        this.connectionInterval = connectionDelay;
+    @Override
+    public void setConnectionState(State state) {
+        connectionState = state;
+    }
+
+    @Override
+    public Map<String, Object> getDCMStateMap() {
+        return dcmStateMap;
     }
 
 }
