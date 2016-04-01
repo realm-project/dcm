@@ -16,16 +16,17 @@ import java.util.Map;
  */
 public interface Properties<T> {
 
-    default T getProperty(String key, T defaultValue) {
+    default <R extends T> R getProperty(String key, R defaultValue) {
         if (!getProperties().containsKey(key)) { return defaultValue; }
-        return getProperties().get(key);
+        return (R) getProperties().get(key);
     }
 
-    default T getProperty(String key) {
+    default <R extends T> R getProperty(String key) {
         return getProperty(key, null);
     }
 
     default void setProperty(String key, T value) {
+
         getProperties().put(key, value);
     }
 
