@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.util.DCMUtil;
 
 
 /**
@@ -82,6 +83,8 @@ public class IDeviceEvent implements DeviceEvent {
     private String zone = null;
     private boolean privateEvent = false;
     private List<String> route = new LinkedList<>();
+    
+    private String id = DCMUtil.generateId();
 
     /**************************************************************************/
 
@@ -213,6 +216,7 @@ public class IDeviceEvent implements DeviceEvent {
         copy.payload = payload;
         copy.zone = zone;
         copy.privateEvent = privateEvent;
+        copy.id = id;
 
         // copy the elements of the route stack, rather than the stack itself
         copy.route.addAll(route);
@@ -279,5 +283,15 @@ public class IDeviceEvent implements DeviceEvent {
         return sb.toString();
 
     }
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
 
 }

@@ -25,6 +25,9 @@ import java.util.Date;
 import java.util.List;
 
 import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.event.identity.SourceIdentity;
+import net.realmproject.dcm.event.identity.TargetIdentity;
 
 
 /**
@@ -35,7 +38,7 @@ import net.realmproject.dcm.event.bus.DeviceEventBus;
  * @author NAS
  *
  */
-public interface DeviceEvent extends Serializable {
+public interface DeviceEvent extends Serializable, Identity, TargetIdentity, SourceIdentity {
 
     /**
      * Gets the type of this event
@@ -238,39 +241,6 @@ public interface DeviceEvent extends Serializable {
         return this;
     }
 
-    /**
-     * Represents the id of the Device this event is intended for. Only messages
-     * intended as point-to-point will require this field
-     * 
-     * @return the id of the target Device
-     */
-    String getTargetId();
-
-    /**
-     * Represents the id of the Device this event is intended for. Only messages
-     * intended as point-to-point will require this field
-     * 
-     * @param target
-     *            the new id of the target Device
-     */
-    void setTargetId(String target);
-
-    /**
-     * Represents the id of the Device which emitted this event. This field
-     * should be set for all messages.
-     * 
-     * @return the id of the source Device
-     */
-    String getSourceId();
-
-    /**
-     * Represents the id of the Device which emitted this event. This field
-     * should be set for all messages.
-     * 
-     * @param id
-     *            the new id of the source Device
-     */
-    void setSourceId(String id);
 
     /**
      * Performs a deep copy of this DeviceEvent including making a copy of the

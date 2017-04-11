@@ -23,12 +23,12 @@ package net.realmproject.dcm.features.command;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.features.Properties;
 import net.realmproject.dcm.features.recording.Recordable;
 import net.realmproject.dcm.util.DCMSerialize;
+import net.realmproject.dcm.util.DCMUtil;
 
 
 /**
@@ -49,7 +49,7 @@ public class Command implements Properties<Object>, Recordable, Identity {
      */
     private String action;
 
-    private String id = getClass().getSimpleName() + ":" + UUID.randomUUID().toString();
+    private String id = DCMUtil.generateId(getClass());
     private boolean toRecord;
 
     /**
@@ -128,9 +128,6 @@ public class Command implements Properties<Object>, Recordable, Identity {
         this.id = id;
     }
 
-    public void generateId() {
-        id = getClass().getSimpleName() + ":" + UUID.randomUUID().toString();
-    }
 
     @Override
     public boolean isToRecord() {

@@ -3,7 +3,9 @@ package net.realmproject.dcm.features.ping;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
+
+import net.realmproject.dcm.event.identity.Identity;
+import net.realmproject.dcm.util.DCMUtil;
 
 
 /**
@@ -12,13 +14,13 @@ import java.util.UUID;
  * @author NAS
  *
  */
-public class Ping implements Serializable {
+public class Ping implements Serializable, Identity {
 
-    private UUID uuid;
+    private String id;
     private Date start, end;
 
     public Ping() {
-        uuid = UUID.randomUUID();
+        id = DCMUtil.generateId();
         start = new Date();
     }
 
@@ -47,8 +49,18 @@ public class Ping implements Serializable {
     public boolean equals(Object o) {
         if (!(o instanceof Ping)) { return false; }
         Ping p = (Ping) o;
-        return uuid.equals(p.uuid);
+        return id.equals(p.id);
 
     }
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
 
 }

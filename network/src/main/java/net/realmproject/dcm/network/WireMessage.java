@@ -21,9 +21,9 @@ package net.realmproject.dcm.network;
 
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.util.DCMUtil;
 
 
 /**
@@ -37,7 +37,7 @@ public class WireMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private DeviceEvent event;
-    private String messageId = UUID.randomUUID().toString();
+    private String messageId = DCMUtil.generateId();
 
     public WireMessage() {}
 

@@ -4,11 +4,11 @@ package net.realmproject.dcm.features.stateful;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.features.Properties;
 import net.realmproject.dcm.features.recording.Recordable;
+import net.realmproject.dcm.util.DCMUtil;
 
 
 public class State implements Recordable, Identity, Properties<Serializable>, Serializable {
@@ -18,7 +18,7 @@ public class State implements Recordable, Identity, Properties<Serializable>, Se
     private boolean toRecord;
 
     public State() {
-        id = UUID.randomUUID().toString();
+        id = DCMUtil.generateId();
     }
 
     public enum Mode {
