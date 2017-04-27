@@ -17,16 +17,39 @@
  * 
  */
 
-package net.realmproject.dcm.network;
+package net.realmproject.dcm.parcel.filter;
 
-import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
-import net.realmproject.dcm.parcel.ParcelNode;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+import net.realmproject.dcm.parcel.Parcel;
+
 
 /**
- * @author maxweld
+ * Parcel filter which only accepts parcels with certain target ids
+ * 
+ * @author NAS
  *
  */
-public interface WireMessageSink extends ParcelNode, WireMessageTranscoding {
 
-    public void receive(WireMessage deviceMessage);
+public class TargetIDFilter implements Predicate<Parcel> {
+
+    List<String> ids;
+
+    public TargetIDFilter(String id) {
+        ids = new ArrayList<>();
+        ids.add(id);
+    }
+
+    public TargetIDFilter(List<String> ids) {
+        ids = new ArrayList<>(ids);
+    }
+
+    @Override
+    public boolean test(Parcel e) {
+        return ids.contains(e.getTargetId());
+    }
+
 }

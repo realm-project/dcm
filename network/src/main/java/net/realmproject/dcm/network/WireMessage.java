@@ -22,7 +22,7 @@ package net.realmproject.dcm.network;
 
 import java.io.Serializable;
 
-import net.realmproject.dcm.event.DeviceEvent;
+import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.util.DCMUtil;
 
 
@@ -36,21 +36,21 @@ import net.realmproject.dcm.util.DCMUtil;
 public class WireMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private DeviceEvent event;
+    private Parcel parcel;
     private String messageId = DCMUtil.generateId();
 
     public WireMessage() {}
 
-    public WireMessage(DeviceEvent event) {
-        setEvent(event);
+    public WireMessage(Parcel parcel) {
+        setParcel(parcel);
     }
 
-    public DeviceEvent getEvent() {
-        return event;
+    public Parcel getParcel() {
+        return parcel;
     }
 
-    public void setEvent(DeviceEvent event) {
-        this.event = event;
+    public void setParcel(Parcel parcel) {
+        this.parcel = parcel;
     }
 
     public String getMessageId() {

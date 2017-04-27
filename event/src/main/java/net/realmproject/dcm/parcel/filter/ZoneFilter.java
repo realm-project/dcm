@@ -17,16 +17,40 @@
  * 
  */
 
-package net.realmproject.dcm.network;
+package net.realmproject.dcm.parcel.filter;
 
-import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
-import net.realmproject.dcm.parcel.ParcelNode;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
+
 
 /**
- * @author maxweld
+ * Parcel filter which only allows parcels from a certain zone. See
+ * {@link ParcelHub}
+ * 
+ * @author NAS
  *
  */
-public interface WireMessageSink extends ParcelNode, WireMessageTranscoding {
 
-    public void receive(WireMessage deviceMessage);
+public class ZoneFilter implements Predicate<Parcel> {
+
+    private List<String> whitelist;
+
+    public ZoneFilter(String zone) {
+        whitelist = new ArrayList<>();
+        whitelist.add(zone);
+    }
+
+    public ZoneFilter(List<String> zones) {
+        whitelist = new ArrayList<>(zones);
+    }
+
+    @Override
+    public boolean test(Parcel e) {
+        return whitelist.contains(e.getZone());
+    }
 }

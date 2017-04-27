@@ -42,7 +42,6 @@ public class ActiveMQMessageConsumer implements Runnable {
             			try {
         					WireMessage deviceMessage = (WireMessage) object;
         					System.out.println("messageId of recieved message: " + deviceMessage.getMessageId());
-        					System.out.println("EventType of recieved message's event: " + deviceMessage.getEvent().getDeviceEventType());
         				}
         				catch (ClassCastException e) {
         					System.err.println("Object class is not DeviceMessage");

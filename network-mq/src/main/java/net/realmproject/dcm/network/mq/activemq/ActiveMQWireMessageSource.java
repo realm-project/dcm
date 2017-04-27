@@ -32,12 +32,12 @@ import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSource;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.parcel.Logging;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
 
 
 /**
@@ -60,11 +60,11 @@ public class ActiveMQWireMessageSource extends IWireMessageSource implements Log
     protected Connection connection;
     protected Session session;
 
-    public ActiveMQWireMessageSource(DeviceEventBus bus, String subject, boolean topic, String url) {
+    public ActiveMQWireMessageSource(ParcelHub bus, String subject, boolean topic, String url) {
         this(bus, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSource(DeviceEventBus bus, Transcoder<WireMessage, Serializable> transcoder,
+    public ActiveMQWireMessageSource(ParcelHub bus, Transcoder<WireMessage, Serializable> transcoder,
             String subject, boolean topic, String url) {
         super(bus, transcoder);
         this.subject = subject;

@@ -22,36 +22,36 @@ package net.realmproject.dcm.network.impl;
 
 import java.io.Serializable;
 
-import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
-import net.realmproject.dcm.event.publisher.IDeviceEventPublisher;
-import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSink;
 import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
+import net.realmproject.dcm.parcel.publisher.IParcelPublisher;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 
 /**
  * Receives {@link WireMessage}s from a distributed messaging system (eg
- * ActiveMQ) and publishes them to the given {@link DeviceEventBus}
+ * ActiveMQ) and publishes them to the given {@link ParcelHub}
  * 
  * @author NAS
  *
  */
-public class IWireMessageSink extends IDeviceEventPublisher implements WireMessageSink, DeviceEventPublisher {
+public class IWireMessageSink extends IParcelPublisher implements WireMessageSink, ParcelPublisher {
 
     private Transcoder<WireMessage, Serializable> transcoder;
 
-    public IWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder) {
+    public IWireMessageSink(ParcelReceiver receiver, Transcoder<WireMessage, Serializable> transcoder) {
         super(receiver);
         this.transcoder = transcoder;
     }
 
     @Override
     public void receive(WireMessage deviceMessage) {
-        DeviceEvent deviceEvent = deviceMessage.getEvent();
-        publish(deviceEvent);
+        Parcel parcel = deviceMessage.getParcel();
+        publish(parcel);
     }
 
     @Override

@@ -22,38 +22,38 @@ package net.realmproject.dcm.network.impl;
 
 import java.io.Serializable;
 
-import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
-import net.realmproject.dcm.event.relay.AbstractDeviceEventRelay;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSource;
 import net.realmproject.dcm.network.transcoder.Transcoder;
 import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
+import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.relay.AbstractParcelRelay;
 
 
 /**
- * Listens for events on a {@link DeviceEventBus} and transmits
+ * Listens for parcels on a {@link ParcelHub} and transmits
  * {@link WireMessage}s on a distributed messaging system (eg ActiveMQ)
  * 
  * @author NAS
  *
  */
-public abstract class IWireMessageSource extends AbstractDeviceEventRelay
-        implements WireMessageSource, DeviceEventReceiver, WireMessageTranscoding {
+public abstract class IWireMessageSource extends AbstractParcelRelay
+        implements WireMessageSource, ParcelReceiver, WireMessageTranscoding {
 
     private Transcoder<WireMessage, Serializable> transcoder;
 
-    public IWireMessageSource(DeviceEventBus bus, Transcoder<WireMessage, Serializable> transcoder) {
+    public IWireMessageSource(ParcelHub bus, Transcoder<WireMessage, Serializable> transcoder) {
         this.transcoder = transcoder;
         bus.subscribe(this::filter, this::accept);
     }
 
     @Override
-    public void accept(DeviceEvent event) {
-        if (event.getRoute().contains(getId())) { return; } // cycle detection
-        event.getRoute().add(getId());
-        send(new WireMessage(transform(event)));
+    public void accept(Parcel parcel) {
+        if (parcel.getRoute().contains(getId())) { return; } // cycle detection
+        parcel.getRoute().add(getId());
+        send(new WireMessage(transform(parcel)));
     }
 
     @Override

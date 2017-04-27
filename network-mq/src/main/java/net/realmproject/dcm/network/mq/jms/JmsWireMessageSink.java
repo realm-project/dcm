@@ -25,12 +25,12 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
-import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.parcel.Logging;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 
 /**
@@ -39,11 +39,11 @@ import net.realmproject.dcm.network.transcoder.Transcoder;
  */
 public class JmsWireMessageSink extends IWireMessageSink implements MessageListener, Logging {
 
-    public JmsWireMessageSink(DeviceEventReceiver receiver) {
+    public JmsWireMessageSink(ParcelReceiver receiver) {
         super(receiver, new IIdentityTranscoder());
     }
 
-    public JmsWireMessageSink(DeviceEventReceiver receiver, Transcoder transcoder) {
+    public JmsWireMessageSink(ParcelReceiver receiver, Transcoder transcoder) {
         super(receiver, transcoder);
     }
 

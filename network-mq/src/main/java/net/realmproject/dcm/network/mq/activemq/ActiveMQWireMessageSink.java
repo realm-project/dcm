@@ -36,13 +36,13 @@ import javax.jms.Topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSink;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
 import net.realmproject.dcm.network.transcoder.TranscoderException;
+import net.realmproject.dcm.parcel.Logging;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 
 /**
@@ -65,21 +65,21 @@ public class ActiveMQWireMessageSink extends IWireMessageSink implements Message
     protected Connection connection;
     protected Session session;
 
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, String subject, boolean topic, String url) {
+    public ActiveMQWireMessageSink(ParcelReceiver receiver, String subject, boolean topic, String url) {
         this(receiver, new IIdentityTranscoder(), subject, topic, url);
     }
 
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder,
+    public ActiveMQWireMessageSink(ParcelReceiver receiver, Transcoder<WireMessage, Serializable> transcoder,
             String subject, boolean topic, String url) {
         this(receiver, new IIdentityTranscoder(), subject, topic, url, null, null);
     }
 
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, String subject, boolean topic, String url,
+    public ActiveMQWireMessageSink(ParcelReceiver receiver, String subject, boolean topic, String url,
             String username, String password) {
         this(receiver, new IIdentityTranscoder(), subject, topic, url, username, password);
     }
 
-    public ActiveMQWireMessageSink(DeviceEventReceiver receiver, Transcoder<WireMessage, Serializable> transcoder,
+    public ActiveMQWireMessageSink(ParcelReceiver receiver, Transcoder<WireMessage, Serializable> transcoder,
             String subject, boolean topic, String url, String username, String password) {
         super(receiver, transcoder);
         this.subject = subject;

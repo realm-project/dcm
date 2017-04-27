@@ -23,7 +23,6 @@ public class TestActiveMQDeviceMessageReceiver extends ActiveMQWireMessageSink {
 				try {
 					WireMessage deviceMessage = (WireMessage) object;
 					System.out.println("messageId of recieved message: " + deviceMessage.getMessageId());
-					System.out.println("EventType of recieved message's event: " + deviceMessage.getEvent().getDeviceEventType());
 				}
 				catch (ClassCastException e) {
 					getLog().error("Object class is not DeviceMessage", e);

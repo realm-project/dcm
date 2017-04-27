@@ -24,11 +24,11 @@ import javax.jms.Destination;
 
 import org.springframework.jms.core.JmsTemplate;
 
-import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.impl.IWireMessageSource;
 import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
 
 
 /**
@@ -41,11 +41,11 @@ public class SpringWireMessageSource extends IWireMessageSource {
     private Destination destination;
     private String destinationName;
 
-    public SpringWireMessageSource(DeviceEventBus bus) {
+    public SpringWireMessageSource(ParcelHub bus) {
         super(bus, new IIdentityTranscoder());
     }
 
-    public SpringWireMessageSource(DeviceEventBus bus, Transcoder transcoder) {
+    public SpringWireMessageSource(ParcelHub bus, Transcoder transcoder) {
         super(bus, transcoder);
     }
 
