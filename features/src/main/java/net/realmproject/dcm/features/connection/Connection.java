@@ -4,9 +4,9 @@ package net.realmproject.dcm.features.connection;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import net.realmproject.dcm.event.Logging;
-import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.features.DCMState;
+import net.realmproject.dcm.parcel.Logging;
+import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.util.DCMThreadPool;
 import net.realmproject.dcm.util.backoff.BackoffGenerator;
 

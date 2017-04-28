@@ -7,8 +7,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.bus.IDeviceEventBus;
+import net.realmproject.dcm.parcel.bus.IParcelHub;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.util.DCMSerialize;
 
 
@@ -17,7 +17,7 @@ public class CommandsTest {
     @Test
     public void testIncrement() {
 
-        DeviceEventBus bus = new IDeviceEventBus();
+    	ParcelHub bus = new IParcelHub();
         TestCommandDevice device = new TestCommandDevice("device", bus);
 
         Assert.assertEquals(0, device.getState().number);

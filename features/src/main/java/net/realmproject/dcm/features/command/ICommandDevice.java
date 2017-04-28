@@ -1,11 +1,12 @@
 package net.realmproject.dcm.features.command;
 
 
-import net.realmproject.dcm.event.Device;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.FilterBuilder;
 import net.realmproject.dcm.features.stateful.State;
+import net.realmproject.dcm.features.stateful.StateQuery;
 import net.realmproject.dcm.features.stateful.StatefulDevice;
+import net.realmproject.dcm.parcel.Device;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.filter.FilterBuilder;
 
 
 /**
@@ -20,10 +21,11 @@ public abstract class ICommandDevice<T extends State> extends Device implements 
 
     private CommandDispatcher dispatcher;
 
-    public ICommandDevice(String id, DeviceEventBus bus) {
+    public ICommandDevice(String id, ParcelHub bus) {
         super(id, bus);
         dispatcher = new CommandDispatcher(this, bus);
-        bus.subscribe(FilterBuilder.start().eventGet().target(getId()), event -> publishState());
+        bus.subscribe(FilterBuilder.start().payload(StateQuery.class).target(getId()), event -> publishState());
+        
     }
 
     @Override

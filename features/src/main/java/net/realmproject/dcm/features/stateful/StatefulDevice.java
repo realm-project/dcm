@@ -1,12 +1,9 @@
 package net.realmproject.dcm.features.stateful;
 
+import net.realmproject.dcm.parcel.identity.Identity;
+import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
 
-import net.realmproject.dcm.event.DeviceEventType;
-import net.realmproject.dcm.event.identity.Identity;
-import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
-
-
-public interface StatefulDevice<T extends State> extends DeviceEventPublisher, Identity {
+public interface StatefulDevice<T extends State> extends ParcelPublisher, Identity {
 
     /**
      * Queries the state of this Device. This method should return an object
@@ -33,7 +30,7 @@ public interface StatefulDevice<T extends State> extends DeviceEventPublisher, I
      *            The state of the device
      */
     default void publishState(State state) {
-        publish(DeviceEventType.VALUE_CHANGED, getId(), state);
+        publish(getId(), state);
     }
 
 }

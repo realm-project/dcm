@@ -8,7 +8,7 @@ import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
 
-import net.realmproject.dcm.event.bus.DeviceEventBus;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
 
 
 public class UrlCamera extends Camera {
@@ -16,7 +16,7 @@ public class UrlCamera extends Camera {
     private URL cameraURL;
     private long lastGetFrameException = 0; // limit exception spamming
 
-    protected UrlCamera(String id, DeviceEventBus bus, String url) throws MalformedURLException {
+    protected UrlCamera(String id, ParcelHub bus, String url) throws MalformedURLException {
         super(id, bus);
         cameraURL = new URL(url);
     }

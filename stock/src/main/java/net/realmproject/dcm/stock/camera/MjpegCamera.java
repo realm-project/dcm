@@ -10,8 +10,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.features.connection.Connection;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
 
@@ -33,7 +33,7 @@ public class MjpegCamera extends Camera implements Connection {
 
     private boolean shutdown = false;
 
-    protected MjpegCamera(String id, DeviceEventBus bus, String url) throws MalformedURLException {
+    protected MjpegCamera(String id, ParcelHub bus, String url) throws MalformedURLException {
         super(id, bus);
 
         this.url = new URL(url);

@@ -24,9 +24,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.realmproject.dcm.event.identity.Identity;
 import net.realmproject.dcm.features.Properties;
 import net.realmproject.dcm.features.recording.Recordable;
+import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.util.DCMSerialize;
 import net.realmproject.dcm.util.DCMUtil;
 

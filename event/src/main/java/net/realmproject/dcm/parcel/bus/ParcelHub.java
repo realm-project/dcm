@@ -20,6 +20,7 @@
 package net.realmproject.dcm.parcel.bus;
 
 
+import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;

@@ -4,29 +4,30 @@ package net.realmproject.dcm.features.recording;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventNode;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
+import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.ParcelNode;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 
-public class IDeviceEventRecorder extends IRecorder<DeviceEvent>implements DeviceEventReceiver, DeviceEventNode {
 
-    private Predicate<DeviceEvent> filter = null;
-    private Function<DeviceEvent, DeviceEvent> transform = null;
+public class IDeviceEventRecorder extends IRecorder<Parcel>implements ParcelReceiver, ParcelNode {
 
-    public IDeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer) {
+    private Predicate<Parcel> filter = null;
+    private Function<Parcel, Parcel> transform = null;
+
+    public IDeviceEventRecorder(ParcelHub bus, RecordWriter<Parcel> writer) {
         this(bus, writer, e -> true);
     }
 
-    public IDeviceEventRecorder(DeviceEventBus bus, RecordWriter<DeviceEvent> writer, Predicate<DeviceEvent> filter) {
+    public IDeviceEventRecorder(ParcelHub bus, RecordWriter<Parcel> writer, Predicate<Parcel> filter) {
         super(writer);
         setFilter(filter);
         bus.subscribe(this::filter, this::accept);
     }
 
     @Override
-    public void accept(DeviceEvent event) {
+    public void accept(Parcel event) {
         try {
             record(transform(event));
             return;
@@ -37,21 +38,21 @@ public class IDeviceEventRecorder extends IRecorder<DeviceEvent>implements Devic
         }
     }
 
-    public Predicate<DeviceEvent> getFilter() {
+    public Predicate<Parcel> getFilter() {
         return filter;
     }
 
-    public void setFilter(Predicate<DeviceEvent> filter) {
+    public void setFilter(Predicate<Parcel> filter) {
         this.filter = filter;
     }
 
     @Override
-    public Function<DeviceEvent, DeviceEvent> getTransform() {
+    public Function<Parcel, Parcel> getTransform() {
         return transform;
     }
 
     @Override
-    public void setTransform(Function<DeviceEvent, DeviceEvent> transform) {
+    public void setTransform(Function<Parcel, Parcel> transform) {
         this.transform = transform;
     }
 

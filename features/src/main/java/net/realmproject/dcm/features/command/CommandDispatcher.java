@@ -1,16 +1,16 @@
 package net.realmproject.dcm.features.command;
 
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventType;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.filter.FilterBuilder;
 import net.realmproject.dcm.util.DCMSerialize;
 
 
@@ -20,13 +20,13 @@ public class CommandDispatcher {
     private Map<String, Method> methods;
     private Command latestCommand;
 
-    public CommandDispatcher(CommandDevice commanded, DeviceEventBus bus) {
+    public CommandDispatcher(CommandDevice commanded, ParcelHub bus) {
         this.commanded = commanded;
         methods = generateCommandMethods();
 
-        Predicate<DeviceEvent> eventFilter = FilterBuilder.start().target(commanded.getId()).eventMessage();
+        Predicate<Parcel> eventFilter = FilterBuilder.start().target(commanded.getId());
         bus.subscribe(eventFilter, deviceEvent -> {
-            if (deviceEvent.getDeviceEventType() == DeviceEventType.MESSAGE) {
+            if (deviceEvent.getPayload() instanceof Command) {
                 Command command = (Command) deviceEvent.getPayload();
                 submitCommand(command);
             }

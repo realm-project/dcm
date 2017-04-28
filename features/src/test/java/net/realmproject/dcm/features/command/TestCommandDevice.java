@@ -1,18 +1,18 @@
 package net.realmproject.dcm.features.command;
 
 
-import net.realmproject.dcm.event.bus.DeviceEventBus;
 import net.realmproject.dcm.features.command.Arg;
 import net.realmproject.dcm.features.command.CommandMethod;
 import net.realmproject.dcm.features.command.ICommandDevice;
 import net.realmproject.dcm.features.statefulness.TestState;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
 
 
 public class TestCommandDevice extends ICommandDevice<TestState> {
 
     TestState state = new TestState();
 
-    public TestCommandDevice(String id, DeviceEventBus bus) {
+    public TestCommandDevice(String id, ParcelHub bus) {
         super(id, bus);
     }
 

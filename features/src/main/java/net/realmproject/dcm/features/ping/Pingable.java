@@ -1,24 +1,23 @@
 package net.realmproject.dcm.features.ping;
 
 
-import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.DeviceEventType;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.filter.FilterBuilder;
-import net.realmproject.dcm.event.identity.Identity;
-import net.realmproject.dcm.event.publisher.DeviceEventPublisher;
+import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.identity.Identity;
+import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
 
 
-public interface Pingable extends Identity, DeviceEventPublisher {
+public interface Pingable extends Identity, ParcelPublisher {
 
-    default void initPingable(DeviceEventBus bus) {
+    default void initPingable(ParcelHub bus) {
         // Respond to Pings
         bus.subscribe(FilterBuilder.start().payload(Ping.class).target(getId()), this::onPing);
     }
 
-    default void onPing(DeviceEvent event) {
+    default void onPing(Parcel event) {
         Ping ping = (Ping) event.getPayload();
-        publish(DeviceEventType.MESSAGE, event.getSourceId(), ping);
+        publish(event.getSourceId(), ping);
     }
 
 }

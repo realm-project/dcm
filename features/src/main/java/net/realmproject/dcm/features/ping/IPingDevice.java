@@ -1,17 +1,17 @@
 package net.realmproject.dcm.features.ping;
 
 
-import net.realmproject.dcm.event.DeviceEvent;
-import net.realmproject.dcm.event.bus.DeviceEventBus;
-import net.realmproject.dcm.event.receiver.DeviceEventReceiver;
+import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 
 public class IPingDevice implements Pingable {
 
     private String id;
-    private DeviceEventReceiver receiver;
+    private ParcelReceiver receiver;
 
-    public IPingDevice(String id, DeviceEventBus bus) {
+    public IPingDevice(String id, ParcelHub bus) {
         this.id = id;
         this.receiver = bus;
         initPingable(bus);
@@ -28,7 +28,7 @@ public class IPingDevice implements Pingable {
     }
 
     @Override
-    public void publish(DeviceEvent event) {
+    public void publish(Parcel event) {
         receiver.accept(event);
     }
 
