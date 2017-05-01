@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import net.realmproject.dcm.features.command.Command;
-import net.realmproject.dcm.parcel.IParcel;
+import net.realmproject.dcm.parcel.ISerializableParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
@@ -40,7 +40,7 @@ public class SwingUI extends JFrame {
 		getContentPane().add(display, BorderLayout.CENTER);
 		
 		hub.subscribe(FilterBuilder.start().payload(Frame.class), parcel -> {
-			Frame frame = parcel.getPayload();
+			Frame frame = (Frame) parcel.getPayload();
 			try {
 				BufferedImage image = ImageIO.read(new ByteArrayInputStream(frame.image));
 				display.image = image;
@@ -70,7 +70,7 @@ public class SwingUI extends JFrame {
 							Command cmd = new Command("move");
 							cmd.setProperty("axes", axes);
 							
-							hub.accept(new IParcel().targetId("breakout-backend").payload(cmd));
+							hub.accept(new ISerializableParcel<>().targetId("breakout-backend").payload(cmd));
 						}
 					}
 				}, 33, 33);

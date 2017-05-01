@@ -1,13 +1,14 @@
 package net.realmproject.dcm.parcel.testing;
 
 
+import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import net.realmproject.dcm.parcel.IParcel;
+import net.realmproject.dcm.parcel.ISerializableParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.bus.IParcelBridge;
@@ -21,11 +22,11 @@ public class ParcelNodeTest {
     public void relay() throws InterruptedException {
 
         ParcelHub bus = new IParcelHub();
-        BlockingQueue<Parcel> parcelQueue = bus.subscriptionQueue();
+        BlockingQueue<Parcel<?>> parcelQueue = bus.subscriptionQueue();
 
-        bus.accept(new IParcel("testid", null, "Hello"));
+        bus.accept(new ISerializableParcel<String>("testid", null, "Hello"));
 
-        Parcel parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
+        Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("Hello", parcel.getPayload());
 
     }
@@ -36,13 +37,13 @@ public class ParcelNodeTest {
     public void modification() throws InterruptedException {
 
         ParcelHub bus = new IParcelHub();
-        BlockingQueue<Parcel> parcelQueue = bus.subscriptionQueue();
+        BlockingQueue<Parcel<?>> parcelQueue = bus.subscriptionQueue();
 
         StringBuilder sb = new StringBuilder("Hello");
-        bus.accept(new IParcel("testid", null, sb));
+        bus.accept(new ISerializableParcel<Serializable>("testid", null, sb));
         sb.append(" World!"); // modify payload state after sending
 
-        Parcel parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
+        Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("Hello", parcel.getPayload().toString());
     }
 
@@ -52,12 +53,12 @@ public class ParcelNodeTest {
         ParcelHub bus = new IParcelHub();
         // only accept messages containing the word "world"
         bus.setFilter(e -> e.getPayload().toString().equals("World"));
-        BlockingQueue<Parcel> parcelQueue = bus.subscriptionQueue();
+        BlockingQueue<Parcel<?>> parcelQueue = bus.subscriptionQueue();
 
-        bus.accept(new IParcel("testid", null, "Hello"));
-        bus.accept(new IParcel("testid", null, "World"));
+        bus.accept(new ISerializableParcel<String>("testid", null, "Hello"));
+        bus.accept(new ISerializableParcel<String>("testid", null, "World"));
 
-        Parcel parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
+        Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World", parcel.getPayload().toString());
 
     }
@@ -68,14 +69,16 @@ public class ParcelNodeTest {
         ParcelHub bus = new IParcelHub();
         // append a "!" to the end of all parcel payloads
         bus.setTransform(e -> {
-            e.setPayload(e.getPayload().toString() + "!");
+        	Parcel<String> p = new ISerializableParcel<>();
+        	e.derive(p);
+            p.setPayload(e.getPayload().toString() + "!");
             return e;
         });
-        BlockingQueue<Parcel> parcelQueue = bus.subscriptionQueue();
+        BlockingQueue<Parcel<?>> parcelQueue = bus.subscriptionQueue();
 
-        bus.accept(new IParcel("testid", null, "World"));
+        bus.accept(new ISerializableParcel<String>("testid", null, "World"));
 
-        Parcel parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
+        Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World!", parcel.getPayload().toString());
 
     }
@@ -87,10 +90,10 @@ public class ParcelNodeTest {
         ParcelHub bus2 = new IParcelHub();
         new IParcelBridge(bus1, bus2);
 
-        BlockingQueue<Parcel> parcelQueue = bus2.subscriptionQueue();
-        bus1.accept(new IParcel("testid", null, "World"));
+        BlockingQueue<Parcel<?>> parcelQueue = bus2.subscriptionQueue();
+        bus1.accept(new ISerializableParcel<String>("testid", null, "World"));
 
-        Parcel parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
+        Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World", parcel.getPayload());
 
     }
@@ -103,12 +106,12 @@ public class ParcelNodeTest {
         ParcelHub bus2 = new IParcelHub("zone-2");
         new IParcelBridge(bus1, bus2);
 
-        BlockingQueue<Parcel> parcelQueue = bus2.subscriptionQueue();
-        Parcel parcel;
-        parcel = new IParcel("testid", null, "Hello");
+        BlockingQueue<Parcel<?>> parcelQueue = bus2.subscriptionQueue();
+        Parcel<?> parcel;
+        parcel = new ISerializableParcel<String>("testid", null, "Hello");
         parcel.setLocal(true);
         bus1.accept(parcel);
-        parcel = new IParcel("testid", null, "World");
+        parcel = new ISerializableParcel<String>("testid", null, "World");
         bus1.accept(parcel);
 
         parcel = parcelQueue.poll(5, TimeUnit.SECONDS);

@@ -41,7 +41,7 @@ public class IParcelPublisher extends AbstractParcelRelay implements ParcelNode,
     }
 
     @Override
-    public void publish(Parcel parcel) {
+    public void publish(Parcel<?> parcel) {
         getLog().trace("publish() called for " + parcel + " from " + this.getId());
         if (parcel == null) { return; }
         if (!filter(parcel)) { return; }

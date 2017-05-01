@@ -47,7 +47,7 @@ public class IParcelRelay extends AbstractParcelRelay implements ParcelNode, Par
     }
 
     @Override
-    public void accept(Parcel parcel) {
+    public void accept(Parcel<?> parcel) {
         if (!filter(parcel)) { return; }
         if (parcel.getRoute().contains(getId())) { return; } // cycle detection
         parcel.getRoute().add(getId());

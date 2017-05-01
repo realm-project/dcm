@@ -1,5 +1,6 @@
 package net.realmproject.dcm.features.stateful;
 
+import net.realmproject.dcm.parcel.ISerializableParcel;
 import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
 
@@ -30,7 +31,7 @@ public interface StatefulDevice<T extends State> extends ParcelPublisher, Identi
      *            The state of the device
      */
     default void publishState(State state) {
-        publish(getId(), state);
+        publish(new ISerializableParcel<>(getId(), null, state));
     }
 
 }

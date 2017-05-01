@@ -20,7 +20,6 @@
 package net.realmproject.dcm.parcel.bus;
 
 
-import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
@@ -58,7 +57,7 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode {
      * @param subscriber
      *            The consumer of parcels
      */
-    void subscribe(Consumer<Parcel> subscriber);
+    void subscribe(Consumer<Parcel<?>> subscriber);
 
     /**
      * Listen for parcels broadcast on this parcel hub. Only parcels accepted by
@@ -69,7 +68,7 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode {
      * @param subscriber
      *            the consumer of parcels
      */
-    void subscribe(Predicate<Parcel> filter, Consumer<Parcel> subscriber);
+    void subscribe(Predicate<Parcel<?>> filter, Consumer<Parcel<?>> subscriber);
 
     /**
      * Convenience method which wraps a call to
@@ -81,8 +80,8 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode {
      * @return a {@link BlockingQueue} which will be populated with
      *         {@link Parcel}s
      */
-    default BlockingQueue<Parcel> subscriptionQueue() {
-        BlockingQueue<Parcel> queue = new LinkedBlockingQueue<>();
+    default BlockingQueue<Parcel<?>> subscriptionQueue() {
+        BlockingQueue<Parcel<?>> queue = new LinkedBlockingQueue<>();
         subscribe(parcel -> queue.offer(parcel));
         return queue;
     }
@@ -100,8 +99,8 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode {
      * @return a {@link BlockingQueue} which will be populated with
      *         {@link Parcel}s
      */
-    default BlockingQueue<Parcel> subscriptionQueue(Predicate<Parcel> filter) {
-        BlockingQueue<Parcel> queue = new LinkedBlockingQueue<>();
+    default BlockingQueue<Parcel<?>> subscriptionQueue(Predicate<Parcel<?>> filter) {
+        BlockingQueue<Parcel<?>> queue = new LinkedBlockingQueue<>();
         subscribe(filter, parcel -> queue.offer(parcel));
         return queue;
     }

@@ -36,7 +36,7 @@ import net.realmproject.dcm.parcel.bus.ParcelHub;
  *
  */
 
-public class ZoneFilter implements Predicate<Parcel> {
+public class ZoneFilter implements Predicate<Parcel<?>> {
 
     private List<String> whitelist;
 
@@ -50,7 +50,7 @@ public class ZoneFilter implements Predicate<Parcel> {
     }
 
     @Override
-    public boolean test(Parcel e) {
+    public boolean test(Parcel<?> e) {
         return whitelist.contains(e.getZone());
     }
 }

@@ -20,9 +20,6 @@
 package net.realmproject.dcm.parcel.publisher;
 
 
-import java.io.Serializable;
-
-import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
 
 
@@ -42,36 +39,8 @@ public interface ParcelPublisher {
      * @param parcel
      *            the parcel to send
      */
-    void publish(Parcel parcel);
+    void publish(Parcel<?> parcel);
 
-    /**
-     * Convenience method for publish(Parcel). Builds a {@link Parcel}
-     * from the given values and publishes it.
-     * 
-     * @param sourceId
-     *            the id of the originating node
-     * @param value
-     *            the payload for this parcel. To set no payload, pass null
-     * 
-     */
-    default void publish(String sourceId, Serializable value) {
-        publish(new IParcel(sourceId, null, value));
-    }
 
-    /**
-     * Convenience method for publish(Parcel). Builds a {@link Parcel}
-     * from the given values and publishes it.
-     * 
-     * @param sourceId
-     *            the id of the originating node
-     * @param targetId
-     *            the id of the target node. To set no targetId, pass null
-     * @param value
-     *            the payload for this parcel. To set no payload, pass null
-     * 
-     */
-    default void publish(String sourceId, String targetId, Serializable value) {
-        publish(new IParcel(sourceId, targetId, value));
-    }
 
 }

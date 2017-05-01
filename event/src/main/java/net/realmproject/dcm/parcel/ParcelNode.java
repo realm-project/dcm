@@ -15,9 +15,9 @@ import java.util.function.Predicate;
 public interface ParcelNode {
 
     // Filter Predicate
-    Predicate<Parcel> getFilter();
+    Predicate<Parcel<?>> getFilter();
 
-    void setFilter(Predicate<Parcel> filter);
+    void setFilter(Predicate<Parcel<?>> filter);
 
     /**
      * Method for filtering {@link Parcel}s using the specified filter
@@ -29,16 +29,16 @@ public interface ParcelNode {
      *         block it
      * 
      */
-    default boolean filter(Parcel parcel) {
+    default boolean filter(Parcel<?> parcel) {
         if (getFilter() == null) { return true; }
         if (!getFilter().test(parcel)) { return false; }
         return true;
     }
 
     // Transform Function
-    Function<Parcel, Parcel> getTransform();
+    Function<Parcel<?>, Parcel<?>> getTransform();
 
-    void setTransform(Function<Parcel, Parcel> transform);
+    void setTransform(Function<Parcel<?>, Parcel<?>> transform);
 
     /**
      * Method for transforming {@link Parcel}s using the specified
@@ -50,7 +50,7 @@ public interface ParcelNode {
      * @return the (optionally) modified parcel
      * 
      */
-    default Parcel transform(Parcel parcel) {
+    default Parcel<?> transform(Parcel<?> parcel) {
         if (getTransform() == null) { return parcel; }
         return getTransform().apply(parcel.deepCopy());
     }

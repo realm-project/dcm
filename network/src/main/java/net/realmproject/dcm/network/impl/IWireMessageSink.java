@@ -50,7 +50,7 @@ public class IWireMessageSink extends IParcelPublisher implements WireMessageSin
 
     @Override
     public void receive(WireMessage deviceMessage) {
-        Parcel parcel = deviceMessage.getParcel();
+        Parcel<?> parcel = deviceMessage.getParcel();
         publish(parcel);
     }
 

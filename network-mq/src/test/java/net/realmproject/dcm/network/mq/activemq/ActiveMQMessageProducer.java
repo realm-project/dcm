@@ -8,7 +8,7 @@ import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
 import net.realmproject.dcm.network.WireMessage;
-import net.realmproject.dcm.parcel.IParcel;
+import net.realmproject.dcm.parcel.ISerializableParcel;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -43,7 +43,7 @@ public class ActiveMQMessageProducer implements Runnable {
 				String messageId = Integer.toString(i);
 				WireMessage dummyDeviceMessage = new WireMessage();
 				dummyDeviceMessage.setMessageId(messageId);
-				dummyDeviceMessage.setParcel(new IParcel("TestDevice"));
+				dummyDeviceMessage.setParcel(new ISerializableParcel<>("TestDevice"));
 				ObjectMessage message = session.createObjectMessage(dummyDeviceMessage);
 			
 				producer.send(message);

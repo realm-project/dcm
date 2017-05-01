@@ -47,8 +47,8 @@ import net.realmproject.dcm.util.DCMThreadPool;
 
 public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Logging {
 
-    private List<Consumer<Parcel>> consumers = new ArrayList<>();
-    private BlockingQueue<Parcel> parcelqueue = new LinkedBlockingQueue<>(1000);
+    private List<Consumer<Parcel<?>>> consumers = new ArrayList<>();
+    private BlockingQueue<Parcel<?>> parcelqueue = new LinkedBlockingQueue<>(1000);
     private String zone = "";
     private final Log log = LogFactory.getLog(getClass());
 
@@ -59,7 +59,7 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     public IParcelHub(String zone) {
         this.zone = zone;
         DCMThreadPool.getPool().submit(() -> {
-            Parcel parcel = null;
+            Parcel<?> parcel = null;
             while (true) {
                 try {
                     getLog().trace("ParcelHub " + IParcelHub.this.getId() + " Transforming Parcel " + parcel);
@@ -85,8 +85,8 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
 
     }
 
-    private synchronized void broadcast(Parcel parcel) {
-        for (Consumer<Parcel> consumer : new ArrayList<>(consumers)) {
+    private synchronized void broadcast(Parcel<?> parcel) {
+        for (Consumer<Parcel<?>> consumer : new ArrayList<>(consumers)) {
             // shallow copy to ensure things like route are not clobbered by
             // different nodes further on.
             DCMInterrupt.handle(() -> consumer.accept(parcel.shallowCopy()), e -> getLog().error(parcel, e));
@@ -94,7 +94,7 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     }
 
     @Override
-    public synchronized void accept(Parcel parcel) {
+    public synchronized void accept(Parcel<?> parcel) {
         if (parcel == null) { return; }
         if (parcel.getRoute().contains(getId())) { return; } // cycle detection
         parcel.getRoute().add(getId());
@@ -121,11 +121,11 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     }
 
     @Override
-    public synchronized void subscribe(Consumer<Parcel> subscriber) {
+    public synchronized void subscribe(Consumer<Parcel<?>> subscriber) {
         consumers.add(subscriber);
     }
 
-    public final void subscribe(Predicate<Parcel> filter, Consumer<Parcel> subscriber) {
+    public final void subscribe(Predicate<Parcel<?>> filter, Consumer<Parcel<?>> subscriber) {
         subscribe(parcel -> {
             if (filter.test(parcel)) {
                 subscriber.accept(parcel);

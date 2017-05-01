@@ -11,23 +11,23 @@ import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 
 
-public class IDeviceEventRecorder extends IRecorder<Parcel>implements ParcelReceiver, ParcelNode {
+public class IDeviceEventRecorder extends IRecorder<Parcel<?>> implements ParcelReceiver, ParcelNode {
 
-    private Predicate<Parcel> filter = null;
-    private Function<Parcel, Parcel> transform = null;
+    private Predicate<Parcel<?>> filter = null;
+    private Function<Parcel<?>, Parcel<?>> transform = null;
 
-    public IDeviceEventRecorder(ParcelHub bus, RecordWriter<Parcel> writer) {
+    public IDeviceEventRecorder(ParcelHub bus, RecordWriter<Parcel<?>> writer) {
         this(bus, writer, e -> true);
     }
 
-    public IDeviceEventRecorder(ParcelHub bus, RecordWriter<Parcel> writer, Predicate<Parcel> filter) {
+    public IDeviceEventRecorder(ParcelHub bus, RecordWriter<Parcel<?>> writer, Predicate<Parcel<?>> filter) {
         super(writer);
         setFilter(filter);
         bus.subscribe(this::filter, this::accept);
     }
 
     @Override
-    public void accept(Parcel event) {
+    public void accept(Parcel<?> event) {
         try {
             record(transform(event));
             return;
@@ -38,21 +38,21 @@ public class IDeviceEventRecorder extends IRecorder<Parcel>implements ParcelRece
         }
     }
 
-    public Predicate<Parcel> getFilter() {
+    public Predicate<Parcel<?>> getFilter() {
         return filter;
     }
 
-    public void setFilter(Predicate<Parcel> filter) {
+    public void setFilter(Predicate<Parcel<?>> filter) {
         this.filter = filter;
     }
 
     @Override
-    public Function<Parcel, Parcel> getTransform() {
+    public Function<Parcel<?>, Parcel<?>> getTransform() {
         return transform;
     }
 
     @Override
-    public void setTransform(Function<Parcel, Parcel> transform) {
+    public void setTransform(Function<Parcel<?>, Parcel<?>> transform) {
         this.transform = transform;
     }
 

@@ -17,7 +17,7 @@ import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
 public interface ParcelRelay extends ParcelNode {
 
     /** Method for filtering {@link Parcel}s using the specified filter **/
-    default boolean filter(Parcel parcel) {
+    default boolean filter(Parcel<?> parcel) {
         if (!isSending()) { return false; }
         if (getFilter() == null) { return true; }
         if (!getFilter().test(parcel)) { return false; }

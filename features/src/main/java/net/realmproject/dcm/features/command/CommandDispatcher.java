@@ -24,7 +24,7 @@ public class CommandDispatcher {
         this.commanded = commanded;
         methods = generateCommandMethods();
 
-        Predicate<Parcel> eventFilter = FilterBuilder.start().target(commanded.getId());
+        Predicate<Parcel<?>> eventFilter = FilterBuilder.start().target(commanded.getId());
         bus.subscribe(eventFilter, deviceEvent -> {
             if (deviceEvent.getPayload() instanceof Command) {
                 Command command = (Command) deviceEvent.getPayload();

@@ -3,7 +3,7 @@ package net.realmproject.dcm.stock.ping;
 
 
 import net.realmproject.dcm.features.ping.Ping;
-import net.realmproject.dcm.parcel.IParcel;
+import net.realmproject.dcm.parcel.ISerializableParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
@@ -39,14 +39,14 @@ public class IDevicePinger implements DevicePinger {
     }
 
     private Ping ping(Ping thePing) {
-        receiver.accept(new IParcel()
+        receiver.accept(new ISerializableParcel<>()
                 .sourceId(getId())
                 .targetId(getTargetId())
                 .payload(thePing));
         return thePing;
     }
 
-    private void onPong(Parcel event) {
+    private void onPong(Parcel<?> event) {
         Ping ping = (Ping) event.getPayload();
         ping.completed();
         if (lastPing == null || lastPing.startedBefore(ping)) {

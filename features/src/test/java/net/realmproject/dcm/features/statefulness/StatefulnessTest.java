@@ -17,13 +17,13 @@ public class StatefulnessTest {
     public void statefulnessTest() throws InterruptedException {
 
     	ParcelHub bus = new IParcelHub();
-        BlockingQueue<Parcel> eventQueue = bus.subscriptionQueue();
+        BlockingQueue<Parcel<?>> eventQueue = bus.subscriptionQueue();
 
         TestStatefulDevice device = new TestStatefulDevice("id", bus);
         device.getState().number = 7;
         device.publishState();
 
-        Parcel event = eventQueue.take();
+        Parcel<?> event = eventQueue.take();
 
         TestState state = (TestState) event.getPayload();
         Assert.assertEquals(7, state.number);

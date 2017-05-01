@@ -30,20 +30,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.realmproject.dcm.parcel.serializer.ParcelSerializer;
+import net.realmproject.dcm.parcel.serializer.SerializableParcelSerializer;
 import net.realmproject.dcm.util.DCMUtil;
 
 
 
-public class IParcel implements Parcel {
+public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
 
     private static final long serialVersionUID = 1L;
 
     private String sourceId, targetId;
-    private Serializable payload;
+    private S payload;
     private long timestamp = System.currentTimeMillis();
+    
+    private ParcelSerializer<S> payloadSerializer = new SerializableParcelSerializer<>();
 
 
-    private String zone = null;
+
+	private String zone = null;
     private boolean localParcel = false;
     private List<String> route = new LinkedList<>();
     
@@ -51,7 +56,7 @@ public class IParcel implements Parcel {
 
     /**************************************************************************/
 
-    public IParcel() {
+    public ISerializableParcel() {
         this(null, null, null, System.currentTimeMillis());
     }
 
@@ -63,7 +68,7 @@ public class IParcel implements Parcel {
      * @param sourceId
      *            The id of the originating device
      */
-    public IParcel(String sourceId) {
+    public ISerializableParcel(String sourceId) {
         this(sourceId, null, null, System.currentTimeMillis());
     }
 
@@ -79,7 +84,7 @@ public class IParcel implements Parcel {
      * @param value
      *            The payload for this parcel
      */
-    public IParcel(String sourceId, String targetId, Serializable value) {
+    public ISerializableParcel(String sourceId, String targetId, S value) {
         this(sourceId, targetId, value, System.currentTimeMillis());
     }
 
@@ -97,23 +102,22 @@ public class IParcel implements Parcel {
      * @param timestamp
      *            The timestamp this parcel was issued at
      */
-    public IParcel(String sourceId, String targetId, Serializable value, long timestamp) {
+    public ISerializableParcel(String sourceId, String targetId, S value, long timestamp) {
         this.sourceId = sourceId;
         this.targetId = targetId;
-        this.payload = deepCopy(value);
+        this.payload = getPayloadSerializer().copy(value);
         this.timestamp = timestamp;
     }
 
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <S extends Serializable> S getPayload() {
-        return (S) payload;
+    public S getPayload() {
+        return payload;
     }
 
     @Override
-    public void setPayload(Serializable payload) {
-        this.payload = deepCopy(payload);
+    public void setPayload(S payload) {
+        this.payload = getPayloadSerializer().copy(payload);
     }
 
     @Override
@@ -141,32 +145,41 @@ public class IParcel implements Parcel {
         this.localParcel = local;
     }
 
-    public Parcel deepCopy() {
-        return (Parcel) deepCopy(this);
+    @Override
+    public Parcel<S> deepCopy() {
+    	Parcel<S> copy = Parcel.deserializeParcel(serializeParcel());
+    	copy.setPayload(payload);
+        return copy;
     }
 
-    public static Serializable deepCopy(Serializable input) {
-
+    
+    @Override
+    public byte[] serializeParcel() {
+    	
+    	S payload = this.payload;
+    	this.payload = null;
+    	
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(input);
+            oos.writeObject(this);
+            return baos.toByteArray();
 
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            return (Serializable) ois.readObject();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+        	this.payload = payload;
         }
-        catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
+
+
+    
     @Override
-    public Parcel shallowCopy() {
-        IParcel copy = new IParcel();
+    public ISerializableParcel<S> shallowCopy() {
+        ISerializableParcel<S> copy = new ISerializableParcel<>();
         copy.timestamp = timestamp;
         copy.sourceId = sourceId;
         copy.targetId = targetId;
@@ -243,6 +256,30 @@ public class IParcel implements Parcel {
 	@Override
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	
+	
+	@Override
+    public ParcelSerializer<S> getPayloadSerializer() {
+		return payloadSerializer;
+	}
+
+	@Override
+	public void setPayloadSerializer(ParcelSerializer<S> payloadSerializer) {
+		this.payloadSerializer = payloadSerializer;
+	}
+	
+
+
+	@Override
+	public void setSerializedPayload(Serializable payload) {
+		this.payload = getPayloadSerializer().deserialize(payload);
+	}
+
+	@Override
+	public Serializable getSerializedPayload() {
+		return getPayloadSerializer().serialize(payload);
 	}
 
 }

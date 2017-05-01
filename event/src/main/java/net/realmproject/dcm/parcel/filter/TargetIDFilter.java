@@ -34,7 +34,7 @@ import net.realmproject.dcm.parcel.Parcel;
  *
  */
 
-public class TargetIDFilter implements Predicate<Parcel> {
+public class TargetIDFilter implements Predicate<Parcel<?>> {
 
     List<String> ids;
 
@@ -48,7 +48,7 @@ public class TargetIDFilter implements Predicate<Parcel> {
     }
 
     @Override
-    public boolean test(Parcel e) {
+    public boolean test(Parcel<?> e) {
         return ids.contains(e.getTargetId());
     }
 

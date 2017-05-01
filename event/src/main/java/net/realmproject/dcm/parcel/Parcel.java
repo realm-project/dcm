@@ -20,6 +20,11 @@
 package net.realmproject.dcm.parcel;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +33,7 @@ import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.parcel.identity.SourceIdentity;
 import net.realmproject.dcm.parcel.identity.TargetIdentity;
+import net.realmproject.dcm.parcel.serializer.ParcelSerializer;
 
 
 /**
@@ -37,7 +43,7 @@ import net.realmproject.dcm.parcel.identity.TargetIdentity;
  * @author NAS
  *
  */
-public interface Parcel extends Serializable, Identity, TargetIdentity, SourceIdentity {
+public interface Parcel<S> extends Serializable, Identity, TargetIdentity, SourceIdentity {
 
 
     /**
@@ -49,7 +55,7 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      * 
      * @return The current payload. May be null.
      */
-    <S extends Serializable> S getPayload();
+    S getPayload();
 
     /**
      * Sets the payload for this Parcel.
@@ -57,7 +63,7 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      * @param payload
      *            The new payload. May be null.
      */
-    void setPayload(Serializable payload);
+    void setPayload(S payload);
 
     /**
      * Gets the time that this parcel was published (according to the computer
@@ -133,7 +139,7 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      *            the id of the originating node
      * @return This Parcel
      */
-    default Parcel sourceId(String sourceId) {
+    default Parcel<S> sourceId(String sourceId) {
         setSourceId(sourceId);
         return this;
     }
@@ -146,20 +152,20 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      *            the id of the target node. To set no target id, pass null
      * @return This Parcel
      */
-    default Parcel targetId(String targetId) {
+    default Parcel<S> targetId(String targetId) {
         setTargetId(targetId);
         return this;
     }
 
     /**
      * Fluent API convenience method. See
-     * {@link Parcel#setPayload(Serializable)}
+     * {@link Parcel#setPayload(S)}
      * 
      * @param payload
      *            the (optional) payload for this parcel
      * @return This Parcel
      */
-    default Parcel payload(Serializable payload) {
+    default Parcel<S> payload(S payload) {
         setPayload(payload);
         return this;
     }
@@ -171,7 +177,7 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      *            the timestamp as a Date object
      * @return This Parcel
      */
-    default Parcel timestamp(Date timestamp) {
+    default Parcel<S> timestamp(Date timestamp) {
         setTimestamp(timestamp);
         return this;
     }
@@ -183,7 +189,7 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      *            the timestamp this parcel was issued at
      * @return This Parcel
      */
-    default Parcel timestamp(long timestamp) {
+    default Parcel<S> timestamp(long timestamp) {
         setTimestamp(timestamp);
         return this;
     }
@@ -197,7 +203,7 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      *            The zone this parcel originates from
      * @return This Parcel
      */
-    default Parcel zone(String zone) {
+    default Parcel<S> zone(String zone) {
         setZone(zone);
         return this;
     }
@@ -210,11 +216,22 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      *            flag to set this parcel local or not
      * @return This Parcel
      */
-    default Parcel local(boolean local) {
+    default Parcel<S> local(boolean local) {
         setLocal(local);
         return this;
     }
 
+    
+    /**
+     * Retrieves the route this parcel has traveled
+     * 
+     * @return the stack of nodes this parcel has traversed
+     */
+    public List<String> getRoute();
+
+    
+    
+    
 
     /**
      * Performs a deep copy of this Parcel including making a copy of the
@@ -222,21 +239,56 @@ public interface Parcel extends Serializable, Identity, TargetIdentity, SourceId
      * 
      * @return The deep copy of this Parcel
      */
-    public Parcel deepCopy();
+    public Parcel<S> deepCopy();
 
     /**
-     * Performs a deep copy of this Parcel without making a copy of the
+     * Performs a shallow copy of this Parcel without making a copy of the
      * payload.
      * 
      * @return The shallow copy of this Parcel
      */
-    public Parcel shallowCopy();
+    public Parcel<S> shallowCopy();
 
+    
     /**
-     * Retrieves the route this parcel has traveled
-     * 
-     * @return the stack of nodes this parcel has traversed
+     * Loads the base information from this Parcel into the given parsle. 
+     * This is used mostly to switch from one Parcel implementation or 
+     * parameterization to another
+     * @param p the Parcel to load this Parcel's values into
      */
-    public List<String> getRoute();
+    default void derive(Parcel<?> p) {
+    	p.setId(getId());
+    	p.setLocal(isLocal());
+    	p.setSourceId(getSourceId());
+    	p.setTargetId(getTargetId());
+    	p.setTimestamp(getTimestamp());
+    	p.setZone(getZone());
+    }
+
+    
+    public ParcelSerializer<S> getPayloadSerializer();
+	public void setPayloadSerializer(ParcelSerializer<S> payloadSerializer);
+    
+    public void setSerializedPayload(Serializable payload);
+    public Serializable getSerializedPayload();
+    
+    byte[] serializeParcel();    
+    public static <S> Parcel<S> deserializeParcel(byte[] input) {
+
+        try {
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(input);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Parcel<S>) ois.readObject();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    
 
 }

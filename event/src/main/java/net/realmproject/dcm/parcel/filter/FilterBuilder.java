@@ -8,17 +8,17 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.Parcel;
 
-public class FilterBuilder implements Predicate<Parcel> {
+public class FilterBuilder implements Predicate<Parcel<?>> {
 
-    Predicate<Parcel> filter = parcel -> true;
-    BiFunction<Predicate<Parcel>, Predicate<Parcel>, Predicate<Parcel>> reducer = (p1, p2) -> p1.and(p2);
+    Predicate<Parcel<?>> filter = parcel -> true;
+    BiFunction<Predicate<Parcel<?>>, Predicate<Parcel<?>>, Predicate<Parcel<?>>> reducer = (p1, p2) -> p1.and(p2);
 
     public static FilterBuilder start() {
         return new FilterBuilder();
     }
 
     @Override
-    public boolean test(Parcel t) {
+    public boolean test(Parcel<?> t) {
         return filter.test(t);
     }
 
@@ -44,7 +44,7 @@ public class FilterBuilder implements Predicate<Parcel> {
     }
 
     public FilterBuilder setMergeFunction(
-            BiFunction<Predicate<Parcel>, Predicate<Parcel>, Predicate<Parcel>> merge) {
+            BiFunction<Predicate<Parcel<?>>, Predicate<Parcel<?>>, Predicate<Parcel<?>>> merge) {
         reducer = merge;
         return this;
     }
@@ -59,31 +59,31 @@ public class FilterBuilder implements Predicate<Parcel> {
         return this;
     }
 
-    private void merge(Predicate<Parcel> other) {
+    private void merge(Predicate<Parcel<?>> other) {
         filter = reducer.apply(filter, other);
     }
 
     @SafeVarargs
-    public static Predicate<Parcel> all(Predicate<Parcel>... filters) {
+    public static Predicate<Parcel<?>> all(Predicate<Parcel<?>>... filters) {
         return all(Arrays.asList(filters));
     }
 
     @SafeVarargs
-    public static Predicate<Parcel> any(Predicate<Parcel>... filters) {
+    public static Predicate<Parcel<?>> any(Predicate<Parcel<?>>... filters) {
         return any(Arrays.asList(filters));
     }
 
-    public static Predicate<Parcel> all(List<Predicate<Parcel>> filters) {
-        Predicate<Parcel> predicate = (parcel) -> true;
-        for (Predicate<Parcel> filter : filters) {
+    public static Predicate<Parcel<?>> all(List<Predicate<Parcel<?>>> filters) {
+        Predicate<Parcel<?>> predicate = (parcel) -> true;
+        for (Predicate<Parcel<?>> filter : filters) {
             predicate = predicate.and(filter);
         }
         return predicate;
     }
 
-    public static Predicate<Parcel> any(List<Predicate<Parcel>> filters) {
-        Predicate<Parcel> predicate = (parcel) -> false;
-        for (Predicate<Parcel> filter : filters) {
+    public static Predicate<Parcel<?>> any(List<Predicate<Parcel<?>>> filters) {
+        Predicate<Parcel<?>> predicate = (parcel) -> false;
+        for (Predicate<Parcel<?>> filter : filters) {
             predicate = predicate.or(filter);
         }
         return predicate;

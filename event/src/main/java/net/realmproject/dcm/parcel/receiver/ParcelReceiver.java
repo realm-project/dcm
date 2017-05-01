@@ -12,6 +12,6 @@ import net.realmproject.dcm.parcel.Parcel;
  */
 public interface ParcelReceiver {
 
-    void accept(Parcel parcel);
+    void accept(Parcel<?> parcel);
 
 }

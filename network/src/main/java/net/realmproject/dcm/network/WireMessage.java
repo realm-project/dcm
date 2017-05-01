@@ -36,21 +36,25 @@ import net.realmproject.dcm.util.DCMUtil;
 public class WireMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Parcel parcel;
+    private byte[] serializedParcel;
+    private Serializable serializedPayload;
     private String messageId = DCMUtil.generateId();
 
     public WireMessage() {}
 
-    public WireMessage(Parcel parcel) {
+    public WireMessage(Parcel<?> parcel) {
         setParcel(parcel);
     }
 
-    public Parcel getParcel() {
-        return parcel;
+    public Parcel<?> getParcel() {
+        Parcel<?> p = Parcel.deserializeParcel(serializedParcel);
+        p.setSerializedPayload(serializedPayload);
+        return p;        
     }
 
-    public void setParcel(Parcel parcel) {
-        this.parcel = parcel;
+    public void setParcel(Parcel<?> parcel) {
+        this.serializedPayload = parcel.getSerializedPayload();
+    	this.serializedParcel = parcel.serializeParcel();
     }
 
     public String getMessageId() {
