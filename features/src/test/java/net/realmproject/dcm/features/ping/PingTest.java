@@ -10,7 +10,7 @@ import org.junit.Test;
 import junit.framework.Assert;
 import net.realmproject.dcm.features.ping.IPingDevice;
 import net.realmproject.dcm.features.ping.Ping;
-import net.realmproject.dcm.parcel.ISerializableParcel;
+import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.IParcelHub;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
@@ -34,7 +34,7 @@ public class PingTest {
 
         // send the ping
         Ping ping = new Ping();
-        bus.accept(new ISerializableParcel<>("pinger", "ponger", ping));
+        bus.accept(new IParcel<>("pinger", "ponger", ping));
 
         // check for response
         Parcel<?> response = events.poll(5, TimeUnit.SECONDS);

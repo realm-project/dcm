@@ -20,23 +20,21 @@
 package net.realmproject.dcm.parcel;
 
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import net.realmproject.dcm.parcel.serializer.ParcelSerializer;
-import net.realmproject.dcm.parcel.serializer.SerializableParcelSerializer;
+import net.realmproject.dcm.parcel.serializer.Serializer;
+import net.realmproject.dcm.parcel.serializer.SerializableSerializer;
 import net.realmproject.dcm.util.DCMUtil;
 
 
 
-public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
+public class IParcel<S> implements Parcel<S> {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +42,7 @@ public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
     private S payload;
     private long timestamp = System.currentTimeMillis();
     
-    private ParcelSerializer<S> payloadSerializer = new SerializableParcelSerializer<>();
+    private Serializer<S> payloadSerializer = new SerializableSerializer<>();
 
 
 
@@ -56,7 +54,7 @@ public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
 
     /**************************************************************************/
 
-    public ISerializableParcel() {
+    public IParcel() {
         this(null, null, null, System.currentTimeMillis());
     }
 
@@ -68,7 +66,7 @@ public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
      * @param sourceId
      *            The id of the originating device
      */
-    public ISerializableParcel(String sourceId) {
+    public IParcel(String sourceId) {
         this(sourceId, null, null, System.currentTimeMillis());
     }
 
@@ -84,7 +82,7 @@ public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
      * @param value
      *            The payload for this parcel
      */
-    public ISerializableParcel(String sourceId, String targetId, S value) {
+    public IParcel(String sourceId, String targetId, S value) {
         this(sourceId, targetId, value, System.currentTimeMillis());
     }
 
@@ -102,7 +100,7 @@ public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
      * @param timestamp
      *            The timestamp this parcel was issued at
      */
-    public ISerializableParcel(String sourceId, String targetId, S value, long timestamp) {
+    public IParcel(String sourceId, String targetId, S value, long timestamp) {
         this.sourceId = sourceId;
         this.targetId = targetId;
         this.payload = getPayloadSerializer().copy(value);
@@ -178,8 +176,8 @@ public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
 
     
     @Override
-    public ISerializableParcel<S> shallowCopy() {
-        ISerializableParcel<S> copy = new ISerializableParcel<>();
+    public IParcel<S> shallowCopy() {
+        IParcel<S> copy = new IParcel<>();
         copy.timestamp = timestamp;
         copy.sourceId = sourceId;
         copy.targetId = targetId;
@@ -261,12 +259,12 @@ public class ISerializableParcel<S extends Serializable> implements Parcel<S> {
 	
 	
 	@Override
-    public ParcelSerializer<S> getPayloadSerializer() {
+    public Serializer<S> getPayloadSerializer() {
 		return payloadSerializer;
 	}
 
 	@Override
-	public void setPayloadSerializer(ParcelSerializer<S> payloadSerializer) {
+	public void setPayloadSerializer(Serializer<S> payloadSerializer) {
 		this.payloadSerializer = payloadSerializer;
 	}
 	

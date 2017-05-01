@@ -1,7 +1,7 @@
 package net.realmproject.dcm.features.ping;
 
 
-import net.realmproject.dcm.parcel.ISerializableParcel;
+import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
@@ -18,7 +18,7 @@ public interface Pingable extends Identity, ParcelPublisher {
 
     default void onPing(Parcel<?> event) {
         Ping ping = (Ping) event.getPayload();
-        publish(new ISerializableParcel<>(event.getSourceId(), null, ping));
+        publish(new IParcel<>(getId(), event.getSourceId(), ping));
     }
 
 }

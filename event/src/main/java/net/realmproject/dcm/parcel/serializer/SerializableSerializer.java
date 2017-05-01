@@ -9,10 +9,10 @@ import java.io.Serializable;
 
 
 
-public class SerializableParcelSerializer<S extends Serializable> implements ParcelSerializer<S> {
+public class SerializableSerializer<S> implements Serializer<S> {
 
 	@Override
-	public Serializable serialize(S input) throws ParcelSerializerException {
+	public Serializable serialize(S input) throws SerializerException {
 		
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -23,20 +23,20 @@ public class SerializableParcelSerializer<S extends Serializable> implements Par
 
         }
         catch (IOException e) {
-            throw new ParcelSerializerException(e);
+            throw new SerializerException(e);
         }
 
 	}
 
 	@Override
-	public S deserialize(Serializable input) throws ParcelSerializerException {
+	public S deserialize(Serializable input) throws SerializerException {
 		byte[] bytes = (byte[]) input;
         try {
         	ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
         	ObjectInputStream ois = new ObjectInputStream(bais);
         	return (S) ois.readObject();
         } catch (Exception e) {
-        	throw new ParcelSerializerException(e);
+        	throw new SerializerException(e);
         }
 	}
 

@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import net.realmproject.dcm.features.command.Command;
-import net.realmproject.dcm.parcel.ISerializableParcel;
+import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
@@ -70,7 +70,7 @@ public class SwingUI extends JFrame {
 							Command cmd = new Command("move");
 							cmd.setProperty("axes", axes);
 							
-							hub.accept(new ISerializableParcel<>().targetId("breakout-backend").payload(cmd));
+							hub.accept(new IParcel<>().targetId("breakout-backend").payload(cmd));
 						}
 					}
 				}, 33, 33);

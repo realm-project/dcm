@@ -33,7 +33,7 @@ import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.parcel.identity.SourceIdentity;
 import net.realmproject.dcm.parcel.identity.TargetIdentity;
-import net.realmproject.dcm.parcel.serializer.ParcelSerializer;
+import net.realmproject.dcm.parcel.serializer.Serializer;
 
 
 /**
@@ -266,8 +266,8 @@ public interface Parcel<S> extends Serializable, Identity, TargetIdentity, Sourc
     }
 
     
-    public ParcelSerializer<S> getPayloadSerializer();
-	public void setPayloadSerializer(ParcelSerializer<S> payloadSerializer);
+    public Serializer<S> getPayloadSerializer();
+	public void setPayloadSerializer(Serializer<S> payloadSerializer);
     
     public void setSerializedPayload(Serializable payload);
     public Serializable getSerializedPayload();
