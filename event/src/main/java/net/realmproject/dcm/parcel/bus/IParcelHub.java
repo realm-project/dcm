@@ -94,7 +94,7 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     }
 
     @Override
-    public synchronized void accept(Parcel<?> parcel) {
+    public void accept(Parcel<?> parcel) {
         if (parcel == null) { return; }
         if (parcel.getRoute().contains(getId())) { return; } // cycle detection
         parcel.getRoute().add(getId());

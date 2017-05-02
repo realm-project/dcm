@@ -161,6 +161,7 @@ public class IParcel<S> implements Parcel<S> {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(this);
+            oos.writeObject(getPayloadSerializer().serialize(payload));
             return baos.toByteArray();
 
         }
@@ -257,13 +258,12 @@ public class IParcel<S> implements Parcel<S> {
 	}
 
 	
-	
-	@Override
+	//@Override
     public Serializer<S> getPayloadSerializer() {
 		return payloadSerializer;
 	}
 
-	@Override
+	//@Override
 	public void setPayloadSerializer(Serializer<S> payloadSerializer) {
 		this.payloadSerializer = payloadSerializer;
 	}
@@ -271,12 +271,12 @@ public class IParcel<S> implements Parcel<S> {
 
 
 	@Override
-	public void setSerializedPayload(Serializable payload) {
+	public void setPayloadSerialized(Serializable payload) {
 		this.payload = getPayloadSerializer().deserialize(payload);
 	}
 
 	@Override
-	public Serializable getSerializedPayload() {
+	public Serializable getPayloadSerialized() {
 		return getPayloadSerializer().serialize(payload);
 	}
 

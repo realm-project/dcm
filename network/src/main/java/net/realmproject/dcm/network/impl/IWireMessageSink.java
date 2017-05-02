@@ -24,6 +24,7 @@ import java.io.Serializable;
 
 import net.realmproject.dcm.network.WireMessage;
 import net.realmproject.dcm.network.WireMessageSink;
+import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
 import net.realmproject.dcm.network.transcoder.Transcoder;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
@@ -43,6 +44,10 @@ public class IWireMessageSink extends IParcelPublisher implements WireMessageSin
 
     private Transcoder<WireMessage, Serializable> transcoder;
 
+    public IWireMessageSink(ParcelReceiver receiver) {
+    	this(receiver, new IIdentityTranscoder());
+    }
+    
     public IWireMessageSink(ParcelReceiver receiver, Transcoder<WireMessage, Serializable> transcoder) {
         super(receiver);
         this.transcoder = transcoder;

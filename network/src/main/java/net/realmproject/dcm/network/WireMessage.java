@@ -37,7 +37,6 @@ public class WireMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private byte[] serializedParcel;
-    private Serializable serializedPayload;
     private String messageId = DCMUtil.generateId();
 
     public WireMessage() {}
@@ -48,12 +47,10 @@ public class WireMessage implements Serializable {
 
     public Parcel<?> getParcel() {
         Parcel<?> p = Parcel.deserializeParcel(serializedParcel);
-        p.setSerializedPayload(serializedPayload);
         return p;        
     }
 
     public void setParcel(Parcel<?> parcel) {
-        this.serializedPayload = parcel.getSerializedPayload();
     	this.serializedParcel = parcel.serializeParcel();
     }
 
