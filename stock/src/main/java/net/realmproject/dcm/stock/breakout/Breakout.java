@@ -10,6 +10,7 @@ import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
 import net.realmproject.dcm.parcel.router.IParcelRouter;
 import net.realmproject.dcm.parcel.router.IRoutingParcelBridge;
+import net.realmproject.dcm.parcel.router.IRoutingParcelConsumer;
 import net.realmproject.dcm.parcel.router.IRoutingParcelRelay;
 import net.realmproject.dcm.parcel.router.ParcelRouter;
 import net.realmproject.dcm.parcel.router.RoutingTable;
@@ -41,7 +42,7 @@ public class Breakout {
 		IRoutingParcelBridge bridge = new IRoutingParcelBridge(frontend, backend);
 		
 
-		frontend.subscribe(new IParcelConsumer(p -> {}));
+		frontend.subscribe(new IRoutingParcelConsumer(p -> {}));
 
 		
 		Screen breakout = new Screen("breakout-engine", backend);

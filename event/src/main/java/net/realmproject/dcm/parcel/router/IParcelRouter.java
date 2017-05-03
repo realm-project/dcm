@@ -47,7 +47,7 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
 		
 		for (IParcelHub.Subscription subscriber : new ArrayList<>(subscribers)) {
 			ParcelReceiver receiver = subscriber.receiver;
-			if (receiver.getId().equals(previousHop)) { continue; }
+			if (receiver.getId() != null && receiver.getId().equals(previousHop)) { continue; }
 			
 			RoutingTable otherRoutes;
 			if (receiver instanceof Routing) {

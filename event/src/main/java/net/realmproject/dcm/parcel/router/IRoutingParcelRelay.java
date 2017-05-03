@@ -18,6 +18,8 @@ public class IRoutingParcelRelay extends IParcelRelay implements Routing {
 			RoutingTable otherRoutes = node.getRoutes(getId());
 			otherRoutes.hop(to.getId());
 			routes.add(otherRoutes);
+		} else {
+			routes.addRoute(to.getId(), getId(), 1);
 		}
 		return routes;
 

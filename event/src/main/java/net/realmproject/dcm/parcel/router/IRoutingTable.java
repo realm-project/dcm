@@ -22,6 +22,7 @@ public class IRoutingTable implements RoutingTable {
 
 	@Override
 	public void addRoute(String target, String nextHop, int hops) {
+		if (target == null) { return; }
 		if (routes.containsKey(target)) {
 			
 			Route current = routes.get(target);
