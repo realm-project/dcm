@@ -15,6 +15,7 @@ import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.IParcelHub;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiverQueue;
 
 
 public class PingTest {
@@ -27,7 +28,9 @@ public class PingTest {
                 .payload(Ping.class)
                 .source("pinger")
                 .target("ponger");
-        BlockingQueue<Parcel<?>> events = bus.subscriptionQueue(pingerFilter);
+        ParcelReceiverQueue events = new ParcelReceiverQueue();
+        bus.subscribe(events);
+
 
         // create the ping responder
         IPingDevice device = new IPingDevice("ponger", bus);

@@ -11,6 +11,7 @@ import org.junit.Test;
 import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiverQueue;
 import net.realmproject.dcm.parcel.bus.IParcelBridge;
 import net.realmproject.dcm.parcel.bus.IParcelHub;
 
@@ -22,7 +23,8 @@ public class ParcelNodeTest {
     public void relay() throws InterruptedException {
 
         ParcelHub bus = new IParcelHub();
-        BlockingQueue<Parcel<?>> parcelQueue = bus.subscriptionQueue();
+        ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
+        bus.subscribe(parcelQueue);
 
         bus.accept(new IParcel<String>("testid", null, "Hello"));
 
@@ -37,7 +39,8 @@ public class ParcelNodeTest {
     public void modification() throws InterruptedException {
 
         ParcelHub bus = new IParcelHub();
-        BlockingQueue<Parcel<?>> parcelQueue = bus.subscriptionQueue();
+        ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
+        bus.subscribe(parcelQueue);
 
         StringBuilder sb = new StringBuilder("Hello");
         bus.accept(new IParcel<Serializable>("testid", null, sb));
@@ -53,7 +56,8 @@ public class ParcelNodeTest {
         ParcelHub bus = new IParcelHub();
         // only accept messages containing the word "world"
         bus.setFilter(e -> e.getPayload().toString().equals("World"));
-        BlockingQueue<Parcel<?>> parcelQueue = bus.subscriptionQueue();
+        ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
+        bus.subscribe(parcelQueue);
 
         bus.accept(new IParcel<String>("testid", null, "Hello"));
         bus.accept(new IParcel<String>("testid", null, "World"));
@@ -74,7 +78,8 @@ public class ParcelNodeTest {
             p.setPayload(e.getPayload().toString() + "!");
             return e;
         });
-        BlockingQueue<Parcel<?>> parcelQueue = bus.subscriptionQueue();
+        ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
+        bus.subscribe(parcelQueue);
 
         bus.accept(new IParcel<String>("testid", null, "World"));
 
@@ -90,7 +95,8 @@ public class ParcelNodeTest {
         ParcelHub bus2 = new IParcelHub();
         new IParcelBridge(bus1, bus2);
 
-        BlockingQueue<Parcel<?>> parcelQueue = bus2.subscriptionQueue();
+        ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
+        bus2.subscribe(parcelQueue);
         bus1.accept(new IParcel<String>("testid", null, "World"));
 
         Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
@@ -106,7 +112,8 @@ public class ParcelNodeTest {
         ParcelHub bus2 = new IParcelHub("zone-2");
         new IParcelBridge(bus1, bus2);
 
-        BlockingQueue<Parcel<?>> parcelQueue = bus2.subscriptionQueue();
+        ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
+        bus2.subscribe(parcelQueue);
         Parcel<?> parcel;
         parcel = new IParcel<String>("testid", null, "Hello");
         parcel.setLocal(true);

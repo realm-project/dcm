@@ -25,7 +25,7 @@ public class IDeviceEventRecorder extends IRecorder<Parcel<?>> implements Parcel
     public IDeviceEventRecorder(ParcelHub bus, RecordWriter<Parcel<?>> writer, Predicate<Parcel<?>> filter) {
         super(writer);
         setFilter(filter);
-        bus.subscribe(this::filter, this::accept);
+        bus.subscribe(this::filter, this);
     }
 
     @Override

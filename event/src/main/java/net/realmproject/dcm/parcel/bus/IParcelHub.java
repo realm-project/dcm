@@ -27,11 +27,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import javax.sound.midi.Receiver;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.realmproject.dcm.parcel.Logging;
 import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.relay.AbstractParcelRelay;
 import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
@@ -47,7 +50,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
 
 public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Logging {
 
-    private List<Consumer<Parcel<?>>> consumers = new ArrayList<>();
+    protected List<ParcelReceiver> subscribers = new ArrayList<>();
     private BlockingQueue<Parcel<?>> parcelqueue = new LinkedBlockingQueue<>(1000);
     private String zone = "";
     private final Log log = LogFactory.getLog(getClass());
@@ -86,10 +89,10 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     }
 
     private synchronized void broadcast(Parcel<?> parcel) {
-        for (Consumer<Parcel<?>> consumer : new ArrayList<>(consumers)) {
+        for (ParcelReceiver subscriber : new ArrayList<>(subscribers)) {
             // shallow copy to ensure things like route are not clobbered by
             // different nodes further on.
-            DCMInterrupt.handle(() -> consumer.accept(parcel.shallowCopy()), e -> getLog().error(parcel, e));
+            DCMInterrupt.handle(() -> subscriber.accept(parcel.shallowCopy()), e -> getLog().error(parcel, e));
         }
     }
 
@@ -121,11 +124,11 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     }
 
     @Override
-    public synchronized void subscribe(Consumer<Parcel<?>> subscriber) {
-        consumers.add(subscriber);
+    public synchronized void subscribe(ParcelReceiver subscriber) {
+        subscribers.add(subscriber);
     }
 
-    public final void subscribe(Predicate<Parcel<?>> filter, Consumer<Parcel<?>> subscriber) {
+    public final void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber) {
         subscribe(parcel -> {
             if (filter.test(parcel)) {
                 subscriber.accept(parcel);

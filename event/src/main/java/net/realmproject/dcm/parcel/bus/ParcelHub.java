@@ -20,13 +20,14 @@
 package net.realmproject.dcm.parcel.bus;
 
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+
 import net.realmproject.dcm.parcel.ParcelNode;
 import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.receiver.IReceiver;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.relay.IParcelRelay;
 
@@ -57,7 +58,10 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode {
      * @param subscriber
      *            The consumer of parcels
      */
-    void subscribe(Consumer<Parcel<?>> subscriber);
+    void subscribe(ParcelReceiver subscriber);
+    default void subscribe(Consumer<Parcel<?>> subscriber) {
+    	subscribe(new IReceiver(subscriber));
+    }
 
     /**
      * Listen for parcels broadcast on this parcel hub. Only parcels accepted by
@@ -68,42 +72,11 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode {
      * @param subscriber
      *            the consumer of parcels
      */
-    void subscribe(Predicate<Parcel<?>> filter, Consumer<Parcel<?>> subscriber);
-
-    /**
-     * Convenience method which wraps a call to
-     * {@link ParcelHub#subscribe(Consumer)} so the {@link Parcel}s
-     * are returned in a {@link BlockingQueue}. Users should take care to make
-     * sure that the queue does not become backed up with parcels with large
-     * payloads, as this could consume a large amount of memory
-     * 
-     * @return a {@link BlockingQueue} which will be populated with
-     *         {@link Parcel}s
-     */
-    default BlockingQueue<Parcel<?>> subscriptionQueue() {
-        BlockingQueue<Parcel<?>> queue = new LinkedBlockingQueue<>();
-        subscribe(parcel -> queue.offer(parcel));
-        return queue;
+    void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber);
+    default void subscribe(Predicate<Parcel<?>> filter, Consumer<Parcel<?>> subscriber) {
+    	subscribe(filter, new IReceiver(subscriber));
     }
 
-    /**
-     * Convenience method which wraps a call to
-     * {@link ParcelHub#subscribe(Consumer)} so the {@link Parcel}s
-     * are returned in a {@link BlockingQueue}. Users should take care to make
-     * sure that the queue does not become backed up with parcels with large
-     * payloads, as this could consume a large amount of memory
-     * 
-     * @param filter
-     *            rule for which parcels to listen for
-     * 
-     * @return a {@link BlockingQueue} which will be populated with
-     *         {@link Parcel}s
-     */
-    default BlockingQueue<Parcel<?>> subscriptionQueue(Predicate<Parcel<?>> filter) {
-        BlockingQueue<Parcel<?>> queue = new LinkedBlockingQueue<>();
-        subscribe(filter, parcel -> queue.offer(parcel));
-        return queue;
-    }
 
     /**
      * Gets the zone for this this ParcelHub. Larger or more complex

@@ -35,7 +35,7 @@ import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
  */
 public class IParcelRelay extends AbstractParcelRelay implements ParcelNode, ParcelReceiver {
 
-    private ParcelReceiver to;
+    protected ParcelReceiver to;
 
     public IParcelRelay(ParcelReceiver to) {
         this.to = to;

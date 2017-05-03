@@ -6,6 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.IParcelHub;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiverQueue;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +18,8 @@ public class StatefulnessTest {
     public void statefulnessTest() throws InterruptedException {
 
     	ParcelHub bus = new IParcelHub();
-        BlockingQueue<Parcel<?>> eventQueue = bus.subscriptionQueue();
+        ParcelReceiverQueue eventQueue = new ParcelReceiverQueue();
+        bus.subscribe(eventQueue);
 
         TestStatefulDevice device = new TestStatefulDevice("id", bus);
         device.getState().number = 7;
