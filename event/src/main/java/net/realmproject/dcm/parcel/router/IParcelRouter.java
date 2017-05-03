@@ -62,6 +62,8 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
 			routes.add(otherRoutes);
 		}
 		
+		routes.markTime();
+		
 		return routes;
 		
 	}

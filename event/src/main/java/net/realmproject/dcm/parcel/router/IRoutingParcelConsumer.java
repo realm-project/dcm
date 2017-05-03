@@ -41,6 +41,7 @@ public class IRoutingParcelConsumer implements ParcelReceiver, Routing {
 		RoutingTable routes = new IRoutingTable();
 		routes.addLocal(id);
 		routes.addRoute(nextHop, id, 1);
+		routes.markTime();
 		return routes;
 	}
 

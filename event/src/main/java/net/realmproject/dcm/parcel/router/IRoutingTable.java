@@ -7,11 +7,14 @@ import java.util.Map;
 
 public class IRoutingTable implements RoutingTable {
 
+	
+	long timestamp = 0l;
+	
 	Map<String, Route> routes = new HashMap<>();
 	
 	public IRoutingTable() { }
 	
-	public IRoutingTable(IRoutingTable toCopy) { 
+	public IRoutingTable(RoutingTable toCopy) { 
 		add(toCopy);
 	}
 	
@@ -73,6 +76,16 @@ public class IRoutingTable implements RoutingTable {
 			out += dest + "\t\t" + routes.get(dest).nextHop + "\t\t" + routes.get(dest).hops + "\n";
 		}
 		return out;
+	}
+
+	@Override
+	public int getAge() {
+		return (int) ((System.currentTimeMillis() - timestamp) / 1000.0);
+	}
+
+	@Override
+	public void markTime() {
+		timestamp = System.currentTimeMillis();
 	}
 	
 	

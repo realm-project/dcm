@@ -21,6 +21,7 @@ public class IRoutingParcelRelay extends IParcelRelay implements Routing {
 		} else {
 			routes.addRoute(to.getId(), getId(), 1);
 		}
+		routes.markTime();
 		return routes;
 
 	}

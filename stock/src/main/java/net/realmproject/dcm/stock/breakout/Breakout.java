@@ -42,7 +42,7 @@ public class Breakout {
 		IRoutingParcelBridge bridge = new IRoutingParcelBridge(frontend, backend);
 		
 
-		frontend.subscribe(new IRoutingParcelConsumer(p -> {}));
+		frontend.subscribe(new IRoutingParcelConsumer("useless", p -> {}));
 
 		
 		Screen breakout = new Screen("breakout-engine", backend);
