@@ -20,18 +20,21 @@ import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 import net.realmproject.dcm.stock.breakout.engine.Axes;
 import net.realmproject.dcm.stock.camera.Frame;
+import net.realmproject.dcm.util.DCMUtil;
 
-public class SwingUI extends JFrame {
+public class SwingUI extends JFrame implements ParcelReceiver {
 
-	
+	private String id = DCMUtil.generateId();
 	private ParcelHub hub;
 	private Display display; 
 	
-	public SwingUI(ParcelHub hub) {
+	public SwingUI(String id, ParcelHub hub) {
 		super();
 		this.hub = hub;
+		this.id = id;
 
 		setTitle("Breakout");
 		
@@ -39,18 +42,8 @@ public class SwingUI extends JFrame {
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(display, BorderLayout.CENTER);
 		
-		hub.subscribe(FilterBuilder.start().payload(Frame.class), parcel -> {
-			Frame frame = (Frame) parcel.getPayload();
-			try {
-				BufferedImage image = ImageIO.read(new ByteArrayInputStream(frame.image));
-				display.image = image;
-				display.repaint();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+		hub.subscribe(FilterBuilder.start().payload(Frame.class), this);
 		
-
 		
 		addKeyListener(new KeyListener() {
 
@@ -70,7 +63,7 @@ public class SwingUI extends JFrame {
 							Command cmd = new Command("move");
 							cmd.setProperty("axes", axes);
 							
-							hub.accept(new IParcel<>().targetId("breakout-backend").payload(cmd));
+							hub.accept(new IParcel<>().targetId("breakout-engine").payload(cmd));
 						}
 					}
 				}, 33, 33);
@@ -106,6 +99,28 @@ public class SwingUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public void accept(Parcel<?> parcel) {
+		Frame frame = (Frame) parcel.getPayload();
+		try {
+			BufferedImage image = ImageIO.read(new ByteArrayInputStream(frame.image));
+			display.image = image;
+			display.repaint();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 

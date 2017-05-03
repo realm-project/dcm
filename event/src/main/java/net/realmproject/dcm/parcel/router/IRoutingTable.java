@@ -1,0 +1,79 @@
+package net.realmproject.dcm.parcel.router;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
+public class IRoutingTable implements RoutingTable {
+
+	Map<String, Route> routes = new HashMap<>();
+	
+	public IRoutingTable() { }
+	
+	public IRoutingTable(IRoutingTable toCopy) { 
+		add(toCopy);
+	}
+	
+	@Override
+	public void addLocal(String id) {
+		addRoute(id, id, 0);
+	}
+
+	@Override
+	public void addRoute(String target, String nextHop, int hops) {
+		if (routes.containsKey(target)) {
+			
+			Route current = routes.get(target);
+			if (current.hops > hops) {
+				routes.put(target, new Route(nextHop, hops));
+			}
+			
+		} else {
+			routes.put(target, new Route(nextHop, hops));
+		}
+	}
+
+	@Override
+	public void hop(String id) {
+		for (Route r : routes.values()) {
+			r.hops++;
+			r.nextHop = id;
+		}
+	}
+
+	@Override
+	public void add(RoutingTable routes) {
+		for (String target : routes.getDestinations()) {
+			Route r = routes.nextHop(target);
+			addRoute(target, r.nextHop, r.hops);
+		}
+	}
+
+	@Override
+	public Route nextHop(String destination) {
+		if (destination == null) { return null; }
+		if (routes.containsKey(destination)) {
+			return routes.get(destination);
+		}
+		return null;
+	}
+
+	@Override
+	public Collection<String> getDestinations() {
+		return new HashSet<>(routes.keySet());
+	}
+
+	
+	@Override
+	public String toString() {
+		String out = "";
+		for (String dest : routes.keySet()) {
+			out += dest + "\t\t" + routes.get(dest).nextHop + "\t\t" + routes.get(dest).hops + "\n";
+		}
+		return out;
+	}
+	
+	
+}
+
