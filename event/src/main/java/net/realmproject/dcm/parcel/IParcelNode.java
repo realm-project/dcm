@@ -4,12 +4,20 @@ package net.realmproject.dcm.parcel;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import net.realmproject.dcm.util.DCMUtil;
+
 
 public class IParcelNode implements ParcelNode {
 
+	private String id = DCMUtil.generateId();
     private Predicate<Parcel<?>> filter = null;
     private Function<Parcel<?>, Parcel<?>> transform = null;
 
+    public IParcelNode(String id) {
+        super();
+        this.id = id;
+    }
+    
     public IParcelNode() {
         super();
     }
@@ -33,5 +41,15 @@ public class IParcelNode implements ParcelNode {
     public void setTransform(Function<Parcel<?>, Parcel<?>> transform) {
         this.transform = transform;
     }
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
 
 }

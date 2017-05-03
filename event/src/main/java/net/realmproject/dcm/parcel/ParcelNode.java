@@ -4,6 +4,8 @@ package net.realmproject.dcm.parcel;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import net.realmproject.dcm.parcel.identity.Identity;
+
 
 /**
  * Base interface for parcel node graph nodes.
@@ -12,7 +14,7 @@ import java.util.function.Predicate;
  *
  */
 
-public interface ParcelNode {
+public interface ParcelNode extends Identity {
 
     // Filter Predicate
     Predicate<Parcel<?>> getFilter();

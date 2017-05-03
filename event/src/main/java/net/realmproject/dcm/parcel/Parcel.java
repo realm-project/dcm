@@ -20,10 +20,8 @@
 package net.realmproject.dcm.parcel;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +30,6 @@ import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.parcel.identity.SourceIdentity;
 import net.realmproject.dcm.parcel.identity.TargetIdentity;
-import net.realmproject.dcm.parcel.serializer.Serializer;
 
 /**
  * A Parcel represents a message in a message-passing node graph. It optionally
@@ -218,6 +215,7 @@ public interface Parcel<S> extends Serializable, Identity, TargetIdentity, Sourc
 	 */
 	public List<String> getRoute();
 
+	
 	/**
 	 * Performs a deep copy of this Parcel including making a copy of the
 	 * payload.
