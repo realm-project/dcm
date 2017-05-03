@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+
 public class IRoutingTable implements RoutingTable {
 
 	
@@ -45,6 +47,22 @@ public class IRoutingTable implements RoutingTable {
 			r.nextHop = id;
 		}
 	}
+	
+	public void integrate(ParcelReceiver adjacent) {
+		RoutingTable other;
+		if (adjacent instanceof Routing) {
+			Routing routing = (Routing) adjacent;
+			other = new IRoutingTable(routing.getRoutes());
+			
+		} else {
+			other = new IRoutingTable();
+			other.addLocal(adjacent.getId());
+		}
+		other.hop(adjacent.getId());
+		add(other);
+
+	}
+	
 
 	@Override
 	public void add(RoutingTable routes) {

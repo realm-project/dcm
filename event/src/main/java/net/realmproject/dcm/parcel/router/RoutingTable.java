@@ -2,10 +2,16 @@ package net.realmproject.dcm.parcel.router;
 
 import java.util.Collection;
 
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+
 public interface RoutingTable {
 	
 	public void addLocal(String id);
 	public void addRoute(String target, String nextHop, int hops);
+	
+	
+	
+	public void integrate(ParcelReceiver adjacent);
 	
 	/**
 	 * Increments the hop counts by 1 and sets all next hops to this node

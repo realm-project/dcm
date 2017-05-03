@@ -37,7 +37,7 @@ public class IRoutingParcelConsumer implements ParcelReceiver, Routing {
 	}
 
 	@Override
-	public RoutingTable getRoutes(String previousHop) {
+	public RoutingTable getRoutes() {
 		RoutingTable routes = new IRoutingTable();
 		routes.addLocal(id);
 		routes.addRoute(nextHop, id, 1);

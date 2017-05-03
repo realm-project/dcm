@@ -1,12 +1,9 @@
 package net.realmproject.dcm.parcel.router;
 
-
 public interface Routing {
 
-	RoutingTable getRoutes(String previousHop);
+	RoutingTable getRoutes();
 	
-	default RoutingTable getRoutes() {
-		return getRoutes(null);
-	}
+
 	
 }
