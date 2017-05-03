@@ -1,9 +1,9 @@
 package net.realmproject.dcm.stock.breakout;
 
-import net.realmproject.dcm.network.WireMessageSink;
-import net.realmproject.dcm.network.WireMessageSource;
+import net.realmproject.dcm.network.WireSink;
+import net.realmproject.dcm.network.WireSource;
 import net.realmproject.dcm.network.impl.DummyWireMessageSource;
-import net.realmproject.dcm.network.impl.IWireMessageSink;
+import net.realmproject.dcm.network.impl.IWireSink;
 import net.realmproject.dcm.parcel.bus.IParcelBridge;
 import net.realmproject.dcm.parcel.bus.IParcelHub;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
@@ -16,17 +16,14 @@ public class Breakout {
 		ParcelHub backHub = new IParcelHub();
 
 		
-		WireMessageSink backSink = new IWireMessageSink(backHub);
-		WireMessageSink frontSink = new IWireMessageSink(frontHub);
+		WireSink backSink = new IWireSink(backHub);
+		WireSink frontSink = new IWireSink(frontHub);
 		
-		WireMessageSource frontSource = new DummyWireMessageSource(frontHub, backSink);
-		WireMessageSource backSource = new DummyWireMessageSource(backHub, frontSink);
+		WireSource frontSource = new DummyWireMessageSource(frontHub, backSink);
+		WireSource backSource = new DummyWireMessageSource(backHub, frontSink);
 		
-		//IParcelBridge bridge = new IParcelBridge(frontHub, backHub);
-		
-		
-		
-		frontHub.subscribe(p -> System.out.println(p));
+
+		frontHub.subscribe(p -> System.out.println(p.getPayload()));
 		
 		
 		Screen breakout = new Screen("breakout-backend", frontHub);

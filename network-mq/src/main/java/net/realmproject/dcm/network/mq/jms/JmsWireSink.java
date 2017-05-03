@@ -20,15 +20,12 @@
 package net.realmproject.dcm.network.mq.jms;
 
 
+import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.ObjectMessage;
 
-import net.realmproject.dcm.network.WireMessage;
-import net.realmproject.dcm.network.impl.IWireMessageSink;
-import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
-import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.network.impl.IWireSink;
 import net.realmproject.dcm.parcel.Logging;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
@@ -37,28 +34,25 @@ import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
  * @author maxweld
  *
  */
-public class JmsWireMessageSink extends IWireMessageSink implements MessageListener, Logging {
+public class JmsWireSink extends IWireSink implements MessageListener, Logging {
 
-    public JmsWireMessageSink(ParcelReceiver receiver) {
-        super(receiver, new IIdentityTranscoder());
-    }
-
-    public JmsWireMessageSink(ParcelReceiver receiver, Transcoder transcoder) {
-        super(receiver, transcoder);
+    public JmsWireSink(ParcelReceiver receiver) {
+        super(receiver);
     }
 
     @Override
     public void onMessage(Message message) {
         try {
-            ObjectMessage msg = (ObjectMessage) message;
-            getTranscoder().decode(msg.getObject());
-            receive((WireMessage) msg.getObject());
+            BytesMessage msg = (BytesMessage) message;
+            byte[] bytes = new byte[(int) msg.getBodyLength()];
+            msg.readBytes(bytes);
+            receive(bytes);
         }
         catch (JMSException e) {
             getLog().warn(e.getMessage());
         }
         catch (ClassCastException e) {
-            getLog().warn("Received message does not contain a DeviceMessage.");
+            getLog().warn("Received message cannot be read.");
         }
     }
 

@@ -1,21 +1,20 @@
 package net.realmproject.dcm.network.impl;
 
-import net.realmproject.dcm.network.WireMessage;
-import net.realmproject.dcm.network.WireMessageSink;
+import net.realmproject.dcm.network.WireSink;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 
-public class DummyWireMessageSource extends IWireMessageSource {
+public class DummyWireMessageSource extends IWireSource {
 
-	WireMessageSink sink;
+	WireSink sink;
 	
-	public DummyWireMessageSource(ParcelHub bus, WireMessageSink sink) {
+	public DummyWireMessageSource(ParcelHub bus, WireSink sink) {
 		super(bus);
 		this.sink = sink;
 	}
 
 	@Override
-	public boolean send(WireMessage deviceMessage) {
-		sink.receive(deviceMessage);
+	public boolean send(byte[] serializedParcel) {
+		sink.receive(serializedParcel);
 		return true;
 	}
 

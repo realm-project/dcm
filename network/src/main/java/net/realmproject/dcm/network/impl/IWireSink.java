@@ -20,12 +20,7 @@
 package net.realmproject.dcm.network.impl;
 
 
-import java.io.Serializable;
-
-import net.realmproject.dcm.network.WireMessage;
-import net.realmproject.dcm.network.WireMessageSink;
-import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
-import net.realmproject.dcm.network.transcoder.Transcoder;
+import net.realmproject.dcm.network.WireSink;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
@@ -40,33 +35,18 @@ import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
  * @author NAS
  *
  */
-public class IWireMessageSink extends IParcelPublisher implements WireMessageSink, ParcelPublisher {
+public class IWireSink extends IParcelPublisher implements WireSink, ParcelPublisher {
 
-    private Transcoder<WireMessage, Serializable> transcoder;
 
-    public IWireMessageSink(ParcelReceiver receiver) {
-    	this(receiver, new IIdentityTranscoder());
-    }
-    
-    public IWireMessageSink(ParcelReceiver receiver, Transcoder<WireMessage, Serializable> transcoder) {
+    public IWireSink(ParcelReceiver receiver) {
         super(receiver);
-        this.transcoder = transcoder;
     }
 
     @Override
-    public void receive(WireMessage deviceMessage) {
-        Parcel<?> parcel = deviceMessage.getParcel();
+    public void receive(byte[] serializedParcel) {
+    	Parcel<?> parcel = Parcel.deserializeParcel(serializedParcel);
         publish(parcel);
     }
 
-    @Override
-    public Transcoder<WireMessage, Serializable> getTranscoder() {
-        return transcoder;
-    }
-
-    @Override
-    public void setTranscoder(Transcoder<WireMessage, Serializable> transcoder) {
-        this.transcoder = transcoder;
-    }
 
 }

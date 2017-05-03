@@ -22,11 +22,7 @@ package net.realmproject.dcm.network.impl;
 
 import java.io.Serializable;
 
-import net.realmproject.dcm.network.WireMessage;
-import net.realmproject.dcm.network.WireMessageSource;
-import net.realmproject.dcm.network.transcoder.IIdentityTranscoder;
-import net.realmproject.dcm.network.transcoder.Transcoder;
-import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
+import net.realmproject.dcm.network.WireSource;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
@@ -40,17 +36,11 @@ import net.realmproject.dcm.parcel.relay.AbstractParcelRelay;
  * @author NAS
  *
  */
-public abstract class IWireMessageSource extends AbstractParcelRelay
-        implements WireMessageSource, ParcelReceiver, WireMessageTranscoding {
+public abstract class IWireSource extends AbstractParcelRelay
+        implements WireSource, ParcelReceiver {
 
-    private Transcoder<WireMessage, Serializable> transcoder;
-
-    public IWireMessageSource(ParcelHub bus) {
-    	this(bus, new IIdentityTranscoder());
-    }
     
-    public IWireMessageSource(ParcelHub bus, Transcoder<WireMessage, Serializable> transcoder) {
-        this.transcoder = transcoder;
+    public IWireSource(ParcelHub bus) {
         bus.subscribe(this::filter, this::accept);
     }
 
@@ -58,17 +48,7 @@ public abstract class IWireMessageSource extends AbstractParcelRelay
     public void accept(Parcel<?> parcel) {
         if (parcel.getRoute().contains(getId())) { return; } // cycle detection
         parcel.getRoute().add(getId());
-        send(new WireMessage(transform(parcel)));
-    }
-
-    @Override
-    public Transcoder<WireMessage, Serializable> getTranscoder() {
-        return transcoder;
-    }
-
-    @Override
-    public void setTranscoder(Transcoder<WireMessage, Serializable> transcoder) {
-        this.transcoder = transcoder;
+        send(transform(parcel).serializeParcel());
     }
 
 }

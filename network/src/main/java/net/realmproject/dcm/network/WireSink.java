@@ -19,14 +19,13 @@
 
 package net.realmproject.dcm.network;
 
-import net.realmproject.dcm.network.transcoder.WireMessageTranscoding;
 import net.realmproject.dcm.parcel.ParcelNode;
 
 /**
  * @author maxweld
  *
  */
-public interface WireMessageSink extends ParcelNode, WireMessageTranscoding {
+public interface WireSink extends ParcelNode {
 
-    public void receive(WireMessage deviceMessage);
+    public void receive(byte[] serializedParcel);
 }
