@@ -50,7 +50,20 @@ import net.realmproject.dcm.util.DCMThreadPool;
 
 public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Logging {
 
-    protected List<ParcelReceiver> subscribers = new ArrayList<>();
+	public class Subscription {
+		
+		public ParcelReceiver receiver;
+		public Predicate<Parcel<?>> filter;
+		
+		public Subscription(ParcelReceiver receiver, Predicate<Parcel<?>> filter) {
+			this.receiver = receiver;
+			this.filter = filter;
+		}
+		
+	}
+
+	
+    protected List<Subscription> subscribers = new ArrayList<>();
     private BlockingQueue<Parcel<?>> parcelqueue = new LinkedBlockingQueue<>(1000);
     private String zone = "";
     private final Log log = LogFactory.getLog(getClass());
@@ -88,11 +101,12 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
 
     }
 
-    private synchronized void broadcast(Parcel<?> parcel) {
-        for (ParcelReceiver subscriber : new ArrayList<>(subscribers)) {
-            // shallow copy to ensure things like route are not clobbered by
-            // different nodes further on.
-            DCMInterrupt.handle(() -> subscriber.accept(parcel.shallowCopy()), e -> getLog().error(parcel, e));
+    protected synchronized void broadcast(Parcel<?> parcel) {
+        for (Subscription subscriber : new ArrayList<>(subscribers)) {
+        	if (subscriber.filter.test(parcel)) {
+                // deepCopy to make sure that neither parcel settings nor the payload itself are mutated by separate next hops
+        		DCMInterrupt.handle(() -> subscriber.receiver.accept(parcel.deepCopy()), e -> getLog().error(parcel, e));
+        	}
         }
     }
 
@@ -124,16 +138,13 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     }
 
     @Override
-    public synchronized void subscribe(ParcelReceiver subscriber) {
-        subscribers.add(subscriber);
+    public  void subscribe(ParcelReceiver subscriber) {
+        subscribe(null, subscriber);
     }
 
-    public final void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber) {
-        subscribe(parcel -> {
-            if (filter.test(parcel)) {
-                subscriber.accept(parcel);
-            }
-        });
+    @Override
+    public synchronized final void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber) {
+        subscribers.add(new Subscription(subscriber, filter));
     }
 
     public String getZone() {
@@ -150,3 +161,5 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     }
 
 }
+
+

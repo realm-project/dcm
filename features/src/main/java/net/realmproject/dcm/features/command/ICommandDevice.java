@@ -7,6 +7,7 @@ import net.realmproject.dcm.features.stateful.StatefulDevice;
 import net.realmproject.dcm.parcel.Device;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
 
 
 /**
@@ -24,7 +25,7 @@ public abstract class ICommandDevice<T extends State> extends Device implements 
     public ICommandDevice(String id, ParcelHub bus) {
         super(id, bus);
         dispatcher = new CommandDispatcher(this, bus);
-        bus.subscribe(FilterBuilder.start().payload(StateQuery.class).target(getId()), event -> publishState());
+        bus.subscribe(FilterBuilder.start().payload(StateQuery.class).target(getId()), new IParcelConsumer(getId(), event -> publishState()));
         
     }
 

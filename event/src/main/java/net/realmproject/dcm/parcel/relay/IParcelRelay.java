@@ -21,6 +21,9 @@ package net.realmproject.dcm.parcel.relay;
 
 
 import net.realmproject.dcm.parcel.ParcelNode;
+
+import java.util.function.Consumer;
+
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
@@ -40,10 +43,11 @@ public class IParcelRelay extends AbstractParcelRelay implements ParcelNode, Par
     public IParcelRelay(ParcelReceiver to) {
         this.to = to;
     }
-
+    
+    
     public IParcelRelay(ParcelHub from, ParcelReceiver to) {
         this(to);
-        from.subscribe(this::accept);
+        from.subscribe(this);
     }
 
     @Override

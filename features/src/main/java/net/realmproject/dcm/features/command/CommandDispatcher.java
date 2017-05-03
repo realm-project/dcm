@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
 import net.realmproject.dcm.util.DCMSerialize;
 
 
@@ -24,12 +25,12 @@ public class CommandDispatcher {
         methods = generateCommandMethods();
 
         Predicate<Parcel<?>> eventFilter = FilterBuilder.start().target(commanded.getId());
-        bus.subscribe(eventFilter, deviceEvent -> {
+        bus.subscribe(eventFilter, new IParcelConsumer(commanded.getId(), deviceEvent -> {
             if (deviceEvent.getPayload() instanceof Command) {
                 Command command = (Command) deviceEvent.getPayload();
                 submitCommand(command);
             }
-        });
+        }));
 
     }
 

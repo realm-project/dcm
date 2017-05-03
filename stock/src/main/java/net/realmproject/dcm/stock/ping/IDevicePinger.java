@@ -7,6 +7,7 @@ import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 
@@ -20,7 +21,7 @@ public class IDevicePinger implements DevicePinger {
         this.id = id;
         this.receiver = bus;
         this.targetId = targetId;
-        bus.subscribe(FilterBuilder.start().source(targetId).payload(Ping.class), this::onPong);
+        bus.subscribe(FilterBuilder.start().source(targetId).payload(Ping.class), new IParcelConsumer(id, this::onPong));
     }
 
     @Override

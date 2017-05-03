@@ -20,8 +20,6 @@
 package net.realmproject.dcm.network.impl;
 
 
-import java.io.Serializable;
-
 import net.realmproject.dcm.network.WireSource;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
@@ -41,7 +39,7 @@ public abstract class IWireSource extends AbstractParcelRelay
 
     
     public IWireSource(ParcelHub bus) {
-        bus.subscribe(this::filter, this::accept);
+        bus.subscribe(this::filter, this);
     }
 
     @Override

@@ -7,13 +7,14 @@ import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
 import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
+import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
 
 
 public interface Pingable extends Identity, ParcelPublisher {
 
     default void initPingable(ParcelHub bus) {
         // Respond to Pings
-        bus.subscribe(FilterBuilder.start().payload(Ping.class).target(getId()), this::onPing);
+        bus.subscribe(FilterBuilder.start().payload(Ping.class).target(getId()), new IParcelConsumer(getId(), this::onPing));
     }
 
     default void onPing(Parcel<?> event) {

@@ -27,7 +27,7 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.ParcelNode;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.receiver.IReceiver;
+import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.relay.IParcelRelay;
 
@@ -59,9 +59,7 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode {
      *            The consumer of parcels
      */
     void subscribe(ParcelReceiver subscriber);
-    default void subscribe(Consumer<Parcel<?>> subscriber) {
-    	subscribe(new IReceiver(subscriber));
-    }
+
 
     /**
      * Listen for parcels broadcast on this parcel hub. Only parcels accepted by
@@ -73,9 +71,7 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode {
      *            the consumer of parcels
      */
     void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber);
-    default void subscribe(Predicate<Parcel<?>> filter, Consumer<Parcel<?>> subscriber) {
-    	subscribe(filter, new IReceiver(subscriber));
-    }
+
 
 
     /**
