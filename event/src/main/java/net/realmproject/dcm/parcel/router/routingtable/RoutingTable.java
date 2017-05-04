@@ -1,4 +1,4 @@
-package net.realmproject.dcm.parcel.router;
+package net.realmproject.dcm.parcel.router.routingtable;
 
 import java.util.Collection;
 

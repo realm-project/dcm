@@ -3,21 +3,26 @@ package net.realmproject.dcm.parcel.router;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.relay.IParcelRelay;
+import net.realmproject.dcm.parcel.router.routingtable.AutoRoutingTable;
+import net.realmproject.dcm.parcel.router.routingtable.IAutoRoutingTable;
+import net.realmproject.dcm.parcel.router.routingtable.RoutingTable;
 
 public class IRoutingParcelRelay extends IParcelRelay implements Routing {
 
-	public RoutingTable routes = new IRoutingTable();
+	public AutoRoutingTable routes = new IAutoRoutingTable();
 
 	public IRoutingParcelRelay(ParcelReceiver to) {
 		super(to);
+		routes.addLocal(getId());
+		routes.addParcelReceiver(to);
 	}
 
 	@Override
 	public void accept(Parcel<?> parcel) {
 
 		// TODO: Fix me
-		routes.addLocal(getId());
-		routes.integrate(to);
+		//routes.addLocal(getId());
+		//routes.integrate(to);
 
 		super.accept(parcel);
 

@@ -1,15 +1,28 @@
 package net.realmproject.dcm.parcel.router;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.IParcelHub;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.router.routingtable.AutoRoutingTable;
+import net.realmproject.dcm.parcel.router.routingtable.IAutoRoutingTable;
+import net.realmproject.dcm.parcel.router.routingtable.Route;
+import net.realmproject.dcm.parcel.router.routingtable.RoutingTable;
 import net.realmproject.dcm.util.DCMInterrupt;
 
 public class IParcelRouter extends IParcelHub implements ParcelRouter {
 
-	private RoutingTable routes = new IRoutingTable();
+	private AutoRoutingTable routes = new IAutoRoutingTable();
 
+
+    @Override
+    public synchronized void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber) {
+        subscribers.add(new Subscription(subscriber, filter));
+        routes.addParcelReceiver(subscriber);
+    }
+	
 		
     protected synchronized void broadcast(Parcel<?> parcel) {
     	
@@ -20,16 +33,16 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
     	routes.addLocal(getId());
     	
     	System.out.println("ID: " + getId() + "\nTarget: " + parcel.getTargetId() + "\nRoutes:\n" + routes + "\n******");
-    	System.out.println("Next Hop: " + (nextHop != null ? nextHop.nextHop : "null"));
+    	System.out.println("Next Hop: " + (nextHop != null ? nextHop.getNextHop() : "null"));
     	
     	
     	
         for (Subscription subscriber : new ArrayList<>(subscribers)) {
         	
-    		routes.integrate(subscriber.receiver);
+    		//routes.integrate(subscriber.receiver);
         	
         	//If there is a next hop defined, then only "broadcast" to the next hop
-        	if (nextHop != null && !nextHop.nextHop.equals(subscriber.receiver.getId())) { 
+        	if (nextHop != null && !nextHop.getNextHop().equals(subscriber.receiver.getId())) { 
         		System.out.println("Skipping " + subscriber.receiver.getId());
         		continue;
         	}

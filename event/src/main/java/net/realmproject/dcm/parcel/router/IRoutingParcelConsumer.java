@@ -4,6 +4,8 @@ import java.util.function.Consumer;
 
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.router.routingtable.IRoutingTable;
+import net.realmproject.dcm.parcel.router.routingtable.RoutingTable;
 import net.realmproject.dcm.util.DCMUtil;
 
 public class IRoutingParcelConsumer implements ParcelReceiver, Routing {

@@ -143,7 +143,7 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
     }
 
     @Override
-    public synchronized final void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber) {
+    public synchronized void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber) {
         subscribers.add(new Subscription(subscriber, filter));
     }
 

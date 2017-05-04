@@ -13,7 +13,7 @@ import net.realmproject.dcm.parcel.router.IRoutingParcelBridge;
 import net.realmproject.dcm.parcel.router.IRoutingParcelConsumer;
 import net.realmproject.dcm.parcel.router.IRoutingParcelRelay;
 import net.realmproject.dcm.parcel.router.ParcelRouter;
-import net.realmproject.dcm.parcel.router.RoutingTable;
+import net.realmproject.dcm.parcel.router.routingtable.RoutingTable;
 
 public class Breakout {
 
