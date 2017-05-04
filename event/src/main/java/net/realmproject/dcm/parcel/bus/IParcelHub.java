@@ -105,13 +105,13 @@ public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Loggin
         for (Subscription subscriber : new ArrayList<>(subscribers)) {
         	if (subscriber.filter.test(parcel)) {
                 // deepCopy to make sure that neither parcel settings nor the payload itself are mutated by separate next hops
-        		DCMInterrupt.handle(() -> subscriber.receiver.accept(parcel.deepCopy()), e -> getLog().error(parcel, e));
+        		DCMInterrupt.handle(() -> subscriber.receiver.receive(parcel.deepCopy()), e -> getLog().error(parcel, e));
         	}
         }
     }
 
     @Override
-    public void accept(Parcel<?> parcel) {
+    public void receive(Parcel<?> parcel) {
         if (parcel == null) { return; }
         if (parcel.getRoute().contains(getId())) { return; } // cycle detection
         parcel.getRoute().add(getId());

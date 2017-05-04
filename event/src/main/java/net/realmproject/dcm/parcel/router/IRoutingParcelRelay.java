@@ -18,13 +18,13 @@ public class IRoutingParcelRelay extends IParcelRelay implements Routing {
 	}
 
 	@Override
-	public void accept(Parcel<?> parcel) {
+	public void receive(Parcel<?> parcel) {
 
 		// TODO: Fix me
 		//routes.addLocal(getId());
 		//routes.integrate(to);
 
-		super.accept(parcel);
+		super.receive(parcel);
 
 	}
 

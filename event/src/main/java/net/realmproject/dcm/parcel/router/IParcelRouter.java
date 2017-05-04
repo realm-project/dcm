@@ -50,7 +50,7 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
         	if (subscriber.filter == null || subscriber.filter.test(parcel)) {
         		
                 // deepCopy to make sure that neither parcel settings nor the payload itself are mutated by separate next hops
-        		DCMInterrupt.handle(() -> subscriber.receiver.accept(parcel.deepCopy()), e -> getLog().error(parcel, e));
+        		DCMInterrupt.handle(() -> subscriber.receiver.receive(parcel.deepCopy()), e -> getLog().error(parcel, e));
         	}
         }
         

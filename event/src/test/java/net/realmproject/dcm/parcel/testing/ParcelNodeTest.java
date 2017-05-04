@@ -26,7 +26,7 @@ public class ParcelNodeTest {
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
         bus.subscribe(parcelQueue);
 
-        bus.accept(new IParcel<String>("testid", null, "Hello"));
+        bus.receive(new IParcel<String>("testid", null, "Hello"));
 
         Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("Hello", parcel.getPayload());
@@ -43,7 +43,7 @@ public class ParcelNodeTest {
         bus.subscribe(parcelQueue);
 
         StringBuilder sb = new StringBuilder("Hello");
-        bus.accept(new IParcel<Serializable>("testid", null, sb));
+        bus.receive(new IParcel<Serializable>("testid", null, sb));
         sb.append(" World!"); // modify payload state after sending
 
         Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
@@ -59,8 +59,8 @@ public class ParcelNodeTest {
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
         bus.subscribe(parcelQueue);
 
-        bus.accept(new IParcel<String>("testid", null, "Hello"));
-        bus.accept(new IParcel<String>("testid", null, "World"));
+        bus.receive(new IParcel<String>("testid", null, "Hello"));
+        bus.receive(new IParcel<String>("testid", null, "World"));
 
         Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World", parcel.getPayload().toString());
@@ -81,7 +81,7 @@ public class ParcelNodeTest {
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
         bus.subscribe(parcelQueue);
 
-        bus.accept(new IParcel<String>("testid", null, "World"));
+        bus.receive(new IParcel<String>("testid", null, "World"));
 
         Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World!", parcel.getPayload().toString());
@@ -97,7 +97,7 @@ public class ParcelNodeTest {
 
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
         bus2.subscribe(parcelQueue);
-        bus1.accept(new IParcel<String>("testid", null, "World"));
+        bus1.receive(new IParcel<String>("testid", null, "World"));
 
         Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World", parcel.getPayload());
@@ -117,9 +117,9 @@ public class ParcelNodeTest {
         Parcel<?> parcel;
         parcel = new IParcel<String>("testid", null, "Hello");
         parcel.setLocal(true);
-        bus1.accept(parcel);
+        bus1.receive(parcel);
         parcel = new IParcel<String>("testid", null, "World");
-        bus1.accept(parcel);
+        bus1.receive(parcel);
 
         parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World", parcel.getPayload());

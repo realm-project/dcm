@@ -37,7 +37,7 @@ public class PingTest {
 
         // send the ping
         Ping ping = new Ping();
-        bus.accept(new IParcel<>("pinger", "ponger", ping));
+        bus.receive(new IParcel<>("pinger", "ponger", ping));
 
         // check for response
         Parcel<?> response = events.poll(5, TimeUnit.SECONDS);

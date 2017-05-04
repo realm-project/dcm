@@ -29,7 +29,7 @@ public class IPingDevice implements Pingable {
 
     @Override
     public void publish(Parcel event) {
-        receiver.accept(event);
+        receiver.receive(event);
     }
 
 }

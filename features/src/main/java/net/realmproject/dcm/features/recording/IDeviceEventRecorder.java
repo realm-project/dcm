@@ -29,7 +29,7 @@ public class IDeviceEventRecorder extends IRecorder<Parcel<?>> implements Parcel
     }
 
     @Override
-    public void accept(Parcel<?> event) {
+    public void receive(Parcel<?> event) {
         try {
             record(transform(event));
             return;

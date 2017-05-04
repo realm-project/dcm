@@ -48,7 +48,7 @@ public class IParcelPublisher extends IParcelNode implements ParcelNode, ParcelP
         if (parcel == null) { return; }
         if (!filter(parcel)) { return; }
         getLog().trace("Publishing parcel " + parcel + " from " + this.getId());
-        receiver.accept(transform(parcel));
+        receiver.receive(transform(parcel));
         getLog().trace("Parcel " + parcel + " Published from " + this.getId());
     }
 

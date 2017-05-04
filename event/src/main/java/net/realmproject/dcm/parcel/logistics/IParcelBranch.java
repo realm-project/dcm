@@ -24,12 +24,12 @@ public class IParcelBranch extends AbstractParcelRelay implements ParcelRelay {
 	}
 	
     @Override
-    public void accept(Parcel<?> parcel) {
+    public void receive(Parcel<?> parcel) {
         if (!filter(parcel)) { return; }
         if (!parcel.visit(getId())) { return; } //cycle detection
         String branchName = getBranch(parcel);
         if (receivers.keySet().contains(branchName)) {
-        	receivers.get(branchName).accept(transform(parcel));
+        	receivers.get(branchName).receive(transform(parcel));
         }
     }
 	

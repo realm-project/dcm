@@ -33,7 +33,7 @@ public class IParcelConsumer implements ParcelReceiver {
 	}
 
 	@Override
-	public void accept(Parcel<?> parcel) {
+	public void receive(Parcel<?> parcel) {
 		consumer.accept(parcel);
 	}
 

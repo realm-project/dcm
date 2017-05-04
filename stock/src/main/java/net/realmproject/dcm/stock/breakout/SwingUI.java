@@ -63,7 +63,7 @@ public class SwingUI extends JFrame implements ParcelReceiver {
 							Command cmd = new Command("move");
 							cmd.setProperty("axes", axes);
 							
-							hub.accept(new IParcel<>().targetId("breakout-engine").payload(cmd));
+							hub.receive(new IParcel<>().targetId("breakout-engine").payload(cmd));
 						}
 					}
 				}, 33, 33);
@@ -112,7 +112,7 @@ public class SwingUI extends JFrame implements ParcelReceiver {
 	}
 
 	@Override
-	public void accept(Parcel<?> parcel) {
+	public void receive(Parcel<?> parcel) {
 		Frame frame = (Frame) parcel.getPayload();
 		try {
 			BufferedImage image = ImageIO.read(new ByteArrayInputStream(frame.image));

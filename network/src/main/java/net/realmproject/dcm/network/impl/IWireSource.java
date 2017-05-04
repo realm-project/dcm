@@ -43,7 +43,7 @@ public abstract class IWireSource extends AbstractParcelRelay
     }
 
     @Override
-    public void accept(Parcel<?> parcel) {
+    public void receive(Parcel<?> parcel) {
         if (parcel.getRoute().contains(getId())) { return; } // cycle detection
         parcel.getRoute().add(getId());
         send(transform(parcel).serializeParcel());

@@ -40,7 +40,7 @@ public class IDevicePinger implements DevicePinger {
     }
 
     private Ping ping(Ping thePing) {
-        receiver.accept(new IParcel<>()
+        receiver.receive(new IParcel<>()
                 .sourceId(getId())
                 .targetId(getTargetId())
                 .payload(thePing));

@@ -18,7 +18,7 @@ public class ParcelReceiverQueue extends LinkedBlockingQueue<Parcel<?>> implemen
 	}
 	
 	@Override
-	public void accept(Parcel<?> parcel) {
+	public void receive(Parcel<?> parcel) {
 		offer(parcel);
 	}
 

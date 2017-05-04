@@ -14,6 +14,6 @@ import net.realmproject.dcm.parcel.identity.Identity;
 
 public interface ParcelReceiver extends Identity {
 
-    void accept(Parcel<?> parcel);
+    void receive(Parcel<?> parcel);
 
 }

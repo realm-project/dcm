@@ -51,10 +51,10 @@ public class IParcelRelay extends AbstractParcelRelay implements ParcelNode, Par
     }
 
     @Override
-    public void accept(Parcel<?> parcel) {
+    public void receive(Parcel<?> parcel) {
         if (!filter(parcel)) { return; }
         if (!parcel.visit(getId())) { return; } //cycle detection
-        to.accept(transform(parcel));
+        to.receive(transform(parcel));
     }
 
 }

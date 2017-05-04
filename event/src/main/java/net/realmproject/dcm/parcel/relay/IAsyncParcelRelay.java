@@ -17,10 +17,10 @@ public class IAsyncParcelRelay extends IParcelRelay {
 	}
 
 	@Override
-	public void accept(Parcel<?> parcel) {
+	public void receive(Parcel<?> parcel) {
 		if (!filter(parcel)) { return; }
 		if (!parcel.visit(getId())) { return; } // cycle detection
-		DCMThreadPool.getPool().submit(() -> to.accept(transform(parcel)));
+		DCMThreadPool.getPool().submit(() -> to.receive(transform(parcel)));
 	}
 
 }
