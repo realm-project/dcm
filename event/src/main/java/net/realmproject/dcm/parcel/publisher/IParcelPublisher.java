@@ -20,10 +20,12 @@
 package net.realmproject.dcm.parcel.publisher;
 
 import net.realmproject.dcm.parcel.ParcelNode;
+import net.realmproject.dcm.parcel.IParcelNode;
 import net.realmproject.dcm.parcel.Logging;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.relay.AbstractParcelRelay;
+import net.realmproject.dcm.util.DCMUtil;
 
 
 /**
@@ -32,7 +34,7 @@ import net.realmproject.dcm.parcel.relay.AbstractParcelRelay;
  *
  */
 
-public class IParcelPublisher extends AbstractParcelRelay implements ParcelNode, ParcelPublisher, Logging {
+public class IParcelPublisher extends IParcelNode implements ParcelNode, ParcelPublisher, Logging {
 
     private ParcelReceiver receiver;
 
