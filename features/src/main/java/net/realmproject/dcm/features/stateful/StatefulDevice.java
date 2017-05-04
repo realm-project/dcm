@@ -1,8 +1,8 @@
 package net.realmproject.dcm.features.stateful;
 
 import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.identity.Identity;
-import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
+import net.realmproject.dcm.parcel.node.identity.Identity;
+import net.realmproject.dcm.parcel.node.publisher.ParcelPublisher;
 
 public interface StatefulDevice<T extends State> extends ParcelPublisher, Identity {
 

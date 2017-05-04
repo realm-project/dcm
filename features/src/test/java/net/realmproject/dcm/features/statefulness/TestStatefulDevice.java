@@ -2,8 +2,8 @@ package net.realmproject.dcm.features.statefulness;
 
 
 import net.realmproject.dcm.features.stateful.StatefulDevice;
-import net.realmproject.dcm.parcel.publisher.IParcelPublisher;
-import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.node.publisher.IParcelPublisher;
+import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
 
 public class TestStatefulDevice extends IParcelPublisher implements StatefulDevice<TestState> {

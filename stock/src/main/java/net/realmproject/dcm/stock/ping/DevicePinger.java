@@ -1,7 +1,7 @@
 package net.realmproject.dcm.stock.ping;
 
-import net.realmproject.dcm.parcel.identity.Identity;
-import net.realmproject.dcm.parcel.identity.TargetIdentity;
+import net.realmproject.dcm.parcel.node.identity.Identity;
+import net.realmproject.dcm.parcel.node.identity.TargetIdentity;
 
 public interface DevicePinger extends Identity, TargetIdentity {
 

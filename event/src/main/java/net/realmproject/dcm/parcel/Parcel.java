@@ -26,10 +26,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import net.realmproject.dcm.parcel.hub.ParcelHub;
-import net.realmproject.dcm.parcel.identity.Identity;
-import net.realmproject.dcm.parcel.identity.SourceIdentity;
-import net.realmproject.dcm.parcel.identity.TargetIdentity;
+import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.identity.Identity;
+import net.realmproject.dcm.parcel.node.identity.SourceIdentity;
+import net.realmproject.dcm.parcel.node.identity.TargetIdentity;
 
 /**
  * A Parcel represents a message in a message-passing node graph. It optionally

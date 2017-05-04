@@ -5,9 +5,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.ParcelNode;
-import net.realmproject.dcm.parcel.hub.ParcelHub;
-import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.ParcelNode;
+import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 import net.realmproject.dcm.util.DCMUtil;
 
 

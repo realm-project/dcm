@@ -3,11 +3,11 @@ package net.realmproject.dcm.features.ping;
 
 import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.hub.ParcelHub;
-import net.realmproject.dcm.parcel.identity.Identity;
-import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
-import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
+import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.node.identity.Identity;
+import net.realmproject.dcm.parcel.node.publisher.ParcelPublisher;
+import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
 
 
 public interface Pingable extends Identity, ParcelPublisher {

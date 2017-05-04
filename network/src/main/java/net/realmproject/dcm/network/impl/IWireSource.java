@@ -22,9 +22,9 @@ package net.realmproject.dcm.network.impl;
 
 import net.realmproject.dcm.network.WireSource;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.hub.ParcelHub;
-import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
-import net.realmproject.dcm.parcel.relay.AbstractParcelRelay;
+import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.flow.relay.AbstractParcelRelay;
+import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
 
 /**

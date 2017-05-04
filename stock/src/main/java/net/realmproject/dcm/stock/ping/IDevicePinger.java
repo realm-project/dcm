@@ -5,10 +5,10 @@ package net.realmproject.dcm.stock.ping;
 import net.realmproject.dcm.features.ping.Ping;
 import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.hub.ParcelHub;
-import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
-import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
+import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
 
 public class IDevicePinger implements DevicePinger {

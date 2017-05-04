@@ -4,16 +4,16 @@ import net.realmproject.dcm.network.WireSink;
 import net.realmproject.dcm.network.WireSource;
 import net.realmproject.dcm.network.impl.DummyWireMessageSource;
 import net.realmproject.dcm.network.impl.IWireSink;
-import net.realmproject.dcm.parcel.hub.IParcelBridge;
-import net.realmproject.dcm.parcel.hub.IParcelHub;
-import net.realmproject.dcm.parcel.hub.ParcelHub;
-import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
-import net.realmproject.dcm.parcel.router.IParcelRouter;
-import net.realmproject.dcm.parcel.router.IRoutingParcelBridge;
-import net.realmproject.dcm.parcel.router.IRoutingParcelConsumer;
-import net.realmproject.dcm.parcel.router.IRoutingParcelRelay;
-import net.realmproject.dcm.parcel.router.ParcelRouter;
-import net.realmproject.dcm.parcel.router.routingtable.RoutingTable;
+import net.realmproject.dcm.parcel.flow.hub.IParcelBridge;
+import net.realmproject.dcm.parcel.flow.hub.IParcelHub;
+import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.flow.router.IParcelRouter;
+import net.realmproject.dcm.parcel.flow.router.IRoutingParcelBridge;
+import net.realmproject.dcm.parcel.flow.router.IRoutingParcelConsumer;
+import net.realmproject.dcm.parcel.flow.router.IRoutingParcelRelay;
+import net.realmproject.dcm.parcel.flow.router.ParcelRouter;
+import net.realmproject.dcm.parcel.flow.router.routingtable.RoutingTable;
+import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
 
 public class Breakout {
 

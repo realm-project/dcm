@@ -4,7 +4,7 @@ package net.realmproject.dcm.features.ping;
 import java.io.Serializable;
 import java.util.Date;
 
-import net.realmproject.dcm.parcel.identity.Identity;
+import net.realmproject.dcm.parcel.node.identity.Identity;
 import net.realmproject.dcm.util.DCMUtil;
 
 

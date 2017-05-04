@@ -37,7 +37,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.network.impl.IWireSink;
 import net.realmproject.dcm.parcel.Logging;
-import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
 /**
  * @author maxweld

@@ -5,7 +5,7 @@ import net.realmproject.dcm.features.command.Arg;
 import net.realmproject.dcm.features.command.CommandMethod;
 import net.realmproject.dcm.features.command.ICommandDevice;
 import net.realmproject.dcm.features.statefulness.TestState;
-import net.realmproject.dcm.parcel.hub.ParcelHub;
+import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
 
 
 public class TestCommandDevice extends ICommandDevice<TestState> {

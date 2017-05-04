@@ -19,7 +19,7 @@
 
 package net.realmproject.dcm.network;
 
-import net.realmproject.dcm.parcel.ParcelNode;
+import net.realmproject.dcm.parcel.node.ParcelNode;
 
 /**
  * @author maxweld, NAS
