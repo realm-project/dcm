@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import net.realmproject.dcm.parcel.bus.IParcelHub;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
-import net.realmproject.dcm.util.DCMSerialize;
+import net.realmproject.dcm.util.DCMJsonSerialize;
 
 
 public class CommandsTest {
@@ -40,18 +40,18 @@ public class CommandsTest {
         // testing single argument without annotation as fields in a single
         // struct
         device.runCommand(
-                new Command("incrementByIncrementerUnannotated", DCMSerialize.structToMap(new Incrementer(2))));
+                new Command("incrementByIncrementerUnannotated", DCMJsonSerialize.structToMap(new Incrementer(2))));
         Assert.assertEquals(7, device.getState().number);
 
         // testing structs which have been serialized by
         // DCMSerialize.structToMap
         device.runCommand(new Command("incrementByIncrementer")
-                .property((Serializable) DCMSerialize.structToMap(new Incrementer(1))));
+                .property((Serializable) DCMJsonSerialize.structToMap(new Incrementer(1))));
         Assert.assertEquals(8, device.getState().number);
 
         // testing serializing integers with default DSMSerialise.structToMap
         // key name of "value"
-        Map<String, Serializable> intMap = DCMSerialize.structToMap(1);
+        Map<String, Serializable> intMap = DCMJsonSerialize.structToMap(1);
         device.runCommand(new Command("incrementBy", intMap));
         Assert.assertEquals(9, device.getState().number);
 
@@ -60,7 +60,7 @@ public class CommandsTest {
         Assert.assertEquals(15, device.getState().number);
 
         // testing default @Arg name of "value"
-        device.runCommand(new Command("incrementUnnamed", DCMSerialize.structToMap(3)));
+        device.runCommand(new Command("incrementUnnamed", DCMJsonSerialize.structToMap(3)));
         Assert.assertEquals(18, device.getState().number);
 
         // testing un-named arg with simple integer value
@@ -84,7 +84,7 @@ public class CommandsTest {
         
         //@formatter:on
 
-        Command command = DCMSerialize.deserialize(json, Command.class);
+        Command command = DCMJsonSerialize.deserialize(json, Command.class);
 
         Assert.assertNotNull(command.getProperties());
         Assert.assertEquals("f", command.getAction());

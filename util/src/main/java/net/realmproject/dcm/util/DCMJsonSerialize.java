@@ -37,7 +37,7 @@ import org.codehaus.jackson.map.SerializationConfig;
  * @author NAS
  *
  */
-public class DCMSerialize {
+public class DCMJsonSerialize {
 
     private final static ObjectMapper SERIALIZE_WITHOUT_CLASSES = new ObjectMapper();
 

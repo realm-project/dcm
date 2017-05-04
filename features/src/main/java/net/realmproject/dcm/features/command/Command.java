@@ -27,7 +27,7 @@ import java.util.Map;
 import net.realmproject.dcm.features.Properties;
 import net.realmproject.dcm.features.recording.Recordable;
 import net.realmproject.dcm.parcel.identity.Identity;
-import net.realmproject.dcm.util.DCMSerialize;
+import net.realmproject.dcm.util.DCMJsonSerialize;
 import net.realmproject.dcm.util.DCMUtil;
 
 
@@ -49,7 +49,7 @@ public class Command implements Properties<Object>, Recordable, Identity {
      */
     private String action;
 
-    private String id = DCMUtil.generateId(getClass());
+    private String id = DCMUtil.generateId();
     private boolean toRecord;
 
     /**
@@ -150,7 +150,7 @@ public class Command implements Properties<Object>, Recordable, Identity {
     @Override
     public String toString() {
 
-        return "Command [action=" + action + ", id=" + id + ", properties=" + DCMSerialize.serialize(getProperties())
+        return "Command [action=" + action + ", id=" + id + ", properties=" + DCMJsonSerialize.serialize(getProperties())
                 + "]";
     }
 

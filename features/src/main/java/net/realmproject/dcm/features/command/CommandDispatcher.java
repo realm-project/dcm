@@ -11,7 +11,7 @@ import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
 import net.realmproject.dcm.parcel.receiver.IParcelConsumer;
-import net.realmproject.dcm.util.DCMSerialize;
+import net.realmproject.dcm.util.DCMJsonSerialize;
 
 
 public class CommandDispatcher {
@@ -72,7 +72,7 @@ public class CommandDispatcher {
             if (commanded.getLog().isTraceEnabled()) {
                 commanded.getLog().trace("Device " + commanded.getId() + " received command: " + command.getAction());
                 commanded.getLog().trace(commanded.getId() + ":" + command.getAction() + ":"
-                        + DCMSerialize.serialize(command.getProperties()));
+                        + DCMJsonSerialize.serialize(command.getProperties()));
             }
 
             // Look up method for command
@@ -105,7 +105,7 @@ public class CommandDispatcher {
                 // expected parameter class type
 
                 latestCommand = command;
-                Object arg = DCMSerialize.convertObject(command.getProperties(), method.getParameterTypes()[0]);
+                Object arg = DCMJsonSerialize.convertObject(command.getProperties(), method.getParameterTypes()[0]);
                 method.invoke(commanded, arg);
 
             } else {
@@ -129,7 +129,7 @@ public class CommandDispatcher {
                     }
 
                     Object argValue = command.getProperties().get(paramName);
-                    argValues[count] = DCMSerialize.convertObject(argValue, method.getParameterTypes()[count]);
+                    argValues[count] = DCMJsonSerialize.convertObject(argValue, method.getParameterTypes()[count]);
 
                 }
 
