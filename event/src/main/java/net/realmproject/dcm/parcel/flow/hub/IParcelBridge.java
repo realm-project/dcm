@@ -3,7 +3,6 @@ package net.realmproject.dcm.parcel.flow.hub;
 
 import net.realmproject.dcm.parcel.flow.relay.IParcelRelay;
 import net.realmproject.dcm.parcel.flow.relay.ParcelRelay;
-import net.realmproject.dcm.parcel.flow.router.IRoutingParcelRelay;
 import net.realmproject.dcm.parcel.node.IParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 

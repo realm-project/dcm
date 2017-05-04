@@ -200,6 +200,12 @@ public interface Parcel<S> extends Serializable, Identity, TargetIdentity, Sourc
 		setZone(zone);
 		return this;
 	}
+	
+	
+	default Parcel<S> name(String name) {
+		setName(name);
+		return this;
+	}
 
 	/**
 	 * Fluent API convenience method. See {@link Parcel#setLocal(boolean)}
