@@ -5,6 +5,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import net.realmproject.dcm.features.DCMState;
+import net.realmproject.dcm.util.DCMSettings;
 import net.realmproject.dcm.util.DCMThreadPool;
 import net.realmproject.dcm.util.backoff.BackoffGenerator;
 
@@ -16,7 +17,7 @@ public interface Heartbeat extends Connection, DCMState {
     default void heartbeatInitialize(int interval) {
         connectionInitialize();
         ScheduledFuture<?> heartbeat = DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::heartbeatPoll,
-                interval, interval, TimeUnit.SECONDS);
+        		DCMSettings.STARTUP_DELAY, interval, TimeUnit.SECONDS);
         setDCMState(Heartbeat.class, "heartbeat", heartbeat);
     }
 

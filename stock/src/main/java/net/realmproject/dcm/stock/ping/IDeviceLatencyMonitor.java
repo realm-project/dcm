@@ -4,6 +4,7 @@ package net.realmproject.dcm.stock.ping;
 import java.util.concurrent.TimeUnit;
 
 import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.util.DCMSettings;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
@@ -17,7 +18,7 @@ public class IDeviceLatencyMonitor extends IDevicePinger implements DeviceLatenc
 
     public IDeviceLatencyMonitor(String id, ParcelHub bus, String targetId, int interval) {
         super(id, bus, targetId);
-        DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::ping, interval, interval, TimeUnit.SECONDS);
+        DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::ping, DCMSettings.STARTUP_DELAY, interval, TimeUnit.SECONDS);
     }
 
 }

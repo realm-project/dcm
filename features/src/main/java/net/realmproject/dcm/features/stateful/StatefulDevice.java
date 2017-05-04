@@ -30,8 +30,8 @@ public interface StatefulDevice<T extends State> extends ParcelPublisher, Identi
      * @param state
      *            The state of the device
      */
-    default void publishState(State state) {
-        publish(new IParcel<>(getId(), null, state));
+    default void publishState(T state) {
+        publish(new IParcel<T>(getId(), null, state));
     }
 
 }

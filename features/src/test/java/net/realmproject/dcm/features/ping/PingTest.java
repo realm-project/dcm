@@ -1,7 +1,6 @@
 package net.realmproject.dcm.features.ping;
 
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
