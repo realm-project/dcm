@@ -22,7 +22,7 @@ package net.realmproject.dcm.network;
 import net.realmproject.dcm.parcel.ParcelNode;
 
 /**
- * @author maxweld
+ * @author maxweld, NAS
  *
  */
 public interface WireSink extends ParcelNode {
