@@ -40,6 +40,7 @@ public class IParcel<S> implements Parcel<S> {
 
     private String sourceId, targetId;
     private S payload;
+    private String name;
     private long timestamp = System.currentTimeMillis();
     
     private Serializer<S> payloadSerializer = new SerializableSerializer<>();
@@ -143,6 +144,14 @@ public class IParcel<S> implements Parcel<S> {
         this.localParcel = local;
     }
 
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+    
     @Override
     public Parcel<S> deepCopy() {
     	Parcel<S> copy = Parcel.deserializeParcel(serializeParcel());

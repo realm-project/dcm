@@ -3,9 +3,10 @@ package net.realmproject.dcm.parcel.relay;
 
 import net.realmproject.dcm.parcel.IParcelNode;
 import net.realmproject.dcm.parcel.identity.Identity;
+import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 
-public class AbstractParcelRelay extends IParcelNode implements ParcelRelay, Identity {
+public abstract class AbstractParcelRelay extends IParcelNode implements ParcelRelay, ParcelReceiver, Identity {
 
     private boolean sending = true;
 

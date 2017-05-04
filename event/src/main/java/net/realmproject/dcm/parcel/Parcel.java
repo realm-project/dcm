@@ -124,6 +124,11 @@ public interface Parcel<S> extends Serializable, Identity, TargetIdentity, Sourc
 	 */
 	void setLocal(boolean local);
 
+	
+	String getName();
+	void setName(String name);
+	
+	
 	/**
 	 * Fluent API convenience method. See {@link Parcel#setSourceId(String)}
 	 * 
@@ -214,7 +219,20 @@ public interface Parcel<S> extends Serializable, Identity, TargetIdentity, Sourc
 	 * @return the stack of nodes this parcel has traversed
 	 */
 	public List<String> getRoute();
-
+	
+	/**
+	 * Records that this parcel has passed through this node. If this parcel has passed through this node before, returns false.
+	 * @param id the Id of the node being visited
+	 * @return False if this node has already been visitid by this (copy of) this parcel, True otherwise
+	 */
+	default boolean visit(String id) {
+		if (getRoute().contains(getId())) { return false; } // cycle detection
+        getRoute().add(getId());
+        return true;
+	}
+	
+	
+	
 	
 	/**
 	 * Performs a deep copy of this Parcel including making a copy of the
