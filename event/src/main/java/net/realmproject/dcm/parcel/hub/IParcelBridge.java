@@ -1,4 +1,4 @@
-package net.realmproject.dcm.parcel.bus;
+package net.realmproject.dcm.parcel.hub;
 
 
 import net.realmproject.dcm.parcel.IParcelNode;

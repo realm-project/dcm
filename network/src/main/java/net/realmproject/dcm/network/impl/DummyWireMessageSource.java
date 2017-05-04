@@ -1,7 +1,7 @@
 package net.realmproject.dcm.network.impl;
 
 import net.realmproject.dcm.network.WireSink;
-import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.hub.ParcelHub;
 
 public class DummyWireMessageSource extends IWireSource {
 

@@ -26,7 +26,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.hub.ParcelHub;
 import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.parcel.identity.SourceIdentity;
 import net.realmproject.dcm.parcel.identity.TargetIdentity;

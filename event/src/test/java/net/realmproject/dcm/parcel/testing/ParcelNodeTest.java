@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.hub.IParcelBridge;
+import net.realmproject.dcm.parcel.hub.IParcelHub;
+import net.realmproject.dcm.parcel.hub.ParcelHub;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiverQueue;
-import net.realmproject.dcm.parcel.bus.IParcelBridge;
-import net.realmproject.dcm.parcel.bus.IParcelHub;
 
 
 public class ParcelNodeTest {

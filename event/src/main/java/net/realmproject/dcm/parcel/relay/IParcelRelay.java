@@ -21,11 +21,11 @@ package net.realmproject.dcm.parcel.relay;
 
 
 import net.realmproject.dcm.parcel.ParcelNode;
+import net.realmproject.dcm.parcel.hub.ParcelHub;
 
 import java.util.function.Consumer;
 
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 
 

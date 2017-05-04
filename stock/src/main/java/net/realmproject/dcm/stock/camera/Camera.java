@@ -14,7 +14,7 @@ import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.imageio.stream.ImageOutputStream;
 
 import net.realmproject.dcm.features.command.ICommandDevice;
-import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.hub.ParcelHub;
 
 
 public abstract class Camera extends ICommandDevice<Frame> {

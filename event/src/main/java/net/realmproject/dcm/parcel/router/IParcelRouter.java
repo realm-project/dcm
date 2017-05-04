@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.bus.IParcelHub;
+import net.realmproject.dcm.parcel.hub.IParcelHub;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.router.routingtable.AutoRoutingTable;
 import net.realmproject.dcm.parcel.router.routingtable.IAutoRoutingTable;

@@ -3,7 +3,7 @@ package net.realmproject.dcm.stock.ping;
 
 import java.util.concurrent.TimeUnit;
 
-import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.hub.ParcelHub;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 

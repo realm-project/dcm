@@ -3,8 +3,8 @@ package net.realmproject.dcm.features.ping;
 
 import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.bus.ParcelHub;
 import net.realmproject.dcm.parcel.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.hub.ParcelHub;
 import net.realmproject.dcm.parcel.identity.Identity;
 import net.realmproject.dcm.parcel.publisher.ParcelPublisher;
 import net.realmproject.dcm.parcel.receiver.IParcelConsumer;

@@ -33,7 +33,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.network.impl.IWireSource;
 import net.realmproject.dcm.parcel.Logging;
-import net.realmproject.dcm.parcel.bus.ParcelHub;
+import net.realmproject.dcm.parcel.hub.ParcelHub;
 
 /**
  * @author maxweld

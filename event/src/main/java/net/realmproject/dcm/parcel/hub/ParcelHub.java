@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.parcel.bus;
+package net.realmproject.dcm.parcel.hub;
 
 
 

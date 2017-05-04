@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.realmproject.dcm.parcel.IParcelNode;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.bus.IParcelHub;
+import net.realmproject.dcm.parcel.hub.IParcelHub;
 import net.realmproject.dcm.parcel.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.relay.AbstractParcelRelay;
 import net.realmproject.dcm.parcel.relay.IParcelRelay;

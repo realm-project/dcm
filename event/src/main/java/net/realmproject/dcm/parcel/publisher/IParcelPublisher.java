@@ -38,6 +38,11 @@ public class IParcelPublisher extends IParcelNode implements ParcelNode, ParcelP
 
     private ParcelReceiver receiver;
 
+    public IParcelPublisher(String id, ParcelReceiver receiver) {
+    	this(receiver);
+    	setId(id);
+    }
+    
     public IParcelPublisher(ParcelReceiver receiver) {
         this.receiver = receiver;
     }
