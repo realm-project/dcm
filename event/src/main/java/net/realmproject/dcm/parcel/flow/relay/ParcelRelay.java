@@ -3,6 +3,7 @@ package net.realmproject.dcm.parcel.flow.relay;
 
 import net.realmproject.dcm.parcel.node.ParcelNode;
 import net.realmproject.dcm.parcel.node.publisher.ParcelPublisher;
+import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.Parcel;
 
 
@@ -14,7 +15,7 @@ import net.realmproject.dcm.parcel.Parcel;
  * @author NAS
  *
  */
-public interface ParcelRelay extends ParcelNode {
+public interface ParcelRelay extends ParcelNode, ParcelReceiver {
 
     /** Method for filtering {@link Parcel}s using the specified filter **/
     default boolean filter(Parcel<?> parcel) {

@@ -24,8 +24,6 @@ import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.ParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
-import java.util.function.Consumer;
-
 import net.realmproject.dcm.parcel.Parcel;
 
 
@@ -44,7 +42,6 @@ public class IParcelRelay extends AbstractParcelRelay implements ParcelNode, Par
         this.to = to;
     }
     
-    
     public IParcelRelay(ParcelHub from, ParcelReceiver to) {
         this(to);
         from.subscribe(this);
@@ -54,7 +51,10 @@ public class IParcelRelay extends AbstractParcelRelay implements ParcelNode, Par
     public void receive(Parcel<?> parcel) {
         if (!filter(parcel)) { return; }
         if (!parcel.visit(getId())) { return; } //cycle detection
-        to.receive(transform(parcel));
+        parcel = transform(parcel);
+        if (to != null) {
+        	to.receive(parcel);
+        }
     }
 
 }

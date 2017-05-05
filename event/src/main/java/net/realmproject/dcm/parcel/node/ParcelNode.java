@@ -55,7 +55,7 @@ public interface ParcelNode extends Identity {
      */
     default Parcel<?> transform(Parcel<?> parcel) {
         if (getTransform() == null) { return parcel; }
-        return getTransform().apply(parcel.deepCopy());
+        return getTransform().apply(parcel);
     }
 
 }
