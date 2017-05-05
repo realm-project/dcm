@@ -1,17 +1,17 @@
-package net.realmproject.dcm.parcel.flow.relay;
+package net.realmproject.dcm.parcel.flow.link;
 
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 import net.realmproject.dcm.util.DCMThreadPool;
 
-public class IAsyncParcelRelay extends IParcelRelay {
+public class IAsyncParcelLink extends IParcelLink {
 
-	public IAsyncParcelRelay(ParcelReceiver to) {
+	public IAsyncParcelLink(ParcelReceiver to) {
 		super(to);
 	}
 
-	public IAsyncParcelRelay(ParcelHub from, ParcelReceiver to) {
+	public IAsyncParcelLink(ParcelHub from, ParcelReceiver to) {
 		super(from, to);
 		
 	}

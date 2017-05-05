@@ -24,17 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import javax.sound.midi.Receiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.realmproject.dcm.parcel.Logging;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.relay.AbstractParcelRelay;
+import net.realmproject.dcm.parcel.flow.link.ParcelLink;
+import net.realmproject.dcm.parcel.node.IParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
@@ -48,7 +46,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
  *
  */
 
-public class IParcelHub extends AbstractParcelRelay implements ParcelHub, Logging {
+public class IParcelHub extends IParcelNode implements ParcelLink, ParcelHub, Logging {
 
 	public class Subscription {
 		

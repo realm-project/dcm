@@ -19,7 +19,6 @@
 
 package net.realmproject.dcm.parcel.node.publisher;
 
-import net.realmproject.dcm.parcel.flow.relay.AbstractParcelRelay;
 import net.realmproject.dcm.parcel.node.IParcelNode;
 import net.realmproject.dcm.parcel.node.ParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;

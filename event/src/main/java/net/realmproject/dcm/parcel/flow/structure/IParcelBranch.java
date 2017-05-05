@@ -5,13 +5,12 @@ import java.util.Map;
 
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.flow.hub.IParcelHub;
-import net.realmproject.dcm.parcel.flow.relay.AbstractParcelRelay;
-import net.realmproject.dcm.parcel.flow.relay.IParcelRelay;
-import net.realmproject.dcm.parcel.flow.relay.ParcelRelay;
+import net.realmproject.dcm.parcel.flow.link.IParcelLink;
+import net.realmproject.dcm.parcel.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.node.IParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
-public class IParcelBranch extends AbstractParcelRelay implements ParcelRelay {
+public class IParcelBranch extends IParcelNode implements ParcelLink {
 
 	private Map<String, ParcelReceiver> receivers = new HashMap<>();
 	

@@ -17,10 +17,11 @@
  * 
  */
 
-package net.realmproject.dcm.parcel.flow.relay;
+package net.realmproject.dcm.parcel.flow.link;
 
 
 import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.IParcelNode;
 import net.realmproject.dcm.parcel.node.ParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
@@ -34,15 +35,15 @@ import net.realmproject.dcm.parcel.Parcel;
  * @author NAS
  *
  */
-public class IParcelRelay extends AbstractParcelRelay implements ParcelNode, ParcelReceiver {
+public class IParcelLink extends IParcelNode implements ParcelLink {
 
     protected ParcelReceiver to;
 
-    public IParcelRelay(ParcelReceiver to) {
+    public IParcelLink(ParcelReceiver to) {
         this.to = to;
     }
     
-    public IParcelRelay(ParcelHub from, ParcelReceiver to) {
+    public IParcelLink(ParcelHub from, ParcelReceiver to) {
         this(to);
         from.subscribe(this);
     }

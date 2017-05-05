@@ -1,14 +1,14 @@
 package net.realmproject.dcm.parcel.flow.hub;
 
 
-import net.realmproject.dcm.parcel.flow.relay.IParcelRelay;
-import net.realmproject.dcm.parcel.flow.relay.ParcelRelay;
+import net.realmproject.dcm.parcel.flow.link.IParcelLink;
+import net.realmproject.dcm.parcel.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.node.IParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
 
 /**
- * A Bridge is a two-way {@link ParcelRelay} between two
+ * A Bridge is a two-way {@link ParcelLink} between two
  * {@link ParcelHub}
  * 
  * @author NAS
@@ -21,8 +21,8 @@ public class IParcelBridge extends IParcelNode {
 	
     public IParcelBridge(ParcelHub bus1, ParcelHub bus2) {
 
-    	to1 = new IParcelRelay(bus1);
-    	to2 = new IParcelRelay(bus2);
+    	to1 = new IParcelLink(bus1);
+    	to2 = new IParcelLink(bus2);
     	
     	to1.setId(getId());
     	to2.setId(getId());

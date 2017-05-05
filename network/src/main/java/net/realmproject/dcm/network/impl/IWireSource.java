@@ -23,8 +23,8 @@ package net.realmproject.dcm.network.impl;
 import net.realmproject.dcm.network.WireSource;
 import net.realmproject.dcm.parcel.Parcel;
 import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
-import net.realmproject.dcm.parcel.flow.relay.AbstractParcelRelay;
-import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.flow.link.ParcelLink;
+import net.realmproject.dcm.parcel.node.IParcelNode;
 
 
 /**
@@ -34,8 +34,7 @@ import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
  * @author NAS
  *
  */
-public abstract class IWireSource extends AbstractParcelRelay
-        implements WireSource, ParcelReceiver {
+public abstract class IWireSource extends IParcelNode implements ParcelLink, WireSource {
 
     
     public IWireSource(ParcelHub bus) {

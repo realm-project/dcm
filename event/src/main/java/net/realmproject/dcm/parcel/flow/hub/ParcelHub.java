@@ -24,11 +24,11 @@ package net.realmproject.dcm.parcel.flow.hub;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.parcel.flow.relay.IParcelRelay;
 import net.realmproject.dcm.parcel.node.ParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.flow.link.IParcelLink;
 
 
 /**
@@ -39,7 +39,7 @@ import net.realmproject.dcm.parcel.Parcel;
  * <br>
  * It is also possible to split a larger collection of devices into zones by
  * using more than one ParcelHub. Parcels from one bus can be selectively
- * propagated to another using a {@link IParcelRelay} or using a
+ * propagated to another using a {@link IParcelLink} or using a
  * distributed messaging system like ActiveMQ (see the network and network-mq
  * packages) <br>
  * <br>

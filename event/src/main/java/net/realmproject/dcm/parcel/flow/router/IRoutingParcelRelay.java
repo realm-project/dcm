@@ -1,13 +1,13 @@
 package net.realmproject.dcm.parcel.flow.router;
 
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.relay.IParcelRelay;
+import net.realmproject.dcm.parcel.flow.link.IParcelLink;
 import net.realmproject.dcm.parcel.flow.router.routingtable.AutoRoutingTable;
 import net.realmproject.dcm.parcel.flow.router.routingtable.IAutoRoutingTable;
 import net.realmproject.dcm.parcel.flow.router.routingtable.RoutingTable;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
-public class IRoutingParcelRelay extends IParcelRelay implements Routing {
+public class IRoutingParcelRelay extends IParcelLink implements Routing {
 
 	public AutoRoutingTable routes = new IAutoRoutingTable();
 
