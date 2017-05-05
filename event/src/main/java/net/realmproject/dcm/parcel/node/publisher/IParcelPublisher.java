@@ -24,7 +24,6 @@ import net.realmproject.dcm.parcel.node.ParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.Logging;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.util.DCMUtil;
 
 
 /**

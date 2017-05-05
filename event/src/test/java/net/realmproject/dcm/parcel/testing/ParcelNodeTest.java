@@ -2,7 +2,6 @@ package net.realmproject.dcm.parcel.testing;
 
 
 import java.io.Serializable;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -14,7 +13,6 @@ import net.realmproject.dcm.parcel.flow.hub.IParcelBridge;
 import net.realmproject.dcm.parcel.flow.hub.IParcelHub;
 import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiverQueue;
-import net.realmproject.dcm.util.DCMSettings;
 
 
 public class ParcelNodeTest {
