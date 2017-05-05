@@ -232,7 +232,7 @@ public interface Parcel<S> extends Serializable, Identity, TargetIdentity, Sourc
 	 * @return False if this node has already been visitid by this (copy of) this parcel, True otherwise
 	 */
 	default boolean visit(String id) {
-		if (getRoute().contains(getId())) { return false; } // cycle detection
+		if (getRoute().contains(id)) { return false; } // cycle detection
         getRoute().add(getId());
         return true;
 	}
