@@ -104,7 +104,7 @@ public class IParcel<S> implements Parcel<S> {
     public IParcel(String sourceId, String targetId, S value, long timestamp) {
         this.sourceId = sourceId;
         this.targetId = targetId;
-        this.payload = getPayloadSerializer().copy(value);
+        this.payload = value;
         this.timestamp = timestamp;
     }
 
@@ -116,7 +116,7 @@ public class IParcel<S> implements Parcel<S> {
 
     @Override
     public void setPayload(S payload) {
-        this.payload = getPayloadSerializer().copy(payload);
+        this.payload = payload;
     }
 
     @Override
