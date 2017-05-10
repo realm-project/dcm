@@ -20,18 +20,18 @@ import net.realmproject.dcm.stock.camera.Camera;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
-public class Screen extends Camera implements CommandDevice {
+public class BreakoutEngine extends Camera implements CommandDevice {
 
     BufferedImage image = new BufferedImage(Arena.WIDTH, Arena.HEIGHT, BufferedImage.TYPE_INT_RGB);
     CommandDispatcher dispatcher;
 
     Arena arena;
 
-    public Screen(String id, ParcelHub bus) {
+    public BreakoutEngine(String id, ParcelHub bus) {
     	this(id, bus, 0);
     }
     
-    public Screen(String id, ParcelHub bus, int delay) {
+    public BreakoutEngine(String id, ParcelHub bus, int delay) {
         super(id, bus);
         dispatcher = new CommandDispatcher(this, bus);
         arena = new Arena();
