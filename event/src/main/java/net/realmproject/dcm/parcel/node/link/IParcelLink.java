@@ -17,11 +17,11 @@
  * 
  */
 
-package net.realmproject.dcm.parcel.flow.link;
+package net.realmproject.dcm.parcel.node.link;
 
 
-import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.IParcelNode;
+import net.realmproject.dcm.parcel.node.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
 import net.realmproject.dcm.parcel.Parcel;
@@ -49,9 +49,7 @@ public class IParcelLink extends IParcelNode implements ParcelLink {
 
     @Override
     public void receive(Parcel<?> parcel) {
-        if (!filter(parcel)) { return; }
         if (!parcel.visit(getId())) { return; } //cycle detection
-        parcel = transform(parcel);
         if (to != null) {
         	to.receive(parcel);
         }

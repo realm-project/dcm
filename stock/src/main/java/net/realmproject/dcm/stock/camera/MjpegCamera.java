@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.realmproject.dcm.features.connection.Connection;
-import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.hub.ParcelHub;
 import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
 

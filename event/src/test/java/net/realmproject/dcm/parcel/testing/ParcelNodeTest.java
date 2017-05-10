@@ -9,10 +9,13 @@ import org.junit.Test;
 
 import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.hub.IParcelBridge;
-import net.realmproject.dcm.parcel.flow.hub.IParcelHub;
-import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.hub.IParcelBridge;
+import net.realmproject.dcm.parcel.node.hub.IParcelHub;
+import net.realmproject.dcm.parcel.node.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiverQueue;
+import net.realmproject.dcm.parcel.node.transform.IParcelTransformLink;
+import net.realmproject.dcm.parcel.node.transform.ParcelTransformLink;
+import net.realmproject.dcm.parcel.node.transform.ParcelTransformer;
 
 
 public class ParcelNodeTest {
@@ -71,16 +74,18 @@ public class ParcelNodeTest {
 
         ParcelHub bus = new IParcelHub();
         // append a "!" to the end of all parcel payloads
-        bus.setTransform(e -> {
+        ParcelTransformLink transformer = new IParcelTransformLink(bus);
+        transformer.setTransform(e -> {
         	Parcel<String> p = new IParcel<>();
         	e.derive(p);
             p.setPayload(e.getPayload().toString() + "!");
             return e;
         });
+        
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
         bus.subscribe(parcelQueue);
 
-        bus.receive(new IParcel<String>("testid", null, "World"));
+        transformer.receive(new IParcel<String>("testid", null, "World"));
 
         Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
         Assert.assertEquals("World!", parcel.getPayload().toString());

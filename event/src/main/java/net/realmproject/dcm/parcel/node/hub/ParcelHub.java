@@ -17,16 +17,17 @@
  * 
  */
 
-package net.realmproject.dcm.parcel.flow.hub;
+package net.realmproject.dcm.parcel.node.hub;
 
 
 
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.node.ParcelNode;
+import net.realmproject.dcm.parcel.node.filter.ParcelFilterer;
+import net.realmproject.dcm.parcel.node.link.IParcelLink;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.link.IParcelLink;
 
 
 /**
@@ -46,7 +47,7 @@ import net.realmproject.dcm.parcel.flow.link.IParcelLink;
  *
  */
 
-public interface ParcelHub extends ParcelReceiver, ParcelNode {
+public interface ParcelHub extends ParcelReceiver, ParcelNode, ParcelFilterer {
 
     /**
      * Listen for parcels broadcast on this parcelhub. All parcels will be sent to

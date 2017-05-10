@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.node.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
 import net.realmproject.dcm.util.DCMJsonSerialize;
 

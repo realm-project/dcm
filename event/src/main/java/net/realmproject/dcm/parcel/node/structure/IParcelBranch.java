@@ -1,11 +1,11 @@
-package net.realmproject.dcm.parcel.flow.structure;
+package net.realmproject.dcm.parcel.node.structure;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.node.IParcelNode;
+import net.realmproject.dcm.parcel.node.link.ParcelLink;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 
 public class IParcelBranch extends IParcelNode implements ParcelLink {
@@ -22,11 +22,10 @@ public class IParcelBranch extends IParcelNode implements ParcelLink {
 	
     @Override
     public void receive(Parcel<?> parcel) {
-        if (!filter(parcel)) { return; }
         if (!parcel.visit(getId())) { return; } //cycle detection
         String branchName = getBranch(parcel);
         if (receivers.keySet().contains(branchName)) {
-        	receivers.get(branchName).receive(transform(parcel));
+        	receivers.get(branchName).receive(parcel);
         }
     }
 	

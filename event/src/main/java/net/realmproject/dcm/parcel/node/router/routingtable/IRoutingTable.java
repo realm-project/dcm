@@ -1,12 +1,12 @@
-package net.realmproject.dcm.parcel.flow.router.routingtable;
+package net.realmproject.dcm.parcel.node.router.routingtable;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import net.realmproject.dcm.parcel.flow.router.Routing;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.node.router.Routing;
 
 public class IRoutingTable implements RoutingTable {
 

@@ -1,4 +1,4 @@
-package net.realmproject.dcm.parcel.flow.link;
+package net.realmproject.dcm.parcel.node.link;
 
 
 import net.realmproject.dcm.parcel.node.ParcelNode;

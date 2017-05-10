@@ -22,7 +22,7 @@ package net.realmproject.dcm.network.impl;
 
 import net.realmproject.dcm.network.WireSink;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.hub.ParcelHub;
 import net.realmproject.dcm.parcel.node.publisher.IParcelPublisher;
 import net.realmproject.dcm.parcel.node.publisher.ParcelPublisher;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;

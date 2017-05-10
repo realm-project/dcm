@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.hub.ParcelHub;
 
 
 /**

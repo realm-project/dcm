@@ -1,15 +1,15 @@
-package net.realmproject.dcm.parcel.flow.router;
+package net.realmproject.dcm.parcel.node.router;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.hub.IParcelHub;
-import net.realmproject.dcm.parcel.flow.router.routingtable.AutoRoutingTable;
-import net.realmproject.dcm.parcel.flow.router.routingtable.IAutoRoutingTable;
-import net.realmproject.dcm.parcel.flow.router.routingtable.Route;
-import net.realmproject.dcm.parcel.flow.router.routingtable.RoutingTable;
+import net.realmproject.dcm.parcel.node.hub.IParcelHub;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.node.router.routingtable.AutoRoutingTable;
+import net.realmproject.dcm.parcel.node.router.routingtable.IAutoRoutingTable;
+import net.realmproject.dcm.parcel.node.router.routingtable.Route;
+import net.realmproject.dcm.parcel.node.router.routingtable.RoutingTable;
 import net.realmproject.dcm.util.DCMInterrupt;
 
 public class IParcelRouter extends IParcelHub implements ParcelRouter {

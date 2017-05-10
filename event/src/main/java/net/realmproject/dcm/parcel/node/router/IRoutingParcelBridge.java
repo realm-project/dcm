@@ -1,4 +1,4 @@
-package net.realmproject.dcm.parcel.flow.router;
+package net.realmproject.dcm.parcel.node.router;
 
 import net.realmproject.dcm.parcel.node.IParcelNode;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
@@ -15,8 +15,8 @@ public class IRoutingParcelBridge extends IParcelNode {
     	to1.setId(getId());
     	to2.setId(getId());
     	
-    	router1.subscribe(this::filter, to2);
-        router2.subscribe(this::filter, to1);
+    	router1.subscribe(to2);
+        router2.subscribe(to1);
         
     }
 

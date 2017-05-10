@@ -22,9 +22,9 @@ package net.realmproject.dcm.network.impl;
 
 import net.realmproject.dcm.network.WireSource;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
-import net.realmproject.dcm.parcel.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.node.IParcelNode;
+import net.realmproject.dcm.parcel.node.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.link.ParcelLink;
 
 
 /**
@@ -38,14 +38,14 @@ public abstract class IWireSource extends IParcelNode implements ParcelLink, Wir
 
     
     public IWireSource(ParcelHub bus) {
-        bus.subscribe(this::filter, this);
+        bus.subscribe(this);
     }
 
     @Override
     public void receive(Parcel<?> parcel) {
         if (parcel.getRoute().contains(getId())) { return; } // cycle detection
         parcel.getRoute().add(getId());
-        send(transform(parcel).serializeParcel());
+        send(parcel.serializeParcel());
     }
 
 }

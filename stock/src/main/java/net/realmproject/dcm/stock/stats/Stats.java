@@ -2,8 +2,10 @@ package net.realmproject.dcm.stock.stats;
 
 import net.realmproject.dcm.parcel.IParcel;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.link.IParcelLink;
-import net.realmproject.dcm.parcel.flow.link.ParcelLink;
+import net.realmproject.dcm.parcel.node.link.IParcelLink;
+import net.realmproject.dcm.parcel.node.link.ParcelLink;
+import net.realmproject.dcm.parcel.node.transform.IParcelTransformLink;
+import net.realmproject.dcm.parcel.node.transform.ParcelTransformLink;
 
 
 public class Stats {
@@ -11,14 +13,17 @@ public class Stats {
 	public static void main(String[] args) {
 
 		
-		ParcelLink node2 = new IParcelLink(null);
+		ParcelTransformLink node2 = new IParcelTransformLink(null);
 		node2.setId("hello");
 		node2.setTransform(p -> {
 			((StringBuilder)p.getPayload()).append("Hello World\n");
 			return p;
 		});
 		
-		ParcelLink node1 = new IParcelLink(node2);
+		
+		
+	
+		ParcelTransformLink node1 = new IParcelTransformLink(node2);
 		node1.setId("timestamp");
 		node1.setTransform(new TimeStamp().andThen(new TimeStamp()).andThen(new TimeStamp()));
 

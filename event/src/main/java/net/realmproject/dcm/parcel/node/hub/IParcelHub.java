@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.parcel.flow.hub;
+package net.realmproject.dcm.parcel.node.hub;
 
 
 import java.util.ArrayList;
@@ -31,8 +31,9 @@ import org.apache.commons.logging.LogFactory;
 
 import net.realmproject.dcm.parcel.Logging;
 import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.node.IParcelNode;
+import net.realmproject.dcm.parcel.node.filter.ParcelFilterer;
+import net.realmproject.dcm.parcel.node.link.ParcelLink;
 import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
 import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
@@ -46,8 +47,8 @@ import net.realmproject.dcm.util.DCMThreadPool;
  *
  */
 
-public class IParcelHub extends IParcelNode implements ParcelLink, ParcelHub, Logging {
-
+public class IParcelHub extends IParcelNode implements ParcelLink, ParcelFilterer, ParcelHub, Logging {
+	
 	public class Subscription {
 		
 		public ParcelReceiver receiver;
@@ -61,7 +62,8 @@ public class IParcelHub extends IParcelNode implements ParcelLink, ParcelHub, Lo
 	}
 
 	
-    protected List<Subscription> subscribers = new ArrayList<>();
+	protected Predicate<Parcel<?>> filter = a -> true;
+	protected List<Subscription> subscribers = new ArrayList<>();
     private BlockingQueue<Parcel<?>> parcelqueue = new LinkedBlockingQueue<>(1000);
     private String zone = "";
     private final Log log = LogFactory.getLog(getClass());
@@ -77,7 +79,7 @@ public class IParcelHub extends IParcelNode implements ParcelLink, ParcelHub, Lo
             while (true) {
                 try {
                     getLog().trace("ParcelHub " + IParcelHub.this.getId() + " Transforming Parcel " + parcel);
-                    parcel = transform(parcelqueue.take());
+                    parcel = parcelqueue.take();
                     getLog().trace("ParcelHub " + IParcelHub.this.getId() + " Broadcasting Parcel " + parcel);
                     broadcast(parcel);
                     getLog().trace("ParcelHub " + IParcelHub.this.getId() + " Finished Parcel " + parcel);
@@ -157,6 +159,16 @@ public class IParcelHub extends IParcelNode implements ParcelLink, ParcelHub, Lo
     public Log getLog() {
         return log;
     }
+
+	@Override
+	public Predicate<Parcel<?>> getFilter() {
+		return filter;
+	}
+
+	@Override
+	public void setFilter(Predicate<Parcel<?>> filter) {
+		this.filter = filter;
+	}
 
 }
 

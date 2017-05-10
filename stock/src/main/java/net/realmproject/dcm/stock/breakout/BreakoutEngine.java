@@ -11,7 +11,7 @@ import net.realmproject.dcm.features.command.Arg;
 import net.realmproject.dcm.features.command.CommandDevice;
 import net.realmproject.dcm.features.command.CommandDispatcher;
 import net.realmproject.dcm.features.command.CommandMethod;
-import net.realmproject.dcm.parcel.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.node.hub.ParcelHub;
 import net.realmproject.dcm.stock.breakout.engine.Arena;
 import net.realmproject.dcm.stock.breakout.engine.Axes;
 import net.realmproject.dcm.stock.breakout.engine.Brick;

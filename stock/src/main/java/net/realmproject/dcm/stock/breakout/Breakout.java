@@ -1,9 +1,9 @@
 package net.realmproject.dcm.stock.breakout;
 
-import net.realmproject.dcm.parcel.flow.router.IParcelRouter;
-import net.realmproject.dcm.parcel.flow.router.IRoutingParcelBridge;
-import net.realmproject.dcm.parcel.flow.router.IRoutingParcelConsumer;
-import net.realmproject.dcm.parcel.flow.router.ParcelRouter;
+import net.realmproject.dcm.parcel.node.router.IParcelRouter;
+import net.realmproject.dcm.parcel.node.router.IRoutingParcelBridge;
+import net.realmproject.dcm.parcel.node.router.IRoutingParcelConsumer;
+import net.realmproject.dcm.parcel.node.router.ParcelRouter;
 
 public class Breakout {
 

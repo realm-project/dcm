@@ -1,4 +1,4 @@
-package net.realmproject.dcm.parcel.flow.router.routingtable;
+package net.realmproject.dcm.parcel.node.router.routingtable;
 
 public class Route {
 

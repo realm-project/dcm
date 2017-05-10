@@ -1,9 +1,9 @@
-package net.realmproject.dcm.parcel.flow.hub;
+package net.realmproject.dcm.parcel.node.hub;
 
 
-import net.realmproject.dcm.parcel.flow.link.IParcelLink;
-import net.realmproject.dcm.parcel.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.node.IParcelNode;
+import net.realmproject.dcm.parcel.node.link.IParcelLink;
+import net.realmproject.dcm.parcel.node.link.ParcelLink;
 
 
 /**
@@ -26,8 +26,8 @@ public class IParcelBridge extends IParcelNode {
     	to1.setId(getId());
     	to2.setId(getId());
     	
-    	bus1.subscribe(this::filter, to2);
-    	bus2.subscribe(this::filter, to1);
+    	bus1.subscribe(to2);
+    	bus2.subscribe(to1);
     	
     }
     
