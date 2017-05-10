@@ -9,12 +9,12 @@ import org.junit.Test;
 import junit.framework.Assert;
 import net.realmproject.dcm.features.ping.IPingDevice;
 import net.realmproject.dcm.features.ping.Ping;
-import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.node.hub.IParcelHub;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.receiver.ParcelReceiverQueue;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.hub.IParcelHub;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
+import net.realmproject.dcm.parcel.impl.receiver.ParcelReceiverQueue;
 
 
 public class PingTest {

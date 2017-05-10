@@ -1,10 +1,10 @@
 package net.realmproject.dcm.features.stateful;
 
-import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.node.identity.Identity;
-import net.realmproject.dcm.parcel.node.publisher.ParcelPublisher;
+import net.realmproject.dcm.parcel.core.Identity;
+import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 
-public interface StatefulDevice<T extends State> extends ParcelPublisher, Identity {
+public interface StatefulDevice<T extends State> extends ParcelSender, Identity {
 
     /**
      * Queries the state of this Device. This method should return an object
@@ -31,7 +31,7 @@ public interface StatefulDevice<T extends State> extends ParcelPublisher, Identi
      *            The state of the device
      */
     default void publishState(T state) {
-        publish(new IParcel<T>(getId(), null, state));
+        send(new IParcel<T>(getId(), null, state));
     }
 
 }

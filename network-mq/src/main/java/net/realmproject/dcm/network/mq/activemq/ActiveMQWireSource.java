@@ -32,8 +32,8 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.network.impl.IWireSource;
-import net.realmproject.dcm.parcel.Logging;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.Logging;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 
 /**
  * @author maxweld

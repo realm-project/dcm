@@ -7,8 +7,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import net.realmproject.dcm.parcel.node.hub.IParcelHub;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.hub.IParcelHub;
 import net.realmproject.dcm.util.DCMJsonSerialize;
 
 

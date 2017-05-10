@@ -4,10 +4,10 @@ package net.realmproject.dcm.features.command;
 import net.realmproject.dcm.features.stateful.State;
 import net.realmproject.dcm.features.stateful.StateQuery;
 import net.realmproject.dcm.features.stateful.StatefulDevice;
-import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.publisher.IParcelPublisher;
-import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.publisher.IParcelPublisher;
+import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 
 
 /**

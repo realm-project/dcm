@@ -1,16 +1,16 @@
 package net.realmproject.dcm.features.ping;
 
 
-import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.identity.Identity;
-import net.realmproject.dcm.parcel.node.publisher.ParcelPublisher;
-import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
+import net.realmproject.dcm.parcel.core.Identity;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
+import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 
 
-public interface Pingable extends Identity, ParcelPublisher {
+public interface Pingable extends Identity, ParcelSender {
 
     default void initPingable(ParcelHub bus) {
         // Respond to Pings
@@ -19,7 +19,7 @@ public interface Pingable extends Identity, ParcelPublisher {
 
     default void onPing(Parcel<?> event) {
         Ping ping = (Ping) event.getPayload();
-        publish(new IParcel<>(getId(), event.getSourceId(), ping));
+        send(new IParcel<>(getId(), event.getSourceId(), ping));
     }
 
 }

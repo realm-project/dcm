@@ -2,7 +2,7 @@ package net.realmproject.dcm.stock.event;
 
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.core.Parcel;
 
 public class RateLimitFilter implements Predicate<Parcel>{
 

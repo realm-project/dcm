@@ -16,11 +16,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import net.realmproject.dcm.features.command.Command;
-import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.stock.breakout.engine.Axes;
 import net.realmproject.dcm.stock.camera.Frame;
 import net.realmproject.dcm.util.DCMUtil;

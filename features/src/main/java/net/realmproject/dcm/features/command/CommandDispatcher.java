@@ -7,10 +7,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 import net.realmproject.dcm.util.DCMJsonSerialize;
 
 

@@ -21,11 +21,11 @@ package net.realmproject.dcm.network.impl;
 
 
 import net.realmproject.dcm.network.WireSink;
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.publisher.IParcelPublisher;
-import net.realmproject.dcm.parcel.node.publisher.ParcelPublisher;
-import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.publisher.IParcelPublisher;
 
 
 /**
@@ -35,7 +35,7 @@ import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
  * @author NAS
  *
  */
-public class IWireSink extends IParcelPublisher implements WireSink, ParcelPublisher {
+public class IWireSink extends IParcelPublisher implements WireSink, ParcelSender {
 
 
     public IWireSink(ParcelReceiver receiver) {
@@ -45,7 +45,7 @@ public class IWireSink extends IParcelPublisher implements WireSink, ParcelPubli
     @Override
     public void receive(byte[] serializedParcel) {
     	Parcel<?> parcel = Parcel.deserializeParcel(serializedParcel);
-        publish(parcel);
+        send(parcel);
     }
 
 

@@ -3,12 +3,12 @@ package net.realmproject.dcm.stock.ping;
 
 
 import net.realmproject.dcm.features.ping.Ping;
-import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.receiver.IParcelConsumer;
-import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
+import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 
 
 public class IDevicePinger implements DevicePinger {
@@ -60,12 +60,10 @@ public class IDevicePinger implements DevicePinger {
         return lastPing.getPingTime();
     }
 
-    @Override
     public String getTargetId() {
         return targetId;
     }
 
-    @Override
     public void setTargetId(String deviceId) {
         this.targetId = deviceId;
     }

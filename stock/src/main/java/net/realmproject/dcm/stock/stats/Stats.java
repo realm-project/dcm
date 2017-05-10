@@ -1,11 +1,11 @@
 package net.realmproject.dcm.stock.stats;
 
-import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.link.IParcelLink;
-import net.realmproject.dcm.parcel.node.link.ParcelLink;
-import net.realmproject.dcm.parcel.node.transform.IParcelTransformLink;
-import net.realmproject.dcm.parcel.node.transform.ParcelTransformLink;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelLink;
+import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
+import net.realmproject.dcm.parcel.impl.link.IParcelLink;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
+import net.realmproject.dcm.parcel.impl.transform.IParcelTransformLink;
 
 
 public class Stats {

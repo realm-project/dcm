@@ -3,7 +3,7 @@ package net.realmproject.dcm.stock.stats;
 import java.util.Date;
 import java.util.function.Function;
 
-import net.realmproject.dcm.parcel.Parcel;
+import net.realmproject.dcm.parcel.core.Parcel;
 
 public class TimeStamp implements Function<Parcel<?>, Parcel<?>> {
 

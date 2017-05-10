@@ -8,7 +8,7 @@ import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
 
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 
 
 public class UrlCamera extends Camera {

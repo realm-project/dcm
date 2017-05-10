@@ -2,15 +2,15 @@ package net.realmproject.dcm.features.stateful;
 
 import java.util.concurrent.TimeUnit;
 
-import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.IParcelNode;
-import net.realmproject.dcm.parcel.node.publisher.ParcelPublisher;
-import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.impl.node.IParcelNode;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.util.DCMSettings;
 import net.realmproject.dcm.util.DCMThreadPool;
 
-public class StateCache extends IParcelNode implements ParcelReceiver, ParcelPublisher {
+public class StateCache extends IParcelNode implements ParcelReceiver, ParcelSender {
 
 	private String deviceId = null;
 	private ParcelReceiver receiver;
@@ -32,7 +32,7 @@ public class StateCache extends IParcelNode implements ParcelReceiver, ParcelPub
 	}
 	
 	@Override
-	public void publish(Parcel<?> parcel) {
+	public void send(Parcel<?> parcel) {
 		receiver.receive(parcel);
 	}
 
@@ -47,7 +47,7 @@ public class StateCache extends IParcelNode implements ParcelReceiver, ParcelPub
 	 * Queries the Device being cached, asking it to broadcast it's state
 	 */
 	public void query() {
-		publish(new IParcel<>(getId(), deviceId, new StateQuery()));
+		send(new IParcel<>(getId(), deviceId, new StateQuery()));
 	}
 	
 	public State get() {

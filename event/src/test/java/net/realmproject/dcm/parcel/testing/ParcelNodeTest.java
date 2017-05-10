@@ -7,15 +7,15 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.junit.Test;
 
-import net.realmproject.dcm.parcel.IParcel;
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.hub.IParcelBridge;
-import net.realmproject.dcm.parcel.node.hub.IParcelHub;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.receiver.ParcelReceiverQueue;
-import net.realmproject.dcm.parcel.node.transform.IParcelTransformLink;
-import net.realmproject.dcm.parcel.node.transform.ParcelTransformLink;
-import net.realmproject.dcm.parcel.node.transform.ParcelTransformer;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
+import net.realmproject.dcm.parcel.core.transform.ParcelTransformer;
+import net.realmproject.dcm.parcel.impl.hub.IParcelBridge;
+import net.realmproject.dcm.parcel.impl.hub.IParcelHub;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
+import net.realmproject.dcm.parcel.impl.receiver.ParcelReceiverQueue;
+import net.realmproject.dcm.parcel.impl.transform.IParcelTransformLink;
 
 
 public class ParcelNodeTest {

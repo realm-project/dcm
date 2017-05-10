@@ -1,7 +1,7 @@
 package net.realmproject.dcm.features.command;
 
-import net.realmproject.dcm.parcel.Logging;
-import net.realmproject.dcm.parcel.node.identity.Identity;
+import net.realmproject.dcm.parcel.core.Identity;
+import net.realmproject.dcm.parcel.core.Logging;
 
 /**
  * Interface for a device accepting {@link Command} messages and automatically

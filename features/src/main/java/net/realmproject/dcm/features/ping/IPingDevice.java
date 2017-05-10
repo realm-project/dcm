@@ -1,9 +1,9 @@
 package net.realmproject.dcm.features.ping;
 
 
-import net.realmproject.dcm.parcel.Parcel;
-import net.realmproject.dcm.parcel.node.hub.ParcelHub;
-import net.realmproject.dcm.parcel.node.receiver.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 
 
 public class IPingDevice implements Pingable {
@@ -28,7 +28,7 @@ public class IPingDevice implements Pingable {
     }
 
     @Override
-    public void publish(Parcel event) {
+    public void send(Parcel event) {
         receiver.receive(event);
     }
 
