@@ -1,4 +1,4 @@
-package net.realmproject.dcm.parcel.impl.filter;
+package net.realmproject.dcm.parcel.impl.filter.filters;
 
 import java.util.function.Predicate;
 

@@ -7,6 +7,10 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.impl.filter.filters.PayloadClassFilter;
+import net.realmproject.dcm.parcel.impl.filter.filters.SourceIDFilter;
+import net.realmproject.dcm.parcel.impl.filter.filters.TargetIDFilter;
+import net.realmproject.dcm.parcel.impl.filter.filters.ZoneFilter;
 
 public class FilterBuilder implements Predicate<Parcel<?>> {
 

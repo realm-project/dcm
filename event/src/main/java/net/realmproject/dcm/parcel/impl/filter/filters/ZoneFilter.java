@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.parcel.impl.filter;
+package net.realmproject.dcm.parcel.impl.filter.filters;
 
 
 import java.util.ArrayList;
@@ -25,31 +25,32 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 
 
 /**
- * Parcel filter which only accepts parcels with certain source ids
+ * Parcel filter which only allows parcels from a certain zone. See
+ * {@link ParcelHub}
  * 
  * @author NAS
  *
  */
 
-public class SourceIDFilter implements Predicate<Parcel<?>> {
+public class ZoneFilter implements Predicate<Parcel<?>> {
 
-    List<String> ids;
+    private List<String> whitelist;
 
-    public SourceIDFilter(String id) {
-        ids = new ArrayList<>();
-        ids.add(id);
+    public ZoneFilter(String zone) {
+        whitelist = new ArrayList<>();
+        whitelist.add(zone);
     }
 
-    public SourceIDFilter(List<String> ids) {
-        this.ids = new ArrayList<>(ids);
+    public ZoneFilter(List<String> zones) {
+        whitelist = new ArrayList<>(zones);
     }
 
     @Override
     public boolean test(Parcel<?> e) {
-        return ids.contains(e.getSourceId());
+        return whitelist.contains(e.getZone());
     }
-
 }
