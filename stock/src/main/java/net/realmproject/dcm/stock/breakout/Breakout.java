@@ -16,34 +16,34 @@ public class Breakout {
 
 	public static void main(String[] args) {
 		
-		//WireSource/Sink
-		ParcelHub frontend = new IParcelHub();
-		ParcelHub backend = new IParcelHub();
+//		//WireSource/Sink
+//		ParcelHub frontend = new IParcelHub();
+//		ParcelHub backend = new IParcelHub();
+//
+//		WireSink backSink = new IWireSink(backend);
+//		WireSink frontSink = new IWireSink(frontend);
+//		WireSource frontSource = new DummyWireMessageSource(frontend, backSink);
+//		WireSource backSource = new DummyWireMessageSource(backend, frontSink);
+//		
+//		IParcelBridge bridge = new IParcelBridge(frontend, backend);
+		
+		
+		//Routers
+		ParcelRouter frontend = new IParcelRouter();
+		frontend.setId("frontend-router");
+		ParcelRouter backend = new IParcelRouter();
+		backend.setId("backend-router");		
+		IRoutingParcelBridge bridge = new IRoutingParcelBridge("bridge", frontend, backend);
 
-		WireSink backSink = new IWireSink(backend);
-		WireSink frontSink = new IWireSink(frontend);
-		WireSource frontSource = new DummyWireMessageSource(frontend, backSink);
-		WireSource backSource = new DummyWireMessageSource(backend, frontSink);
-		
-		IParcelBridge bridge = new IParcelBridge(frontend, backend);
-		
-		
-//		//Routers
-//		ParcelRouter frontend = new IParcelRouter();
-//		frontend.setId("frontend-router");
-//		ParcelRouter backend = new IParcelRouter();
-//		backend.setId("backend-router");		
-//		IRoutingParcelBridge bridge = new IRoutingParcelBridge(frontend, backend);
-		
-
 		
 		
 		
-		frontend.subscribe(new IRoutingParcelConsumer("useless", p -> {}));
+		//frontend.subscribe(new IRoutingParcelConsumer("useless", p -> {}));
 
 		
 		BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);
 		SwingUI ui = new SwingUI("breakout-screen", frontend);
+		
 		
 		
 	}

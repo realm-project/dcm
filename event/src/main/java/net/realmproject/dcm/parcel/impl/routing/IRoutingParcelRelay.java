@@ -20,29 +20,11 @@ public class IRoutingParcelRelay extends IParcelLink implements Routing {
 
 	@Override
 	public void send(Parcel<?> parcel) {
-
-		// TODO: Fix me
-		//routes.addLocal(getId());
-		//routes.integrate(to);
-
 		super.send(parcel);
-
 	}
 
 	@Override
 	public RoutingTable getRoutes() {
-		// RoutingTable routes = new IRoutingTable();
-		// routes.addLocal(getId());
-		// if (to instanceof Routing) {
-		// Routing node = (Routing) to;
-		// RoutingTable otherRoutes = node.getRoutes(getId());
-		// otherRoutes.hop(to.getId());
-		// routes.add(otherRoutes);
-		// } else {
-		// routes.addRoute(to.getId(), getId(), 1);
-		// }
-		// routes.markTime();
-		// return routes;
 		return routes;
 
 	}

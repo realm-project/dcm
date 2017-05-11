@@ -6,6 +6,7 @@ import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.routing.Routing;
 import net.realmproject.dcm.parcel.impl.routing.routingtable.IRoutingTable;
+import net.realmproject.dcm.parcel.impl.routing.routingtable.Route;
 import net.realmproject.dcm.parcel.impl.routing.routingtable.RoutingTable;
 import net.realmproject.dcm.util.DCMUtil;
 
@@ -43,7 +44,7 @@ public class IRoutingParcelConsumer implements ParcelReceiver, Routing {
 	public RoutingTable getRoutes() {
 		RoutingTable routes = new IRoutingTable();
 		routes.addLocal(id);
-		routes.addRoute(nextHop, id, 1);
+		routes.addRoute(new Route(id, new Route(nextHop)));
 		routes.markTime();
 		return routes;
 	}

@@ -25,7 +25,7 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
     }
 	
 		
-    protected synchronized void broadcast(Parcel<?> parcel) {
+    public synchronized void send(Parcel<?> parcel) {
     	
     	Route nextHop = routes.nextHop(parcel.getTargetId());
     	
@@ -33,16 +33,16 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
     	//TODO: Fix this
     	routes.addLocal(getId());
     	
-//    	System.out.println("ID: " + getId() + "\nTarget: " + parcel.getTargetId() + "\nRoutes:\n" + routes + "\n******");
-//    	System.out.println("Next Hop: " + (nextHop != null ? nextHop.getNextHop() : "null"));
-//    	
-//    	
+    	System.out.println("ID: " + getId() + "\nTarget: " + parcel.getTargetId() + "\nRoutes:\n" + routes + "\n******");
+    	System.out.println("Next Hop: " + (nextHop != null ? nextHop.getNextHop() : "null"));
+    	
+    	
     	
         for (Subscription subscriber : new ArrayList<>(subscribers)) {
         	
         	//If there is a next hop defined, then only "broadcast" to the next hop
         	if (nextHop != null && !nextHop.getNextHop().equals(subscriber.receiver.getId())) { 
-        		//System.out.println("Skipping " + subscriber.receiver.getId());
+        		System.out.println("Skipping " + subscriber.receiver.getId());
         		continue;
         	}
         	
@@ -53,39 +53,12 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
         	}
         }
         
-        //System.out.println("*****************");
+        System.out.println("*****************");
     }
 	
 	@Override
-	public RoutingTable getRoutes() {
-		
-		
-		
-//		RoutingTable routes = new IRoutingTable();
-//		routes.addLocal(getId());
-//
-//		
-//		for (IParcelHub.Subscription subscriber : new ArrayList<>(subscribers)) {
-//			ParcelReceiver receiver = subscriber.receiver;
-//			if (receiver.getId() != null && receiver.getId().equals(previousHop)) { continue; }
-//			
-//			RoutingTable otherRoutes;
-//			if (receiver instanceof Routing) {
-//				otherRoutes = ((Routing)receiver).getRoutes(getId());
-//			} else {
-//				//Try out best to capture any terminal nodes which don't support routing
-//				otherRoutes = new IRoutingTable();
-//				otherRoutes.addLocal(receiver.getId());
-//			}
-//			
-//			otherRoutes.hop(receiver.getId());
-//			routes.add(otherRoutes);
-//		}
-//		
-//		routes.markTime();
-		
+	public RoutingTable getRoutes() {	
 		return routes;
-		
 	}
 
 }
