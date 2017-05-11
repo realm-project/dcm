@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import net.realmproject.dcm.parcel.core.Identity;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.util.DCMSettings;
 import net.realmproject.dcm.util.DCMThreadPool;
@@ -13,11 +14,14 @@ public class IAutoRoutingTable extends IRoutingTable implements AutoRoutingTable
 
 	private List<ParcelReceiver> receivers = new ArrayList<>();
 	
-	public IAutoRoutingTable() {
+	public IAutoRoutingTable(Identity owner) {
+		super(owner);
 		DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::poll, DCMSettings.STARTUP_DELAY, 1, TimeUnit.SECONDS);
 	}
 	
 	public void poll() {
+		addLocal(super.owner.getId());
+		trim();
 		for (ParcelReceiver receiver : receivers) {
 			integrate(receiver);
 		}

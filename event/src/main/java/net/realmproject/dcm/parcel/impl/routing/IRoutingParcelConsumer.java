@@ -13,7 +13,6 @@ import net.realmproject.dcm.util.DCMUtil;
 public class IRoutingParcelConsumer implements ParcelReceiver, Routing {
 
 	private String id = DCMUtil.generateId();
-	private String nextHop = null;
 	private Consumer<Parcel<?>> consumer;
 
 	public IRoutingParcelConsumer(Consumer<Parcel<?>> consumer) {
@@ -21,7 +20,7 @@ public class IRoutingParcelConsumer implements ParcelReceiver, Routing {
 	}
 	
 	public IRoutingParcelConsumer(String consumerId, Consumer<Parcel<?>> consumer) {
-		this.nextHop = consumerId;
+		this.id = consumerId;
 		this.consumer = consumer;
 	}
 	
@@ -42,10 +41,7 @@ public class IRoutingParcelConsumer implements ParcelReceiver, Routing {
 
 	@Override
 	public RoutingTable getRoutes() {
-		RoutingTable routes = new IRoutingTable();
-		routes.addLocal(id);
-		routes.addRoute(new Route(id, new Route(nextHop)));
-		routes.markTime();
+		RoutingTable routes = new IRoutingTable(this);
 		return routes;
 	}
 

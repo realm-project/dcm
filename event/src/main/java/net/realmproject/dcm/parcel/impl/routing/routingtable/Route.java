@@ -12,6 +12,8 @@ public class Route implements ParcelPath {
 	// Path format: next hop, node, node, ...
 	private List<String> path = new ArrayList<>();
 	
+	private long expiry = System.currentTimeMillis() + 10000;
+	
 
 	public Route(String hop) {
 		target = hop;
@@ -24,6 +26,18 @@ public class Route implements ParcelPath {
 		target = route.target;
 	}
 
+	public long getExpiry() {
+		return expiry;
+	}
+	
+	public boolean isExpired() {
+		return expiry < System.currentTimeMillis();
+	}
+	
+	public void extendExpiry() {
+		expiry = System.currentTimeMillis() + 10000;
+	}
+	
 	public int getHopCount() {
 		return path.size();
 	}
@@ -43,6 +57,17 @@ public class Route implements ParcelPath {
 	@Override
 	public List<String> getRoute() {
 		return path;
+	}
+	
+		
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Route)) { return false; }
+		Route otherRoute = (Route) other;
+		
+		if (!(otherRoute.target.equals(target))) { return false; }
+		if (!(otherRoute.path.equals(path))) { return false; }
+		return true;
 	}
 	
 }

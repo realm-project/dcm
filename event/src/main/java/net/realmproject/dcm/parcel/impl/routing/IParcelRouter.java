@@ -15,7 +15,7 @@ import net.realmproject.dcm.util.DCMInterrupt;
 
 public class IParcelRouter extends IParcelHub implements ParcelRouter {
 
-	private AutoRoutingTable routes = new IAutoRoutingTable();
+	private AutoRoutingTable routes = new IAutoRoutingTable(this);
 
 
     @Override
@@ -28,11 +28,7 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
     public synchronized void send(Parcel<?> parcel) {
     	
     	Route nextHop = routes.nextHop(parcel.getTargetId());
-    	
-    
-    	//TODO: Fix this
-    	routes.addLocal(getId());
-    	
+    	    	
     	System.out.println("ID: " + getId() + "\nTarget: " + parcel.getTargetId() + "\nRoutes:\n" + routes + "\n******");
     	System.out.println("Next Hop: " + (nextHop != null ? nextHop.getNextHop() : "null"));
     	

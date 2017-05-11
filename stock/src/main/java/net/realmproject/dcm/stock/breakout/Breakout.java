@@ -1,9 +1,12 @@
 package net.realmproject.dcm.stock.breakout;
 
+import java.util.concurrent.TimeUnit;
+
 import net.realmproject.dcm.network.WireSink;
 import net.realmproject.dcm.network.WireSource;
 import net.realmproject.dcm.network.impl.DummyWireMessageSource;
 import net.realmproject.dcm.network.impl.IWireSink;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.routing.ParcelRouter;
 import net.realmproject.dcm.parcel.impl.hub.IParcelBridge;
@@ -11,6 +14,7 @@ import net.realmproject.dcm.parcel.impl.hub.IParcelHub;
 import net.realmproject.dcm.parcel.impl.routing.IParcelRouter;
 import net.realmproject.dcm.parcel.impl.routing.IRoutingParcelBridge;
 import net.realmproject.dcm.parcel.impl.routing.IRoutingParcelConsumer;
+import net.realmproject.dcm.util.DCMThreadPool;
 
 public class Breakout {
 
@@ -37,12 +41,16 @@ public class Breakout {
 
 		
 		
-		
-		//frontend.subscribe(new IRoutingParcelConsumer("useless", p -> {}));
+		ParcelReceiver useless = new IRoutingParcelConsumer("useless", p -> {});
+		frontend.subscribe(useless);
 
 		
 		BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);
 		SwingUI ui = new SwingUI("breakout-screen", frontend);
+		
+		
+		
+		DCMThreadPool.getScheduledPool().schedule(() -> useless.setId("useful"), 20, TimeUnit.SECONDS);
 		
 		
 		

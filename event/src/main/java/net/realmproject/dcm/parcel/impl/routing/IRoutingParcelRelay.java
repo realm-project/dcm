@@ -10,11 +10,10 @@ import net.realmproject.dcm.parcel.impl.routing.routingtable.RoutingTable;
 
 public class IRoutingParcelRelay extends IParcelLink implements Routing {
 
-	public AutoRoutingTable routes = new IAutoRoutingTable();
+	public AutoRoutingTable routes = new IAutoRoutingTable(this);
 
 	public IRoutingParcelRelay(ParcelReceiver to) {
 		setReceiver(to);
-		routes.addLocal(getId());
 		routes.addParcelReceiver(to);
 	}
 
