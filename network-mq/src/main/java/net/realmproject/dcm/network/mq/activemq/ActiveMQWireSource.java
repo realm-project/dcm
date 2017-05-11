@@ -19,8 +19,6 @@
 
 package net.realmproject.dcm.network.mq.activemq;
 
-import java.io.Serializable;
-
 import javax.jms.BytesMessage;
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;

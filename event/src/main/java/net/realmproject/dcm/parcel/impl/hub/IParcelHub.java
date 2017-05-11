@@ -31,9 +31,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.ParcelLink;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.filter.ParcelFilterer;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 import net.realmproject.dcm.util.DCMInterrupt;
@@ -48,7 +46,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
  *
  */
 
-public class IParcelHub extends IParcelNode implements ParcelLink, ParcelFilterer, ParcelHub, Logging {
+public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
 	
 	public class Subscription {
 		
@@ -105,7 +103,7 @@ public class IParcelHub extends IParcelNode implements ParcelLink, ParcelFiltere
     @Override
     public synchronized void send(Parcel<?> parcel) {
         for (Subscription subscriber : new ArrayList<>(subscribers)) {
-        	if (subscriber.filter.test(parcel)) {
+        	if (subscriber.filter == null || subscriber.filter.test(parcel)) {
                 // deepCopy to make sure that neither parcel settings nor the payload itself are mutated by separate next hops
         		DCMInterrupt.handle(() -> subscriber.receiver.receive(parcel.deepCopy()), e -> getLog().error(parcel, e));
         	}

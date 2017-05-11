@@ -18,6 +18,10 @@ public class IParcelConsumer implements ParcelReceiver {
 	private Consumer<Parcel<?>> consumer;
 
 
+	public IParcelConsumer(Consumer<Parcel<?>> consumer) {
+		this.consumer = consumer;
+	}
+	
 	public IParcelConsumer(String id, Consumer<Parcel<?>> consumer) {
 		this.id = id;
 		this.consumer = consumer;

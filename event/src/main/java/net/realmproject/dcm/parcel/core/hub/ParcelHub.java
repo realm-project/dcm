@@ -26,6 +26,7 @@ import java.util.function.Predicate;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.ParcelSender;
 import net.realmproject.dcm.parcel.core.filter.ParcelFilterer;
 import net.realmproject.dcm.parcel.impl.link.IParcelLink;
 
@@ -47,7 +48,7 @@ import net.realmproject.dcm.parcel.impl.link.IParcelLink;
  *
  */
 
-public interface ParcelHub extends ParcelReceiver, ParcelNode, ParcelFilterer {
+public interface ParcelHub extends ParcelReceiver, ParcelNode, ParcelFilterer, ParcelSender {
 
     /**
      * Listen for parcels broadcast on this parcelhub. All parcels will be sent to

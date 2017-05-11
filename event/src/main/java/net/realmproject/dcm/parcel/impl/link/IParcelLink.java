@@ -34,23 +34,37 @@ import net.realmproject.dcm.parcel.impl.node.IParcelNode;
  */
 public class IParcelLink extends IParcelNode implements ParcelLink {
 
-	protected ParcelReceiver to;
+	protected ParcelReceiver receiver;
 
-	public IParcelLink(ParcelReceiver to) {
-		this.to = to;
-	}
-
-	public IParcelLink(ParcelHub from, ParcelReceiver to) {
-		this(to);
+	
+	public IParcelLink(){}
+	
+	public IParcelLink(ParcelHub from) {
 		from.subscribe(this);
 	}
+	
+
 
 	@Override
 	public void send(Parcel<?> parcel) {
 		if (!parcel.visit(getId())) { return; } // cycle detection
-		if (to != null) {
-			to.receive(parcel);
+		if (receiver != null) {
+			receiver.receive(parcel);
 		}
 	}
 
+	@Override
+	public ParcelReceiver getReceiver() {
+		return receiver;
+	}
+
+	@Override
+	public void setReceiver(ParcelReceiver receiver) {
+		this.receiver = receiver;
+	}
+
+	
+	
+	
+	
 }

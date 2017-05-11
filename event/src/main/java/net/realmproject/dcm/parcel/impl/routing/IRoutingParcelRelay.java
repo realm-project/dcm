@@ -13,7 +13,7 @@ public class IRoutingParcelRelay extends IParcelLink implements Routing {
 	public AutoRoutingTable routes = new IAutoRoutingTable();
 
 	public IRoutingParcelRelay(ParcelReceiver to) {
-		super(to);
+		setReceiver(to);
 		routes.addLocal(getId());
 		routes.addParcelReceiver(to);
 	}
