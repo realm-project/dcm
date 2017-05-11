@@ -113,8 +113,8 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
     @Override
     public void receive(Parcel<?> parcel) {
         if (parcel == null) { return; }
-        if (parcel.getRoute().contains(getId())) { return; } // cycle detection
-        parcel.getRoute().add(getId());
+        if (parcel.getPath().contains(getId())) { return; } // cycle detection
+        parcel.getPath().add(getId());
 
         // only label a parcel with our zone if it hasn't already been set.
         // Relabelling of parcels should be a conscious choice of a relay

@@ -22,7 +22,7 @@ public class Route implements ParcelPath {
 	
 	public Route(String firstHop, Route route) {
 		path.add(firstHop);
-		path.addAll(route.getRoute());
+		path.addAll(route.getPath());
 		target = route.target;
 	}
 
@@ -55,7 +55,7 @@ public class Route implements ParcelPath {
 	}
 
 	@Override
-	public List<String> getRoute() {
+	public List<String> getPath() {
 		return path;
 	}
 	

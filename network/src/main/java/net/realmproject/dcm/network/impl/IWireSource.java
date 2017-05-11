@@ -43,8 +43,8 @@ public abstract class IWireSource extends IParcelNode implements ParcelReceiver,
 
     @Override
     public void receive(Parcel<?> parcel) {
-        if (parcel.getRoute().contains(getId())) { return; } // cycle detection
-        parcel.getRoute().add(getId());
+        if (parcel.getPath().contains(getId())) { return; } // cycle detection
+        parcel.getPath().add(getId());
         send(parcel.serializeParcel());
     }
 

@@ -9,7 +9,7 @@ public interface ParcelPath {
 	 * 
 	 * @return the stack of nodes this parcel has traversed
 	 */
-	public List<String> getRoute();
+	public List<String> getPath();
 	
 	/**
 	 * Records that this parcel has passed through this node. If this parcel has passed through this node before, returns false.
@@ -18,12 +18,12 @@ public interface ParcelPath {
 	 */
 	default boolean visit(String id) {
 		if (hasVisited(id)) { return false; }
-        getRoute().add(id);
+        getPath().add(id);
         return true;
 	}
 	
 	default boolean hasVisited(String id) {
-		return getRoute().contains(id);
+		return getPath().contains(id);
 	}
 	
 	

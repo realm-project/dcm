@@ -227,7 +227,7 @@ public class IParcel<S> implements Parcel<S> {
     }
 
     @Override
-    public List<String> getRoute() {
+    public List<String> getPath() {
         return route;
     }
 
@@ -247,7 +247,7 @@ public class IParcel<S> implements Parcel<S> {
         sb.append(getTimestamp());
 
         sb.append(" | Via ");
-        sb.append(getRoute().stream().collect(Collectors.joining(">")));
+        sb.append(getPath().stream().collect(Collectors.joining(">")));
 
         sb.append("]");
 

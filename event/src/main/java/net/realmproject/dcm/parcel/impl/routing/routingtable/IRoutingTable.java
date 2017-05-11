@@ -55,7 +55,7 @@ public class IRoutingTable implements RoutingTable {
 	public String toString() {
 		String out = "";
 		for (String dest : routes.keySet()) {
-			out += dest + "\t\t" + routes.get(dest).getNextHop() + "\t\t" + routes.get(dest).getRoute() + "\n";
+			out += dest + "\t\t" + routes.get(dest).getNextHop() + "\t\t" + routes.get(dest).getPath() + "\n";
 		}
 		return out;
 	}
