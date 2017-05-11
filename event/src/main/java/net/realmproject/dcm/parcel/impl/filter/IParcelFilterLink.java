@@ -19,15 +19,6 @@ public class IParcelFilterLink extends IParcelLink implements ParcelFilterLink {
     }
 
     @Override
-    public void send(Parcel<?> parcel) {
-        if (!filter(parcel)) { return; }
-        if (!parcel.visit(getId())) { return; } //cycle detection
-        if (receiver != null) {
-        	receiver.receive(parcel);
-        }
-    }
-    
-    @Override
     public Predicate<Parcel<?>> getFilter() {
         return filter;
     }

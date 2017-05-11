@@ -34,7 +34,7 @@ import java.util.List;
  * @author NAS
  *
  */
-public interface Parcel<S> extends Serializable, Identity {
+public interface Parcel<S> extends Serializable, Identity, ParcelPath {
 
 	/**
 	 * Gets the current payload for this Parcel.
@@ -226,25 +226,6 @@ public interface Parcel<S> extends Serializable, Identity {
 		return this;
 	}
 
-	/**
-	 * Retrieves the route this parcel has traveled
-	 * 
-	 * @return the stack of nodes this parcel has traversed
-	 */
-	public List<String> getRoute();
-	
-	/**
-	 * Records that this parcel has passed through this node. If this parcel has passed through this node before, returns false.
-	 * @param id the Id of the node being visited
-	 * @return False if this node has already been visitid by this (copy of) this parcel, True otherwise
-	 */
-	default boolean visit(String id) {
-		if (getRoute().contains(id)) { return false; } // cycle detection
-        getRoute().add(getId());
-        return true;
-	}
-	
-	
 	
 	
 	/**

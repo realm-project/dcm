@@ -15,8 +15,7 @@ public class IAsyncParcelLink extends IParcelLink {
 
 	@Override
 	public void send(Parcel<?> parcel) {
-		if (!parcel.visit(getId())) { return; } // cycle detection
-		DCMThreadPool.getPool().submit(() -> receiver.receive(parcel));
+		DCMThreadPool.getPool().submit(() -> super.send(parcel));
 	}
 
 }

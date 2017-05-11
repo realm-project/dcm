@@ -19,16 +19,6 @@ public class IParcelTransformLink extends IParcelLink implements ParcelTransform
     }
 
     @Override
-    public void send(Parcel<?> parcel) {
-        if (!parcel.visit(getId())) { return; } //cycle detection
-        parcel = transform(parcel);
-        if (receiver != null) {
-        	receiver.receive(parcel);
-        }
-    }
-    
-
-    @Override
     public Function<Parcel<?>, Parcel<?>> getTransform() {
         return transform;
     }
