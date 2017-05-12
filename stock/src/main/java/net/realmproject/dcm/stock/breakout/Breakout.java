@@ -45,8 +45,8 @@ public class Breakout {
 		frontend.subscribe(useless);
 
 		
-		//BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);
-		//SwingUI ui = new SwingUI("breakout-screen", frontend);
+		BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);
+		SwingUI ui = new SwingUI("breakout-screen", frontend);
 		
 		DCMThreadPool.getScheduledPool().scheduleWithFixedDelay(() -> {
 			System.out.println(frontend.getRoutes());

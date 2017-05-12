@@ -1,5 +1,6 @@
 package net.realmproject.dcm.parcel.impl.routing.routingtable;
 
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -63,10 +64,10 @@ public class IRoutingTable implements RoutingTable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		Formatter formatter = new Formatter(sb);
-		
+		DecimalFormat df = new DecimalFormat("#.##");
 		
 
-		int wd=6, wn=8, wp=4, we=3;
+		int wd=6, wn=8, wp=4, we=6;
 		for (String dest : routes.keySet()) {
 			Route r = routes.get(dest);
 			wd = Math.max(wd, dest.length());
@@ -82,10 +83,11 @@ public class IRoutingTable implements RoutingTable {
 
 		for (String dest : routes.keySet()) {
 			Route r = routes.get(dest);
-			int ttl = (int) ((r.getExpiry() - System.currentTimeMillis()) / 1000f);
-			formatter.format(format, dest, r.getNextHop(), r.getPath(), ttl);
+			float ttl = ((r.getExpiry() - System.currentTimeMillis()) / 1000f);
+			formatter.format(format, dest, r.getNextHop(), r.getPath(), df.format(ttl));
 		}
 		
+				
 		sb.append(bar);
 		
 		

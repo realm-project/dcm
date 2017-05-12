@@ -66,7 +66,8 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
     private BlockingQueue<Parcel<?>> parcelqueue = new LinkedBlockingQueue<>(1000);
     private String zone = "";
     private final Log log = LogFactory.getLog(getClass());
-
+    private Boolean copying = true;
+    
     public IParcelHub() {
         this("");
     }
@@ -104,11 +105,22 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
     public synchronized void send(Parcel<?> parcel) {
         for (Subscription subscriber : new ArrayList<>(subscribers)) {
         	if (subscriber.filter == null || subscriber.filter.test(parcel)) {
-                // deepCopy to make sure that neither parcel settings nor the payload itself are mutated by separate next hops
-        		DCMInterrupt.handle(() -> subscriber.receiver.receive(parcel.deepCopy()), e -> getLog().error(parcel, e));
+        		send(parcel, subscriber.receiver);
         	}
         }
     }
+    
+    protected void send(Parcel<?> parcel, ParcelReceiver receiver) {
+		DCMInterrupt.handle(() -> {
+			// deepCopy to make sure that neither parcel settings nor the payload itself are mutated by separate next hops
+			Parcel<?> sentParcel = parcel;
+    		if (isCopying()) {
+    			sentParcel = parcel.deepCopy();
+    		}
+			receiver.receive(sentParcel);
+		}, e -> getLog().error(parcel, e));
+    }
+    
 
     @Override
     public void receive(Parcel<?> parcel) {
@@ -155,7 +167,20 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
         this.zone = zone;
     }
 
+    
+    
+    
     @Override
+	public Boolean isCopying() {
+		return copying;
+	}
+
+	@Override
+	public void setCopying(Boolean copying) {
+		this.copying = copying;
+	}
+
+	@Override
     public Log getLog() {
         return log;
     }

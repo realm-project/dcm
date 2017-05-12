@@ -94,4 +94,10 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode, ParcelFilterer, P
      */
     void setZone(String zone);
 
+
+	void setCopying(Boolean copying);
+
+
+	Boolean isCopying();
+
 }

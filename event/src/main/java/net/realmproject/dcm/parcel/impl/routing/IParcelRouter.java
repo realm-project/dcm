@@ -31,15 +31,13 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
     	    	    	
         for (Subscription subscriber : new ArrayList<>(subscribers)) {
         	
-        	//If there is a next hop defined, then only "broadcast" to the next hop
+        	//If there is a next hop defined, and this isn't it, skip it
         	if (nextHop != null && !nextHop.getNextHop().equals(subscriber.receiver.getId())) { 
         		continue;
         	}
         	
         	if (subscriber.filter == null || subscriber.filter.test(parcel)) {
-        		
-                // deepCopy to make sure that neither parcel settings nor the payload itself are mutated by separate next hops
-        		DCMInterrupt.handle(() -> subscriber.receiver.receive(parcel.deepCopy()), e -> getLog().error(parcel, e));
+        		send(parcel, subscriber.receiver);
         	}
         }
         
