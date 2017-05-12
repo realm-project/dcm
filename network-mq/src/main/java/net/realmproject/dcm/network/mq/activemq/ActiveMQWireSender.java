@@ -29,7 +29,7 @@ import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import net.realmproject.dcm.network.impl.IWireSource;
+import net.realmproject.dcm.network.impl.IWireSender;
 import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 
@@ -37,7 +37,7 @@ import net.realmproject.dcm.parcel.core.hub.ParcelHub;
  * @author maxweld
  *
  */
-public class ActiveMQWireSource extends IWireSource implements Logging {
+public class ActiveMQWireSender extends IWireSender implements Logging {
 
 	public String url;
 	public String subject;
@@ -54,14 +54,13 @@ public class ActiveMQWireSource extends IWireSource implements Logging {
 	protected Session session;
 
 
-	public ActiveMQWireSource(ParcelHub bus, String subject, boolean topic, String url) {
-		super(bus);
+	public ActiveMQWireSender(String subject, boolean topic, String url) {
 		this.subject = subject;
 		this.topic = topic;
 		this.url = url;
 	}
 
-	public boolean send(byte[] serializedParcel) {
+	public void send(byte[] serializedParcel) {
 
 		try {
 			BytesMessage message = session.createBytesMessage();
@@ -75,19 +74,14 @@ public class ActiveMQWireSource extends IWireSource implements Logging {
 						session.commit();
 					} catch (JMSException e) {
 						getLog().error("Exception while committing JMS Message", e);
-						return false;
 					}
 				}
 			} catch (JMSException e) {
 				getLog().error("Exception while sending JMS BytesMessage", e);
-				return false;
 			}
 		} catch (JMSException e) {
 			getLog().error("Exception while creating JMS BytesMessage", e);
-			return false;
 		}
-
-		return true;
 
 	}
 

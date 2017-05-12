@@ -31,7 +31,7 @@ import javax.jms.Topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import net.realmproject.dcm.network.impl.IWireSink;
+import net.realmproject.dcm.network.impl.IWireReceiver;
 import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 
@@ -39,7 +39,7 @@ import net.realmproject.dcm.parcel.core.ParcelReceiver;
  * @author maxweld
  *
  */
-public class ActiveMQWireSink extends IWireSink implements MessageListener, Logging {
+public class ActiveMQWireReceiver extends IWireReceiver implements MessageListener, Logging {
 
 	private String url;
 	private String subject;
@@ -55,11 +55,11 @@ public class ActiveMQWireSink extends IWireSink implements MessageListener, Logg
 	protected Connection connection;
 	protected Session session;
 
-	public ActiveMQWireSink(ParcelReceiver receiver, String subject, boolean topic, String url) {
+	public ActiveMQWireReceiver(ParcelReceiver receiver, String subject, boolean topic, String url) {
 		this(receiver, subject, topic, url, null, null);
 	}
 
-	public ActiveMQWireSink(ParcelReceiver receiver, String subject, boolean topic, String url, String username,
+	public ActiveMQWireReceiver(ParcelReceiver receiver, String subject, boolean topic, String url, String username,
 			String password) {
 		super(receiver);
 		this.subject = subject;

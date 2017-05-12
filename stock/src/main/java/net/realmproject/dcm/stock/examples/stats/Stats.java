@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.stats;
+package net.realmproject.dcm.stock.examples.stats;
 
 import java.util.function.Function;
 

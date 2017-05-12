@@ -20,7 +20,7 @@
 package net.realmproject.dcm.network.impl;
 
 
-import net.realmproject.dcm.network.WireSink;
+import net.realmproject.dcm.network.WireReceiver;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelSender;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
@@ -35,10 +35,10 @@ import net.realmproject.dcm.parcel.impl.publisher.IParcelPublisher;
  * @author NAS
  *
  */
-public class IWireSink extends IParcelPublisher implements WireSink, ParcelSender {
+public class IWireReceiver extends IParcelPublisher implements WireReceiver, ParcelSender {
 
 
-    public IWireSink(ParcelReceiver receiver) {
+    public IWireReceiver(ParcelReceiver receiver) {
         super(receiver);
     }
 

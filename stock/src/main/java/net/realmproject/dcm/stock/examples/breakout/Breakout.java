@@ -1,11 +1,11 @@
-package net.realmproject.dcm.stock.breakout;
+package net.realmproject.dcm.stock.examples.breakout;
 
 import java.util.concurrent.TimeUnit;
 
-import net.realmproject.dcm.network.WireSink;
-import net.realmproject.dcm.network.WireSource;
-import net.realmproject.dcm.network.impl.DummyWireMessageSource;
-import net.realmproject.dcm.network.impl.IWireSink;
+import net.realmproject.dcm.network.WireReceiver;
+import net.realmproject.dcm.network.WireSender;
+import net.realmproject.dcm.network.impl.DummyWireMessageSender;
+import net.realmproject.dcm.network.impl.IWireReceiver;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.routing.ParcelRouter;
@@ -38,7 +38,10 @@ public class Breakout {
 		ParcelRouter backend = new IParcelRouter();
 		backend.setId("back");		
 		IRoutingParcelBridge bridge = new IRoutingParcelBridge("bridge", frontend, backend);
-
+		DCMThreadPool.getScheduledPool().scheduleWithFixedDelay(() -> {
+			System.out.println(frontend.getRoutes());
+		}, 1, 1, TimeUnit.SECONDS);
+		
 		
 		
 		ParcelReceiver useless = new IRoutingParcelConsumer("useless", p -> {});
@@ -48,13 +51,10 @@ public class Breakout {
 		BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);
 		SwingUI ui = new SwingUI("breakout-screen", frontend);
 		
-		DCMThreadPool.getScheduledPool().scheduleWithFixedDelay(() -> {
-			System.out.println(frontend.getRoutes());
-		}, 1, 1, TimeUnit.SECONDS);
+
 		
 		DCMThreadPool.getScheduledPool().schedule(() -> useless.setId("useful"), 20, TimeUnit.SECONDS);
-		
-		Thread.currentThread().sleep(100000);
+
 		
 	}
 	

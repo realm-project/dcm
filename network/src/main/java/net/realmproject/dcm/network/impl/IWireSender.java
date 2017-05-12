@@ -17,15 +17,29 @@
  * 
  */
 
-package net.realmproject.dcm.network;
+package net.realmproject.dcm.network.impl;
 
-import net.realmproject.dcm.parcel.core.ParcelNode;
+
+import net.realmproject.dcm.network.WireSender;
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.node.IParcelNode;
+
 
 /**
- * @author maxweld, NAS
+ * Listens for parcels on a {@link ParcelHub} and transmits
+ * {@link WireMessage}s on a distributed messaging system (eg ActiveMQ)
+ * 
+ * @author NAS
  *
  */
-public interface WireSink extends ParcelNode {
+public abstract class IWireSender extends IParcelNode implements WireSender {
 
-    public void receive(byte[] serializedParcel);
+    @Override
+    public void receive(Parcel<?> parcel) {
+        if (parcel.getPath().contains(getId())) { return; } // cycle detection
+        parcel.getPath().add(getId());
+        send(parcel.serializeParcel());
+    }
+
 }

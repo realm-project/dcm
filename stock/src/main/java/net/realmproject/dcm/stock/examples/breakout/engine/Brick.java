@@ -1,8 +1,8 @@
-package net.realmproject.dcm.stock.breakout.engine;
+package net.realmproject.dcm.stock.examples.breakout.engine;
 
 import java.util.List;
 
-import net.realmproject.dcm.stock.breakout.engine.Ball.BallCollision;
+import net.realmproject.dcm.stock.examples.breakout.engine.Ball.BallCollision;
 
 
 

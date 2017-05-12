@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.breakout;
+package net.realmproject.dcm.stock.examples.breakout;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,8 +21,8 @@ import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
-import net.realmproject.dcm.stock.breakout.engine.Axes;
 import net.realmproject.dcm.stock.camera.Frame;
+import net.realmproject.dcm.stock.examples.breakout.engine.Axes;
 import net.realmproject.dcm.util.DCMUtil;
 
 public class SwingUI extends JFrame implements ParcelReceiver {

@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.breakout.engine;
+package net.realmproject.dcm.stock.examples.breakout.engine;
 
 public abstract class Wall extends Sprite implements Bouncable {
 

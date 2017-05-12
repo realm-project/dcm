@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.breakout;
+package net.realmproject.dcm.stock.examples.breakout;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,11 +12,11 @@ import net.realmproject.dcm.features.command.CommandDevice;
 import net.realmproject.dcm.features.command.CommandDispatcher;
 import net.realmproject.dcm.features.command.CommandMethod;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.stock.breakout.engine.Arena;
-import net.realmproject.dcm.stock.breakout.engine.Axes;
-import net.realmproject.dcm.stock.breakout.engine.Brick;
-import net.realmproject.dcm.stock.breakout.engine.Sprite;
 import net.realmproject.dcm.stock.camera.Camera;
+import net.realmproject.dcm.stock.examples.breakout.engine.Arena;
+import net.realmproject.dcm.stock.examples.breakout.engine.Axes;
+import net.realmproject.dcm.stock.examples.breakout.engine.Brick;
+import net.realmproject.dcm.stock.examples.breakout.engine.Sprite;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 

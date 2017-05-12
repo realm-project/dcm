@@ -20,12 +20,13 @@
 package net.realmproject.dcm.network;
 
 import net.realmproject.dcm.parcel.core.ParcelNode;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
 
 /**
  * @author maxweld, NAS
  *
  */
-public interface WireSource extends ParcelNode {
+public interface WireSender extends ParcelNode, ParcelReceiver {
 
-    public boolean send(byte[] serializedParcel);
+    public void send(byte[] serializedParcel);
 }

@@ -25,7 +25,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
-import net.realmproject.dcm.network.impl.IWireSink;
+import net.realmproject.dcm.network.impl.IWireReceiver;
 import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 
@@ -34,9 +34,9 @@ import net.realmproject.dcm.parcel.core.ParcelReceiver;
  * @author maxweld
  *
  */
-public class JmsWireSink extends IWireSink implements MessageListener, Logging {
+public class JmsWireReceiver extends IWireReceiver implements MessageListener, Logging {
 
-    public JmsWireSink(ParcelReceiver receiver) {
+    public JmsWireReceiver(ParcelReceiver receiver) {
         super(receiver);
     }
 
