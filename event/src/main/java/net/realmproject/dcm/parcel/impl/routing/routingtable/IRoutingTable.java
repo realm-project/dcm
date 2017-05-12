@@ -1,13 +1,16 @@
 package net.realmproject.dcm.parcel.impl.routing.routingtable;
 
 import java.util.Collection;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
 import net.realmproject.dcm.parcel.core.Identity;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.routing.Route;
 import net.realmproject.dcm.parcel.core.routing.Routing;
+import net.realmproject.dcm.parcel.core.routing.RoutingTable;
 
 public class IRoutingTable implements RoutingTable {
 
@@ -33,7 +36,7 @@ public class IRoutingTable implements RoutingTable {
 			//don't include routes which already contain this hop, or this node
 			if (r.hasVisited(hop)) { continue; }
 			if (r.hasVisited(owner.getId())) { continue; }
-			routes.put(destination, new Route(hop, r));
+			routes.put(destination, new IRoute(hop, r));
 		}
 	}
 	
@@ -53,11 +56,25 @@ public class IRoutingTable implements RoutingTable {
 	
 	@Override
 	public String toString() {
-		String out = "";
+		StringBuilder sb = new StringBuilder();
+		Formatter formatter = new Formatter(sb);
+		String format = "| %-20s | %-20s | %-60s |%n";
+		
+		
+		formatter.format("+----------------------+----------------------+--------------------------------------------------------------+%n");
+		formatter.format("| Target               | Next Hop             |                                                              |%n");
+		formatter.format("+----------------------+----------------------+--------------------------------------------------------------+%n");
+		
 		for (String dest : routes.keySet()) {
-			out += dest + "\t\t" + routes.get(dest).getNextHop() + "\t\t" + routes.get(dest).getPath() + "\n";
+			Route r = routes.get(dest);
+			formatter.format(format, dest, r.getNextHop(), r.getPath());
 		}
-		return out;
+		
+		formatter.format("+----------------------+----------------------+--------------------------------------------------------------+%n");
+		
+		
+		formatter.close();
+		return sb.toString();
 	}
 	
 	@Override
@@ -98,7 +115,7 @@ public class IRoutingTable implements RoutingTable {
 	
 	@Override
 	public void addLocal(String id) {
-		addRoute(new Route(id));
+		addRoute(new IRoute(id));
 	}
 
 	

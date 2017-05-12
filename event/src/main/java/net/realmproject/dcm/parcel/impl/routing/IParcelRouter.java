@@ -6,11 +6,11 @@ import java.util.function.Predicate;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.routing.ParcelRouter;
+import net.realmproject.dcm.parcel.core.routing.Route;
+import net.realmproject.dcm.parcel.core.routing.RoutingTable;
 import net.realmproject.dcm.parcel.impl.hub.IParcelHub;
 import net.realmproject.dcm.parcel.impl.routing.routingtable.AutoRoutingTable;
 import net.realmproject.dcm.parcel.impl.routing.routingtable.IAutoRoutingTable;
-import net.realmproject.dcm.parcel.impl.routing.routingtable.Route;
-import net.realmproject.dcm.parcel.impl.routing.routingtable.RoutingTable;
 import net.realmproject.dcm.util.DCMInterrupt;
 
 public class IParcelRouter extends IParcelHub implements ParcelRouter {
