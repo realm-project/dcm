@@ -18,7 +18,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
 
 public class Breakout {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 //		//WireSource/Sink
 //		ParcelHub frontend = new IParcelHub();
@@ -34,9 +34,9 @@ public class Breakout {
 		
 		//Routers
 		ParcelRouter frontend = new IParcelRouter();
-		frontend.setId("frontend-router");
+		frontend.setId("front");
 		ParcelRouter backend = new IParcelRouter();
-		backend.setId("backend-router");		
+		backend.setId("back");		
 		IRoutingParcelBridge bridge = new IRoutingParcelBridge("bridge", frontend, backend);
 
 		
@@ -45,14 +45,16 @@ public class Breakout {
 		frontend.subscribe(useless);
 
 		
-		BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);
-		SwingUI ui = new SwingUI("breakout-screen", frontend);
+		//BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);
+		//SwingUI ui = new SwingUI("breakout-screen", frontend);
 		
-		
+		DCMThreadPool.getScheduledPool().scheduleWithFixedDelay(() -> {
+			System.out.println(frontend.getRoutes());
+		}, 1, 1, TimeUnit.SECONDS);
 		
 		DCMThreadPool.getScheduledPool().schedule(() -> useless.setId("useful"), 20, TimeUnit.SECONDS);
 		
-		
+		Thread.currentThread().sleep(100000);
 		
 	}
 	

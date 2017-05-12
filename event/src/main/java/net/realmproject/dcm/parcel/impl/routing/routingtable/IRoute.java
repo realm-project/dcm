@@ -13,7 +13,7 @@ public class IRoute implements Route {
 	// Path format: next hop, node, node, ...
 	private List<String> path = new ArrayList<>();
 	
-	private long expiry = System.currentTimeMillis() + 40000;
+	private long expiry = System.currentTimeMillis() + 2000;
 	
 
 	public IRoute(String hop) {
@@ -39,7 +39,7 @@ public class IRoute implements Route {
 	
 	@Override
 	public void extendExpiry() {
-		expiry = System.currentTimeMillis() + 10000;
+		expiry = System.currentTimeMillis() + 2000;
 	}
 	
 	@Override

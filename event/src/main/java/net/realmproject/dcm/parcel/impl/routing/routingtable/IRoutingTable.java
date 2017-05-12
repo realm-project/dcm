@@ -54,23 +54,39 @@ public class IRoutingTable implements RoutingTable {
 		return new HashSet<>(routes.keySet());
 	}
 	
+	
+	private String repeat(String with, int count) {
+		 return new String(new char[count]).replace("\0", with);
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		Formatter formatter = new Formatter(sb);
-		String format = "| %-20s | %-20s | %-60s |%n";
 		
 		
-		formatter.format("+----------------------+----------------------+--------------------------------------------------------------+%n");
-		formatter.format("| Target               | Next Hop             |                                                              |%n");
-		formatter.format("+----------------------+----------------------+--------------------------------------------------------------+%n");
-		
+
+		int wd=6, wn=8, wp=4, we=3;
 		for (String dest : routes.keySet()) {
 			Route r = routes.get(dest);
-			formatter.format(format, dest, r.getNextHop(), r.getPath());
+			wd = Math.max(wd, dest.length());
+			wn = Math.max(wn, r.getNextHop().length());
+			wp = Math.max(wp, r.getPath().toString().length());
+		}
+		String format = "| %-" + wd + "s | %-" + wn + "s | %-" + wp + "s | %-" + we + "s |%n";
+		String bar = "+-" + repeat("-", wd) + "-+-" + repeat("-", wn) + "-+-" + repeat("-", wp) + "-+-" + repeat("-", we) + "-+\n";
+		
+		sb.append(bar);
+		formatter.format(format, "Target", "Next Hop", "Path", "TTL");
+		sb.append(bar);
+
+		for (String dest : routes.keySet()) {
+			Route r = routes.get(dest);
+			int ttl = (int) ((r.getExpiry() - System.currentTimeMillis()) / 1000f);
+			formatter.format(format, dest, r.getNextHop(), r.getPath(), ttl);
 		}
 		
-		formatter.format("+----------------------+----------------------+--------------------------------------------------------------+%n");
+		sb.append(bar);
 		
 		
 		formatter.close();

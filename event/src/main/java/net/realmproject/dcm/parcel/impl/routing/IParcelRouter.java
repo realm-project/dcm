@@ -28,17 +28,11 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
     public synchronized void send(Parcel<?> parcel) {
     	
     	Route nextHop = routes.nextHop(parcel.getTargetId());
-    	    	
-    	System.out.println("ID: " + getId() + "\nTarget: " + parcel.getTargetId() + "\nRoutes:\n" + routes + "\n******");
-    	System.out.println("Next Hop: " + (nextHop != null ? nextHop.getNextHop() : "null"));
-    	
-    	
-    	
+    	    	    	
         for (Subscription subscriber : new ArrayList<>(subscribers)) {
         	
         	//If there is a next hop defined, then only "broadcast" to the next hop
         	if (nextHop != null && !nextHop.getNextHop().equals(subscriber.receiver.getId())) { 
-        		System.out.println("Skipping " + subscriber.receiver.getId());
         		continue;
         	}
         	
@@ -49,7 +43,6 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
         	}
         }
         
-        System.out.println("*****************");
     }
 	
 	@Override
