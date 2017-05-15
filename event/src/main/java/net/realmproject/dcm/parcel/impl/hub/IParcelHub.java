@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelLink;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
@@ -150,15 +151,27 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
     }
 
     @Override
-    public  void subscribe(ParcelReceiver subscriber) {
+    public void subscribe(ParcelReceiver subscriber) {
         subscribe(null, subscriber);
     }
+    
+	@Override
+	public ParcelLink subscribe(ParcelLink subscriber) {
+		subscribe(null, subscriber);
+		return subscriber;
+	}
 
     @Override
     public synchronized void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber) {
         subscribers.add(new Subscription(subscriber, filter));
     }
 
+    @Override
+    public synchronized ParcelLink subscribe(Predicate<Parcel<?>> filter, ParcelLink subscriber) {
+        subscribers.add(new Subscription(subscriber, filter));
+        return subscriber;
+    }
+    
     public String getZone() {
         return zone;
     }
@@ -194,6 +207,8 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
 	public void setFilter(Predicate<Parcel<?>> filter) {
 		this.filter = filter;
 	}
+
+
 
 }
 

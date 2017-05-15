@@ -27,12 +27,8 @@ public class IParcelBridge extends IParcelNode {
     	to1.setId(getId());
     	to2.setId(getId());
     	
-    	
-    	to1.setReceiver(bus1);
-    	bus2.subscribe(to1);
-    	
-    	to2.setReceiver(bus2);
-    	bus1.subscribe(to2);
+    	bus1.subscribe(to2).link(bus2);
+    	bus2.subscribe(to1).link(bus1);
     	
     	
     }

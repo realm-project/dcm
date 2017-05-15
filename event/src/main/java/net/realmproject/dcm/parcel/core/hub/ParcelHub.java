@@ -24,6 +24,7 @@ package net.realmproject.dcm.parcel.core.hub;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelLink;
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
@@ -58,6 +59,13 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode, ParcelFilterer, P
      *            The consumer of parcels
      */
     void subscribe(ParcelReceiver subscriber);
+    
+    /**
+     * Convenience method for {@link ParcelLink}'s fluent link API
+     * @param subscriber the consumer fo parcels
+     * @return the subscribing ParcelLink
+     */
+    ParcelLink subscribe(ParcelLink subscriber);
 
 
     /**
@@ -71,6 +79,14 @@ public interface ParcelHub extends ParcelReceiver, ParcelNode, ParcelFilterer, P
      */
     void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber);
 
+    
+    /**
+     * Convenience method for {@link ParcelLink}'s fluent link API
+     * @param filter rule for which parcels to listen for
+     * @param subscriber subscriber the consumer fo parcels
+     * @return the subscribing ParcelLink
+     */
+    ParcelLink subscribe(Predicate<Parcel<?>> filter, ParcelLink subscriber);
 
 
     /**
