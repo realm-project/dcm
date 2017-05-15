@@ -74,13 +74,14 @@ public class ParcelNodeTest {
 
         ParcelHub bus = new IParcelHub();
         // append a "!" to the end of all parcel payloads
-        ParcelTransformLink transformer = new IParcelTransformLink(bus);
+        ParcelTransformLink transformer = new IParcelTransformLink();
         transformer.setTransform(e -> {
         	Parcel<String> p = new IParcel<>();
         	e.derive(p);
             p.setPayload(e.getPayload().toString() + "!");
             return e;
         });
+        transformer.setReceiver(bus);
         
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
         bus.subscribe(parcelQueue);

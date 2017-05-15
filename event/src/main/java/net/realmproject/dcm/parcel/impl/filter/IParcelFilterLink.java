@@ -4,7 +4,6 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.filter.ParcelFilterLink;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.link.IParcelLink;
 
 public class IParcelFilterLink extends IParcelLink implements ParcelFilterLink {
@@ -13,10 +12,7 @@ public class IParcelFilterLink extends IParcelLink implements ParcelFilterLink {
 	
 
     public IParcelFilterLink() {}
-    
-    public IParcelFilterLink(ParcelHub from) {
-    	super(from);
-    }
+
 
     @Override
     public Predicate<Parcel<?>> getFilter() {

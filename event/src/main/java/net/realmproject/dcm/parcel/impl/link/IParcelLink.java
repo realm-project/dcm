@@ -39,8 +39,8 @@ public class IParcelLink extends IParcelNode implements ParcelLink {
 	
 	public IParcelLink(){}
 	
-	public IParcelLink(ParcelHub from) {
-		from.subscribe(this);
+	public IParcelLink(ParcelReceiver to) {
+		setReceiver(to);
 	}
 	
 

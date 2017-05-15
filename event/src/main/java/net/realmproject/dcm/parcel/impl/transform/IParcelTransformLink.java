@@ -3,7 +3,6 @@ package net.realmproject.dcm.parcel.impl.transform;
 import java.util.function.Function;
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.link.IParcelLink;
 
@@ -13,10 +12,7 @@ public class IParcelTransformLink extends IParcelLink implements ParcelTransform
 
     
 	public IParcelTransformLink() {}
-	
-    public IParcelTransformLink(ParcelHub from) {
-    	super(from);
-    }
+
 
     @Override
     public Function<Parcel<?>, Parcel<?>> getTransform() {
