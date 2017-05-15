@@ -39,10 +39,6 @@ public class IParcelLink extends IParcelNode implements ParcelLink {
 	
 	public IParcelLink(){}
 	
-	public IParcelLink(ParcelReceiver to) {
-		setReceiver(to);
-	}
-	
 
 
 	@Override

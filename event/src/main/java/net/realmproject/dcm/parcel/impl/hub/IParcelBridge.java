@@ -21,15 +21,19 @@ public class IParcelBridge extends IParcelNode {
 	
     public IParcelBridge(ParcelHub bus1, ParcelHub bus2) {
 
-    	to1 = new IParcelLink(bus1);
-    	to2 = new IParcelLink(bus2);
+    	to1 = new IParcelLink();
+    	to2 = new IParcelLink();
     	
     	to1.setId(getId());
     	to2.setId(getId());
     	
     	
-    	bus1.subscribe(to2);
+    	to1.setReceiver(bus1);
     	bus2.subscribe(to1);
+    	
+    	to2.setReceiver(bus2);
+    	bus1.subscribe(to2);
+    	
     	
     }
     
