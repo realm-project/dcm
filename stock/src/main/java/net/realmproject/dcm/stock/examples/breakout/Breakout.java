@@ -4,8 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 import net.realmproject.dcm.network.WireReceiver;
 import net.realmproject.dcm.network.WireSender;
-import net.realmproject.dcm.network.impl.DummyWireMessageSender;
 import net.realmproject.dcm.network.impl.IWireReceiver;
+import net.realmproject.dcm.network.impl.dummy.DummyWireSender;
 import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireReceiver;
 import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireSender;
 import net.realmproject.dcm.network.impl.socket.routing.RoutingSocketWireReceiver;

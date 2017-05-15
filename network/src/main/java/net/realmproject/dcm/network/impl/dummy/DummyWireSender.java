@@ -1,12 +1,13 @@
-package net.realmproject.dcm.network.impl;
+package net.realmproject.dcm.network.impl.dummy;
 
 import net.realmproject.dcm.network.WireReceiver;
+import net.realmproject.dcm.network.impl.IWireSender;
 
-public class DummyWireMessageSender extends IWireSender {
+public class DummyWireSender extends IWireSender {
 
 	WireReceiver receiver;
 	
-	public DummyWireMessageSender(WireReceiver receiver) {
+	public DummyWireSender(WireReceiver receiver) {
 		this.receiver = receiver;
 	}
 
