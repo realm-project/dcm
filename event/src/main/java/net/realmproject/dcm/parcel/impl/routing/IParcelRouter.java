@@ -27,7 +27,7 @@ public class IParcelRouter extends IParcelHub implements ParcelRouter {
 		
     public synchronized void send(Parcel<?> parcel) {
     	
-    	Route nextHop = routes.nextHop(parcel.getTargetId());
+    	Route nextHop = routes.routeTo(parcel.getTargetId());
     	    	    	
         for (Subscription subscriber : new ArrayList<>(subscribers)) {
         	

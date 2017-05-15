@@ -3,18 +3,28 @@ package net.realmproject.dcm.stock.examples.socketwire;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-import net.realmproject.dcm.network.impl.socket.SocketWireReceiver;
-import net.realmproject.dcm.network.impl.socket.SocketWireSender;
+import net.realmproject.dcm.network.impl.socket.ISocketWireReceiver;
+import net.realmproject.dcm.network.impl.socket.ISocketWireSender;
+import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireReceiver;
+import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireSender;
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelLink;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.impl.link.IParcelLink;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.receiver.AbstractParcelReceiver;
+import net.realmproject.dcm.parcel.impl.routing.IRoutingParcelLink;
 import net.realmproject.dcm.util.DCMSettings;
+import net.realmproject.dcm.util.DCMThreadPool;
 
 public class Sockets {
 
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
+		
+		
+		
 		
 		ParcelReceiver printer = new AbstractParcelReceiver() {
 			
@@ -23,9 +33,20 @@ public class Sockets {
 				System.out.println(parcel.getPayload().toString());
 			}
 		};
+		printer.setId("printer");
 		
-		SocketWireSender sender = new SocketWireSender("localhost", 3564);
-		SocketWireReceiver receiver = new SocketWireReceiver(3564, printer);
+		ParcelLink noop = new IRoutingParcelLink(printer);
+		noop.setId("noop");
+		
+		
+		
+		IRoutingSocketWireSender sender = new IRoutingSocketWireSender("localhost", 3564);
+		sender.setId("wire-sender");
+		
+		IRoutingSocketWireReceiver receiver = new IRoutingSocketWireReceiver(3564, noop);
+		receiver.setId("wire-receiver");
+		
+		
 		
 		Thread.sleep(DCMSettings.STARTUP_DELAY * 1000);
 		
@@ -33,7 +54,11 @@ public class Sockets {
 		sender.receive(new IParcel<>().payload("World"));
 		sender.receive(new IParcel<>().payload(new Date()));
 		
-		Thread.sleep(10000);
+		DCMThreadPool.getScheduledPool().scheduleWithFixedDelay(() -> {
+			System.out.println(sender.getRoutes());
+		}, 1, 1, TimeUnit.SECONDS);
+		
+		Thread.sleep(100000);
 		
 	}
 	

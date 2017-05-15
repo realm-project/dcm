@@ -16,12 +16,12 @@ public class IRoutingParcelBridge extends IParcelNode {
     	
     	if (id != null) { setId(id); }
     	
-    	to1 = new IRoutingParcelRelay(router1) {
+    	to1 = new IRoutingParcelLink(router1) {
     		public String getId() {
     			return id + ":" + router2.getId() + "->" + router1.getId();
     		}
     	};
-    	to2 = new IRoutingParcelRelay(router2) {
+    	to2 = new IRoutingParcelLink(router2) {
     		public String getId() {
     			return id + ":" + router1.getId() + "->" + router2.getId();
     		}

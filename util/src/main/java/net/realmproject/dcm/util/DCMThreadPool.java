@@ -51,7 +51,7 @@ public class DCMThreadPool {
         return t;
     };
 
-    private static ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(10, threadFactory);
+    private static ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(DCMSettings.SCHEDULED_THREADS, threadFactory);
     private static ExecutorService pool = Executors.newCachedThreadPool(threadFactory);
 
     /**

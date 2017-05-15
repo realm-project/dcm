@@ -1,11 +1,9 @@
 package net.realmproject.dcm.parcel.impl.parcel;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import net.realmproject.dcm.util.DCMUtil;
 
 
 
@@ -15,12 +13,7 @@ public class SerializableSerializer<S> implements Serializer<S> {
 	public Serializable serialize(S input) throws SerializerException {
 		
         try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(input);
-
-            return baos.toByteArray();
-
+        	return DCMUtil.serialize(input);
         }
         catch (IOException e) {
             throw new SerializerException(e);
@@ -31,10 +24,9 @@ public class SerializableSerializer<S> implements Serializer<S> {
 	@Override
 	public S deserialize(Serializable input) throws SerializerException {
 		byte[] bytes = (byte[]) input;
+			
         try {
-        	ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-        	ObjectInputStream ois = new ObjectInputStream(bais);
-        	return (S) ois.readObject();
+        	return (S) DCMUtil.deserialize(bytes);
         } catch (Exception e) {
         	throw new SerializerException(e);
         }

@@ -1,22 +1,26 @@
 package net.realmproject.dcm.parcel.core.routing;
 
+import java.io.Serializable;
 import java.util.Collection;
 
+import net.realmproject.dcm.parcel.core.Identity;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 
-public interface RoutingTable {
+public interface RoutingTable extends Serializable {
 	
-	public Collection<String> getDestinations();
-	public Route nextHop(String destination);
-	
-	
-	public void add(RoutingTable rotues);
-	public void addLocal(String id);
-	public void addRoute(Route route);
+	Collection<String> getDestinations();
+	Route routeTo(String destination);
 	
 	
-	public void integrate(ParcelReceiver adjacent);
-	public void trim();
+	void add(RoutingTable rotues);
+	void addLocal(String id);
+	void addRoute(Route route);
+	
+	
+	void integrate(ParcelReceiver adjacent);
+	void trim();
+	
+	Identity getOwner();
 	
 
 }

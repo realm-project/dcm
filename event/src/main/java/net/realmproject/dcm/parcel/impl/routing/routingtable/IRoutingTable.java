@@ -24,6 +24,11 @@ public class IRoutingTable implements RoutingTable {
 		this.owner = owner;
 		addLocal(owner.getId());
 	}
+
+	public IRoutingTable(Identity owner, IRoutingTable other) {
+		this.owner = owner;
+		this.routes = new HashMap<>(other.routes);
+	}
 	
 	/**
 	 * Take an existing RoutingTable and copy it, prepending a new hop in front of all of it's routes
@@ -33,7 +38,7 @@ public class IRoutingTable implements RoutingTable {
 	public IRoutingTable(Identity owner, String hop, RoutingTable toCopy) {
 		this.owner = owner;
 		for (String destination : toCopy.getDestinations()) {
-			Route r = toCopy.nextHop(destination);
+			Route r = toCopy.routeTo(destination);
 			//don't include routes which already contain this hop, or this node
 			if (r.hasVisited(hop)) { continue; }
 			if (r.hasVisited(owner.getId())) { continue; }
@@ -42,7 +47,7 @@ public class IRoutingTable implements RoutingTable {
 	}
 	
 	@Override
-	public Route nextHop(String destination) {
+	public Route routeTo(String destination) {
 		if (destination == null) { return null; }
 		if (routes.containsKey(destination)) {
 			return routes.get(destination);
@@ -126,7 +131,7 @@ public class IRoutingTable implements RoutingTable {
 	@Override
 	public void add(RoutingTable routes) {
 		for (String target : routes.getDestinations()) {
-			addRoute(routes.nextHop(target));
+			addRoute(routes.routeTo(target));
 		}
 	}
 
@@ -165,6 +170,11 @@ public class IRoutingTable implements RoutingTable {
 		} else {
 			routes.put(target, route);
 		}
+	}
+
+	@Override
+	public Identity getOwner() {
+		return owner;
 	}
 
 

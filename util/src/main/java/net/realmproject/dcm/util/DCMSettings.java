@@ -23,4 +23,9 @@ public class DCMSettings {
 	 */
 	public static int STARTUP_DELAY = 4;
 
+	/**
+	 * The number of threads for the DCMThreadPool's Scheduled ThreadPool to
+	 * have.
+	 */
+	public static int SCHEDULED_THREADS = 10;
 }

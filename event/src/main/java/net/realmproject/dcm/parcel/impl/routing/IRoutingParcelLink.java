@@ -8,11 +8,11 @@ import net.realmproject.dcm.parcel.impl.link.IParcelLink;
 import net.realmproject.dcm.parcel.impl.routing.routingtable.AutoRoutingTable;
 import net.realmproject.dcm.parcel.impl.routing.routingtable.IAutoRoutingTable;
 
-public class IRoutingParcelRelay extends IParcelLink implements Routing {
+public class IRoutingParcelLink extends IParcelLink implements Routing {
 
 	public AutoRoutingTable routes = new IAutoRoutingTable(this);
 
-	public IRoutingParcelRelay(ParcelReceiver to) {
+	public IRoutingParcelLink(ParcelReceiver to) {
 		setReceiver(to);
 		routes.addParcelReceiver(to);
 	}
