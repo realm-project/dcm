@@ -17,7 +17,7 @@
  * 
  */
 
-package net.realmproject.dcm.parcel.impl.publisher;
+package net.realmproject.dcm.parcel.impl.sender;
 
 import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
@@ -33,16 +33,16 @@ import net.realmproject.dcm.parcel.impl.node.IParcelNode;
  *
  */
 
-public class IParcelPublisher extends IParcelNode implements ParcelNode, ParcelSender, Logging {
+public class IParcelSender extends IParcelNode implements ParcelNode, ParcelSender, Logging {
 
     private ParcelReceiver receiver;
 
-    public IParcelPublisher(String id, ParcelReceiver receiver) {
+    public IParcelSender(String id, ParcelReceiver receiver) {
     	this(receiver);
     	setId(id);
     }
     
-    public IParcelPublisher(ParcelReceiver receiver) {
+    public IParcelSender(ParcelReceiver receiver) {
         this.receiver = receiver;
     }
 

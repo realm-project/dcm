@@ -2,10 +2,11 @@ package net.realmproject.dcm.network.impl.socket;
 
 import java.io.IOException;
 
+import net.realmproject.dcm.network.WireSender;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 
-public class ISocketWireSender extends SocketWireClient implements ParcelReceiver {
+public class ISocketWireSender extends SocketWireClient implements WireSender {
 
 	public static final int MESSAGE_TYPE_PARCEL=1;
 	
@@ -17,7 +18,7 @@ public class ISocketWireSender extends SocketWireClient implements ParcelReceive
 	@Override
 	public void receive(Parcel<?> parcel) {
 		try {
-			wireSend(parcel.serializeParcel(), MESSAGE_TYPE_PARCEL);
+			socketSend(parcel.serializeParcel(), MESSAGE_TYPE_PARCEL);
 		} catch (IOException e) {
 			getLog().error("Could not transmit wire message", e);
 		}
@@ -25,8 +26,18 @@ public class ISocketWireSender extends SocketWireClient implements ParcelReceive
 
 
 	@Override
-	public void wireReceive(byte[] bytes, int type) {
+	public void socketReceive(byte[] bytes, int type) {
 		// Discard received wire messages
+	}
+
+
+	@Override
+	public void wireSend(byte[] serializedParcel) {
+		try {
+			socketSend(serializedParcel);
+		} catch (IOException e) {
+			getLog().error("Failed to transmit message over socket", e);
+		}
 	}
 
 }

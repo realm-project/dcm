@@ -11,8 +11,8 @@ public class DummyWireMessageSender extends IWireSender {
 	}
 
 	@Override
-	public void send(byte[] serializedParcel) {
-		receiver.receive(serializedParcel);
+	public void wireSend(byte[] serializedParcel) {
+		receiver.wireReceive(serializedParcel);
 	}
 
 }

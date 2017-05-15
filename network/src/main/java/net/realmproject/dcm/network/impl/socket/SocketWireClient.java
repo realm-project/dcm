@@ -22,17 +22,17 @@ public abstract class SocketWireClient extends IParcelNode implements SocketWire
 		this.port = port;
 		this.hostname = hostname;
 		
-		DCMThreadPool.getScheduledPool().schedule(this::wireConnect, DCMSettings.CREATION_DELAY, TimeUnit.SECONDS);
+		DCMThreadPool.getScheduledPool().schedule(this::socketConnect, DCMSettings.CREATION_DELAY, TimeUnit.SECONDS);
 		
 	}
 
-	private void wireConnect() {
+	private void socketConnect() {
 		try {
 			socket = new Socket(hostname, port);
 			dataIn = new DataInputStream(socket.getInputStream());
 			dataOut = new DataOutputStream(socket.getOutputStream());
 			
-			wireListen();
+			socketListen();
 			
 		} catch (Exception e) {
 			getLog().error("Failed to connect to server", e);

@@ -19,34 +19,22 @@
 
 package net.realmproject.dcm.network.impl;
 
-
 import net.realmproject.dcm.network.WireReceiver;
-import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelSender;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.parcel.impl.publisher.IParcelPublisher;
-
+import net.realmproject.dcm.parcel.impl.sender.IParcelSender;
 
 /**
- * Receives {@link WireMessage}s from a distributed messaging system (eg
- * ActiveMQ) and publishes them to the given {@link ParcelHub}
+ * Receives wire messages from a network-based source (eg sockets) and publishes
+ * them to the given {@link ParcelReceiver}
  * 
  * @author NAS
  *
  */
-public class IWireReceiver extends IParcelPublisher implements WireReceiver, ParcelSender {
+public class IWireReceiver extends IParcelSender implements WireReceiver, ParcelSender {
 
-
-    public IWireReceiver(ParcelReceiver receiver) {
-        super(receiver);
-    }
-
-    @Override
-    public void receive(byte[] serializedParcel) {
-    	Parcel<?> parcel = Parcel.deserializeParcel(serializedParcel);
-        send(parcel);
-    }
-
+	public IWireReceiver(ParcelReceiver receiver) {
+		super(receiver);
+	}
 
 }

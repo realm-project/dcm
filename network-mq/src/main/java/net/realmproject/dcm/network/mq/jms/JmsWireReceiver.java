@@ -46,7 +46,7 @@ public class JmsWireReceiver extends IWireReceiver implements MessageListener, L
             BytesMessage msg = (BytesMessage) message;
             byte[] bytes = new byte[(int) msg.getBodyLength()];
             msg.readBytes(bytes);
-            receive(bytes);
+            wireReceive(bytes);
         }
         catch (JMSException e) {
             getLog().warn(e.getMessage());

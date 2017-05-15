@@ -60,7 +60,7 @@ public class ActiveMQWireSender extends IWireSender implements Logging {
 		this.url = url;
 	}
 
-	public void send(byte[] serializedParcel) {
+	public void wireSend(byte[] serializedParcel) {
 
 		try {
 			BytesMessage message = session.createBytesMessage();

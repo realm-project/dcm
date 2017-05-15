@@ -19,6 +19,7 @@
 
 package net.realmproject.dcm.network;
 
+import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 
@@ -28,5 +29,11 @@ import net.realmproject.dcm.parcel.core.ParcelReceiver;
  */
 public interface WireSender extends ParcelNode, ParcelReceiver {
 
-    public void send(byte[] serializedParcel);
+    void wireSend(byte[] serializedParcel);
+    
+    default void receive(Parcel<?> parcel) {
+        if (parcel.getPath().contains(getId())) { return; } // cycle detection
+        parcel.getPath().add(getId());
+        wireSend(parcel.serializeParcel());
+    }
 }

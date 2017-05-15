@@ -20,18 +20,18 @@ public abstract class SocketWireServer extends IParcelNode implements SocketWire
 	
 	public SocketWireServer(int port) {
 		this.port = port;
-		DCMThreadPool.getPool().submit(this::accept);
+		DCMThreadPool.getPool().submit(this::socketAccept);
 	}
 	
 	
-	protected void accept() {
+	protected void socketAccept() {
 		try {
 			serverSocket = new ServerSocket(port);
 			socket = serverSocket.accept();
 			dataIn = new DataInputStream(socket.getInputStream());
 			dataOut = new DataOutputStream(socket.getOutputStream());
 			
-			wireListen();
+			socketListen();
 			
 		} catch (Exception e) {
 			getLog().error("Could not receive connection from client", e);

@@ -17,6 +17,7 @@ import net.realmproject.dcm.stock.examples.breakout.engine.Arena;
 import net.realmproject.dcm.stock.examples.breakout.engine.Axes;
 import net.realmproject.dcm.stock.examples.breakout.engine.Brick;
 import net.realmproject.dcm.stock.examples.breakout.engine.Sprite;
+import net.realmproject.dcm.util.DCMSettings;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 
@@ -27,16 +28,13 @@ public class BreakoutEngine extends Camera implements CommandDevice {
 
     Arena arena;
 
+
     public BreakoutEngine(String id, ParcelHub bus) {
-    	this(id, bus, 0);
-    }
-    
-    public BreakoutEngine(String id, ParcelHub bus, int delay) {
         super(id, bus);
         dispatcher = new CommandDispatcher(this, bus);
         arena = new Arena();
         quality = 0.5f;
-        DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::tick, delay, 33, TimeUnit.MILLISECONDS);
+        DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::tick, DCMSettings.STARTUP_DELAY*1000, 33, TimeUnit.MILLISECONDS);
     }
 
     private void tick() {

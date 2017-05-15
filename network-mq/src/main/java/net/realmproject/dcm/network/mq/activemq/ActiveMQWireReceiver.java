@@ -74,7 +74,7 @@ public class ActiveMQWireReceiver extends IWireReceiver implements MessageListen
 	public void onMessage(Message message) {
 
 		try {
-			receive(readMessage(message));
+			wireReceive(readMessage(message));
 		} catch (JMSException e) {
 			getLog().error("Serializable content could not be unpacked from JMS Message", e);
 		} catch (ClassCastException e) {

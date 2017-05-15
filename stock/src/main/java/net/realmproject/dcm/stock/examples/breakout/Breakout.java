@@ -6,6 +6,10 @@ import net.realmproject.dcm.network.WireReceiver;
 import net.realmproject.dcm.network.WireSender;
 import net.realmproject.dcm.network.impl.DummyWireMessageSender;
 import net.realmproject.dcm.network.impl.IWireReceiver;
+import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireReceiver;
+import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireSender;
+import net.realmproject.dcm.network.impl.socket.routing.RoutingSocketWireReceiver;
+import net.realmproject.dcm.network.impl.socket.routing.RoutingSocketWireSender;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.routing.ParcelRouter;
@@ -20,24 +24,30 @@ public class Breakout {
 
 	public static void main(String[] args) throws InterruptedException {
 		
-//		//WireSource/Sink
-//		ParcelHub frontend = new IParcelHub();
-//		ParcelHub backend = new IParcelHub();
-//
-//		WireSink backSink = new IWireSink(backend);
-//		WireSink frontSink = new IWireSink(frontend);
-//		WireSource frontSource = new DummyWireMessageSource(frontend, backSink);
-//		WireSource backSource = new DummyWireMessageSource(backend, frontSink);
-//		
-//		IParcelBridge bridge = new IParcelBridge(frontend, backend);
-		
+
 		
 		//Routers
 		ParcelRouter frontend = new IParcelRouter();
 		frontend.setId("front");
 		ParcelRouter backend = new IParcelRouter();
-		backend.setId("back");		
-		IRoutingParcelBridge bridge = new IRoutingParcelBridge("bridge", frontend, backend);
+		backend.setId("back");
+		
+		
+		//Link the front router to the back router with sockets
+		WireSender wFrontSender = new IRoutingSocketWireSender("localhost", 3564);
+		wFrontSender.setId("front-wire-sender");
+		frontend.subscribe(wFrontSender);
+		RoutingSocketWireReceiver wBackReceiver = new IRoutingSocketWireReceiver(3564, backend);
+		wBackReceiver.setId("back-wire-receiver");
+		
+		//Link the back router to the front router with sockets
+		RoutingSocketWireSender wBackSender = new IRoutingSocketWireSender("localhost", 3565);
+		wBackSender.setId("back-wire-sender");
+		backend.subscribe(wBackSender);
+		RoutingSocketWireReceiver wFrontReceiver = new IRoutingSocketWireReceiver(3565, frontend);
+		wFrontReceiver.setId("front-wire-receiver");
+		
+		
 		DCMThreadPool.getScheduledPool().scheduleWithFixedDelay(() -> {
 			System.out.println(frontend.getRoutes());
 		}, 1, 1, TimeUnit.SECONDS);
