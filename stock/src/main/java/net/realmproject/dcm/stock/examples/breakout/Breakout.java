@@ -2,8 +2,8 @@ package net.realmproject.dcm.stock.examples.breakout;
 
 import java.util.concurrent.TimeUnit;
 
-import net.realmproject.dcm.network.WireReceiver;
-import net.realmproject.dcm.network.WireSender;
+import net.realmproject.dcm.network.WireBytesReceiver;
+import net.realmproject.dcm.network.WireBytesSender;
 import net.realmproject.dcm.network.impl.IWireReceiver;
 import net.realmproject.dcm.network.impl.dummy.DummyWireSender;
 import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireReceiver;
@@ -34,7 +34,7 @@ public class Breakout {
 		
 		
 		//Link the front router to the back router with sockets
-		WireSender wFrontSender = new IRoutingSocketWireSender("localhost", 3564);
+		RoutingSocketWireSender wFrontSender = new IRoutingSocketWireSender("localhost", 3564);
 		wFrontSender.setId("front-wire-sender");
 		frontend.subscribe(wFrontSender);
 		RoutingSocketWireReceiver wBackReceiver = new IRoutingSocketWireReceiver(3564, backend);

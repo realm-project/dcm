@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import net.realmproject.dcm.network.WireSender;
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.ParcelReceiver;
 
 public class ISocketWireSender extends SocketWireClient implements WireSender {
 

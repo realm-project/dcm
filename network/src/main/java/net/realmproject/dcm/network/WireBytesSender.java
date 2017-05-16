@@ -17,26 +17,15 @@
  * 
  */
 
-package net.realmproject.dcm.network.impl;
+package net.realmproject.dcm.network;
 
-import net.realmproject.dcm.network.WireSender;
-import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 
 /**
- * Receives {@link Parcel}s via the {@link ParcelReceiver} interface and
- * transmits them via a network-based source (eg sockets)
- * 
- * @author NAS
+ * @author maxweld, NAS
  *
  */
-public abstract class IWireSender extends IParcelNode implements WireSender {
+public interface WireBytesSender {
 
-    public void receive(Parcel<?> parcel) {
-        if (parcel.getPath().contains(getId())) { return; } // cycle detection
-        parcel.getPath().add(getId());
-        wireSend(parcel.serializeParcel());
-    }
-	
+    void wireSend(byte[] serializedParcel);
+    
 }

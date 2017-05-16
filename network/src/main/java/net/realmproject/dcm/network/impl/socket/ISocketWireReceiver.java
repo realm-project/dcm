@@ -3,9 +3,8 @@ package net.realmproject.dcm.network.impl.socket;
 import net.realmproject.dcm.network.WireReceiver;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.ParcelSender;
 
-public class ISocketWireReceiver extends SocketWireServer implements WireReceiver, ParcelSender {
+public class ISocketWireReceiver extends SocketWireServer implements WireReceiver {
 
 	private ParcelReceiver receiver;
 	
@@ -18,6 +17,12 @@ public class ISocketWireReceiver extends SocketWireServer implements WireReceive
 	public void socketReceive(byte[] bytes, int type) {
 		wireReceive(bytes);
 	}
+	
+	@Override
+    public void wireReceive(byte[] serializedParcel) {
+    	Parcel<?> parcel = Parcel.deserializeParcel(serializedParcel);
+        send(parcel);
+    }
 
 	@Override
 	public void send(Parcel<?> parcel) {

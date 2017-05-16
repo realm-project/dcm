@@ -20,7 +20,7 @@
 package net.realmproject.dcm.network.impl;
 
 import net.realmproject.dcm.network.WireReceiver;
-import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.impl.sender.IParcelSender;
 
@@ -31,10 +31,15 @@ import net.realmproject.dcm.parcel.impl.sender.IParcelSender;
  * @author NAS
  *
  */
-public class IWireReceiver extends IParcelSender implements WireReceiver, ParcelSender {
+public class IWireReceiver extends IParcelSender implements WireReceiver {
 
 	public IWireReceiver(ParcelReceiver receiver) {
 		super(receiver);
 	}
+	
+    public void wireReceive(byte[] serializedParcel) {
+    	Parcel<?> parcel = Parcel.deserializeParcel(serializedParcel);
+        send(parcel);
+    }
 
 }
