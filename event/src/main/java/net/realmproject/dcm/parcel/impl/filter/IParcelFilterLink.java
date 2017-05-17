@@ -12,6 +12,10 @@ public class IParcelFilterLink extends IParcelLink implements ParcelFilterLink {
 	
 
     public IParcelFilterLink() {}
+    
+    public IParcelFilterLink(Predicate<Parcel<?>> filter) {
+    	this.filter = filter;
+    }
 
 
     @Override

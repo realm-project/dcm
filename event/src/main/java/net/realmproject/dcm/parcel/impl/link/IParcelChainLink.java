@@ -4,27 +4,30 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.ParcelLink;
-import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.link.Linkable;
 
 public class IParcelChainLink extends IParcelLink {
 
-	private ParcelLink first;
+	private Linkable first;
+	private Linkable last;
 	
-	public IParcelChainLink(ParcelLink... links) {
+	public IParcelChainLink(Linkable... links) {
 		this(Arrays.asList(links));
 	}
 	
-	public IParcelChainLink(List<ParcelLink> links) {
+	public IParcelChainLink(List<Linkable> links) {
 		
 		first = links.get(0);
 		
-		ParcelLink previous = first;
-		for (ParcelLink l : links) {
+		Linkable previous = first;
+		for (Linkable l : links) {
 			if (l == first) { continue; }
 			previous = previous.link(l);
 		}
-		previous.link(new IParcelConsumer(this::send));
+		last = previous;
+		last.link(getReceiver());
+		
 	}
 	
 	
@@ -33,6 +36,10 @@ public class IParcelChainLink extends IParcelLink {
 		first.receive(parcel);
 	}
 	
-
+	public void setReceiver(ParcelReceiver receiver) {
+		super.setReceiver(receiver);
+		last.link(receiver);
+	}
+	
 
 }

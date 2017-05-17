@@ -3,7 +3,7 @@ package net.realmproject.dcm.stock.examples.stats;
 import java.util.function.Function;
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.ParcelLink;
+import net.realmproject.dcm.parcel.core.link.ParcelLink;
 import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.link.IParcelChainLink;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;

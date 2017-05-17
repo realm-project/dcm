@@ -7,20 +7,15 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.ParcelSender;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.sender.IParcelSender;
 
 //TODO: purge really old entries which are never fulfilled.
-public class IParcelService<F, T> extends IParcelSender implements ParcelSender, ParcelReceiver, ParcelService<F, T> {
+public class IParcelService<F, T> extends IParcelSender implements ParcelService<F, T> {
 
 	Map<String, BlockingQueue<T>> resultQueues = new HashMap<>();
 
-	public IParcelService(ParcelReceiver receiver) {
-		super(receiver);
-	}
 
 	@Override
 	public Future<T> call(F input) {

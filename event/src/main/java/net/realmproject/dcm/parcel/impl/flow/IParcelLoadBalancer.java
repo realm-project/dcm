@@ -39,5 +39,18 @@ public class IParcelLoadBalancer extends IParcelNode implements ParcelReceiver, 
 	public void receive(Parcel<?> parcel) {
 		send(parcel);
 	}
+
+	public List<ParcelReceiver> getReceivers() {
+		return receivers;
+	}
+
+	public void setReceivers(List<? extends ParcelReceiver> receivers) {
+		this.receivers.clear();
+		this.receivers.addAll(receivers);
+	}
+	
+	public void setReceivers(ParcelReceiver... receivers) {
+		setReceivers(Arrays.asList(receivers));
+	}
 	
 }

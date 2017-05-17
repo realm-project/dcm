@@ -1,8 +1,8 @@
 package net.realmproject.dcm.parcel.impl.hub;
 
 
-import net.realmproject.dcm.parcel.core.ParcelLink;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.link.ParcelLink;
 import net.realmproject.dcm.parcel.impl.link.IParcelLink;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 

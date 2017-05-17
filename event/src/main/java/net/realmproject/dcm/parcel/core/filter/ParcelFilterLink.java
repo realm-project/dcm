@@ -2,7 +2,7 @@ package net.realmproject.dcm.parcel.core.filter;
 
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.ParcelLink;
+import net.realmproject.dcm.parcel.core.link.ParcelLink;
 
 public interface ParcelFilterLink extends ParcelLink, ParcelFilterer {
 
