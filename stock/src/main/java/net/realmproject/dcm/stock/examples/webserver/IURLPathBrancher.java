@@ -1,0 +1,36 @@
+package net.realmproject.dcm.stock.examples.webserver;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.impl.flow.IParcelBranch;
+
+public class IURLPathBrancher extends IParcelBranch {
+
+	public IURLPathBrancher(Map<String, ParcelReceiver> receivers) {
+		super(receivers);
+	}
+
+	protected String getBranch(Parcel<?> p) {
+		WebContext cx = (WebContext) p.getPayload();
+		return getRemainingPath(cx).remove(0);
+	}
+	
+	private List<String> getRemainingPath(WebContext cx) {
+		String key = IURLPathBrancher.class.getName() + ":" + "remaining-path";
+		List<String> path = cx.getProperty(key);
+		if (path == null) {
+			path = new ArrayList<>(Arrays.asList(cx.request.getPathInfo().substring(1).split("/")));
+			cx.setProperty(key, path);
+		}
+		return path;
+	}
+	
+
+	
+
+}
