@@ -1,23 +1,30 @@
 package net.realmproject.dcm.stock.examples.batch;
 
-import net.realmproject.dcm.features.service.ServicePayload;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.impl.node.IParcelNode;
+import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.impl.sender.IParcelSender;
 
-public class Incrementer extends IParcelNode implements ParcelReceiver {
+public class Incrementer extends IParcelSender implements ParcelReceiver, ParcelSender {
+
+
 
 	@Override
-	public void receive(Parcel<?> parcel) {
-		ServicePayload<Integer> payload = ((Parcel<ServicePayload<Integer>>) parcel).getPayload();
-		Integer v = (Integer) payload.getValue();
+	public void receive(Parcel<?> p) {
+		
+		Parcel<Integer> parcel = (Parcel<Integer>) p;
+		
+		Integer v = parcel.getPayload();
+		
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		payload.setResult(v + 1);
+		
+		parcel.setPayload(v+1);
+		send(parcel);
 
 	}
 

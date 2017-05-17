@@ -3,11 +3,10 @@ package net.realmproject.dcm.stock.examples.batch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import net.realmproject.dcm.features.service.IParcelService;
-import net.realmproject.dcm.features.service.ParcelService;
 import net.realmproject.dcm.parcel.core.ParcelLink;
 import net.realmproject.dcm.parcel.impl.flow.IParcelLoadBalancer;
 import net.realmproject.dcm.parcel.impl.link.IThreadParcelLink;
+import net.realmproject.dcm.parcel.impl.service.IParcelService;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 public class Batch {
@@ -30,11 +29,18 @@ public class Batch {
 		IParcelLoadBalancer loadBalancer = new IParcelLoadBalancer(t1, t2, t3);
 
 		//Create service front-end
-		ParcelService<Integer, Integer> incrementService = new IParcelService<>(loadBalancer);
+		IParcelService<Integer, Integer> incrementService = new IParcelService<>(loadBalancer);
 
+		
+		//link the batch processors back to the the service to return their results
+		b1.setReceiver(incrementService);
+		b2.setReceiver(incrementService);
+		b3.setReceiver(incrementService);
+		
 		
 		//Submit "jobs"
 		for (int i = 0; i < 20; i++) {
+			
 			
 			//call the service
 			Future<Integer> future = incrementService.call(i);

@@ -1,4 +1,4 @@
-package net.realmproject.dcm.features.service;
+package net.realmproject.dcm.parcel.core.service;
 
 import java.util.concurrent.Future;
 

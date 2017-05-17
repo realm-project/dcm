@@ -37,6 +37,9 @@ public class IParcelSender extends IParcelNode implements ParcelNode, ParcelSend
 
     private ParcelReceiver receiver;
 
+    public IParcelSender() {
+    }
+    
     public IParcelSender(String id, ParcelReceiver receiver) {
     	this(receiver);
     	setId(id);
@@ -55,4 +58,14 @@ public class IParcelSender extends IParcelNode implements ParcelNode, ParcelSend
         getLog().trace("Parcel " + parcel + " Published from " + this.getId());
     }
 
+	public ParcelReceiver getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(ParcelReceiver receiver) {
+		this.receiver = receiver;
+	}
+
+	
+    
 }
