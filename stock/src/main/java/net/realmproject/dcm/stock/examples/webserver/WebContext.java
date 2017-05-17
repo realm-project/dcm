@@ -7,7 +7,22 @@ import net.realmproject.dcm.features.IPropreties;
 
 public class WebContext extends IPropreties<Object> {
 
-	public HttpServletRequest request;
-	public HttpServletResponse response;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	
+	public WebContext(HttpServletRequest request, HttpServletResponse response) {
+		this.request = request;
+		this.response = response;
+	}
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+
+	public HttpServletResponse getResponse() {
+		return response;
+	}
+	
+	
 	
 }

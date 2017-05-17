@@ -24,7 +24,7 @@ public class IURLPathBrancher extends IParcelBranch {
 		String key = IURLPathBrancher.class.getName() + ":" + "remaining-path";
 		List<String> path = cx.getProperty(key);
 		if (path == null) {
-			path = new ArrayList<>(Arrays.asList(cx.request.getPathInfo().substring(1).split("/")));
+			path = new ArrayList<>(Arrays.asList(cx.getRequest().getPathInfo().substring(1).split("/")));
 			cx.setProperty(key, path);
 		}
 		return path;

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +30,7 @@ public class WebServer {
 			WebContext request = (WebContext) p.getPayload();
 			
 			try {
-				HttpServletResponse r = request.response;
+				HttpServletResponse r = request.getResponse();
 				r.setContentType("text/html;charset=utf-8");
 		        r.setStatus(HttpServletResponse.SC_OK);
 		        r.getWriter().println("<h1>Hello</h1>");
@@ -47,7 +46,7 @@ public class WebServer {
 			WebContext request = (WebContext) p.getPayload();
 			
 			try {
-				HttpServletResponse r = request.response;
+				HttpServletResponse r = request.getResponse();
 				r.setContentType("text/html;charset=utf-8");
 		        r.setStatus(HttpServletResponse.SC_OK);
 		        r.getWriter().println("<h1>World</h1>");
