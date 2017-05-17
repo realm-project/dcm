@@ -23,7 +23,7 @@ public class Batch {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 
 		
-		
+		//Increment function which sleeps for 1 second to simulate work
 		Function<Parcel<?>, Parcel<?>> incrementer = p -> {
 			Parcel<Integer> parcel = (Parcel<Integer>) p;
 			Integer v = parcel.getPayload();

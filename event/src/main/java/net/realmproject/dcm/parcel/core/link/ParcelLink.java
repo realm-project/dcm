@@ -7,7 +7,7 @@ import net.realmproject.dcm.parcel.core.ParcelSender;
 
 /**
  * 
- * Interface for parcel graph nodes which relay parcels to other nodes
+ * Interface for parcel graph nodes which relay parcels to one other node
  * 
  * @author NAS
  *
