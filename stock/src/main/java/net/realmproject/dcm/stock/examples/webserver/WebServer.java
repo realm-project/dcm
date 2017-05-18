@@ -80,8 +80,6 @@ public class WebServer {
 		ParcelServiceServlet servlet = new ParcelServiceServlet(service);
 				
 		Server server = new Server(new InetSocketAddress("localhost", 8080));
-		
-		
 		server.setHandler(new AbstractHandler() {
 			
 			@Override
