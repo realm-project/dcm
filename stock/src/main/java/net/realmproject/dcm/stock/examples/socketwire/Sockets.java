@@ -20,7 +20,7 @@ public class Sockets {
 
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
 		
-		
+		//simple example showing networking with the SocketWire* implementation
 		
 		
 		ParcelReceiver printer = new AbstractParcelReceiver() {

@@ -11,6 +11,10 @@ import net.realmproject.dcm.parcel.impl.branch.AbstractParcelBranch;
 
 public class IURLPathBrancher extends AbstractParcelBranch {
 
+	public IURLPathBrancher() {
+		super();
+	}
+	
 	public IURLPathBrancher(Map<String, ParcelReceiver> receivers) {
 		super(receivers);
 	}

@@ -2,8 +2,6 @@ package net.realmproject.dcm.stock.examples.webserver;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +11,6 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
-import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.link.ParcelLink;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
 import net.realmproject.dcm.parcel.impl.service.IParcelService;
@@ -34,15 +31,18 @@ public class WebServer {
 	
 	public static void main(String[] args) throws Exception {
 		
+		
+		
 		ParcelService<WebContext, WebContext> service = new IParcelService<>();
 
-		
+		//Respond with "Hello"
 		ParcelLink hello = new IParcelTransformLink(p -> {
 			WebContext cx = (WebContext) p.getPayload();
 			respond(cx, "Hello");
 			return p;
 		});
 		
+		//Respond with "World"
 		ParcelLink world = new IParcelTransformLink(p -> {
 			WebContext cx = (WebContext) p.getPayload();
 			respond(cx, "World");			
@@ -50,19 +50,19 @@ public class WebServer {
 		});
 		
 		
-		Map<String, ParcelReceiver> brancher2Map = new HashMap<>();
-		brancher2Map.put("hello", hello);
-		brancher2Map.put("world", world);
-		IURLPathBrancher brancher2 = new IURLPathBrancher(brancher2Map);
+		IURLPathBrancher brancher2 = new IURLPathBrancher();
+
 		
 		
 		//just to demonstrate passing path traversal state from one handler to another
-		Map<String, ParcelReceiver> brancher1Map = new HashMap<>();
-		brancher1Map.put("words", brancher2);
-		IURLPathBrancher brancher1 = new IURLPathBrancher(brancher1Map);
+		IURLPathBrancher brancher1 = new IURLPathBrancher();
+		
 		
 		//link nodes
 		service.link(brancher1);
+		brancher1.addBranch("words", brancher2);
+		brancher2.addBranch("hello",  hello);
+		brancher2.addBranch("world", world);
 		hello.link(service);
 		world.link(service);
 		

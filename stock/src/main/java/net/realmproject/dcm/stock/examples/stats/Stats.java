@@ -14,7 +14,8 @@ public class Stats {
 
 	public static void main(String[] args) {
 
-	
+		//Demonstrating linking transformer nodes together
+		
 		ParcelTransformLink timestamper = new IParcelTransformLink();
 		timestamper.setId("timestamp");
 		timestamper.setTransform(new TimeStamp().andThen(new TimeStamp()).andThen(new TimeStamp()));

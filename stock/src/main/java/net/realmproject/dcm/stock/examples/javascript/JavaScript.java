@@ -2,6 +2,7 @@ package net.realmproject.dcm.stock.examples.javascript;
 
 import java.util.concurrent.ExecutionException;
 
+import net.realmproject.dcm.parcel.core.link.ParcelLink;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
 import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.branch.IParcelBranch;
@@ -17,12 +18,8 @@ public class JavaScript {
 		//Stupid example where the service doubles even length words and reverses odd length words
 		
 	
-		ParcelTransformLink doubler = new IParcelTransformLink();
-		doubler.setTransform(new JavaScriptParcelTransform("s = parcel.getPayload(); parcel.setPayload(s+s);"));
-		
-		
-		ParcelTransformLink reverser= new IParcelTransformLink();
-		reverser.setTransform(new JavaScriptParcelTransform("s = parcel.getPayload(); parcel.setPayload(s.split('').reverse().join(''));"));
+		ParcelLink doubler = new IParcelTransformLink(new JavaScriptParcelTransform("s = parcel.getPayload(); parcel.setPayload(s+s);"));
+		ParcelLink reverser= new IParcelTransformLink(new JavaScriptParcelTransform("s = parcel.getPayload(); parcel.setPayload(s.split('').reverse().join(''));"));
 		
 
 		IParcelBranch lengthBranch = new IParcelBranch();
