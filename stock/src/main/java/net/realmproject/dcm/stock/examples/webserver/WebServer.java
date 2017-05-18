@@ -21,40 +21,31 @@ import net.realmproject.dcm.parcel.impl.transform.IParcelTransformLink;
 
 public class WebServer {
 
+	public static void respond(WebContext cx, String word) {
+		try {
+			HttpServletResponse r = cx.getResponse();
+			r.setContentType("text/html;charset=utf-8");
+	        r.setStatus(HttpServletResponse.SC_OK);
+	        r.getWriter().println("<h1>" + word + "</h1>");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
 		
 		ParcelService<WebContext, WebContext> service = new IParcelService<>();
 
 		
 		ParcelLink hello = new IParcelTransformLink(p -> {
-			WebContext request = (WebContext) p.getPayload();
-			
-			try {
-				HttpServletResponse r = request.getResponse();
-				r.setContentType("text/html;charset=utf-8");
-		        r.setStatus(HttpServletResponse.SC_OK);
-		        r.getWriter().println("<h1>Hello</h1>");
-				//request.response.
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+			WebContext cx = (WebContext) p.getPayload();
+			respond(cx, "Hello");
 			return p;
 		});
 		
 		ParcelLink world = new IParcelTransformLink(p -> {
-			WebContext request = (WebContext) p.getPayload();
-			
-			try {
-				HttpServletResponse r = request.getResponse();
-				r.setContentType("text/html;charset=utf-8");
-		        r.setStatus(HttpServletResponse.SC_OK);
-		        r.getWriter().println("<h1>World</h1>");
-				//request.response.
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+			WebContext cx = (WebContext) p.getPayload();
+			respond(cx, "World");			
 			return p;
 		});
 		

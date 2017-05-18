@@ -21,11 +21,13 @@ public class IURLPathBrancher extends IParcelBranch {
 	}
 	
 	private List<String> getRemainingPath(WebContext cx) {
-		String key = IURLPathBrancher.class.getName() + ":" + "remaining-path";
-		List<String> path = cx.getProperty(key);
+		String key = "remaining-path";
+		Class<?> clazz = IURLPathBrancher.class;
+		
+		List<String> path = cx.getProperty(clazz, key);
 		if (path == null) {
 			path = new ArrayList<>(Arrays.asList(cx.getRequest().getPathInfo().substring(1).split("/")));
-			cx.setProperty(key, path);
+			cx.setProperty(clazz, key, path);
 		}
 		return path;
 	}
