@@ -10,6 +10,10 @@ import net.realmproject.dcm.parcel.core.branch.ParcelBranch;
 public class IParcelBranch extends AbstractParcelBranch implements ParcelBranch {
 
 	private Function<Parcel<?>, String> branchResolver = Parcel::getName;
+
+	public IParcelBranch() {
+		super();
+	}
 	
 	public IParcelBranch(Map<String, ParcelReceiver> receivers) {
 		super(receivers);

@@ -1,6 +1,7 @@
 package net.realmproject.dcm.parcel.impl.branch;
 
 import java.util.Map;
+import java.util.function.Function;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -8,24 +9,22 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.ParcelReceiver;
 
-public class JavaScriptParcelBranch extends AbstractParcelBranch {
+public class JavaScriptBranchResolver implements Function<Parcel<?>, String> {
 
 	private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("JavaScript");
 	private final String script;
 	
-	public JavaScriptParcelBranch(Map<String, ParcelReceiver> receivers, String javascript) {
-		super(receivers);
+	public JavaScriptBranchResolver(String javascript) {
 		this.script = javascript;
 	}
 
-	@Override
-	protected String getBranch(Parcel<?> parcel) {
+	public String apply(Parcel<?> parcel) {
 	    Bindings b = ENGINE.createBindings();
 	    b.put("parcel", parcel);
 	    try {
-			Object result = ENGINE.eval(script, b);
+			ENGINE.eval(script, b);
+			Object result = b.get("branch");
 			if (result instanceof String) {
 				return (String) result;
 			}

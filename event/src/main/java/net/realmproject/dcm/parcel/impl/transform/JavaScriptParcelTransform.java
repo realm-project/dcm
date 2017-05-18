@@ -19,14 +19,12 @@ public class JavaScriptParcelTransform implements Function<Parcel<?>, Parcel<?>>
 	}
 	
 	@Override
-	public Parcel<?> apply(Parcel<?> t) {
+	public Parcel<?> apply(Parcel<?> parcel) {
 	    Bindings b = ENGINE.createBindings();
-	    b.put("parcel", t);
+	    b.put("parcel", parcel);
 	    try {
-			Object result = ENGINE.eval(script, b);
-			if (result instanceof Parcel) {
-				return (Parcel<?>) result;
-			}
+			ENGINE.eval(script, b);
+			return parcel;
 		} catch (ScriptException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

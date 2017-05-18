@@ -23,7 +23,8 @@ public class JavaScriptFilter implements Predicate<Parcel<?>> {
 	    Bindings b = ENGINE.createBindings();
 	    b.put("parcel", t);
 	    try {
-			Object result = ENGINE.eval(script, b);
+			ENGINE.eval(script, b);
+			Object result = b.get("accept");
 			if (result instanceof Boolean) {
 				return (Boolean) result;
 			}

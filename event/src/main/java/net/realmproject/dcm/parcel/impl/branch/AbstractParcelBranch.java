@@ -12,6 +12,8 @@ import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 public abstract class AbstractParcelBranch extends IParcelNode implements ParcelBranch, Logging {
 
 	protected Map<String, ParcelReceiver> receivers = new LinkedHashMap<>();
+
+	public AbstractParcelBranch() {}
 	
 	public AbstractParcelBranch(Map<String, ParcelReceiver> receivers) {
 		this.receivers.putAll(receivers);
@@ -40,6 +42,17 @@ public abstract class AbstractParcelBranch extends IParcelNode implements Parcel
 	protected void onInvalidBranch(Parcel<?> parcel, String branch) {
 		getLog().error("Branch " + branch + " not found", new RuntimeException("Invalid Branch"));
 		 
+	}
+	
+	
+	public void addBranch(String name, ParcelReceiver receiver) {
+		receivers.put(name, receiver);
+	}
+	public void removeBranch(String name) {
+		receivers.remove(name);
+	}
+	public void clearBranches() {
+		receivers.clear();
 	}
 	
 }

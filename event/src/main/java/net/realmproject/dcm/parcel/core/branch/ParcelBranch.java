@@ -6,4 +6,8 @@ import net.realmproject.dcm.parcel.core.ParcelSender;
 
 public interface ParcelBranch extends ParcelReceiver, ParcelSender, ParcelNode {
 
+	void addBranch(String name, ParcelReceiver receiver);
+	void removeBranch(String name);
+	void clearBranches();
+	
 }
