@@ -9,12 +9,12 @@ import javax.script.ScriptException;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 
-public class JavaScriptTransform implements Function<Parcel<?>, Parcel<?>> {
+public class JavaScriptParcelTransform implements Function<Parcel<?>, Parcel<?>> {
 
 	private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("JavaScript");
 	private final String script;
 
-	public JavaScriptTransform(String script) {
+	public JavaScriptParcelTransform(String script) {
 		this.script = script;
 	}
 	

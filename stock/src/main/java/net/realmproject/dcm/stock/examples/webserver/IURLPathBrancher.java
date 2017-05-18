@@ -7,9 +7,9 @@ import java.util.Map;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.impl.flow.IParcelBranch;
+import net.realmproject.dcm.parcel.impl.branch.AbstractParcelBranch;
 
-public class IURLPathBrancher extends IParcelBranch {
+public class IURLPathBrancher extends AbstractParcelBranch {
 
 	public IURLPathBrancher(Map<String, ParcelReceiver> receivers) {
 		super(receivers);
