@@ -9,10 +9,10 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.filter.ParcelFilterLink;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.impl.filter.IParcelFilterLink;
+import net.realmproject.dcm.parcel.core.flow.filter.ParcelFilterLink;
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.flow.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.flow.filter.IParcelFilterLink;
 import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 import net.realmproject.dcm.util.DCMJsonSerialize;
 

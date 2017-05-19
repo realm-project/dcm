@@ -11,10 +11,10 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
-import net.realmproject.dcm.parcel.core.link.ParcelLink;
+import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
+import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.service.IParcelService;
-import net.realmproject.dcm.parcel.impl.transform.IParcelTransformLink;
 
 public class WebServer {
 

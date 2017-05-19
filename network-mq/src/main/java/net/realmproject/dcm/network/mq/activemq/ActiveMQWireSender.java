@@ -31,7 +31,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import net.realmproject.dcm.network.impl.IWireSender;
 import net.realmproject.dcm.parcel.core.Logging;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 
 /**
  * @author maxweld

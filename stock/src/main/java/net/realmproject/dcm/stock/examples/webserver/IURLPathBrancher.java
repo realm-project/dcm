@@ -7,7 +7,7 @@ import java.util.Map;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.impl.branch.AbstractParcelBranch;
+import net.realmproject.dcm.parcel.impl.flow.branch.AbstractParcelBranch;
 
 public class IURLPathBrancher extends AbstractParcelBranch {
 

@@ -3,11 +3,11 @@ package net.realmproject.dcm.stock.examples.stats;
 import java.util.function.Function;
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.link.ParcelLink;
-import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
-import net.realmproject.dcm.parcel.impl.link.IChainParcelLink;
+import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
+import net.realmproject.dcm.parcel.core.flow.transform.ParcelTransformLink;
+import net.realmproject.dcm.parcel.impl.flow.link.IChainParcelLink;
+import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
-import net.realmproject.dcm.parcel.impl.transform.IParcelTransformLink;
 
 
 public class Stats {

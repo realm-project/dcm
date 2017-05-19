@@ -3,7 +3,7 @@ package net.realmproject.dcm.features.ping;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 
 
 public class IPingDevice implements Pingable {

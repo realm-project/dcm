@@ -5,9 +5,9 @@ package net.realmproject.dcm.stock.ping;
 import net.realmproject.dcm.features.ping.Ping;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.impl.filter.IParcelFilterLink;
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.flow.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.flow.filter.IParcelFilterLink;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 

@@ -9,10 +9,10 @@ import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireReceiv
 import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireSender;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.link.ParcelLink;
+import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
+import net.realmproject.dcm.parcel.impl.flow.routing.IRoutingParcelLink;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.receiver.AbstractParcelReceiver;
-import net.realmproject.dcm.parcel.impl.routing.IRoutingParcelLink;
 import net.realmproject.dcm.util.DCMSettings;
 import net.realmproject.dcm.util.DCMThreadPool;
 

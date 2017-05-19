@@ -3,9 +3,9 @@ package net.realmproject.dcm.network.impl.socket.routing;
 import java.io.IOException;
 
 import net.realmproject.dcm.network.impl.socket.ISocketWireSender;
-import net.realmproject.dcm.parcel.core.routing.RoutingTable;
-import net.realmproject.dcm.parcel.impl.routing.routingtable.IAutoRoutingTable;
-import net.realmproject.dcm.parcel.impl.routing.routingtable.IRoutingTable;
+import net.realmproject.dcm.parcel.core.flow.routing.RoutingTable;
+import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.IAutoRoutingTable;
+import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.IRoutingTable;
 import net.realmproject.dcm.util.DCMUtil;
 
 public class IRoutingSocketWireSender extends ISocketWireSender implements RoutingSocketWireSender {

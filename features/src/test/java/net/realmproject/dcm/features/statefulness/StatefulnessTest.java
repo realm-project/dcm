@@ -4,8 +4,8 @@ package net.realmproject.dcm.features.statefulness;
 import java.util.concurrent.BlockingQueue;
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.parcel.impl.hub.IParcelHub;
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.impl.flow.hub.IParcelHub;
 import net.realmproject.dcm.parcel.impl.receiver.ParcelReceiverQueue;
 
 import org.junit.Assert;

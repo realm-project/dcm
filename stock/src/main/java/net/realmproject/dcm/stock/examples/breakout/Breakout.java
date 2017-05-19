@@ -11,13 +11,13 @@ import net.realmproject.dcm.network.impl.socket.routing.IRoutingSocketWireSender
 import net.realmproject.dcm.network.impl.socket.routing.RoutingSocketWireReceiver;
 import net.realmproject.dcm.network.impl.socket.routing.RoutingSocketWireSender;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.parcel.core.routing.ParcelRouter;
-import net.realmproject.dcm.parcel.impl.hub.IParcelBridge;
-import net.realmproject.dcm.parcel.impl.hub.IParcelHub;
-import net.realmproject.dcm.parcel.impl.routing.IParcelRouter;
-import net.realmproject.dcm.parcel.impl.routing.IRoutingParcelBridge;
-import net.realmproject.dcm.parcel.impl.routing.IRoutingParcelConsumer;
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.flow.routing.ParcelRouter;
+import net.realmproject.dcm.parcel.impl.flow.hub.IParcelBridge;
+import net.realmproject.dcm.parcel.impl.flow.hub.IParcelHub;
+import net.realmproject.dcm.parcel.impl.flow.routing.IParcelRouter;
+import net.realmproject.dcm.parcel.impl.flow.routing.IRoutingParcelBridge;
+import net.realmproject.dcm.parcel.impl.flow.routing.IRoutingParcelConsumer;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 public class Breakout {

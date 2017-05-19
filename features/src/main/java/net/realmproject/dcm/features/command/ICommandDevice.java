@@ -4,11 +4,11 @@ package net.realmproject.dcm.features.command;
 import net.realmproject.dcm.features.stateful.State;
 import net.realmproject.dcm.features.stateful.StateQuery;
 import net.realmproject.dcm.features.stateful.StatefulDevice;
-import net.realmproject.dcm.parcel.core.filter.ParcelFilterLink;
-import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.parcel.core.link.ParcelLink;
-import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
-import net.realmproject.dcm.parcel.impl.filter.IParcelFilterLink;
+import net.realmproject.dcm.parcel.core.flow.filter.ParcelFilterLink;
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
+import net.realmproject.dcm.parcel.impl.flow.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.flow.filter.IParcelFilterLink;
 import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 import net.realmproject.dcm.parcel.impl.sender.IParcelSender;
 

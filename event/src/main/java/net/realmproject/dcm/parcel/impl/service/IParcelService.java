@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.link.Linkable;
+import net.realmproject.dcm.parcel.core.linkable.Linkable;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.sender.IParcelSender;

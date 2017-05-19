@@ -7,13 +7,13 @@ import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import net.realmproject.dcm.parcel.core.Parcel;
-import net.realmproject.dcm.parcel.core.link.ParcelLink;
+import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
-import net.realmproject.dcm.parcel.impl.link.IChainParcelLink;
-import net.realmproject.dcm.parcel.impl.link.IThreadParcelLink;
-import net.realmproject.dcm.parcel.impl.misc.IParcelLoadBalancer;
+import net.realmproject.dcm.parcel.impl.flow.link.IChainParcelLink;
+import net.realmproject.dcm.parcel.impl.flow.link.IThreadParcelLink;
+import net.realmproject.dcm.parcel.impl.flow.misc.IParcelLoadBalancer;
+import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.service.IParcelService;
-import net.realmproject.dcm.parcel.impl.transform.IParcelTransformLink;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 public class Batch {

@@ -2,14 +2,14 @@ package net.realmproject.dcm.stock.examples.javascript;
 
 import java.util.concurrent.ExecutionException;
 
-import net.realmproject.dcm.parcel.core.link.ParcelLink;
+import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
+import net.realmproject.dcm.parcel.core.flow.transform.ParcelTransformLink;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
-import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
-import net.realmproject.dcm.parcel.impl.branch.IParcelBranch;
-import net.realmproject.dcm.parcel.impl.branch.JavaScriptBranchResolver;
+import net.realmproject.dcm.parcel.impl.flow.branch.IParcelBranch;
+import net.realmproject.dcm.parcel.impl.flow.branch.JavaScriptBranchResolver;
+import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
+import net.realmproject.dcm.parcel.impl.flow.transform.JavaScriptParcelTransform;
 import net.realmproject.dcm.parcel.impl.service.IParcelService;
-import net.realmproject.dcm.parcel.impl.transform.IParcelTransformLink;
-import net.realmproject.dcm.parcel.impl.transform.JavaScriptParcelTransform;
 
 public class JavaScript {
 
