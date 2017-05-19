@@ -4,7 +4,7 @@ import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
-import net.realmproject.dcm.parcel.core.linkable.Linkable;
+import net.realmproject.dcm.parcel.core.linkable.SingleLinkable;
 
 /**
  * 
@@ -13,7 +13,7 @@ import net.realmproject.dcm.parcel.core.linkable.Linkable;
  * @author NAS
  *
  */
-public interface ParcelLink extends ParcelNode, ParcelReceiver, ParcelSender, Linkable {
+public interface ParcelLink extends ParcelNode, ParcelReceiver, ParcelSender, SingleLinkable {
 
 	// Override this so that implementnig classes only have to implement the
 	// send mehtod, rather than both

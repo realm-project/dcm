@@ -54,7 +54,7 @@ public abstract class AbstractParcelBranch extends IParcelNode implements Parcel
 		receivers.remove(name);
 	}	
 	@Override
-	public Map<String, ParcelReceiver> getLinks() {
+	public Map<String, ParcelReceiver> getNamedLinks() {
 		return receivers;
 	}
 	

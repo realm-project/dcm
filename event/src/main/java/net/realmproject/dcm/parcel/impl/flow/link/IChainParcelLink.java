@@ -5,23 +5,23 @@ import java.util.List;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.linkable.Linkable;
+import net.realmproject.dcm.parcel.core.linkable.SingleLinkable;
 
 public class IChainParcelLink extends IParcelLink {
 
-	private Linkable first;
-	private Linkable last;
+	private SingleLinkable first;
+	private SingleLinkable last;
 	
-	public IChainParcelLink(Linkable... links) {
+	public IChainParcelLink(SingleLinkable... links) {
 		this(Arrays.asList(links));
 	}
 	
-	public IChainParcelLink(List<Linkable> links) {
+	public IChainParcelLink(List<SingleLinkable> links) {
 		
 		first = links.get(0);
 		
-		Linkable previous = first;
-		for (Linkable l : links) {
+		SingleLinkable previous = first;
+		for (SingleLinkable l : links) {
 			if (l == first) { continue; }
 			previous = previous.link(l);
 		}

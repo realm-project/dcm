@@ -23,7 +23,7 @@ import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
-import net.realmproject.dcm.parcel.core.linkable.Linkable;
+import net.realmproject.dcm.parcel.core.linkable.SingleLinkable;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 
 /**
@@ -63,7 +63,7 @@ public class IParcelLink extends IParcelNode implements ParcelLink {
 
 
 	@Override
-	public Linkable link(Linkable link) {
+	public SingleLinkable link(SingleLinkable link) {
 		setReceiver(link);
 		return this;
 	}

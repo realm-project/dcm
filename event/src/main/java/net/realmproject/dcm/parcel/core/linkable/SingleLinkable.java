@@ -1,11 +1,12 @@
 package net.realmproject.dcm.parcel.core.linkable;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
 
-public interface ListLinkable extends Linkable, ParcelSender, ParcelReceiver {
+public interface SingleLinkable extends Linkable, ParcelSender, ParcelReceiver {
 
 	default SingleLinkable link(SingleLinkable link) {
 		link((ParcelReceiver) link);
@@ -21,20 +22,14 @@ public interface ListLinkable extends Linkable, ParcelSender, ParcelReceiver {
 	}
 	
 	
+	@Override
+	default List<ParcelReceiver> getLinks() {
+		return Collections.singletonList(getLink());
+	}
+	
+	
 	void link(ParcelReceiver receiver);
-	void unlink(ParcelReceiver receiver);
-	
-	default void linkAll(List<ParcelReceiver> links) {
-		for (ParcelReceiver l : links) {
-			link(l);
-		}
-	}
-	
-	
-	default void unlinkAll() {
-		for (ParcelReceiver l : getLinks()) {
-			unlink(l);
-		}
-	}
+	void unlink();
+	ParcelReceiver getLink();
 	
 }
