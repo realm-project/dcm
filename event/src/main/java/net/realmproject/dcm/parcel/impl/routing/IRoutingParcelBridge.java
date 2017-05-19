@@ -27,8 +27,8 @@ public class IRoutingParcelBridge extends IParcelNode {
     		}
     	};
     	    	
-    	router1.subscribe(to2);
-        router2.subscribe(to1);
+    	router1.link(to2);
+        router2.link(to1);
         
     }   
 

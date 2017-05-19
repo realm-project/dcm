@@ -23,8 +23,8 @@ public class JavaScript {
 		
 
 		IParcelBranch lengthBranch = new IParcelBranch();
-		lengthBranch.addBranch("even", doubler);
-		lengthBranch.addBranch("odd", reverser);
+		lengthBranch.link("even", doubler);
+		lengthBranch.link("odd", reverser);
 		lengthBranch.setBranchResolver(new JavaScriptBranchResolver("s = parcel.getPayload(); if (s.length() % 2 == 0) {branch='even';} else {branch='odd';}"));
 		
 		

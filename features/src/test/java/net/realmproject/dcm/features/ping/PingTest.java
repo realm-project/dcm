@@ -28,7 +28,7 @@ public class PingTest {
                 .source("pinger")
                 .target("ponger");
         ParcelReceiverQueue events = new ParcelReceiverQueue();
-        bus.subscribe(events);
+        bus.link(events);
 
 
         // create the ping responder

@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.filter.ParcelFilterLink;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.filter.IParcelFilterLink;
 import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 import net.realmproject.dcm.util.DCMJsonSerialize;
 
@@ -25,12 +28,14 @@ public class CommandDispatcher {
         methods = generateCommandMethods();
 
         Predicate<Parcel<?>> eventFilter = FilterBuilder.start().target(commanded.getId());
-        bus.subscribe(eventFilter, new IParcelConsumer(commanded.getId(), deviceEvent -> {
+        ParcelFilterLink filter = new IParcelFilterLink(eventFilter);
+        ParcelReceiver consumer = new IParcelConsumer(commanded.getId(), deviceEvent -> {
             if (deviceEvent.getPayload() instanceof Command) {
                 Command command = (Command) deviceEvent.getPayload();
                 submitCommand(command);
             }
-        }));
+        });
+        bus.link(filter).link(consumer);
 
     }
 

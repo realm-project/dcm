@@ -19,7 +19,7 @@ public class StatefulnessTest {
 
     	ParcelHub bus = new IParcelHub();
         ParcelReceiverQueue eventQueue = new ParcelReceiverQueue();
-        bus.subscribe(eventQueue);
+        bus.link(eventQueue);
 
         TestStatefulDevice device = new TestStatefulDevice("id", bus);
         device.getState().number = 7;

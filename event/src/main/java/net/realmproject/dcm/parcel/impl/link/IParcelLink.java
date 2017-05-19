@@ -22,6 +22,7 @@ package net.realmproject.dcm.parcel.impl.link;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.link.Linkable;
 import net.realmproject.dcm.parcel.core.link.ParcelLink;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 
@@ -49,14 +50,43 @@ public class IParcelLink extends IParcelNode implements ParcelLink {
 		}
 	}
 
-	@Override
+
 	public ParcelReceiver getReceiver() {
 		return receiver;
 	}
 
-	@Override
+
 	public void setReceiver(ParcelReceiver receiver) {
 		this.receiver = receiver;
+	}
+
+
+
+	@Override
+	public Linkable link(Linkable link) {
+		setReceiver(link);
+		return this;
+	}
+
+
+
+	@Override
+	public void link(ParcelReceiver receiver) {
+		setReceiver(receiver);
+	}
+
+
+
+	@Override
+	public void unlink() {
+		this.receiver = null;
+	}
+
+
+
+	@Override
+	public ParcelReceiver getLink() {
+		return receiver;
 	}
 
 	

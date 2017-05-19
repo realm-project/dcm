@@ -20,6 +20,7 @@ import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.filter.FilterBuilder;
+import net.realmproject.dcm.parcel.impl.filter.IParcelFilterLink;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.stock.camera.Frame;
 import net.realmproject.dcm.stock.examples.breakout.engine.Axes;
@@ -42,7 +43,9 @@ public class SwingUI extends JFrame implements ParcelReceiver {
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(display, BorderLayout.CENTER);
 		
-		hub.subscribe(FilterBuilder.start().payload(Frame.class), this);
+		hub
+			.link(new IParcelFilterLink(FilterBuilder.start().payload(Frame.class)))
+			.link(this);
 		
 		
 		addKeyListener(new KeyListener() {

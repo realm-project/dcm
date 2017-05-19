@@ -60,9 +60,9 @@ public class WebServer {
 		
 		//link nodes
 		service.link(brancher1);
-		brancher1.addBranch("words", brancher2);
-		brancher2.addBranch("hello",  hello);
-		brancher2.addBranch("world", world);
+		brancher1.link("words", brancher2);
+		brancher2.link("hello",  hello);
+		brancher2.link("world", world);
 		hello.link(service);
 		world.link(service);
 		

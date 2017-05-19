@@ -27,8 +27,7 @@ import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
-import net.realmproject.dcm.parcel.core.filter.ParcelFilterer;
-import net.realmproject.dcm.parcel.core.link.ParcelLink;
+import net.realmproject.dcm.parcel.core.link.ListLinkable;
 import net.realmproject.dcm.parcel.impl.link.IParcelLink;
 
 
@@ -49,44 +48,7 @@ import net.realmproject.dcm.parcel.impl.link.IParcelLink;
  *
  */
 
-public interface ParcelHub extends ParcelReceiver, ParcelNode, ParcelFilterer, ParcelSender {
-
-    /**
-     * Listen for parcels broadcast on this parcelhub. All parcels will be sent to
-     * this subscriber.
-     * 
-     * @param subscriber
-     *            The consumer of parcels
-     */
-    void subscribe(ParcelReceiver subscriber);
-    
-    /**
-     * Convenience method for {@link ParcelLink}'s fluent link API
-     * @param subscriber the consumer fo parcels
-     * @return the subscribing ParcelLink
-     */
-    ParcelLink subscribe(ParcelLink subscriber);
-
-
-    /**
-     * Listen for parcels broadcast on this parcel hub. Only parcels accepted by
-     * the given filter will be sent to this subscriber.
-     * 
-     * @param filter
-     *            rule for which parcels to listen for
-     * @param subscriber
-     *            the consumer of parcels
-     */
-    void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber);
-
-    
-    /**
-     * Convenience method for {@link ParcelLink}'s fluent link API
-     * @param filter rule for which parcels to listen for
-     * @param subscriber subscriber the consumer fo parcels
-     * @return the subscribing ParcelLink
-     */
-    ParcelLink subscribe(Predicate<Parcel<?>> filter, ParcelLink subscriber);
+public interface ParcelHub extends ParcelReceiver, ParcelNode, ParcelSender, ListLinkable {
 
 
     /**

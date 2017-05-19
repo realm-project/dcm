@@ -12,7 +12,7 @@ public class IParcelHubSubscriber extends IParcelNode implements ParcelReceiver,
 	
 	public IParcelHubSubscriber(ParcelHub source, ParcelReceiver receiver) {
 		this.receiver = receiver;
-		source.subscribe(this);
+		source.link(this);
 	}
 	
 	@Override

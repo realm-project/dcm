@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.function.Predicate;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +32,6 @@ import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.parcel.core.link.ParcelLink;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
@@ -49,21 +47,10 @@ import net.realmproject.dcm.util.DCMThreadPool;
 
 public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
 	
-	public class Subscription {
-		
-		public ParcelReceiver receiver;
-		public Predicate<Parcel<?>> filter;
-		
-		public Subscription(ParcelReceiver receiver, Predicate<Parcel<?>> filter) {
-			this.receiver = receiver;
-			this.filter = filter;
-		}
-		
-	}
+
 
 	
-	protected Predicate<Parcel<?>> filter = a -> true;
-	protected List<Subscription> subscribers = new ArrayList<>();
+	protected List<ParcelReceiver> receivers = new ArrayList<>();
     private BlockingQueue<Parcel<?>> parcelqueue = new LinkedBlockingQueue<>(1000);
     private String zone = "";
     private final Log log = LogFactory.getLog(getClass());
@@ -104,10 +91,8 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
 
     @Override
     public synchronized void send(Parcel<?> parcel) {
-        for (Subscription subscriber : new ArrayList<>(subscribers)) {
-        	if (subscriber.filter == null || subscriber.filter.test(parcel)) {
-        		send(parcel, subscriber.receiver);
-        	}
+        for (ParcelReceiver receiver : new ArrayList<>(receivers)) {
+        	send(parcel, receiver);
         }
     }
     
@@ -141,8 +126,6 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
         // private parcels from other zones will not be propagated
         if (isPrivate && !sameZone) { return; }
 
-        // allow the bus to filter parcels
-        if (!filter(parcel)) { return; }
 
         if (!parcelqueue.offer(parcel)) {
             getLog().error("Dropped parcel " + parcel + " because of full parcel queue");
@@ -150,32 +133,20 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
 
     }
 
+   
     @Override
-    public void subscribe(ParcelReceiver subscriber) {
-        subscribe(null, subscriber);
-    }
-    
-	@Override
-	public ParcelLink subscribe(ParcelLink subscriber) {
-		subscribe(null, subscriber);
-		return subscriber;
-	}
-
-    @Override
-    public synchronized void subscribe(Predicate<Parcel<?>> filter, ParcelReceiver subscriber) {
-        subscribers.add(new Subscription(subscriber, filter));
+    public synchronized void link(ParcelReceiver receiver) {
+        receivers.add(receiver);
     }
 
-    @Override
-    public synchronized ParcelLink subscribe(Predicate<Parcel<?>> filter, ParcelLink subscriber) {
-        subscribers.add(new Subscription(subscriber, filter));
-        return subscriber;
-    }
     
+    
+    @Override
     public String getZone() {
         return zone;
     }
 
+    @Override
     public void setZone(String zone) {
         this.zone = zone;
     }
@@ -199,13 +170,13 @@ public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
     }
 
 	@Override
-	public Predicate<Parcel<?>> getFilter() {
-		return filter;
+	public void unlink(ParcelReceiver receiver) {
+		receivers.remove(receiver);
 	}
 
 	@Override
-	public void setFilter(Predicate<Parcel<?>> filter) {
-		this.filter = filter;
+	public List<ParcelReceiver> getLinks() {
+		return receivers;
 	}
 
 

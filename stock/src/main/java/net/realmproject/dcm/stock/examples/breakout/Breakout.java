@@ -36,14 +36,14 @@ public class Breakout {
 		//Link the front router to the back router with sockets
 		RoutingSocketWireSender wFrontSender = new IRoutingSocketWireSender("localhost", 3564);
 		wFrontSender.setId("front-wire-sender");
-		frontend.subscribe(wFrontSender);
+		frontend.link(wFrontSender);
 		RoutingSocketWireReceiver wBackReceiver = new IRoutingSocketWireReceiver(3564, backend);
 		wBackReceiver.setId("back-wire-receiver");
 		
 		//Link the back router to the front router with sockets
 		RoutingSocketWireSender wBackSender = new IRoutingSocketWireSender("localhost", 3565);
 		wBackSender.setId("back-wire-sender");
-		backend.subscribe(wBackSender);
+		backend.link(wBackSender);
 		RoutingSocketWireReceiver wFrontReceiver = new IRoutingSocketWireReceiver(3565, frontend);
 		wFrontReceiver.setId("front-wire-receiver");
 		
@@ -55,7 +55,7 @@ public class Breakout {
 		
 		
 		ParcelReceiver useless = new IRoutingParcelConsumer("useless", p -> {});
-		frontend.subscribe(useless);
+		frontend.link(useless);
 
 		
 		BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);

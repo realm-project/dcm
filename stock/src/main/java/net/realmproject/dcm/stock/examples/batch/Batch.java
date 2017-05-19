@@ -23,6 +23,9 @@ public class Batch {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 
 		
+		//Simple multi-threaded batch processing example 
+		
+		
 		//Increment function which sleeps for 1 second to simulate work
 		Function<Parcel<?>, Parcel<?>> incrementer = p -> {
 			Parcel<Integer> parcel = (Parcel<Integer>) p;

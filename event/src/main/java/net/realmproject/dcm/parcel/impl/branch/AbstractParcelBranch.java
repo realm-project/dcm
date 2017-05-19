@@ -45,14 +45,19 @@ public abstract class AbstractParcelBranch extends IParcelNode implements Parcel
 	}
 	
 	
-	public void addBranch(String name, ParcelReceiver receiver) {
+	@Override
+	public void link(String name, ParcelReceiver receiver) {
 		receivers.put(name, receiver);
 	}
-	public void removeBranch(String name) {
+	@Override
+	public void unlink(String name) {
 		receivers.remove(name);
+	}	
+	@Override
+	public Map<String, ParcelReceiver> getLinks() {
+		return receivers;
 	}
-	public void clearBranches() {
-		receivers.clear();
-	}
+	
+
 	
 }

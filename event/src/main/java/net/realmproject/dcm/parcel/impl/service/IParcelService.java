@@ -7,6 +7,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.link.Linkable;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.sender.IParcelSender;
@@ -54,6 +56,31 @@ public class IParcelService<F, T> extends IParcelSender implements ParcelService
 			resultQueues.get(id).offer(result);
 			resultQueues.remove(id);
 		}
+	}
+
+
+	@Override
+	public Linkable link(Linkable link) {
+		setReceiver(link);
+		return this;
+	}
+
+
+	@Override
+	public void link(ParcelReceiver receiver) {
+		setReceiver(receiver);
+	}
+
+
+	@Override
+	public void unlink() {
+		setReceiver(null);
+	}
+
+
+	@Override
+	public ParcelReceiver getLink() {
+		return getReceiver();
 	}
 
 

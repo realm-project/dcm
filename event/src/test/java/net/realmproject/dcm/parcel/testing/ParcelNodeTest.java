@@ -8,9 +8,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.filter.ParcelFilterLink;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
 import net.realmproject.dcm.parcel.core.transform.ParcelTransformer;
+import net.realmproject.dcm.parcel.impl.filter.IParcelFilterLink;
 import net.realmproject.dcm.parcel.impl.hub.IParcelBridge;
 import net.realmproject.dcm.parcel.impl.hub.IParcelHub;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
@@ -26,7 +28,7 @@ public class ParcelNodeTest {
 
         ParcelHub bus = new IParcelHub();
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
-        bus.subscribe(parcelQueue);
+        bus.link(parcelQueue);
 
         bus.receive(new IParcel<String>("testid", null, "Hello"));
 
@@ -42,7 +44,7 @@ public class ParcelNodeTest {
 
         ParcelHub bus = new IParcelHub();
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
-        bus.subscribe(parcelQueue);
+        bus.link(parcelQueue);
 
         StringBuilder sb = new StringBuilder("Hello");
         bus.receive(new IParcel<Serializable>("testid", null, sb));
@@ -57,9 +59,9 @@ public class ParcelNodeTest {
 
         ParcelHub bus = new IParcelHub();
         // only accept messages containing the word "world"
-        bus.setFilter(e -> e.getPayload().toString().equals("World"));
+        ParcelFilterLink filter = new IParcelFilterLink(e -> e.getPayload().toString().contains("World"));
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
-        bus.subscribe(parcelQueue);
+        bus.link(filter).link(parcelQueue);
 
         bus.receive(new IParcel<String>("testid", null, "Hello"));
         bus.receive(new IParcel<String>("testid", null, "World"));
@@ -81,10 +83,10 @@ public class ParcelNodeTest {
             p.setPayload(e.getPayload().toString() + "!");
             return e;
         });
-        transformer.setReceiver(bus);
+        transformer.link(bus);
         
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
-        bus.subscribe(parcelQueue);
+        bus.link(parcelQueue);
 
         transformer.receive(new IParcel<String>("testid", null, "World"));
 
@@ -101,7 +103,7 @@ public class ParcelNodeTest {
         new IParcelBridge(bus1, bus2);
 
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
-        bus2.subscribe(parcelQueue);
+        bus2.link(parcelQueue);
         bus1.receive(new IParcel<String>("testid", null, "World"));
 
         Parcel<?> parcel = parcelQueue.poll(5, TimeUnit.SECONDS);
@@ -118,7 +120,7 @@ public class ParcelNodeTest {
         new IParcelBridge(bus1, bus2);
 
         ParcelReceiverQueue parcelQueue = new ParcelReceiverQueue();
-        bus2.subscribe(parcelQueue);
+        bus2.link(parcelQueue);
         Parcel<?> parcel;
         parcel = new IParcel<String>("testid", null, "Hello");
         parcel.setLocal(true);
