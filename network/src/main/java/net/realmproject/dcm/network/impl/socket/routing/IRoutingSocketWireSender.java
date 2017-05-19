@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import net.realmproject.dcm.network.impl.socket.ISocketWireSender;
 import net.realmproject.dcm.parcel.core.flow.routing.RoutingTable;
-import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.IAutoRoutingTable;
 import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.IRoutingTable;
 import net.realmproject.dcm.util.DCMUtil;
 
@@ -16,7 +15,7 @@ public class IRoutingSocketWireSender extends ISocketWireSender implements Routi
 	
 	public IRoutingSocketWireSender(String hostname, int port) {
 		super(hostname, port);
-		routes = new IAutoRoutingTable(this);
+		routes = new IRoutingTable(this);
 	}
 	
 	@Override

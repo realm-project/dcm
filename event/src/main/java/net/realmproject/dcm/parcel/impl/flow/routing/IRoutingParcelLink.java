@@ -5,16 +5,14 @@ import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.routing.Routing;
 import net.realmproject.dcm.parcel.core.flow.routing.RoutingTable;
 import net.realmproject.dcm.parcel.impl.flow.link.IParcelLink;
-import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.AutoRoutingTable;
-import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.IAutoRoutingTable;
+import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.linkable.LinkableRoutingTable;
 
 public class IRoutingParcelLink extends IParcelLink implements Routing {
 
-	public AutoRoutingTable routes = new IAutoRoutingTable(this);
+	public RoutingTable routes = new LinkableRoutingTable(this);
 
 	public IRoutingParcelLink(ParcelReceiver to) {
 		setReceiver(to);
-		routes.addParcelReceiver(to);
 	}
 
 	@Override

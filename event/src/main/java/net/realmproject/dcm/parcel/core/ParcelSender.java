@@ -19,6 +19,8 @@
 
 package net.realmproject.dcm.parcel.core;
 
+import java.util.List;
+
 /**
  * Base interface for parcel nodes which sends {@link Parcel}s
  * 
@@ -26,7 +28,7 @@ package net.realmproject.dcm.parcel.core;
  *
  */
 
-public interface ParcelSender {
+public interface ParcelSender extends Identity {
 
     /**
      * Sends the given {@link Parcel}.
@@ -36,6 +38,9 @@ public interface ParcelSender {
      */
     void send(Parcel<?> parcel);
 
+    
+    
+    List<ParcelReceiver> getLinks();
 
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
 
-public interface SingleLinkable extends Linkable, ParcelSender, ParcelReceiver {
+public interface SingleLinkable extends ParcelSender, ParcelReceiver {
 
 	default SingleLinkable link(SingleLinkable link) {
 		link((ParcelReceiver) link);

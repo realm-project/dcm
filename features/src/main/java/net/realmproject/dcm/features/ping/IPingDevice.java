@@ -1,6 +1,9 @@
 package net.realmproject.dcm.features.ping;
 
 
+import java.util.Collections;
+import java.util.List;
+
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
@@ -31,5 +34,10 @@ public class IPingDevice implements Pingable {
     public void send(Parcel event) {
         receiver.receive(event);
     }
+
+	@Override
+	public List<ParcelReceiver> getLinks() {
+		return Collections.singletonList(receiver);
+	}
 
 }

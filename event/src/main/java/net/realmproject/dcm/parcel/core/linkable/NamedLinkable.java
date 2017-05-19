@@ -7,7 +7,7 @@ import java.util.Map;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
 
-public interface NamedLinkable extends Linkable, ParcelSender, ParcelReceiver {
+public interface NamedLinkable extends ParcelSender, ParcelReceiver {
 
 	default SingleLinkable link(String name, SingleLinkable link) {
 		link(name, (ParcelReceiver) link);

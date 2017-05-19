@@ -52,5 +52,10 @@ public class IParcelLoadBalancer extends IParcelNode implements ParcelReceiver, 
 	public void setReceivers(ParcelReceiver... receivers) {
 		setReceivers(Arrays.asList(receivers));
 	}
+
+	@Override
+	public List<ParcelReceiver> getLinks() {
+		return receivers;
+	}
 	
 }

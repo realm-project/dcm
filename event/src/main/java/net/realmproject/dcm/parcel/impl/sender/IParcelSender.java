@@ -19,6 +19,9 @@
 
 package net.realmproject.dcm.parcel.impl.sender;
 
+import java.util.Collections;
+import java.util.List;
+
 import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelNode;
@@ -64,6 +67,11 @@ public class IParcelSender extends IParcelNode implements ParcelNode, ParcelSend
 
 	public void setReceiver(ParcelReceiver receiver) {
 		this.receiver = receiver;
+	}
+
+	@Override
+	public List<ParcelReceiver> getLinks() {
+		return Collections.singletonList(receiver);
 	}
 
 	

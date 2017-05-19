@@ -6,8 +6,8 @@ import java.util.concurrent.TimeUnit;
 import net.realmproject.dcm.network.impl.socket.ISocketWireReceiver;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.routing.RoutingTable;
-import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.IAutoRoutingTable;
 import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.IRoutingTable;
+import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.linkable.LinkableRoutingTable;
 import net.realmproject.dcm.parcel.impl.identity.StubIdentity;
 import net.realmproject.dcm.util.DCMSettings;
 import net.realmproject.dcm.util.DCMThreadPool;
@@ -15,13 +15,12 @@ import net.realmproject.dcm.util.DCMUtil;
 
 public class IRoutingSocketWireReceiver extends ISocketWireReceiver implements RoutingSocketWireReceiver {
 
-	private IAutoRoutingTable routes;
+	private IRoutingTable routes;
 	
 	public IRoutingSocketWireReceiver(int port, ParcelReceiver receiver) {
 		super(port, receiver);
 		
-		routes = new IAutoRoutingTable(this);
-		routes.addParcelReceiver(receiver);
+		routes = new LinkableRoutingTable(this);
 		DCMThreadPool.getScheduledPool().scheduleAtFixedRate(this::sendRoutes, DCMSettings.STARTUP_DELAY, 1, TimeUnit.SECONDS);
 	}
 

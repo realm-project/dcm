@@ -1,5 +1,7 @@
 package net.realmproject.dcm.features.stateful;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import net.realmproject.dcm.parcel.core.Parcel;
@@ -52,6 +54,11 @@ public class StateCache extends IParcelNode implements ParcelReceiver, ParcelSen
 	
 	public State get() {
 		return last;
+	}
+
+	@Override
+	public List<ParcelReceiver> getLinks() {
+		return Collections.singletonList(receiver);
 	}
 
 	

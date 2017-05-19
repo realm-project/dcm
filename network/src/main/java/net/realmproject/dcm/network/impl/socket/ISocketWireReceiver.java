@@ -1,5 +1,8 @@
 package net.realmproject.dcm.network.impl.socket;
 
+import java.util.Collections;
+import java.util.List;
+
 import net.realmproject.dcm.network.WireReceiver;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
@@ -27,6 +30,11 @@ public class ISocketWireReceiver extends SocketWireServer implements WireReceive
 	@Override
 	public void send(Parcel<?> parcel) {
 		receiver.receive(parcel);
+	}
+
+	@Override
+	public List<ParcelReceiver> getLinks() {
+		return Collections.singletonList(receiver);
 	}
 
 }
