@@ -7,16 +7,16 @@ import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.link.Linkable;
 
-public class IParcelChainLink extends IParcelLink {
+public class IChainParcelLink extends IParcelLink {
 
 	private Linkable first;
 	private Linkable last;
 	
-	public IParcelChainLink(Linkable... links) {
+	public IChainParcelLink(Linkable... links) {
 		this(Arrays.asList(links));
 	}
 	
-	public IParcelChainLink(List<Linkable> links) {
+	public IChainParcelLink(List<Linkable> links) {
 		
 		first = links.get(0);
 		

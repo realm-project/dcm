@@ -5,7 +5,7 @@ import java.util.function.Function;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.link.ParcelLink;
 import net.realmproject.dcm.parcel.core.transform.ParcelTransformLink;
-import net.realmproject.dcm.parcel.impl.link.IParcelChainLink;
+import net.realmproject.dcm.parcel.impl.link.IChainParcelLink;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.transform.IParcelTransformLink;
 
@@ -48,7 +48,7 @@ public class Stats {
 //			.link(helloworld)
 //			.link(counter);
 
-		ParcelLink chain = new IParcelChainLink(timestamper, helloworld, counter);
+		ParcelLink chain = new IChainParcelLink(timestamper, helloworld, counter);
 		
 		
 		

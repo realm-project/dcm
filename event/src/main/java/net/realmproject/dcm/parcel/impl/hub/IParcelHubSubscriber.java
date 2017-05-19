@@ -1,30 +1,16 @@
 package net.realmproject.dcm.parcel.impl.hub;
 
-import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
-import net.realmproject.dcm.parcel.core.ParcelSender;
 import net.realmproject.dcm.parcel.core.hub.ParcelHub;
-import net.realmproject.dcm.parcel.impl.node.IParcelNode;
+import net.realmproject.dcm.parcel.impl.link.IParcelLink;
 
-public class IParcelHubSubscriber extends IParcelNode implements ParcelReceiver, ParcelSender {
 
-	private ParcelReceiver receiver;
+//TODO: Remove this now that the Link API is in place?
+public class IParcelHubSubscriber extends IParcelLink {
 	
 	public IParcelHubSubscriber(ParcelHub source, ParcelReceiver receiver) {
-		this.receiver = receiver;
+		super();
+		setReceiver(receiver);
 		source.link(this);
-	}
-	
-	@Override
-	public void receive(Parcel<?> parcel) {
-		send(parcel);
-	}
-
-	@Override
-	public void send(Parcel<?> parcel) {
-		receiver.receive(parcel);
-	}
-
-	
-	
+	}	
 }
