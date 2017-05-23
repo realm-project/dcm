@@ -1,7 +1,9 @@
 package net.realmproject.dcm.stock.examples.webserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +51,10 @@ public class WebServer {
 			return p;
 		});
 		
+		URL url = WebServer.class.getResource("contents");
+		File f = new File(url.toURI());
+		ParcelLink fileserver = new IParcelTransformLink(new FileServer(f.toString()));
+		
 		
 		IURLPathBrancher brancher2 = new IURLPathBrancher();
 
@@ -60,6 +66,7 @@ public class WebServer {
 		
 		//link nodes
 		service.link(brancher1);
+		brancher1.link("files", fileserver).link(service);
 		brancher1.link("words", brancher2);
 		brancher2.link("hello",  hello);
 		brancher2.link("world", world);
@@ -82,7 +89,7 @@ public class WebServer {
 		});
 		
 		server.start();
-		Thread.sleep(20000);
+		Thread.sleep(60000);
 		server.stop();
 		
 	}
