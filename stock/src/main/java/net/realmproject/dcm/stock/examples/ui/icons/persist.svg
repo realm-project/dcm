@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="persist.svg">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview6"
+     showgrid="true"
+     inkscape:zoom="27.812866"
+     inkscape:cx="3.6085974"
+     inkscape:cy="10.869054"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2987"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <path
+     style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     d="M 4 1 C 2.892 1 2 1.892 2 3 L 2 5 C 2 6.108 2.892 7 4 7 L 20 7 C 21.108 7 22 6.108 22 5 L 22 3 C 22 1.892 21.108 1 20 1 L 4 1 z M 4 3 L 20 3 L 20 5 L 4 5 L 4 3 z "
+     id="rect2985" />
+  <path
+     style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     d="M 4 9 C 2.892 9 2 9.892 2 11 L 2 13 C 2 14.108 2.892 15 4 15 L 20 15 C 21.108 15 22 14.108 22 13 L 22 11 C 22 9.892 21.108 9 20 9 L 4 9 z M 4 11 L 20 11 L 20 13 L 4 13 L 4 11 z "
+     id="rect3755" />
+  <path
+     style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     d="M 4 16.96875 C 2.892 16.96875 2 17.86075 2 18.96875 L 2 20.96875 C 2 22.07675 2.892 22.96875 4 22.96875 L 20 22.96875 C 21.108 22.96875 22 22.07675 22 20.96875 L 22 18.96875 C 22 17.86075 21.108 16.96875 20 16.96875 L 4 16.96875 z M 4 19 L 20 19 L 20 21 L 4 21 L 4 19 z "
+     id="rect3757" />
+</svg>

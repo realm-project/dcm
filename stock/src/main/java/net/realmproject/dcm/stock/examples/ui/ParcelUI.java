@@ -52,11 +52,11 @@ public class ParcelUI extends JPanel {
         add(toolbar, BorderLayout.NORTH);
 
         registerNodeType("generic", IParcelLink::new);
-        registerNodeType("generic", IParcelFilterLink::new);
+        registerNodeType("filter", IParcelFilterLink::new);
         registerNodeType("transform", IParcelTransformLink::new);
-        registerNodeType("router", IParcelHub::new);
-        registerNodeType("broadcaster", IParcelBeacon::new);
-        registerNodeType("persist", IParcelPrinter::new);
+        registerNodeType("hub", IParcelHub::new);
+        registerNodeType("beacon", IParcelBeacon::new);
+        registerNodeType("output", IParcelPrinter::new);
         
         
         properties = new JLabel("Properties");
@@ -68,9 +68,10 @@ public class ParcelUI extends JPanel {
     }
     
     private void registerNodeType(String type, Supplier<IParcelNode> creator) {
-        ImageIcon icon = new ImageIcon(ParcelUI.class.getResource("icons/24-black/" + type + ".png"));
-    	JButton button = new JButton(icon);
-        button.addActionListener(e -> graph.addNode(new GraphNode(creator.get(), icon.getImage())));
+        ImageIcon icon24 = new ImageIcon(ParcelUI.class.getResource("icons/24-black/" + type + ".png"));
+        ImageIcon icon48 = new ImageIcon(ParcelUI.class.getResource("icons/48-black/" + type + ".png"));
+    	JButton button = new JButton(icon24);
+        button.addActionListener(e -> graph.addNode(new GraphNode(creator.get(), icon48.getImage())));
         toolbar.add(button);
     }
 
