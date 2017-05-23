@@ -13,14 +13,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
-
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.flow.filter.IParcelFilterLink;
+import net.realmproject.dcm.parcel.impl.flow.filter.filters.PayloadClassFilter;
 import net.realmproject.dcm.parcel.impl.flow.hub.IParcelHub;
 import net.realmproject.dcm.parcel.impl.flow.link.IParcelLink;
 import net.realmproject.dcm.parcel.impl.flow.misc.IParcelBeacon;
 import net.realmproject.dcm.parcel.impl.flow.misc.IParcelPrinter;
 import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
+import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
+import net.realmproject.dcm.stock.examples.ui.events.NodeSelectionEvent;
+import net.realmproject.dcm.stock.examples.ui.graph.GraphNode;
+import net.realmproject.dcm.stock.examples.ui.graph.ParcelGraph;
+import net.realmproject.dcm.stock.examples.ui.graph.ParcelGraphScene;
 
 public class ParcelUI extends JPanel {
 	
@@ -28,6 +34,11 @@ public class ParcelUI extends JPanel {
 	ParcelGraph graph;
 	JToolBar toolbar;
 	JLabel properties;
+	
+	ParcelHub eventHub = new IParcelHub();
+	{
+		eventHub.setCopying(false);
+	}
 	
     public ParcelUI() {
         initComponents();
@@ -38,7 +49,7 @@ public class ParcelUI extends JPanel {
         JScrollPane scrollPane = new JScrollPane();
         add(scrollPane, BorderLayout.CENTER);
     
-        graph = new ParcelGraph();
+        graph = new ParcelGraph(this);
         
         //Get the scene:
         scene = graph.getScene();
@@ -65,6 +76,18 @@ public class ParcelUI extends JPanel {
         
         
         
+        getEventHub().filter(new PayloadClassFilter(NodeSelectionEvent.class)).link(new IParcelConsumer(parcel -> {
+        	onNodeSelect((NodeSelectionEvent) parcel.getPayload());
+        }));
+        
+    }
+    
+    private void onNodeSelect(NodeSelectionEvent event) {
+    	updateProperties(event.getGraphNode());
+    }
+    
+    private void updateProperties(GraphNode gn) {
+    	System.out.println("node selected");
     }
     
     private void registerNodeType(String type, Supplier<IParcelNode> creator) {
@@ -80,7 +103,7 @@ public class ParcelUI extends JPanel {
             @Override
             public void run() {
                 JFrame frame = new JFrame();
-                frame.setMinimumSize(new Dimension(500, 400));
+                frame.setMinimumSize(new Dimension(800, 600));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setContentPane(new ParcelUI());
                 frame.pack();
@@ -89,4 +112,8 @@ public class ParcelUI extends JPanel {
         });
     }
 	
+	public ParcelHub getEventHub() {
+		return eventHub;
+	}
+    
 }

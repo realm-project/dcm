@@ -1,27 +1,36 @@
-package net.realmproject.dcm.stock.examples.ui;
+package net.realmproject.dcm.stock.examples.ui.graph;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.netbeans.api.visual.action.WidgetAction.State;
 import org.netbeans.api.visual.widget.Widget;
 
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.linkable.ListLinkStart;
-import net.realmproject.dcm.parcel.core.linkable.ListLinkable;
 import net.realmproject.dcm.parcel.core.linkable.NamedLinkStart;
-import net.realmproject.dcm.parcel.core.linkable.NamedLinkable;
 import net.realmproject.dcm.parcel.core.linkable.SingleLinkStart;
-import net.realmproject.dcm.parcel.core.linkable.SingleLinkable;
+import net.realmproject.dcm.parcel.impl.flow.hub.IParcelHub;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
+import net.realmproject.dcm.stock.examples.ui.ParcelUI;
+import net.realmproject.dcm.stock.examples.ui.events.NodeSelectionEvent;
+import net.realmproject.dcm.stock.examples.ui.graph.actions.ClickAction;
 
 public class ParcelGraph {
 
 	private List<GraphNode> nodes = new ArrayList<>();
 	private ParcelGraphScene scene;
 	
-	public ParcelGraph() {
+	private ParcelUI parent;
+	
+	
+	
+	public ParcelGraph(ParcelUI parent) {
+		this.parent = parent;
 		scene = new ParcelGraphScene(this);
 	}
 	
@@ -31,18 +40,29 @@ public class ParcelGraph {
 		w.setPreferredLocation(new Point(10, 100));
 		node.setWidget(w);
 		scene.validate();
+		
+		w.getActions().addAction(new ClickAction((widget, event) -> {
+			select(nodeForWidget(widget));
+			return State.CONSUMED;
+		}));
+		
+	}
+	
+	private void select(GraphNode gn) {
+		parent.getEventHub().receive(new IParcel<>().payload(new NodeSelectionEvent(gn)));
+	}
+	
+	private GraphNode nodeForWidget(Widget w) {
+		for (GraphNode gn : nodes) {
+			if (gn.getWidget() == w){return gn;}
+		}
+		return null;
 	}
 	
 	
 	//Convenience method for addLink(GraphNodes1/2)
 	public boolean addLink(Widget w1, Widget w2) {
-		
-		GraphNode gn1=null, gn2=null;
-		for (GraphNode gn : nodes) {
-			if (gn.getWidget() == w1){gn1 = gn;}
-			if (gn.getWidget() == w2){gn2 = gn;}
-		}
-		
+		GraphNode gn1=nodeForWidget(w1), gn2=nodeForWidget(w2);
 		if (gn1 == null || gn2 == null) { return false; }
 		return addLink(gn1, gn2);
 	}
@@ -82,12 +102,7 @@ public class ParcelGraph {
 	
 	//Convenience method for addLink(GraphNodes1/2)
 	public boolean removeLink(Widget w1, Widget w2) {
-		GraphNode gn1=null, gn2=null;
-		for (GraphNode gn : nodes) {
-			if (gn.getWidget() == w1){gn1 = gn;}
-			if (gn.getWidget() == w2){gn2 = gn;}
-		}
-		
+		GraphNode gn1=nodeForWidget(w1), gn2=nodeForWidget(w2);
 		if (gn1 == null || gn2 == null) { return false; }
 		return removeLink(gn1, gn2);
 	}
@@ -127,6 +142,9 @@ public class ParcelGraph {
 	public ParcelGraphScene getScene() {
 		return scene;
 	}
+
+
+	
 	
 	
 	

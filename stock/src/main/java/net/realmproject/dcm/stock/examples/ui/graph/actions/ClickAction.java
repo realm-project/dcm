@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.examples.ui.actions;
+package net.realmproject.dcm.stock.examples.ui.graph.actions;
 
 import java.util.function.BiFunction;
 
