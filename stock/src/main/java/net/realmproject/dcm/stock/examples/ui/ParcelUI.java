@@ -3,15 +3,20 @@ package net.realmproject.dcm.stock.examples.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.function.Supplier;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.flow.filter.IParcelFilterLink;
@@ -22,7 +27,9 @@ import net.realmproject.dcm.parcel.impl.flow.misc.IParcelBeacon;
 import net.realmproject.dcm.parcel.impl.flow.misc.IParcelPrinter;
 import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
+import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
+import net.realmproject.dcm.stock.examples.ui.events.NodeChangeEvent;
 import net.realmproject.dcm.stock.examples.ui.events.NodeSelectionEvent;
 import net.realmproject.dcm.stock.examples.ui.graph.GraphNode;
 import net.realmproject.dcm.stock.examples.ui.graph.ParcelGraph;
@@ -33,7 +40,10 @@ public class ParcelUI extends JPanel {
 	ParcelGraphScene scene;
 	ParcelGraph graph;
 	JToolBar toolbar;
-	JLabel properties;
+	JTextField id;
+	JPanel sidebar;
+	
+	GraphNode selectedNode = null;
 	
 	ParcelHub eventHub = new IParcelHub();
 	{
@@ -46,6 +56,11 @@ public class ParcelUI extends JPanel {
 
     private void initComponents() {
         setLayout(new BorderLayout());
+        
+        sidebar = new JPanel();
+        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
+        add(sidebar, BorderLayout.WEST);
+        
         JScrollPane scrollPane = new JScrollPane();
         add(scrollPane, BorderLayout.CENTER);
     
@@ -56,7 +71,7 @@ public class ParcelUI extends JPanel {
         //Add it to the JScrollPane:
         scrollPane.setViewportView(scene.createView());
         //Add the SatellitView to the scene:
-        add(scene.createSatelliteView(), BorderLayout.WEST);
+        sidebar.add(scene.createSatelliteView());
         
         toolbar = new JToolBar();
         toolbar.setFloatable(false);
@@ -70,9 +85,24 @@ public class ParcelUI extends JPanel {
         registerNodeType("output", IParcelPrinter::new);
         
         
-        properties = new JLabel("Properties");
-        properties.setMinimumSize(new Dimension(300, 100));
-        add(properties, BorderLayout.EAST);
+        id = new JTextField("                    ");
+        id.addActionListener(e -> {
+        	if (selectedNode != null) {
+        		selectedNode.getNode().setId(id.getText());
+        		getEventHub().receive(new NodeChangeEvent(selectedNode));
+        	}
+        });
+        //id.setMinimumSize(new Dimension(200, 0));
+        JPanel properties = new JPanel();
+        properties.setLayout(new GridBagLayout());
+        properties.setMinimumSize(new Dimension(200, 100));
+        JLabel idlabel = new JLabel("ID");
+        idlabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        properties.add(idlabel);
+        properties.add(id);
+        sidebar.add(properties);
+        
+        
         
         
         
@@ -83,11 +113,15 @@ public class ParcelUI extends JPanel {
     }
     
     private void onNodeSelect(NodeSelectionEvent event) {
-    	updateProperties(event.getGraphNode());
+    	selectedNode = event.getGraphNode();
+    	updateProperties();
     }
     
-    private void updateProperties(GraphNode gn) {
-    	System.out.println("node selected");
+    private void updateProperties() {
+    	if (selectedNode == null) {
+    		return;
+    	}
+    	id.setText(selectedNode.getNode().getId());
     }
     
     private void registerNodeType(String type, Supplier<IParcelNode> creator) {

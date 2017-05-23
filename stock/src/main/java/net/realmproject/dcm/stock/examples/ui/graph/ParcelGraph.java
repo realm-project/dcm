@@ -6,17 +6,17 @@ import java.util.List;
 
 import org.netbeans.api.visual.action.WidgetAction.State;
 import org.netbeans.api.visual.widget.Widget;
+import org.netbeans.api.visual.widget.general.IconNodeWidget;
 
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
-import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.linkable.ListLinkStart;
 import net.realmproject.dcm.parcel.core.linkable.NamedLinkStart;
 import net.realmproject.dcm.parcel.core.linkable.SingleLinkStart;
-import net.realmproject.dcm.parcel.impl.flow.hub.IParcelHub;
-import net.realmproject.dcm.parcel.impl.parcel.IParcel;
+import net.realmproject.dcm.parcel.impl.flow.filter.filters.PayloadClassFilter;
 import net.realmproject.dcm.stock.examples.ui.ParcelUI;
+import net.realmproject.dcm.stock.examples.ui.events.NodeChangeEvent;
 import net.realmproject.dcm.stock.examples.ui.events.NodeSelectionEvent;
 import net.realmproject.dcm.stock.examples.ui.graph.actions.ClickAction;
 
@@ -32,6 +32,14 @@ public class ParcelGraph {
 	public ParcelGraph(ParcelUI parent) {
 		this.parent = parent;
 		scene = new ParcelGraphScene(this);
+		
+		parent.getEventHub().filter(new PayloadClassFilter(NodeChangeEvent.class)).link(p -> {
+			NodeChangeEvent event = (NodeChangeEvent) p.getPayload();
+			IconNodeWidget w = (IconNodeWidget) event.getGraphNode().getWidget();
+			w.setLabel(event.getGraphNode().getNode().getId());
+			scene.validate();
+		});
+		
 	}
 	
 	public void addNode(GraphNode node) {
@@ -49,7 +57,7 @@ public class ParcelGraph {
 	}
 	
 	private void select(GraphNode gn) {
-		parent.getEventHub().receive(new IParcel<>().payload(new NodeSelectionEvent(gn)));
+		parent.getEventHub().receive(new NodeSelectionEvent(gn));
 	}
 	
 	private GraphNode nodeForWidget(Widget w) {

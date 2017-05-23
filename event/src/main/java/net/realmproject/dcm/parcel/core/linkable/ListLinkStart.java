@@ -1,6 +1,7 @@
 package net.realmproject.dcm.parcel.core.linkable;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -11,6 +12,7 @@ import net.realmproject.dcm.parcel.core.flow.filter.ParcelFilterLink;
 import net.realmproject.dcm.parcel.core.flow.transform.ParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.flow.filter.IParcelFilterLink;
 import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
+import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
 
 public interface ListLinkStart extends ParcelSender {
 
@@ -52,6 +54,11 @@ public interface ListLinkStart extends ParcelSender {
 	default SingleLinkable transform(Function<Parcel<?>, Parcel<?>> transformer) {
 		ParcelTransformLink node = new IParcelTransformLink(transformer);
 		return link(node);
+	}
+	
+	default void link(Consumer<Parcel<?>> consumer) {
+		IParcelConsumer node = new IParcelConsumer(consumer);
+		link(node);
 	}
 	
 }
