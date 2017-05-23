@@ -50,10 +50,6 @@ public class ParcelGraph {
 	public boolean addLink(GraphNode gn1, GraphNode gn2) {
 		ParcelNode node1 = gn1.getNode();
 		ParcelNode node2 = gn2.getNode();
-		
-		
-		System.out.println(node1);
-		System.out.println(node2);
 				
 		if (node1 instanceof ParcelSender && node2 instanceof ParcelReceiver) {
 			ParcelSender sender = (ParcelSender) node1;
@@ -104,20 +100,20 @@ public class ParcelGraph {
 			ParcelSender sender = (ParcelSender) node1;
 			ParcelReceiver receiver = (ParcelReceiver) node2;
 			
-			if (sender instanceof SingleLinkable) {
-				SingleLinkable sl = (SingleLinkable) sender;
+			if (sender instanceof SingleLinkStart) {
+				SingleLinkStart sl = (SingleLinkStart) sender;
 				sl.unlink();
 				return true;
 			}
 			
-			if (sender instanceof ListLinkable) {
-				ListLinkable sl = (ListLinkable) sender;
+			if (sender instanceof ListLinkStart) {
+				ListLinkStart sl = (ListLinkStart) sender;
 				sl.unlink(receiver);
 				return true;
 			}
 			
-			if (sender instanceof NamedLinkable) {
-				NamedLinkable sl = (NamedLinkable) sender;
+			if (sender instanceof NamedLinkStart) {
+				NamedLinkStart sl = (NamedLinkStart) sender;
 				//TODO: how to support named links?
 				//sl.link(receiver);
 				//return true;

@@ -119,7 +119,9 @@ public class ParcelGraphScene extends GraphScene<GraphNode, String> {
 
 			conn.getActions().addAction(new ClickAction((widget, event) -> {
 				if (event.isControlDown()) {
-					connectionLayer.removeChild(conn);
+					if (graph.removeLink(source, target)) {
+						connectionLayer.removeChild(conn);
+					}
 					return State.CONSUMED;
 				}
 				return State.REJECTED;
