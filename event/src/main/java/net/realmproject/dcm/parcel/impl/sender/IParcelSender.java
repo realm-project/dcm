@@ -26,6 +26,7 @@ import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.core.linkable.SingleLinkStart;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 
@@ -36,7 +37,7 @@ import net.realmproject.dcm.parcel.impl.node.IParcelNode;
  *
  */
 
-public class IParcelSender extends IParcelNode implements ParcelNode, ParcelSender, Logging {
+public class IParcelSender extends IParcelNode implements ParcelNode, ParcelSender, SingleLinkStart, Logging {
 
     private ParcelReceiver receiver;
 
@@ -57,21 +58,28 @@ public class IParcelSender extends IParcelNode implements ParcelNode, ParcelSend
         getLog().trace("publish() called for " + parcel + " from " + this.getId());
         if (parcel == null) { return; }
         getLog().trace("Publishing parcel " + parcel + " from " + this.getId());
+        if (receiver == null) { return; }
         receiver.receive(parcel);
         getLog().trace("Parcel " + parcel + " Published from " + this.getId());
     }
 
-	public ParcelReceiver getReceiver() {
-		return receiver;
-	}
 
-	public void setReceiver(ParcelReceiver receiver) {
+
+
+	
+	@Override
+	public void link(ParcelReceiver receiver) {
 		this.receiver = receiver;
 	}
 
 	@Override
-	public List<ParcelReceiver> getLinks() {
-		return Collections.singletonList(receiver);
+	public void unlink() {
+		receiver = null;
+	}
+
+	@Override
+	public ParcelReceiver getLink() {
+		return receiver;
 	}
 
 	
