@@ -32,6 +32,8 @@ import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 import net.realmproject.dcm.util.DCMInterrupt;
 import net.realmproject.dcm.util.DCMThreadPool;
@@ -45,6 +47,7 @@ import net.realmproject.dcm.util.DCMThreadPool;
  *
  */
 
+@ParcelMetadata (name="Hub", type=ParcelNodeType.HUB)
 public class IParcelHub extends IParcelNode implements ParcelHub, Logging {
 	
 

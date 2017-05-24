@@ -9,7 +9,7 @@ import java.util.function.Function;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
-import net.realmproject.dcm.parcel.impl.flow.link.IChainParcelLink;
+import net.realmproject.dcm.parcel.impl.flow.link.ICompoundParcelLink;
 import net.realmproject.dcm.parcel.impl.flow.link.IThreadParcelLink;
 import net.realmproject.dcm.parcel.impl.flow.misc.IParcelLoadBalancer;
 import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
@@ -56,7 +56,7 @@ public class Batch {
 		//Generate thread/processing nodes
 		List<ParcelLink> workers = new ArrayList<>();
 		for (int i = 0; i < THREADS; i++) {
-			ParcelLink worker = new IChainParcelLink(
+			ParcelLink worker = new ICompoundParcelLink(
 				new IThreadParcelLink(),
 				new IParcelTransformLink(incrementer)
 			);

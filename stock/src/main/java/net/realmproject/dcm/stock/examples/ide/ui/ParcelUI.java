@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.JToolBar;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -41,6 +40,7 @@ import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
+import net.realmproject.dcm.stock.examples.ide.NodeUtil;
 import net.realmproject.dcm.stock.examples.ide.events.NodeChangeEvent;
 import net.realmproject.dcm.stock.examples.ide.events.NodeSelectionEvent;
 import net.realmproject.dcm.stock.examples.ide.graph.GraphNode;
@@ -51,7 +51,6 @@ public class ParcelUI extends JPanel {
 	
 	ParcelGraphScene scene;
 	ParcelGraph graph;
-	JToolBar toolbar;
 	JTextField id;
 	
 	Sidebar sidebar;
@@ -95,19 +94,7 @@ public class ParcelUI extends JPanel {
         //Add the SatellitView to the scene:
         //sidebar.add(scene.createSatelliteView());
         registerPanel("GraphOverview", scene.createSatelliteView());
-
-        
-        toolbar = new JToolBar();
-        toolbar.setFloatable(false);
-        //add(toolbar, BorderLayout.NORTH);
-
-        registerNodeType("generic", IParcelLink::new);
-        registerNodeType("filter", IParcelFilterLink::new);
-        registerNodeType("transform", IParcelTransformLink::new);
-        registerNodeType("hub", IParcelHub::new);
-        registerNodeType("beacon", IParcelBeacon::new);
-        registerNodeType("output", IParcelPrinter::new);
-        
+       
         
         id = new JTextField("                    ");
         id.addActionListener(e -> {
@@ -118,30 +105,23 @@ public class ParcelUI extends JPanel {
         });
         //id.setMinimumSize(new Dimension(200, 0));
         PropertiesPanel properties = new PropertiesPanel(this, sidebar);
-        registerPanel("Node Properties", makeScrolledPanel(properties, 400));
+        registerPanel("Node Properties", properties);
         
         getEventHub().filter(new PayloadClassFilter(NodeSelectionEvent.class)).link(new IParcelConsumer(parcel -> {
         	onNodeSelect((NodeSelectionEvent) parcel.getPayload());
         }));
+        
+        sidebar.finalizeSidebar();
         
     }
     
     private void onNodeSelect(NodeSelectionEvent event) {
     	selectedNode = event.getGraphNode();
     }
-
-    
-    private void registerNodeType(String type, Supplier<IParcelNode> creator) {
-        ImageIcon icon24 = new ImageIcon(ParcelUI.class.getResource("icons/24-black/" + type + ".png"));
-        ImageIcon icon48 = new ImageIcon(ParcelUI.class.getResource("icons/48-black/" + type + ".png"));
-    	JButton button = new JButton(icon24);
-        button.addActionListener(e -> graph.addNode(new GraphNode(creator.get(), icon48.getImage())));
-        toolbar.add(button);
-    }
     
     private void addNodeFromClass(Class<? extends ParcelNode> nodeClass) {
     	try {
-        	String type = "generic";
+        	String type = NodeUtil.getType(nodeClass).toString().toLowerCase();
         	ImageIcon icon48 = new ImageIcon(ParcelUI.class.getResource("icons/48-black/" + type + ".png"));
 			GraphNode gn = new GraphNode(nodeClass.newInstance(), icon48.getImage());
 			graph.addNode(gn);
@@ -170,16 +150,16 @@ public class ParcelUI extends JPanel {
     
     public static void main(String args[]) {
     	
-    	try {
-    	    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-    	        if ("Nimbus".equals(info.getName())) {
-    	            UIManager.setLookAndFeel(info.getClassName());
-    	            break;
-    	        }
-    	    }
-    	} catch (Exception e) {
-    	    // If Nimbus is not available, you can set the GUI to another look and feel.
-    	}
+//    	try {
+//    	    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//    	        if ("Nimbus".equals(info.getName())) {
+//    	            UIManager.setLookAndFeel(info.getClassName());
+//    	            break;
+//    	        }
+//    	    }
+//    	} catch (Exception e) {
+//    	    // If Nimbus is not available, you can set the GUI to another look and feel.
+//    	}
     	
         EventQueue.invokeLater(new Runnable() {
             @Override

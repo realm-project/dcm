@@ -1,4 +1,4 @@
-package net.realmproject.dcm.parcel.impl.flow.transform;
+package net.realmproject.dcm.parcel.impl.flow.transform.javascript;
 
 import java.util.function.Function;
 
@@ -12,7 +12,7 @@ import net.realmproject.dcm.parcel.core.Parcel;
 public class JavaScriptParcelTransform implements Function<Parcel<?>, Parcel<?>> {
 
 	private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("JavaScript");
-	private final String script;
+	private String script;
 
 	public JavaScriptParcelTransform(String script) {
 		this.script = script;
@@ -32,5 +32,16 @@ public class JavaScriptParcelTransform implements Function<Parcel<?>, Parcel<?>>
 	    return null;
 	    
 	}
+
+	public String getScript() {
+		return script;
+	}
+
+	public void setScript(String script) {
+		this.script = script;
+	}
+	
+	
+	
 
 }

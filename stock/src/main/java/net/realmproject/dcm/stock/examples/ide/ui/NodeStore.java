@@ -8,6 +8,7 @@ import org.reflections.Reflections;
 
 import javassist.Modifier;
 import net.realmproject.dcm.parcel.core.ParcelNode;
+import net.realmproject.dcm.stock.examples.ide.NodeUtil;
 
 public class NodeStore {
 
@@ -19,7 +20,7 @@ public class NodeStore {
 		reflections = new Reflections("net.realmproject.dcm");
 		Set<Class<? extends ParcelNode>> allClasses = reflections.getSubTypesOf(ParcelNode.class);
 		nodeClasses = allClasses.stream().filter(c -> !(c.isInterface() || isAbstract(c) || c.isAnonymousClass())).collect(Collectors.toList());
-		nodeClasses.sort((a, b) -> a.getSimpleName().compareTo(b.getSimpleName()));
+		nodeClasses.sort((a, b) -> NodeUtil.getName(a).compareTo(NodeUtil.getName(b)));
 
 	}
 	

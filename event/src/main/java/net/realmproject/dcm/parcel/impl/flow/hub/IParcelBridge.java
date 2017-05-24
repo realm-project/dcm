@@ -3,6 +3,8 @@ package net.realmproject.dcm.parcel.impl.flow.hub;
 
 import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.impl.flow.link.IParcelLink;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 
@@ -14,7 +16,7 @@ import net.realmproject.dcm.parcel.impl.node.IParcelNode;
  * @author NAS
  *
  */
-
+@ParcelMetadata (name="Hub Bridge", type=ParcelNodeType.OTHER)
 public class IParcelBridge extends IParcelNode {
 
 	private ParcelLink to1, to2;

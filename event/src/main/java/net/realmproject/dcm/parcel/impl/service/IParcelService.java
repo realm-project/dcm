@@ -7,12 +7,15 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.core.service.ParcelService;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.sender.IParcelSender;
 import net.realmproject.dcm.util.DCMThreadPool;
 
 //TODO: purge really old entries which are never fulfilled.
+@ParcelMetadata (name="Service", type=ParcelNodeType.SERVICE)
 public class IParcelService<F, T> extends IParcelSender implements ParcelService<F, T> {
 
 	Map<String, BlockingQueue<T>> resultQueues = new HashMap<>();

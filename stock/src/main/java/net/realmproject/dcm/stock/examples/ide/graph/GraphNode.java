@@ -9,12 +9,15 @@ import org.netbeans.api.visual.widget.Widget;
 import org.openide.util.ImageUtilities;
 
 import net.realmproject.dcm.parcel.core.ParcelNode;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 
 public class GraphNode {
 
 	private ParcelNode node;
 	private Image image;
 	private Widget widget;
+	
 	
 	public GraphNode(ParcelNode node, Image image) {
 		this.node = node;
@@ -44,12 +47,6 @@ public class GraphNode {
 	public void setWidget(Widget widget) {
 		this.widget = widget;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 }

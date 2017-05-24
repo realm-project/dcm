@@ -7,9 +7,12 @@ import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.routing.ParcelRouter;
 import net.realmproject.dcm.parcel.core.flow.routing.Route;
 import net.realmproject.dcm.parcel.core.flow.routing.RoutingTable;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.impl.flow.hub.IParcelHub;
 import net.realmproject.dcm.parcel.impl.flow.routing.routingtable.linkable.LinkableRoutingTable;
 
+@ParcelMetadata (name="Router", type=ParcelNodeType.HUB)
 public class IParcelRouter extends IParcelHub implements ParcelRouter {
 
 	private RoutingTable routes = new LinkableRoutingTable(this);

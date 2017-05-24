@@ -1,5 +1,6 @@
 package net.realmproject.dcm.stock.examples.ide.ui;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,6 +16,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.openide.explorer.propertysheet.PropertySheet;
+import org.openide.explorer.propertysheet.PropertySheetView;
 
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.impl.flow.filter.filters.PayloadClassFilter;
@@ -41,10 +44,10 @@ public class PropertiesPanel extends JPanel {
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(10, 0, 0, 0);
 		c.ipadx = 3;
 		c.ipady = 3;
-		
+				
         parent.getEventHub().filter(new PayloadClassFilter(NodeSelectionEvent.class)).link(new IParcelConsumer(parcel -> {
         	SwingUtilities.invokeLater(() -> {
         		nodeSelected((NodeSelectionEvent) parcel.getPayload());
@@ -54,6 +57,7 @@ public class PropertiesPanel extends JPanel {
 	}
 	
 	public void nodeSelected(NodeSelectionEvent event) {
+				
 		this.removeAll();
 		c.gridy=0;
 		
@@ -81,6 +85,7 @@ public class PropertiesPanel extends JPanel {
 				parent.getEventHub().receive(new NodeChangeEvent(event.getGraphNode()));
 			});
 
+			
 			c.gridy++;
 			
 		}

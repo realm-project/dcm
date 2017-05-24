@@ -6,7 +6,10 @@ import java.util.function.Function;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.branch.ParcelBranch;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 
+@ParcelMetadata (name="Branch", type=ParcelNodeType.BRANCH)
 public class IParcelBranch extends AbstractParcelBranch implements ParcelBranch {
 
 	private Function<Parcel<?>, String> branchResolver = Parcel::getName;

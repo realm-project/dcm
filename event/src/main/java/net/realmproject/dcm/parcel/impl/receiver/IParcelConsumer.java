@@ -4,6 +4,8 @@ import java.util.function.Consumer;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.util.DCMUtil;
 
 
@@ -12,6 +14,7 @@ import net.realmproject.dcm.util.DCMUtil;
  * @author NAS
  *
  */
+@ParcelMetadata (name="Consumer", type=ParcelNodeType.ENDPOINT)
 public class IParcelConsumer implements ParcelReceiver {
 
 	private String id = DCMUtil.generateId(); 

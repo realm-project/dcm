@@ -2,8 +2,11 @@ package net.realmproject.dcm.parcel.impl.flow.routing;
 
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.routing.ParcelRouter;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 
+@ParcelMetadata (name="Routing Bridge", type=ParcelNodeType.OTHER)
 public class IRoutingParcelBridge extends IParcelNode {
 
 	private ParcelReceiver to1, to2;

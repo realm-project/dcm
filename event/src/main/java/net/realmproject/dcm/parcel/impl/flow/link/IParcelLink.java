@@ -24,6 +24,8 @@ import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.core.flow.link.ParcelLink;
 import net.realmproject.dcm.parcel.core.linkable.SingleLinkable;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 
 /**
@@ -33,6 +35,7 @@ import net.realmproject.dcm.parcel.impl.node.IParcelNode;
  * @author NAS
  *
  */
+@ParcelMetadata (name="Link", type=ParcelNodeType.OTHER)
 public class IParcelLink extends IParcelNode implements ParcelLink {
 
 	protected ParcelReceiver receiver;

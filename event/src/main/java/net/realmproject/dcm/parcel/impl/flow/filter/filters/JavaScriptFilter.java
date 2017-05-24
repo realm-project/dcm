@@ -12,7 +12,7 @@ import net.realmproject.dcm.parcel.core.Parcel;
 public class JavaScriptFilter implements Predicate<Parcel<?>> {
 
 	private static final ScriptEngine ENGINE = new ScriptEngineManager().getEngineByName("JavaScript");
-	private final String script;
+	private String script;
 	
 	public JavaScriptFilter(String script) {
 		this.script = script;
@@ -35,4 +35,14 @@ public class JavaScriptFilter implements Predicate<Parcel<?>> {
 	    return false;
 	}
 
+	public String getScript() {
+		return script;
+	}
+
+	public void setScript(String script) {
+		this.script = script;
+	}
+
+	
+	
 }

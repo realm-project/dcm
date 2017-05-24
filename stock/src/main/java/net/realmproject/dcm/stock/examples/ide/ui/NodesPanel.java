@@ -1,5 +1,6 @@
 package net.realmproject.dcm.stock.examples.ide.ui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
@@ -12,8 +13,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
 
 import net.realmproject.dcm.parcel.core.ParcelNode;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.stock.examples.ide.NodeUtil;
 
 public class NodesPanel extends JPanel {
 
@@ -28,11 +33,17 @@ public class NodesPanel extends JPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		
 		for (Class<? extends ParcelNode> clazz : nodeStore.getParcelNodeClasses()) {
-			String type = "generic";
+			String type = NodeUtil.getType(clazz).toString().toLowerCase();
+			String name = NodeUtil.getName(clazz);
+
 			Icon icon = new ImageIcon(ParcelUI.class.getResource("icons/24-black/" + type + ".png"));
-			JButton btn = new JButton(clazz.getSimpleName(), icon);
+			JButton btn = new JButton(name, icon);
 			btn.setHorizontalAlignment(SwingConstants.LEFT);
 			add(btn, c);
+			
+			btn.setBackground(new Color(UIManager.getColor("Panel.background").getRGB()));
+			btn.setBorder(new BevelBorder(BevelBorder.RAISED));
+			
 			btn.addActionListener(e -> {
 				consumer.accept(clazz);
 			});

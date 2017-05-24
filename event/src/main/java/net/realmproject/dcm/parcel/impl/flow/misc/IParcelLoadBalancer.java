@@ -7,8 +7,11 @@ import java.util.List;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.ParcelSender;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 
+@ParcelMetadata (name="Load Balancer", type=ParcelNodeType.BRANCH)
 public class IParcelLoadBalancer extends IParcelNode implements ParcelReceiver, ParcelSender  {
 
 	private int nextIndex = 0;

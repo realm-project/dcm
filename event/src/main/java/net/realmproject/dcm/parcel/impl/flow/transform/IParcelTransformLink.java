@@ -4,8 +4,11 @@ import java.util.function.Function;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.flow.transform.ParcelTransformLink;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.impl.flow.link.IParcelLink;
 
+@ParcelMetadata (name="Transform", type=ParcelNodeType.TRANSFORM)
 public class IParcelTransformLink extends IParcelLink implements ParcelTransformLink {
 
 	private Function<Parcel<?>, Parcel<?>> transform = null;

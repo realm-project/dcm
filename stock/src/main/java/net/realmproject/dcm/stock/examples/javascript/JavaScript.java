@@ -8,7 +8,7 @@ import net.realmproject.dcm.parcel.core.service.ParcelService;
 import net.realmproject.dcm.parcel.impl.flow.branch.IParcelBranch;
 import net.realmproject.dcm.parcel.impl.flow.branch.JavaScriptBranchResolver;
 import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
-import net.realmproject.dcm.parcel.impl.flow.transform.JavaScriptParcelTransform;
+import net.realmproject.dcm.parcel.impl.flow.transform.javascript.JavaScriptParcelTransform;
 import net.realmproject.dcm.parcel.impl.service.IParcelService;
 
 public class JavaScript {

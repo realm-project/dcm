@@ -6,17 +6,20 @@ import java.util.List;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
 import net.realmproject.dcm.parcel.core.linkable.SingleLinkable;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 
-public class IChainParcelLink extends IParcelLink {
+@ParcelMetadata (name="Compound Link", type=ParcelNodeType.OTHER)
+public class ICompoundParcelLink extends IParcelLink {
 
 	private SingleLinkable first;
 	private SingleLinkable last;
 	
-	public IChainParcelLink(SingleLinkable... links) {
+	public ICompoundParcelLink(SingleLinkable... links) {
 		this(Arrays.asList(links));
 	}
 	
-	public IChainParcelLink(List<SingleLinkable> links) {
+	public ICompoundParcelLink(List<SingleLinkable> links) {
 		
 		first = links.get(0);
 		

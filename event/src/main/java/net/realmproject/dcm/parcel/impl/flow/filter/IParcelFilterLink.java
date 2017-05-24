@@ -4,8 +4,11 @@ import java.util.function.Predicate;
 
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.flow.filter.ParcelFilterLink;
+import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
+import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
 import net.realmproject.dcm.parcel.impl.flow.link.IParcelLink;
 
+@ParcelMetadata (name="Filter", type=ParcelNodeType.FILTER)
 public class IParcelFilterLink extends IParcelLink implements ParcelFilterLink {
 
     private Predicate<Parcel<?>> filter = null;
