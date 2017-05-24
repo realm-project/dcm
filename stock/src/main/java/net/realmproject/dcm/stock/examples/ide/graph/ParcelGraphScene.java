@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.examples.ui.graph;
+package net.realmproject.dcm.stock.examples.ide.graph;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -20,7 +20,7 @@ import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 
-import net.realmproject.dcm.stock.examples.ui.graph.actions.ClickAction;
+import net.realmproject.dcm.stock.examples.ide.graph.actions.ClickAction;
 
 
 public class ParcelGraphScene extends GraphScene<GraphNode, String> {

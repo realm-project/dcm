@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.examples.ui.graph.actions;
+package net.realmproject.dcm.stock.examples.ide.graph.actions;
 
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.Widget;

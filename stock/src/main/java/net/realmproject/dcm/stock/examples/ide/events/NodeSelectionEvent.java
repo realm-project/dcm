@@ -1,6 +1,6 @@
-package net.realmproject.dcm.stock.examples.ui.events;
+package net.realmproject.dcm.stock.examples.ide.events;
 
-import net.realmproject.dcm.stock.examples.ui.graph.GraphNode;
+import net.realmproject.dcm.stock.examples.ide.graph.GraphNode;
 
 public class NodeSelectionEvent {
 

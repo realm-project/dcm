@@ -1,23 +1,35 @@
-package net.realmproject.dcm.stock.examples.ui;
+package net.realmproject.dcm.stock.examples.ide.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.ScrollPane;
 import java.util.function.Supplier;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.border.EmptyBorder;
 
+import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.flow.filter.IParcelFilterLink;
 import net.realmproject.dcm.parcel.impl.flow.filter.filters.PayloadClassFilter;
@@ -29,11 +41,11 @@ import net.realmproject.dcm.parcel.impl.flow.transform.IParcelTransformLink;
 import net.realmproject.dcm.parcel.impl.node.IParcelNode;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
-import net.realmproject.dcm.stock.examples.ui.events.NodeChangeEvent;
-import net.realmproject.dcm.stock.examples.ui.events.NodeSelectionEvent;
-import net.realmproject.dcm.stock.examples.ui.graph.GraphNode;
-import net.realmproject.dcm.stock.examples.ui.graph.ParcelGraph;
-import net.realmproject.dcm.stock.examples.ui.graph.ParcelGraphScene;
+import net.realmproject.dcm.stock.examples.ide.events.NodeChangeEvent;
+import net.realmproject.dcm.stock.examples.ide.events.NodeSelectionEvent;
+import net.realmproject.dcm.stock.examples.ide.graph.GraphNode;
+import net.realmproject.dcm.stock.examples.ide.graph.ParcelGraph;
+import net.realmproject.dcm.stock.examples.ide.graph.ParcelGraphScene;
 
 public class ParcelUI extends JPanel {
 	
@@ -41,8 +53,10 @@ public class ParcelUI extends JPanel {
 	ParcelGraph graph;
 	JToolBar toolbar;
 	JTextField id;
-	JPanel sidebar;
 	
+	Sidebar sidebar;
+	
+
 	GraphNode selectedNode = null;
 	
 	ParcelHub eventHub = new IParcelHub();
@@ -57,13 +71,21 @@ public class ParcelUI extends JPanel {
     private void initComponents() {
         setLayout(new BorderLayout());
         
-        sidebar = new JPanel();
-        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        add(sidebar, BorderLayout.WEST);
         
-        JScrollPane scrollPane = new JScrollPane();
+        
+        
+
+        sidebar = new Sidebar();
+        JScrollPane sidescroll = new JScrollPane(sidebar);
+        sidescroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        add(sidescroll, BorderLayout.EAST);
+        
+        JScrollPane scrollPane = new JScrollPane();        
         add(scrollPane, BorderLayout.CENTER);
-    
+        
+        NodesPanel nodePanel = new NodesPanel(this::addNodeFromClass);
+        registerPanel("Components", makeScrolledPanel(nodePanel, 400));
+        
         graph = new ParcelGraph(this);
         
         //Get the scene:
@@ -71,11 +93,13 @@ public class ParcelUI extends JPanel {
         //Add it to the JScrollPane:
         scrollPane.setViewportView(scene.createView());
         //Add the SatellitView to the scene:
-        sidebar.add(scene.createSatelliteView());
+        //sidebar.add(scene.createSatelliteView());
+        registerPanel("GraphOverview", scene.createSatelliteView());
+
         
         toolbar = new JToolBar();
         toolbar.setFloatable(false);
-        add(toolbar, BorderLayout.NORTH);
+        //add(toolbar, BorderLayout.NORTH);
 
         registerNodeType("generic", IParcelLink::new);
         registerNodeType("filter", IParcelFilterLink::new);
@@ -93,18 +117,8 @@ public class ParcelUI extends JPanel {
         	}
         });
         //id.setMinimumSize(new Dimension(200, 0));
-        JPanel properties = new JPanel();
-        properties.setLayout(new GridBagLayout());
-        properties.setMinimumSize(new Dimension(200, 100));
-        JLabel idlabel = new JLabel("ID");
-        idlabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        properties.add(idlabel);
-        properties.add(id);
-        sidebar.add(properties);
-        
-        
-        
-        
+        PropertiesPanel properties = new PropertiesPanel(this, sidebar);
+        registerPanel("Node Properties", makeScrolledPanel(properties, 400));
         
         getEventHub().filter(new PayloadClassFilter(NodeSelectionEvent.class)).link(new IParcelConsumer(parcel -> {
         	onNodeSelect((NodeSelectionEvent) parcel.getPayload());
@@ -114,15 +128,8 @@ public class ParcelUI extends JPanel {
     
     private void onNodeSelect(NodeSelectionEvent event) {
     	selectedNode = event.getGraphNode();
-    	updateProperties();
     }
-    
-    private void updateProperties() {
-    	if (selectedNode == null) {
-    		return;
-    	}
-    	id.setText(selectedNode.getNode().getId());
-    }
+
     
     private void registerNodeType(String type, Supplier<IParcelNode> creator) {
         ImageIcon icon24 = new ImageIcon(ParcelUI.class.getResource("icons/24-black/" + type + ".png"));
@@ -131,8 +138,49 @@ public class ParcelUI extends JPanel {
         button.addActionListener(e -> graph.addNode(new GraphNode(creator.get(), icon48.getImage())));
         toolbar.add(button);
     }
+    
+    private void addNodeFromClass(Class<? extends ParcelNode> nodeClass) {
+    	try {
+        	String type = "generic";
+        	ImageIcon icon48 = new ImageIcon(ParcelUI.class.getResource("icons/48-black/" + type + ".png"));
+			GraphNode gn = new GraphNode(nodeClass.newInstance(), icon48.getImage());
+			graph.addNode(gn);
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+    }
 
+    private ScrollSizedPanel makeScrolledPanel(JComponent component, int height) {
+    	//first put the component in a scrollpane
+    	JScrollPane scroll = new JScrollPane(component);
+    	scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    	
+    	//then wrap the scrollpane in a panel to limit the height
+    	ScrollSizedPanel panel = new ScrollSizedPanel(scroll, height);
+    	
+    	return panel;
+    }
+    
+    private void registerPanel(String title, JComponent component) {
+
+    	Expander exp = new Expander(title, component);
+    	//sidebar.add(scroll, sidebarConstraints);
+    	sidebar.addSidebarPanel(exp);
+    }
+    
     public static void main(String args[]) {
+    	
+    	try {
+    	    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+    	        if ("Nimbus".equals(info.getName())) {
+    	            UIManager.setLookAndFeel(info.getClassName());
+    	            break;
+    	        }
+    	    }
+    	} catch (Exception e) {
+    	    // If Nimbus is not available, you can set the GUI to another look and feel.
+    	}
+    	
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

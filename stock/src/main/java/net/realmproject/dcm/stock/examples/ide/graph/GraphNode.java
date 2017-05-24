@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.examples.ui.graph;
+package net.realmproject.dcm.stock.examples.ide.graph;
 
 import java.awt.Image;
 

@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.examples.ui.graph;
+package net.realmproject.dcm.stock.examples.ide.graph;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ import net.realmproject.dcm.parcel.core.linkable.ListLinkStart;
 import net.realmproject.dcm.parcel.core.linkable.NamedLinkStart;
 import net.realmproject.dcm.parcel.core.linkable.SingleLinkStart;
 import net.realmproject.dcm.parcel.impl.flow.filter.filters.PayloadClassFilter;
-import net.realmproject.dcm.stock.examples.ui.ParcelUI;
-import net.realmproject.dcm.stock.examples.ui.events.NodeChangeEvent;
-import net.realmproject.dcm.stock.examples.ui.events.NodeSelectionEvent;
-import net.realmproject.dcm.stock.examples.ui.graph.actions.ClickAction;
+import net.realmproject.dcm.stock.examples.ide.events.NodeChangeEvent;
+import net.realmproject.dcm.stock.examples.ide.events.NodeSelectionEvent;
+import net.realmproject.dcm.stock.examples.ide.graph.actions.ClickAction;
+import net.realmproject.dcm.stock.examples.ide.ui.ParcelUI;
 
 public class ParcelGraph {
 
