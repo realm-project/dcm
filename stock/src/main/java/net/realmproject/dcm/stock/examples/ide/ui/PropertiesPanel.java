@@ -1,23 +1,28 @@
 package net.realmproject.dcm.stock.examples.ide.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.Image;
+import java.beans.BeanDescriptor;
+import java.beans.BeanInfo;
+import java.beans.EventSetDescriptor;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
-import java.beans.PropertyEditor;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.openide.explorer.propertysheet.PropertySheet;
-import org.openide.explorer.propertysheet.PropertySheetView;
+import org.openide.nodes.BeanNode;
+
+import com.github.sarxos.l2fprod.sheet.DefaultBeanBinder;
+import com.l2fprod.common.propertysheet.Property;
+import com.l2fprod.common.propertysheet.PropertySheetPanel;
 
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.impl.flow.filter.filters.PayloadClassFilter;
@@ -27,26 +32,14 @@ import net.realmproject.dcm.stock.examples.ide.events.NodeSelectionEvent;
 
 public class PropertiesPanel extends JPanel {
 
-	GridBagConstraints c = new GridBagConstraints();
 	ParcelUI parent;
 	Sidebar sidebar;
 	
 	public PropertiesPanel(ParcelUI parent, Sidebar sidebar) {
 		this.parent = parent;
 		this.sidebar = sidebar;
-		
-		setLayout(new GridBagLayout());
-		
-		c.gridx = 0;
-		c.gridy = 0;
-		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1.0;
-		c.weighty = 1.0;
-		
-		c.insets = new Insets(10, 0, 0, 0);
-		c.ipadx = 3;
-		c.ipady = 3;
+				
+		setLayout(new BorderLayout());
 				
         parent.getEventHub().filter(new PayloadClassFilter(NodeSelectionEvent.class)).link(new IParcelConsumer(parcel -> {
         	SwingUtilities.invokeLater(() -> {
@@ -57,38 +50,35 @@ public class PropertiesPanel extends JPanel {
 	}
 	
 	public void nodeSelected(NodeSelectionEvent event) {
-				
+
+
 		this.removeAll();
-		c.gridy=0;
+		
 		
 		ParcelNode node = event.getGraphNode().getNode();
-		
-		PropertyDescriptor[] pds = PropertyUtils.getPropertyDescriptors(node);
-		
-		for (PropertyDescriptor pd : pds) {
-			if (!String.class.isAssignableFrom(pd.getPropertyType())) {continue;}
-			
-			c.gridx = 0;
-			c.fill = GridBagConstraints.NONE;
-			JLabel label = new JLabel(pd.getDisplayName());
-			label.setToolTipText(pd.getShortDescription());
-			label.setHorizontalAlignment(SwingConstants.RIGHT);
-			add(label, c);
-			
-			c.gridx = 1;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			JTextField textbox = new JTextField();
-			textbox.setText(getValue(node, pd.getName()));
-			add(textbox, c);
-			textbox.addActionListener(e -> {
-				setValue(node, pd.getName(), textbox.getText());
-				parent.getEventHub().receive(new NodeChangeEvent(event.getGraphNode()));
-			});
+		PropertySheetPanel panel = new PropertySheetPanel();
 
-			
-			c.gridy++;
-			
+		BeanInfo info = null;
+		try {
+			info = Introspector.getBeanInfo(node.getClass());
+		} catch (IntrospectionException e1) {
+			e1.printStackTrace();
 		}
+		
+		new DefaultBeanBinder(node, panel, info);
+		panel.getTable().getColumnModel().getColumn(0).setPreferredWidth(80);
+		panel.getTable().getColumnModel().getColumn(1).setPreferredWidth(120);
+		panel.getTable().setPreferredScrollableViewportSize(new Dimension(200, 400));
+		
+		panel.addPropertySheetChangeListener(e -> {
+			Property prop = (Property) e.getSource();
+			prop.writeToObject(node);
+			parent.getEventHub().receive(new NodeChangeEvent(event.getGraphNode()));
+		});
+		
+		
+		add(panel, BorderLayout.CENTER);
+		
 		
 		sidebar.revalidate();
 		sidebar.repaint();
@@ -96,23 +86,8 @@ public class PropertiesPanel extends JPanel {
 				
 	}
 	
-	private String getValue(ParcelNode node, String propertyName) {
-		try {
-			return PropertyUtils.getSimpleProperty(node, propertyName).toString();
-		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-	
-	private void setValue(ParcelNode node, String propertyName, String value) {
-		try {
-			PropertyUtils.setSimpleProperty(node, propertyName, value);
-		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
 	
 }
+
+
+

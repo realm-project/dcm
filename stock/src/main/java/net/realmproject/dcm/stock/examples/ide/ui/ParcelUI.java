@@ -76,6 +76,7 @@ public class ParcelUI extends JPanel {
 
         sidebar = new Sidebar();
         JScrollPane sidescroll = new JScrollPane(sidebar);
+        sidescroll.getVerticalScrollBar().setUnitIncrement(10);
         sidescroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         add(sidescroll, BorderLayout.EAST);
         
@@ -134,6 +135,7 @@ public class ParcelUI extends JPanel {
     	//first put the component in a scrollpane
     	JScrollPane scroll = new JScrollPane(component);
     	scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    	scroll.getVerticalScrollBar().setUnitIncrement(10);
     	
     	//then wrap the scrollpane in a panel to limit the height
     	ScrollSizedPanel panel = new ScrollSizedPanel(scroll, height);
