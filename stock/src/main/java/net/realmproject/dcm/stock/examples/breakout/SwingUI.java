@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,38 +18,39 @@ import javax.swing.JPanel;
 
 import net.realmproject.dcm.features.command.Command;
 import net.realmproject.dcm.parcel.core.Parcel;
+import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.ParcelReceiver;
+import net.realmproject.dcm.parcel.core.ParcelSender;
 import net.realmproject.dcm.parcel.core.flow.hub.ParcelHub;
 import net.realmproject.dcm.parcel.impl.flow.filter.FilterBuilder;
 import net.realmproject.dcm.parcel.impl.flow.filter.IParcelFilterLink;
+import net.realmproject.dcm.parcel.impl.flow.link.IParcelLink;
 import net.realmproject.dcm.parcel.impl.parcel.IParcel;
 import net.realmproject.dcm.stock.camera.Frame;
 import net.realmproject.dcm.stock.examples.breakout.engine.Axes;
 import net.realmproject.dcm.util.DCMUtil;
 
-public class SwingUI extends JFrame implements ParcelReceiver {
+public class SwingUI extends IParcelLink {
 
-	private String id = DCMUtil.generateId();
-	private ParcelHub hub;
+	//private ParcelHub hub;
 	private Display display; 
+	private JFrame frame;
 	
-	public SwingUI(String id, ParcelHub hub) {
+	public SwingUI() {
 		super();
-		this.hub = hub;
-		this.id = id;
 
-		setTitle("Breakout");
+		frame = new JFrame();
+		
+		frame.setTitle("Breakout");
 		
 		display = new Display();
-		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(display, BorderLayout.CENTER);
+		frame.getContentPane().setLayout(new BorderLayout());
+		frame.getContentPane().add(display, BorderLayout.CENTER);
 		
-		hub
-			.link(new IParcelFilterLink(FilterBuilder.start().payload(Frame.class)))
-			.link(this);
+
 		
 		
-		addKeyListener(new KeyListener() {
+		frame.addKeyListener(new KeyListener() {
 
 			boolean left, right;
 			Timer timer;
@@ -66,7 +68,7 @@ public class SwingUI extends JFrame implements ParcelReceiver {
 							Command cmd = new Command("move");
 							cmd.setProperty("axes", axes);
 							
-							hub.receive(new IParcel<>().targetId("breakout-engine").payload(cmd));
+							send(new IParcel<>().targetId("breakout-engine").payload(cmd));
 						}
 					}
 				}, 33, 33);
@@ -99,33 +101,28 @@ public class SwingUI extends JFrame implements ParcelReceiver {
 			}
 		});
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pack();
-		setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
 	}
 
-	@Override
-	public String getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	@Override
 	public void receive(Parcel<?> parcel) {
-		Frame frame = (Frame) parcel.getPayload();
-		try {
-			BufferedImage image = ImageIO.read(new ByteArrayInputStream(frame.image));
-			display.image = image;
-			display.repaint();
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		if (parcel.getPayload() instanceof Frame) {
+			try {
+				Frame frame = (Frame) parcel.getPayload();
+				BufferedImage image = ImageIO.read(new ByteArrayInputStream(frame.image));
+				display.image = image;
+				display.repaint();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	
+
+
 
 		
 	

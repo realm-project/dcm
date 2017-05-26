@@ -14,9 +14,10 @@ import java.util.stream.Collectors;
 import javax.print.attribute.standard.PrinterMessageFromOperator;
 import javax.servlet.http.HttpServletResponse;
 
+import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
 
-public class FileServer implements Function<Parcel<?>, Parcel<?>> {
+public class FileServer implements Function<Parcel<?>, Parcel<?>>, Logging {
 
 	private String basepath = ".";
 	
@@ -86,7 +87,7 @@ public class FileServer implements Function<Parcel<?>, Parcel<?>> {
 			
 		} catch (IOException e) {
 	        r.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			e.printStackTrace();
+	        getLog().error("IOException in FileServer", e);
 		}
 		
 		return parcel;

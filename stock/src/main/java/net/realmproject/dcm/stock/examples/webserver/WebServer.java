@@ -35,7 +35,7 @@ public class WebServer {
 		
 		
 		
-		ParcelService<WebContext, WebContext> service = new IParcelService<>();
+		JettyService service = new JettyService();
 
 		//Respond with "Hello"
 		ParcelLink hello = new IParcelTransformLink(p -> {
@@ -54,8 +54,7 @@ public class WebServer {
 		URL url = WebServer.class.getResource("contents");
 		File f = new File(url.toURI());
 		FileServerLink fileserver = new FileServerLink();
-		//fileserver.setBasepath(f.toString());
-		fileserver.setBasepath("/home/nathaniel/Desktop/");
+		fileserver.setBasepath(f.toString());
 		
 		
 		IURLPathBrancher brancher2 = new IURLPathBrancher();
@@ -72,30 +71,12 @@ public class WebServer {
 //		brancher1.link("words", brancher2);
 		service.link(fileserver).link(service);
 		
-		brancher2.link("hello",  hello);
-		brancher2.link("world", world);
-		hello.link(service);
-		world.link(service);
+//		brancher2.link("hello",  hello);
+//		brancher2.link("world", world);
+//		hello.link(service);
+//		world.link(service);
 		
-		
-		
-		ParcelServiceServlet servlet = new ParcelServiceServlet();
-		servlet.setService(service);
-				
-		Server server = new Server(new InetSocketAddress("localhost", 8080));
-		server.setHandler(new AbstractHandler() {
-			
-			@Override
-			public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
-					throws IOException, ServletException {
-				servlet.service(request, response);
-				baseRequest.setHandled(true);
-			}
-		});
-		
-		server.start();
-		Thread.sleep(60000);
-		server.stop();
+
 		
 	}
 	

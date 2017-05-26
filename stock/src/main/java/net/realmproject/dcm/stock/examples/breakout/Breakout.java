@@ -59,7 +59,9 @@ public class Breakout {
 
 		
 		BreakoutEngine breakout = new BreakoutEngine("breakout-engine", backend);
-		SwingUI ui = new SwingUI("breakout-screen", frontend);
+		SwingUI ui = new SwingUI();
+		ui.setId("breakout-screen");
+		frontend.link(ui).link(frontend);
 		
 
 		
