@@ -1,4 +1,4 @@
-package net.realmproject.dcm.stock.examples.ide.ui;
+package net.realmproject.dcm.stock.examples.ide.ui.properties;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,6 +11,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditorManager;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JPanel;
@@ -25,10 +26,14 @@ import com.l2fprod.common.propertysheet.Property;
 import com.l2fprod.common.propertysheet.PropertySheetPanel;
 
 import net.realmproject.dcm.parcel.core.ParcelNode;
+import net.realmproject.dcm.parcel.core.service.ParcelService;
 import net.realmproject.dcm.parcel.impl.flow.filter.filters.PayloadClassFilter;
 import net.realmproject.dcm.parcel.impl.receiver.IParcelConsumer;
+import net.realmproject.dcm.parcel.impl.service.IParcelService;
 import net.realmproject.dcm.stock.examples.ide.events.NodeChangeEvent;
 import net.realmproject.dcm.stock.examples.ide.events.NodeSelectionEvent;
+import net.realmproject.dcm.stock.examples.ide.ui.ParcelUI;
+import net.realmproject.dcm.stock.examples.ide.ui.Sidebar;
 
 public class PropertiesPanel extends JPanel {
 
@@ -54,6 +59,7 @@ public class PropertiesPanel extends JPanel {
 
 		this.removeAll();
 		
+		PropertyEditorManager.registerEditor(ParcelService.class, ServiceEditor.class);
 		
 		ParcelNode node = event.getGraphNode().getNode();
 		PropertySheetPanel panel = new PropertySheetPanel();
@@ -61,6 +67,11 @@ public class PropertiesPanel extends JPanel {
 		BeanInfo info = null;
 		try {
 			info = Introspector.getBeanInfo(node.getClass());
+//			for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+//				if (ParcelService.class.isAssignableFrom(pd.getPropertyType())) {
+//					pd.setPropertyEditorClass(ServiceEditor.class);
+//				}
+//			}
 		} catch (IntrospectionException e1) {
 			e1.printStackTrace();
 		}

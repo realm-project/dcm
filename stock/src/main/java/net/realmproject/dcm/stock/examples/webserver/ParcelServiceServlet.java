@@ -16,9 +16,7 @@ public class ParcelServiceServlet extends HttpServlet implements Logging {
 
 	private ParcelService<WebContext, WebContext> service;
 	
-	public ParcelServiceServlet(ParcelService<WebContext, WebContext> service) {
-		this.service = service;
-	}
+	public ParcelServiceServlet() {}
 	
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,5 +26,15 @@ public class ParcelServiceServlet extends HttpServlet implements Logging {
 			getLog().error("Failed to handle request " + request.getRequestURL(), e);
 		}
 	}
+
+	public ParcelService<WebContext, WebContext> getService() {
+		return service;
+	}
+
+	public void setService(ParcelService<WebContext, WebContext> service) {
+		this.service = service;
+	}
+	
+	
 
 }

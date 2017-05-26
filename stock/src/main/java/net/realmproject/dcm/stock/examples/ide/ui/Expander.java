@@ -25,7 +25,11 @@ public class Expander extends JPanel {
 	
 	public Expander(String title, Component component) {
 		super();
-		Color shade = UIManager.getColor("Panel.background").darker();
+		Color dark = UIManager.getColor("Panel.background");
+		float scale = 0.85f;
+		dark = new Color((int)(dark.getRed()*scale), (int)(dark.getGreen()*scale), (int)(dark.getBlue()*scale));
+		Color darker = new Color((int)(dark.getRed()*scale), (int)(dark.getGreen()*scale), (int)(dark.getBlue()*scale)); 
+		
 		
 		Border border;
 		//border = new LineBorder(Color.black);
@@ -37,14 +41,14 @@ public class Expander extends JPanel {
 		add(component, BorderLayout.CENTER);
 		
 		this.header = new JPanel();
-		header.setBackground(shade);
-		header.setBorder(new LineBorder(shade.darker()));
+		header.setBackground(dark);
+		header.setBorder(new LineBorder(darker));
 		header.setLayout(new BorderLayout());
 		JLabel headerTitle = new JLabel(title);
 		headerTitle.setFont(headerTitle.getFont().deriveFont(Font.BOLD));
 		header.add(headerTitle, BorderLayout.CENTER);
 		JButton expand = new JButton("\u229F");
-		expand.setBackground(shade);
+		expand.setBackground(dark);
 		expand.addActionListener(e -> {
 			if (expanded) {
 				remove(component);

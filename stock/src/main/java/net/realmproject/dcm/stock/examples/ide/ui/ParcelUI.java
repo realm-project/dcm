@@ -46,11 +46,14 @@ import net.realmproject.dcm.stock.examples.ide.events.NodeSelectionEvent;
 import net.realmproject.dcm.stock.examples.ide.graph.GraphNode;
 import net.realmproject.dcm.stock.examples.ide.graph.ParcelGraph;
 import net.realmproject.dcm.stock.examples.ide.graph.ParcelGraphScene;
+import net.realmproject.dcm.stock.examples.ide.ui.properties.PropertiesPanel;
 
 public class ParcelUI extends JPanel {
 	
+	public static ParcelUI INSTANCE = null;
+	
 	ParcelGraphScene scene;
-	ParcelGraph graph;
+	public ParcelGraph graph;
 	JTextField id;
 	
 	Sidebar sidebar;
@@ -65,6 +68,7 @@ public class ParcelUI extends JPanel {
 	
     public ParcelUI() {
         initComponents();
+        INSTANCE = this;
     }
 
     private void initComponents() {
@@ -78,12 +82,12 @@ public class ParcelUI extends JPanel {
         JScrollPane sidescroll = new JScrollPane(sidebar);
         sidescroll.getVerticalScrollBar().setUnitIncrement(10);
         sidescroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        add(sidescroll, BorderLayout.EAST);
+        add(sidescroll, BorderLayout.WEST);
         
         JScrollPane scrollPane = new JScrollPane();        
         add(scrollPane, BorderLayout.CENTER);
         
-        NodesPanel nodePanel = new NodesPanel(this::addNodeFromClass);
+        NodesPanel nodePanel = new NodesPanel(this);
         registerPanel("Components", makeScrolledPanel(nodePanel, 400));
         
         graph = new ParcelGraph(this);
@@ -120,7 +124,7 @@ public class ParcelUI extends JPanel {
     	selectedNode = event.getGraphNode();
     }
     
-    private void addNodeFromClass(Class<? extends ParcelNode> nodeClass) {
+    public void addNodeFromClass(Class<? extends ParcelNode> nodeClass) {
     	try {
         	String type = NodeUtil.getType(nodeClass).toString().toLowerCase();
         	ImageIcon icon48 = new ImageIcon(ParcelUI.class.getResource("icons/48-black/" + type + ".png"));
@@ -167,7 +171,7 @@ public class ParcelUI extends JPanel {
             @Override
             public void run() {
                 JFrame frame = new JFrame();
-                frame.setMinimumSize(new Dimension(800, 600));
+                frame.setMinimumSize(new Dimension(1024, 768));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setContentPane(new ParcelUI());
                 frame.pack();
@@ -179,5 +183,7 @@ public class ParcelUI extends JPanel {
 	public ParcelHub getEventHub() {
 		return eventHub;
 	}
+	
+	
     
 }

@@ -31,5 +31,10 @@ public class IParcelNode implements ParcelNode {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	@Override
+	public String toString() {
+		return "<" + getId() + ">";
+	}
 
 }

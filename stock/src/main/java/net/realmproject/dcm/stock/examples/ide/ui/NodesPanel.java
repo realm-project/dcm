@@ -19,13 +19,14 @@ import javax.swing.border.BevelBorder;
 import net.realmproject.dcm.parcel.core.ParcelNode;
 import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
 import net.realmproject.dcm.stock.examples.ide.NodeUtil;
+import net.realmproject.dcm.stock.examples.ide.events.NodeSetChangedEvent;
 
 public class NodesPanel extends JPanel {
 
 	private GridBagConstraints c = new GridBagConstraints();
 	private NodeStore nodeStore = new NodeStore();
 	
-	public NodesPanel(Consumer<Class<? extends ParcelNode>> consumer) {
+	public NodesPanel(ParcelUI ui) {
 	
 		setLayout(new GridBagLayout());
 		c.gridx = 0;
@@ -45,7 +46,7 @@ public class NodesPanel extends JPanel {
 			btn.setBorder(new BevelBorder(BevelBorder.RAISED));
 			
 			btn.addActionListener(e -> {
-				consumer.accept(clazz);
+				ui.addNodeFromClass(clazz);
 			});
 		}
 		

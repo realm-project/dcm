@@ -17,6 +17,7 @@ import net.realmproject.dcm.parcel.core.linkable.SingleLinkStart;
 import net.realmproject.dcm.parcel.impl.flow.filter.filters.PayloadClassFilter;
 import net.realmproject.dcm.stock.examples.ide.events.NodeChangeEvent;
 import net.realmproject.dcm.stock.examples.ide.events.NodeSelectionEvent;
+import net.realmproject.dcm.stock.examples.ide.events.NodeSetChangedEvent;
 import net.realmproject.dcm.stock.examples.ide.graph.actions.ClickAction;
 import net.realmproject.dcm.stock.examples.ide.ui.ParcelUI;
 
@@ -48,6 +49,8 @@ public class ParcelGraph {
 		w.setPreferredLocation(new Point(10, 100));
 		node.setWidget(w);
 		scene.validate();
+		
+		parent.getEventHub().receive(new NodeSetChangedEvent());
 		
 		w.getActions().addAction(new ClickAction((widget, event) -> {
 			select(nodeForWidget(widget));
@@ -151,7 +154,11 @@ public class ParcelGraph {
 		return scene;
 	}
 
+	public List<GraphNode> getNodes() {
+		return nodes;
+	}
 
+	
 	
 	
 	

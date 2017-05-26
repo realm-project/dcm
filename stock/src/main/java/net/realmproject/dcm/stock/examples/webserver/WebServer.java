@@ -53,7 +53,9 @@ public class WebServer {
 		
 		URL url = WebServer.class.getResource("contents");
 		File f = new File(url.toURI());
-		ParcelLink fileserver = new IParcelTransformLink(new FileServer(f.toString()));
+		FileServerLink fileserver = new FileServerLink();
+		//fileserver.setBasepath(f.toString());
+		fileserver.setBasepath("/home/nathaniel/Desktop/");
 		
 		
 		IURLPathBrancher brancher2 = new IURLPathBrancher();
@@ -65,9 +67,11 @@ public class WebServer {
 		
 		
 		//link nodes
-		service.link(brancher1);
-		brancher1.link("files", fileserver).link(service);
-		brancher1.link("words", brancher2);
+//		service.link(brancher1);
+//		brancher1.link("files", fileserver).link(service);
+//		brancher1.link("words", brancher2);
+		service.link(fileserver).link(service);
+		
 		brancher2.link("hello",  hello);
 		brancher2.link("world", world);
 		hello.link(service);
@@ -75,7 +79,8 @@ public class WebServer {
 		
 		
 		
-		ParcelServiceServlet servlet = new ParcelServiceServlet(service);
+		ParcelServiceServlet servlet = new ParcelServiceServlet();
+		servlet.setService(service);
 				
 		Server server = new Server(new InetSocketAddress("localhost", 8080));
 		server.setHandler(new AbstractHandler() {

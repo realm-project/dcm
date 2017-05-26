@@ -6,6 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import net.realmproject.dcm.parcel.core.Logging;
 import net.realmproject.dcm.parcel.core.Parcel;
 import net.realmproject.dcm.parcel.core.metadata.ParcelMetadata;
 import net.realmproject.dcm.parcel.core.metadata.ParcelNodeType;
@@ -16,15 +17,19 @@ import net.realmproject.dcm.util.DCMThreadPool;
 
 //TODO: purge really old entries which are never fulfilled.
 @ParcelMetadata (name="Service", type=ParcelNodeType.SERVICE)
-public class IParcelService<F, T> extends IParcelSender implements ParcelService<F, T> {
+public class IParcelService<F, T> extends IParcelSender implements ParcelService<F, T>, Logging {
 
-	Map<String, BlockingQueue<T>> resultQueues = new HashMap<>();
-	BlockingQueue<Parcel<F>> dispatchQueue = new LinkedBlockingQueue<>();
+	protected Map<String, BlockingQueue<T>> resultQueues = new HashMap<>();
+	protected BlockingQueue<Parcel<F>> dispatchQueue = new LinkedBlockingQueue<>();
 	
 	public IParcelService() {
 		DCMThreadPool.getPool().submit(() -> {
 			while (true) {
-				send(dispatchQueue.take());
+				try {
+					send(dispatchQueue.take());
+				} catch (Exception e) {
+					getLog().error("Exception thrown processing service call", e);
+				}
 			}
 		});
 	}

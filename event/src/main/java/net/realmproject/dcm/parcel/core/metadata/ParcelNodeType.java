@@ -2,6 +2,7 @@ package net.realmproject.dcm.parcel.core.metadata;
 
 public enum ParcelNodeType {
 
+	ADAPTER,
 	FILTER,
 	TRANSFORM,
 	BRANCH,

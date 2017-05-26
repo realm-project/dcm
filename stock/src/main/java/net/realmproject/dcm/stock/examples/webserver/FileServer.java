@@ -18,11 +18,9 @@ import net.realmproject.dcm.parcel.core.Parcel;
 
 public class FileServer implements Function<Parcel<?>, Parcel<?>> {
 
-	private String basepath;
+	private String basepath = ".";
 	
-	public FileServer(String path) {
-		this.basepath = path;
-	}
+	public FileServer() {}
 	
 	@Override
 	public Parcel<?> apply(Parcel<?> parcel) {
@@ -53,10 +51,11 @@ public class FileServer implements Function<Parcel<?>, Parcel<?>> {
 					
 					List<String> filePath = new ArrayList<>(); 
 					for (Path p : Files.list(path).collect(Collectors.toList())) {
-						filePath.clear();
+						filePath.clear();					
 						filePath.addAll(cx.getTraversedPath());
 						filePath.addAll(cx.getRemainingPath());
 						filePath.add(p.getFileName().toString());
+						
 						r.getWriter().println("<a href='" + "/" + String.join("/", filePath) + "'>" + p.getFileName() + "</a><br />");
 					}
 					
@@ -111,5 +110,19 @@ public class FileServer implements Function<Parcel<?>, Parcel<?>> {
 		w.println("</div>");
 		w.println("</body></html>");
 	}
+
+	
+	public String getBasepath() {
+		return basepath;
+	}
+
+	public void setBasepath(String basepath) {
+		this.basepath = basepath;
+		if (!this.basepath.endsWith("/")) {
+			this.basepath += "/";
+		}
+	}
+	
+	
 	
 }

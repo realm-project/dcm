@@ -3,6 +3,7 @@ package net.realmproject.dcm.stock.examples.webserver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ public class WebContext extends IPropreties<Object> {
 		this.request = request;
 		this.response = response;
 		path = new ArrayList<>(Arrays.asList(request.getPathInfo().substring(1).split("/")));
+		path = path.stream().filter(e -> e.length() > 0).collect(Collectors.toList());
 		traversed = new ArrayList<>();
 	}
 
